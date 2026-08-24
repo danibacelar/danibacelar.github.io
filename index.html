@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mrs. Dani — English Games</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Baloo+2:wght@600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --chalk-green:#1F3A34;
+    --paper:#F7F1E3;
+    --ink:#233648;
+    --marker-yellow:#F4B740;
+    --coral:#E86A5C;
+    --line:#D8CFB8;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h2,h3{ font-family:'Baloo 2', sans-serif; }
+  .display, header.hero h1{ font-family:'Fraunces', serif; font-weight:600; }
+
+  header.hero{
+    background:var(--chalk-green);
+    color:var(--paper);
+    padding:56px 20px 46px;
+    text-align:center;
+  }
+  header.hero h1{
+    font-size:clamp(32px, 6vw, 52px);
+    margin:0;
+    display:inline-block;
+  }
+  header.hero h1::after{
+    content:"";
+    display:block;
+    width:70%;
+    height:8px;
+    background:var(--marker-yellow);
+    border-radius:4px;
+    margin:10px auto 0;
+    opacity:.85;
+  }
+  header.hero p{ margin:16px 0 0; color:#cfe0d8; font-size:16px; }
+
+  main{ max-width:960px; margin:0 auto; padding:36px 20px 60px; }
+
+  /* ---------- SOBRE MIM ---------- */
+  #about{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:32px 30px;
+    margin-bottom:44px;
+    display:flex;
+    gap:24px;
+    align-items:center;
+    box-shadow:0 4px 18px rgba(31,58,52,.05);
+  }
+  #about .avatar{
+    flex:none;
+    width:88px; height:88px;
+    border-radius:50%;
+    overflow:hidden;
+    border:3px solid var(--paper);
+    box-shadow:0 0 0 2px var(--line);
+  }
+  #about .avatar img{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  #about h2{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    margin:0 0 2px;
+    font-size:22px;
+    color:var(--chalk-green);
+  }
+  #about .role{
+    font-size:13px;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    color:var(--coral);
+    font-weight:600;
+    margin:0 0 10px;
+  }
+  #about p{ margin:0; font-size:15px; line-height:1.6; color:#4a4438; }
+  @media (max-width:520px){
+    #about{ flex-direction:column; text-align:center; }
+  }
+
+  .section-title{
+    font-size:20px;
+    margin:0 0 18px;
+    color:var(--chalk-green);
+    text-align:center;
+  }
+
+  /* ---------- GRADE DE SÉRIES (home) ---------- */
+  #grade-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(150px,1fr));
+    gap:16px;
+  }
+  .grade-card{
+    background:#fff;
+    border:2px solid var(--line);
+    border-radius:14px;
+    padding:26px 14px;
+    text-align:center;
+    cursor:pointer;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:18px;
+    color:var(--chalk-green);
+    transition:border-color .15s, transform .15s;
+  }
+  .grade-card:hover, .grade-card:focus-visible{
+    border-color:var(--marker-yellow);
+    transform:translateY(-2px);
+    outline:none;
+  }
+  .grade-card .lock{ display:block; font-size:22px; margin-bottom:6px; }
+
+  /* ---------- PAINEL DE UMA SÉRIE (depois da senha) ---------- */
+  #grade-view{ display:none; }
+  #grade-view.active{ display:block; }
+  .hidden{ display:none; }
+
+  .back-btn{
+    background:none;
+    border:none;
+    color:var(--chalk-green);
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+    margin-bottom:18px;
+    padding:0;
+  }
+  .grade-title{ font-size:24px; margin:0 0 18px; color:var(--chalk-green); }
+
+  .game-list{
+    list-style:none; margin:0; padding:0;
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(220px,1fr));
+    gap:14px;
+  }
+  .game-list a{
+    display:block;
+    background:#fff;
+    border:2px solid var(--line);
+    border-radius:12px;
+    padding:18px;
+    text-decoration:none;
+    color:var(--ink);
+    font-weight:600;
+    transition:border-color .15s, transform .15s;
+  }
+  .game-list a:hover, .game-list a:focus-visible{
+    border-color:var(--marker-yellow);
+    transform:translateY(-2px);
+    outline:none;
+  }
+  .empty{ color:#8a8577; font-style:italic; font-size:14px; }
+
+  /* ---------- MODAL DE SENHA ---------- */
+  #pw-modal{
+    position:fixed; inset:0;
+    background:rgba(31,58,52,.55);
+    display:none;
+    align-items:center; justify-content:center;
+    padding:20px;
+    z-index:100;
+  }
+  #pw-modal.active{ display:flex; }
+  .pw-card{
+    background:var(--paper);
+    border-radius:18px;
+    padding:36px 30px;
+    max-width:340px;
+    width:100%;
+    text-align:center;
+    box-shadow:0 20px 50px rgba(0,0,0,.35);
+  }
+  .pw-card h2{ font-size:22px; margin:0 0 6px; color:var(--chalk-green); }
+  .pw-card p{ margin:0 0 20px; color:#5b6a63; font-size:14px; }
+  .pw-card input{
+    width:100%;
+    padding:14px 16px;
+    border-radius:10px;
+    border:2px solid var(--line);
+    font-size:16px;
+    font-family:inherit;
+    margin-bottom:14px;
+  }
+  .pw-card input:focus{ outline:3px solid var(--marker-yellow); border-color:var(--marker-yellow); }
+  .pw-actions{ display:flex; gap:10px; }
+  .pw-actions button{
+    flex:1;
+    padding:13px;
+    border:none;
+    border-radius:10px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
+  }
+  #pw-cancel{ background:transparent; border:2px solid var(--line); color:var(--ink); }
+  #pw-submit{ background:var(--coral); color:#fff; }
+  #pw-submit:focus-visible, #pw-cancel:focus-visible{ outline:3px solid var(--marker-yellow); }
+  #pw-error{ color:var(--coral); font-size:13px; min-height:18px; margin-top:8px; }
+
+  footer{ text-align:center; padding:26px; font-size:13px; color:#8a8577; }
+
+  @media (prefers-reduced-motion: reduce){
+    .grade-card, .game-list a{ transition:none; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <h1>Mrs. Dani's English Games</h1>
+  </header>
+
+  <main>
+    <!-- SOBRE MIM: troque o texto abaixo pela sua apresentação -->
+    <section id="about">
+      <div class="avatar"><img src="mrsdani.jpg" alt="Foto da Mrs. Dani"></div>
+      <div>
+        <h2>Mrs. Dani</h2>
+        <p class="role">Professora de Inglês</p>
+        <p>
+          Aqui você encontra jogos para praticar o aprendemos em aula — é só
+          escolher a sua turma e usar a senha que eu te dei. Bons estudos! 📚
+        </p>
+      </div>
+    </section>
+
+    <!-- HOME: grade de séries -->
+    <h3 class="section-title">Jogos para os alunos</h3>
+    <div id="grade-grid"></div>
+
+    <!-- PAINEL de uma série, depois de acertar a senha -->
+    <div id="grade-view">
+      <button class="back-btn" id="back-btn">← Voltar para as séries</button>
+      <h2 class="grade-title" id="grade-view-title"></h2>
+      <div id="grade-view-content"></div>
+    </div>
+  </main>
+
+  <footer>feito com carinho pela Mrs. Dani ✏️</footer>
+
+  <!-- MODAL DE SENHA -->
+  <div id="pw-modal">
+    <div class="pw-card">
+      <h2 id="pw-title">Senha da turma</h2>
+      <p>Peça a senha para a Mrs. Dani.</p>
+      <input type="password" id="pw-input" placeholder="Senha" autocomplete="off">
+      <div class="pw-actions">
+        <button id="pw-cancel">Cancelar</button>
+        <button id="pw-submit">Entrar</button>
+      </div>
+      <div id="pw-error"></div>
+    </div>
+  </div>
+
+<script>
+  // ======= 1) SENHA DE CADA SÉRIE =======
+  // Coloque aqui uma senha diferente para cada série.
+  // Series sem senha definida aqui ficam com a senha "padrao123".
+  const PASSWORDS = {
+    3: "senha3ano",
+    4: "padrao123",
+    5: "senha5ano",
+    6: "padrao123",
+    7: "padrao123",
+    8: "padrao123",
+  };
+
+  // ======= 2) JOGOS POR SÉRIE =======
+  // "grade": número da série (1 a 9).
+  // Ajuste o "grade" e adicione/remova jogos livremente.
+  const GAMES = [
+    { grade: 3, name: "Sports Vocabulary",       url: "https://danibacelar.github.io/3ano_sports/" },
+    { grade: 3, name: "Unit 3",                   url: "https://danibacelar.github.io/unit3_3_ano/" },
+    { grade: 5, name: "Revisão 5º ano",           url: "https://danibacelar.github.io/review_5_ano/" },
+
+    // ---- confira a série certa destes e mude o número: ----
+    { grade: 4, name: "Daily Routine",             url: "https://danibacelar.github.io/worksheet_daily-routine/" },
+    { grade: 6, name: "I'm going to...",           url: "https://danibacelar.github.io/i-m_going_to/" },
+    { grade: 4, name: "Daily Tasks",               url: "https://danibacelar.github.io/daily_tasks/" },
+    { grade: 7, name: "Past Simple & Progressive", url: "https://danibacelar.github.io/past_simple_and_progressive/" },
+  ];
+
+  const GRADES = [3,4,5,6,7,8];
+
+  const gradeGrid = document.getElementById('grade-grid');
+  const gradeView = document.getElementById('grade-view');
+  const gradeViewTitle = document.getElementById('grade-view-title');
+  const gradeViewContent = document.getElementById('grade-view-content');
+  const backBtn = document.getElementById('back-btn');
+
+  const pwModal = document.getElementById('pw-modal');
+  const pwTitle = document.getElementById('pw-title');
+  const pwInput = document.getElementById('pw-input');
+  const pwError = document.getElementById('pw-error');
+  const pwSubmit = document.getElementById('pw-submit');
+  const pwCancel = document.getElementById('pw-cancel');
+
+  let pendingGrade = null;
+
+  // monta os botões de série na home
+  GRADES.forEach(g => {
+    const card = document.createElement('button');
+    card.className = 'grade-card';
+    card.innerHTML = `<span class="lock">🔒</span>${g}º ano`;
+    card.addEventListener('click', () => openPasswordFor(g));
+    gradeGrid.appendChild(card);
+  });
+
+  function openPasswordFor(g){
+    pendingGrade = g;
+    pwTitle.textContent = g + 'º ano';
+    pwInput.value = '';
+    pwError.textContent = '';
+    pwModal.classList.add('active');
+    pwInput.focus();
+  }
+
+  function closeModal(){
+    pwModal.classList.remove('active');
+    pendingGrade = null;
+  }
+
+  pwCancel.addEventListener('click', closeModal);
+  pwModal.addEventListener('click', e => { if (e.target === pwModal) closeModal(); });
+
+  function trySubmit(){
+    const expected = PASSWORDS[pendingGrade] || 'padrao123';
+    if (pwInput.value === expected) {
+      sessionStorage.setItem('mrsdani_grade_' + pendingGrade, '1');
+      showGrade(pendingGrade);
+      closeModal();
+    } else {
+      pwError.textContent = 'Senha incorreta. Pergunte para a Mrs. Dani!';
+    }
+  }
+  pwSubmit.addEventListener('click', trySubmit);
+  pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') trySubmit(); });
+
+  function showGrade(g){
+    gradeViewTitle.textContent = g + 'º ano';
+    gradeViewContent.innerHTML = '';
+
+    const games = GAMES.filter(x => x.grade === g);
+    if (games.length === 0) {
+      const p = document.createElement('p');
+      p.className = 'empty';
+      p.textContent = 'Ainda não há jogos publicados para esta série.';
+      gradeViewContent.appendChild(p);
+    } else {
+      const list = document.createElement('ul');
+      list.className = 'game-list';
+      games.forEach(gm => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = gm.url;
+        a.textContent = gm.name;
+        li.appendChild(a);
+        list.appendChild(li);
+      });
+      gradeViewContent.appendChild(list);
+    }
+
+    gradeGrid.classList.add('hidden');
+    document.getElementById('about').classList.add('hidden');
+    document.querySelector('.section-title').classList.add('hidden');
+    gradeView.classList.add('active');
+  }
+
+  backBtn.addEventListener('click', () => {
+    gradeView.classList.remove('active');
+    gradeGrid.classList.remove('hidden');
+    document.getElementById('about').classList.remove('hidden');
+    document.querySelector('.section-title').classList.remove('hidden');
+  });
+</script>
+</body>
+</html>
