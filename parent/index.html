@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Área dos Pais — Mrs. Dani</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a href="../index.html" class="brand">Mrs. <span>Dani</span></a>
+    <ul class="nav-links">
+      <li><a href="../games/index.html">Jogos</a></li>
+      <li><a href="index.html" class="active">Área dos Pais</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="../login/index.html" class="btn btn-ghost">Sair</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<section class="section">
+  <div class="wrap">
+    <div class="prototype-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16h.01"/></svg>
+      <span>Visualização de protótipo com dados de exemplo. Nenhuma conta, compra ou acesso real está conectado ainda.</span>
+    </div>
+
+    <div class="dash-header">
+      <div>
+        <div class="dash-welcome">Olá, Sra. Almeida</div>
+        <div class="dash-sub">Conta de responsável</div>
+      </div>
+    </div>
+
+    <div class="section-head">
+      <p class="eyebrow">Perfis</p>
+      <h2 style="font-size:1.6rem;">Seus filhos</h2>
+      <p>Cada criança tem seu próprio perfil e suas próprias atividades liberadas.</p>
+    </div>
+
+    <div id="parent-children" style="margin-bottom:36px;"></div>
+    <button class="btn btn-ghost" style="margin-bottom:48px;">
+      Adicionar filho(a)
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+    </button>
+
+    <div class="section-head">
+      <p class="eyebrow">Compras</p>
+      <h2 style="font-size:1.6rem;">Atividades adquiridas</h2>
+    </div>
+    <div class="table-wrap" style="margin-bottom:36px;">
+      <table>
+        <thead><tr><th>Atividade</th><th>Perfil</th><th>Status</th></tr></thead>
+        <tbody id="parent-purchases"></tbody>
+      </table>
+    </div>
+
+    <p><a href="../games/index.html" class="link-inline">Ver mais atividades na biblioteca <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-bottom">
+      <span>© 2026 Mrs. Dani. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>
