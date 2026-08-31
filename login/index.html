@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrar — Mrs. Dani</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a href="../index.html" class="brand">Mrs. <span>Dani</span></a>
+    <ul class="nav-links">
+      <li><a href="../games/index.html">Jogos</a></li>
+      <li><a href="../index.html#como-funciona">Como funciona</a></li>
+      <li><a href="../about/index.html">Sobre</a></li>
+      <li><a href="index.html" class="active">Entrar</a></li>
+    </ul>
+    <div class="nav-cta">
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<section class="section">
+  <div class="wrap auth-wrap">
+    <h1 style="font-size:2rem; margin-bottom:8px;" class="center">Entrar</h1>
+    <p class="center" style="margin-bottom:24px;">Escolha como você quer entrar.</p>
+
+    <div class="prototype-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16h.01"/></svg>
+      <span>Este é um protótipo de front-end. Nenhuma senha real é verificada aqui — a autenticação de verdade será conectada depois. Dados de pais e de crianças serão mantidos separados por segurança.</span>
+    </div>
+
+    <div class="callout" style="margin-bottom:16px; text-align:center;">
+      <h3 style="margin-bottom:6px;">Sou aluno</h3>
+      <p style="margin-bottom:16px;">Acesse suas atividades de forma simples e rápida.</p>
+      <a href="aluno.html" class="btn btn-amber" style="width:100%; justify-content:center;">
+        Acessar como aluno
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+
+    <div class="callout">
+      <h3 style="margin-bottom:16px;">Sou responsável (pai/mãe)</h3>
+      <form id="parent-login-form">
+        <div class="field">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" placeholder="voce@exemplo.com">
+        </div>
+        <div class="field">
+          <label for="password">Senha</label>
+          <input type="password" id="password" placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">
+          Entrar
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </form>
+      <p class="form-note">Ainda não tem uma conta? A criação de conta estará disponível assim que a autenticação real for conectada.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-bottom">
+      <span>© 2026 Mrs. Dani. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>
