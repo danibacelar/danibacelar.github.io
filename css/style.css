@@ -219,7 +219,7 @@ hr.rule{ border: none; border-top: 1px solid var(--line); margin: 0; }
 .hero .lede{ margin-bottom: 22px; font-size: 1.02rem; max-width: 42ch; }
 .hero-actions{ display:flex; gap:12px; flex-wrap:wrap; }
 .hero-media{
-  aspect-ratio: 5/4.3;
+  aspect-ratio: 792/476;
   max-height: min(56vh, 420px);
   width: 100%;
   margin: 0 auto;
