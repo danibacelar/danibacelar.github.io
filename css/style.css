@@ -26,7 +26,7 @@
 
   /* ---- layout ---- */
   --maxw: 1180px;
-  --gutter: clamp(20px, 5vw, 64px);
+  --gutter: clamp(24px, 5vw, 64px);
   --radius: 10px;
   --radius-sm: 6px;
 

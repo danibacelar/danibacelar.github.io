@@ -243,7 +243,8 @@ tbody tr:hover{ background: rgba(31,111,107,0.04); }
   font-size:0.6rem;
 }
 @media (max-width: 880px){
-  .mascot-badge{ width:64px; height:64px; bottom:-6px; left:-8px; border-width:3px; }
+  .mascot-badge{ width:60px; height:60px; bottom:-52px; left:16px; border-width:3px; }
+  .hero-visual{ margin-bottom: 44px; }
 }
 .hero-caption{
   margin: 24px 0 0 0; max-width:none;
