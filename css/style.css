@@ -177,7 +177,12 @@ hr.rule{ border: none; border-top: 1px solid var(--line); margin: 0; }
   .nav-links.open{ display:flex; }
   .nav-links a{ width:100%; padding: 10px 0; }
   .nav-toggle{ display:block; }
-  .nav-cta .btn-ghost{ display:none; }
+  .nav-cta{ gap:8px; }
+  .nav-cta .btn-ghost, .nav-cta .btn-primary{ display:none; }
+  .lang-toggle button{ padding:4px 8px; }
+}
+@media (max-width: 400px){
+  .brand{ font-size:1.1rem; }
 }
 
 /* =========================================================

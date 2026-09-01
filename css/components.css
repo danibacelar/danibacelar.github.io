@@ -58,6 +58,7 @@
 }
 @media (max-width: 880px){
   .library-layout{ grid-template-columns: 1fr; }
+  .filters{ position: static; }
 }
 .filters{
   position: sticky; top: 96px;
@@ -128,7 +129,8 @@
 .stat-num{ font-family: var(--font-display); font-size: 2rem; color: var(--teal-dark); }
 .stat-label{ font-size:0.85rem; color: var(--ink-soft); }
 
-.table-wrap{ border:1px solid var(--line); border-radius: var(--radius); overflow:hidden; background: var(--bg-raised); }
+.table-wrap{ border:1px solid var(--line); border-radius: var(--radius); overflow-x:auto; -webkit-overflow-scrolling:touch; background: var(--bg-raised); }
+table{ min-width: 420px; }
 table{ width:100%; border-collapse: collapse; font-size: 0.9rem; }
 thead th{
   text-align:left; font-weight:600; color: var(--ink-soft);
