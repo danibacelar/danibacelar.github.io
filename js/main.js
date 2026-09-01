@@ -247,7 +247,8 @@ const GAMES = [
     currency: 'BRL',
     access: 'beta',
     status: 'available',
-    gameUrl: 'https://mrsdani.com.br/4ano-citymap/'
+    gameUrl: 'https://mrsdani.com.br/4ano-citymap/',
+    thumbnail: 'assets/games/town-explorer-screenshot.jpg'
   },
   {
     id: 'sports-playground',
@@ -268,7 +269,8 @@ const GAMES = [
     currency: 'BRL',
     access: 'beta',
     status: 'available',
-    gameUrl: 'https://mrsdani.com.br/3ano-sports/'
+    gameUrl: 'https://mrsdani.com.br/3ano-sports/',
+    thumbnail: 'assets/games/sports-playground-screenshot.jpg'
   },
   {
     id: 'top-town',
@@ -289,7 +291,8 @@ const GAMES = [
     currency: 'BRL',
     access: 'beta',
     status: 'available',
-    gameUrl: 'https://mrsdani.com.br/3ano-prepositions_does_it_have/'
+    gameUrl: 'https://mrsdani.com.br/3ano-prepositions_does_it_have/',
+    thumbnail: 'assets/games/top-town-screenshot.jpg'
   }
 ];
 
@@ -297,6 +300,7 @@ const GAMES = [
    GAME CARD RENDERING
    ========================================================= */
 function gameCardHTML(game) {
+  const prefix = (typeof document !== 'undefined' && document.body.dataset.assetPrefix) || '';
   const gradeLabel = GRADE_LABELS[game.gradeNum] ? GRADE_LABELS[game.gradeNum][currentLang] : '';
   const skills = game.skill.map(s => `<span class="tag tag-skill">${(SKILL_LABELS[s] && SKILL_LABELS[s][currentLang]) || s}</span>`).join('');
   const diffLabel = (DIFFICULTY_LABELS[game.difficulty] && DIFFICULTY_LABELS[game.difficulty][currentLang]) || game.difficulty;
@@ -305,10 +309,13 @@ function gameCardHTML(game) {
     ? `<span class="access-pill included">${t('card.included')}</span>`
     : `<span class="access-pill purchase">${t('card.purchase')}</span>`;
   const ctaLabel = game.access === 'included' ? t('card.cta.view') : t('card.cta.buy');
+  const mediaHTML = game.thumbnail
+    ? `<img src="${prefix}${game.thumbnail}" alt="${game.title}">`
+    : '[GAME SCREENSHOT]';
 
   return `
     <article class="game-card" data-id="${game.id}">
-      <div class="game-card-media">[GAME SCREENSHOT]</div>
+      <div class="game-card-media">${mediaHTML}</div>
       <div class="game-card-body">
         <div class="game-card-tags">
           <span class="tag tag-grade">${gradeLabel}</span>
@@ -455,8 +462,13 @@ function initDetail() {
        </div>`
     : '';
 
+  const prefix = document.body.dataset.assetPrefix || '';
+  const detailMediaHTML = game.thumbnail
+    ? `<img src="${prefix}${game.thumbnail}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover;">`
+    : '[GAME SCREENSHOT]';
+
   container.innerHTML = `
-    <div class="detail-media">[GAME SCREENSHOT]</div>
+    <div class="detail-media">${detailMediaHTML}</div>
     <div class="mascot-bubble">
       <div class="mascot mascot-inline">[FOX: pointing]</div>
       <p>${currentLang === 'pt' ? 'Vamos praticar juntos!' : "Let's practice together!"}</p>
@@ -594,10 +606,11 @@ function initStudentDashboard() {
   document.getElementById('student-name').textContent = `Hi, ${child.name}! 👋`;
 
   const games = child.games.map(id => GAMES.find(g => g.id === id)).filter(Boolean);
+  const prefix = document.body.dataset.assetPrefix || '';
 
   el.innerHTML = games.map(game => `
     <article class="game-card">
-      <div class="game-card-media">[GAME SCREENSHOT]</div>
+      <div class="game-card-media">${game.thumbnail ? `<img src="${prefix}${game.thumbnail}" alt="${game.title}">` : '[GAME SCREENSHOT]'}</div>
       <div class="game-card-body">
         <h3>${game.title}</h3>
         <div class="game-card-footer" style="border-top:none; padding-top:4px;">
