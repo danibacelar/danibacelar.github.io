@@ -374,6 +374,48 @@ const GAMES = [
     access: 'purchase',
     status: 'available',
     gameUrl: '#'
+  },
+  {
+    id: 'sports-playground',
+    title: 'Sports Playground',
+    gradeNum: 3,
+    skill: ['Vocabulary', 'Grammar', 'Writing'],
+    topic: 'Sports',
+    grammar: '-ing Verbs',
+    difficulty: 'Beginner',
+    gameType: 'Vocabulary & Sentence Building',
+    schoolAlignment: '3rd Grade English',
+    description: 'Learn sports and equipment vocabulary, then build sentences with -ing verbs to describe and share opinions about sports.',
+    descriptionPT: 'Aprenda vocabulário de esportes e equipamentos, e pratique construir frases com verbos terminados em -ing para descrever e opinar sobre esportes.',
+    why: 'Built to connect sports vocabulary to real sentence-writing practice, from naming equipment to expressing opinions with -ing verbs.',
+    whyPT: 'Criado para conectar o vocabulário de esportes à prática de escrita de frases de verdade, do nome dos equipamentos até expressar opiniões com verbos em -ing.',
+    practices: ['basketball', 'swimming', 'volleyball', '-ing verbs'],
+    price: null,
+    currency: 'BRL',
+    access: 'purchase',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/3ano-sports/'
+  },
+  {
+    id: 'top-town',
+    title: 'Top Town',
+    gradeNum: 3,
+    skill: ['Vocabulary', 'Grammar', 'Writing'],
+    topic: 'Places',
+    grammar: 'Does it have...? / Prepositions',
+    difficulty: 'Beginner',
+    gameType: 'Map Exploration & Question Practice',
+    schoolAlignment: '3rd Grade English',
+    description: 'Explore a town map, ask and answer "Does Top Town have...?" questions, and use prepositions of place to describe where things are located.',
+    descriptionPT: 'Explore o mapa de uma cidade, pratique perguntas e respostas com "Does Top Town have...?" e use preposições de lugar para descrever onde as coisas ficam.',
+    why: 'Connects city vocabulary with yes/no question structure and prepositions of place — skills that build on each other.',
+    whyPT: 'Conecta o vocabulário da cidade com a estrutura de perguntas de sim/não e preposições de lugar — habilidades que se conectam.',
+    practices: ['Does it have...?', 'next to', 'in front of', 'between'],
+    price: null,
+    currency: 'BRL',
+    access: 'purchase',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/3ano-prepositions_does_it_have/'
   }
 ];
 
