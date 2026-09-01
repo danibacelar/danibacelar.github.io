@@ -234,146 +234,20 @@ const GAMES = [
     gradeNum: 4,
     skill: ['Vocabulary', 'Grammar'],
     topic: 'Places',
-    grammar: 'Prepositions of Place',
+    grammar: "Prepositions of Place / Where's the...?",
     difficulty: 'Beginner',
-    gameType: 'Map Exploration',
+    gameType: 'Map Exploration & Clue Following',
     schoolAlignment: '4th Grade English',
-    description: 'Explore a city map and follow clues to practice spatial relationships like "above," "between," and "next to."',
-    descriptionPT: 'Explore um mapa da cidade e siga pistas para praticar relações espaciais como "above", "between" e "next to".',
-    why: 'Created after several 4th-grade students showed the same difficulty with prepositions of place in their school assessments.',
-    whyPT: 'Criado depois que vários alunos do 4º ano mostraram a mesma dificuldade com preposições de lugar nas avaliações escolares.',
-    practices: ['above', 'below', 'between', 'next to'],
+    description: "Explore a city map, follow clues to find locations, and practice prepositions of place and \"Where's the...?\" questions.",
+    descriptionPT: "Explore o mapa de uma cidade, siga pistas para encontrar lugares e pratique preposições de lugar e perguntas com \"Where's the...?\".",
+    why: 'Connects city vocabulary with prepositions of place and question practice, all through following clues on a map.',
+    whyPT: 'Conecta vocabulário da cidade com preposições de lugar e prática de perguntas, tudo seguindo pistas num mapa.',
+    practices: ['next to', 'above', 'between', "Where's the...?"],
     price: null,
     currency: 'BRL',
-    access: 'included',
+    access: 'beta',
     status: 'available',
-    gameUrl: 'http://mrsdani.com.br/4ano-citymap/'
-  },
-  {
-    id: 'emergency-services',
-    title: 'Emergency Response',
-    gradeNum: 5,
-    skill: ['Grammar'],
-    topic: 'Emergencies',
-    grammar: 'Past Continuous',
-    difficulty: 'Intermediate',
-    gameType: 'Scenario Practice',
-    schoolAlignment: '5th Grade English',
-    description: 'Work through emergency-service scenarios (fire, police, flood) to practice "was/were" and the past continuous.',
-    descriptionPT: 'Resolva cenários de serviços de emergência (bombeiros, polícia, enchente) para praticar "was/were" e o passado contínuo.',
-    why: 'Built around the past continuous, a grammar point several 5th-grade students needed extra practice with.',
-    whyPT: 'Criado em torno do passado contínuo, um ponto de gramática que vários alunos do 5º ano precisavam praticar mais.',
-    practices: ['was calling', 'were running', 'was flooding'],
-    price: null,
-    currency: 'BRL',
-    access: 'included',
-    status: 'available',
-    gameUrl: '#'
-  },
-  {
-    id: 'vocabulary-review',
-    title: 'Vocabulary Review',
-    gradeNum: 3,
-    skill: ['Vocabulary'],
-    topic: 'School',
-    grammar: 'Present Simple',
-    difficulty: 'Beginner',
-    gameType: 'Matching',
-    schoolAlignment: '3rd Grade English',
-    description: 'A matching activity that reinforces core classroom vocabulary before an assessment.',
-    descriptionPT: 'Uma atividade de associação que reforça o vocabulário essencial da sala de aula antes de uma avaliação.',
-    why: 'Designed as review before a school vocabulary quiz.',
-    whyPT: 'Criado como revisão antes de uma prova de vocabulário na escola.',
-    practices: ['classroom objects', 'daily routine verbs'],
-    price: null,
-    currency: 'BRL',
-    access: 'purchase',
-    status: 'available',
-    gameUrl: '#'
-  },
-  {
-    id: 'prepositions-game',
-    title: 'Prepositions Game',
-    gradeNum: 3,
-    skill: ['Grammar'],
-    topic: 'Places',
-    grammar: 'Prepositions',
-    difficulty: 'Beginner',
-    gameType: 'Map Exploration',
-    schoolAlignment: '3rd Grade English',
-    description: "A shorter companion activity to Town Explorer, adapted to a different textbook's vocabulary set.",
-    descriptionPT: 'Uma versão mais curta do Town Explorer, adaptada ao vocabulário de outro material escolar.',
-    why: 'The same difficulty (prepositions), adapted to a different school\'s textbook vocabulary.',
-    whyPT: 'A mesma dificuldade (preposições), adaptada ao vocabulário do material de outra escola.',
-    practices: ['in front of', 'behind', 'under'],
-    price: null,
-    currency: 'BRL',
-    access: 'purchase',
-    status: 'available',
-    gameUrl: '#'
-  },
-  {
-    id: 'grammar-review',
-    title: 'Grammar Review',
-    gradeNum: 4,
-    skill: ['Grammar', 'Writing'],
-    topic: 'Animals',
-    grammar: 'Present Simple',
-    difficulty: 'Intermediate',
-    gameType: 'Fill in the Blank',
-    schoolAlignment: '4th Grade English',
-    description: 'A mixed review activity built around the grammar points a small group of students were struggling with.',
-    descriptionPT: 'Uma atividade de revisão mista, criada em torno dos pontos de gramática com que um grupo de alunos tinha dificuldade.',
-    why: 'Combines the specific grammar points a small group of students needed more practice with.',
-    whyPT: 'Reúne os pontos de gramática específicos que um grupo de alunos precisava praticar mais.',
-    practices: ['third-person -s', 'question formation'],
-    price: null,
-    currency: 'BRL',
-    access: 'purchase',
-    status: 'available',
-    gameUrl: '#'
-  },
-  {
-    id: 'listening-challenge',
-    title: 'Listening Challenge',
-    gradeNum: 6,
-    skill: ['Listening'],
-    topic: 'Daily Life',
-    grammar: 'Mixed',
-    difficulty: 'Advanced',
-    gameType: 'Audio Matching',
-    schoolAlignment: '6th Grade English',
-    description: 'Short audio clips paired with comprehension prompts, aimed at learners preparing for listening assessments.',
-    descriptionPT: 'Trechos de áudio curtos com perguntas de compreensão, voltados para quem está se preparando para avaliações de listening.',
-    why: 'Built for students preparing for a listening-comprehension assessment at school.',
-    whyPT: 'Criado para alunos se preparando para uma avaliação de compreensão auditiva na escola.',
-    practices: ['note-taking', 'inference'],
-    price: null,
-    currency: 'BRL',
-    access: 'purchase',
-    status: 'available',
-    gameUrl: '#'
-  },
-  {
-    id: 'reading-detective',
-    title: 'Reading Detective',
-    gradeNum: 5,
-    skill: ['Reading'],
-    topic: 'School',
-    grammar: 'Mixed',
-    difficulty: 'Intermediate',
-    gameType: 'Story Puzzle',
-    schoolAlignment: '5th Grade English',
-    description: 'Students piece together a short story by answering comprehension questions in the right order.',
-    descriptionPT: 'Os alunos reconstroem uma história curta respondendo perguntas de compreensão na ordem certa.',
-    why: 'Reinforces sequencing and main-idea skills students needed for their school reading unit.',
-    whyPT: 'Reforça as habilidades de sequência e ideia principal que os alunos precisavam para a unidade de leitura da escola.',
-    practices: ['sequencing', 'main idea'],
-    price: null,
-    currency: 'BRL',
-    access: 'purchase',
-    status: 'available',
-    gameUrl: '#'
+    gameUrl: 'https://mrsdani.com.br/4ano-citymap/'
   },
   {
     id: 'sports-playground',
@@ -392,7 +266,7 @@ const GAMES = [
     practices: ['basketball', 'swimming', 'volleyball', '-ing verbs'],
     price: null,
     currency: 'BRL',
-    access: 'purchase',
+    access: 'beta',
     status: 'available',
     gameUrl: 'https://mrsdani.com.br/3ano-sports/'
   },
@@ -413,7 +287,7 @@ const GAMES = [
     practices: ['Does it have...?', 'next to', 'in front of', 'between'],
     price: null,
     currency: 'BRL',
-    access: 'purchase',
+    access: 'beta',
     status: 'available',
     gameUrl: 'https://mrsdani.com.br/3ano-prepositions_does_it_have/'
   }
@@ -559,11 +433,27 @@ function initDetail() {
   const why = currentLang === 'pt' ? game.whyPT : game.why;
   const practices = game.practices.map(p => `<span class="practice-chip">${p}</span>`).join('');
 
+  const hasRealLink = game.gameUrl && game.gameUrl !== '#';
+
   const accessBlock = game.access === 'included'
-    ? `<div><strong>${t('card.included')}</strong><p style="margin:4px 0 0;font-size:0.88rem;">${currentLang === 'pt' ? 'Já faz parte do seu acesso.' : "Already part of your access."}</p></div>
-       <a class="btn btn-primary" href="../login/">${t('detail.login')} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>`
-    : `<div><span class="price" style="display:block;">${t('card.price')}</span></div>
-       <a class="btn btn-primary" href="../login/">${t('detail.buy')} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>`;
+    ? (hasRealLink
+        ? `<div><strong>${t('card.included')}</strong><p style="margin:4px 0 0;font-size:0.88rem;">${currentLang === 'pt' ? 'Já faz parte do seu acesso.' : 'Already part of your access.'}</p></div>
+           <a class="btn btn-primary" href="${game.gameUrl}" target="_blank" rel="noopener">${currentLang === 'pt' ? 'Jogar agora' : 'Play now'} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>`
+        : `<div><strong>${t('card.included')}</strong><p style="margin:4px 0 0;font-size:0.88rem;">${currentLang === 'pt' ? 'Já faz parte do seu acesso.' : "Already part of your access."}</p></div>
+           <a class="btn btn-primary" href="../login/">${t('detail.login')} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>`)
+    : game.access === 'beta'
+      ? `<div><span class="price" style="display:block;">${t('card.price')}</span></div>
+         <a class="btn btn-primary" href="${game.gameUrl}" target="_blank" rel="noopener">${t('detail.buy')} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>`
+      : `<div><span class="price" style="display:block;">${t('card.price')}</span></div>
+         <a class="btn btn-primary" href="../login/">${t('detail.buy')} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>`;
+  const betaNote = game.access === 'beta'
+    ? `<div class="prototype-note" style="margin-top:14px;">
+         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16h.01"/></svg>
+         <span>${currentLang === 'pt'
+           ? 'Fase de testes: este jogo está liberado gratuitamente por enquanto para os alunos beta testers.'
+           : 'Beta phase: this game is free for now for beta-testing students.'}</span>
+       </div>`
+    : '';
 
   container.innerHTML = `
     <div class="detail-media">[GAME SCREENSHOT]</div>
@@ -583,6 +473,7 @@ function initDetail() {
     <h3>${t('detail.why.title')}</h3>
     <p>${why}</p>
     <div class="detail-access">${accessBlock}</div>
+    ${betaNote}
     <div class="prototype-note payment" style="margin-top:16px;">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16h.01"/></svg>
       <span>${currentLang === 'pt'
@@ -610,12 +501,12 @@ document.addEventListener('DOMContentLoaded', () => {
 const FAMILY = {
   parentName: 'Sra. Almeida',
   children: [
-    { id: 'lucas', name: 'Lucas', grade: '5º ano', games: ['town-explorer', 'emergency-services', 'grammar-review'] },
-    { id: 'sofia', name: 'Sofia', grade: '3º ano', games: ['vocabulary-review', 'prepositions-game'] }
+    { id: 'lucas', name: 'Lucas', grade: '4º ano', games: ['town-explorer', 'sports-playground'] },
+    { id: 'sofia', name: 'Sofia', grade: '3º ano', games: ['sports-playground', 'top-town'] }
   ],
   purchases: [
-    { gameId: 'listening-challenge', childId: 'lucas', status: 'Comprado' },
-    { gameId: 'reading-detective', childId: 'sofia', status: 'Comprado' }
+    { gameId: 'town-explorer', childId: 'lucas', status: 'Liberado (beta)' },
+    { gameId: 'top-town', childId: 'sofia', status: 'Liberado (beta)' }
   ]
 };
 
