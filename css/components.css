@@ -56,16 +56,16 @@
   display:grid; grid-template-columns: 240px 1fr; gap: 40px;
   align-items:start;
 }
-@media (max-width: 880px){
-  .library-layout{ grid-template-columns: 1fr; }
-  .filters{ position: static; }
-}
 .filters{
   position: sticky; top: 96px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 22px;
   background: var(--bg-raised);
+}
+@media (max-width: 880px){
+  .library-layout{ grid-template-columns: 1fr; }
+  .filters{ position: static; }
 }
 .filter-group{ margin-bottom: 22px; }
 .filter-group:last-child{ margin-bottom:0; }
