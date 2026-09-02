@@ -40,8 +40,23 @@
 </header>
 
 <section class="section" style="padding-top:32px;">
+  <div class="wrap">
+    <div class="filter-bar" id="filter-bar">
+      <button class="filter-bar-toggle" id="filter-toggle" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+        <span data-i18n="library.filtersBtn">Filtros</span>
+        <span class="filter-count" id="filter-bar-count" hidden>0</span>
+      </button>
+      <div class="filter-chips" id="filter-chips"></div>
+      <button class="filter-clear-all" id="filter-clear-all" hidden data-i18n="library.clearAll">Limpar tudo</button>
+    </div>
+  </div>
   <div class="wrap library-layout">
-    <aside class="filters">
+    <aside class="filters" id="filters-panel">
+      <div class="filter-panel-head">
+        <h3 data-i18n="library.filtersBtn">Filtros</h3>
+        <button class="filter-panel-close" id="filter-panel-close" aria-label="Close">&times;</button>
+      </div>
       <div class="filter-group">
         <h4 data-i18n="library.grade">Ano escolar</h4>
         <label class="filter-option"><input type="checkbox" data-group="grade" value="3"> 3º ano</label>
@@ -64,7 +79,9 @@
         <label class="filter-option"><input type="checkbox" data-group="difficulty" value="Advanced"> Avançado</label>
       </div>
       <button class="filter-reset" id="filter-reset" data-i18n="library.reset">Limpar filtros</button>
+      <button class="filter-panel-apply" id="filter-panel-apply" data-i18n="library.apply">Aplicar filtros</button>
     </aside>
+    <div class="filter-overlay" id="filter-overlay"></div>
 
     <div>
       <div class="library-results-head">
