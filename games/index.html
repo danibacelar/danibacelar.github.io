@@ -42,13 +42,15 @@
 <section class="section" style="padding-top:32px;">
   <div class="wrap">
     <div class="filter-bar" id="filter-bar">
-      <button class="filter-bar-toggle" id="filter-toggle" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
-        <span data-i18n="library.filtersBtn">Filtros</span>
-        <span class="filter-count" id="filter-bar-count" hidden>0</span>
-      </button>
+      <div class="filter-bar-top">
+        <button class="filter-bar-toggle" id="filter-toggle" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+          <span data-i18n="library.filtersBtn">Filtros</span>
+          <span class="filter-count" id="filter-bar-count" hidden>0</span>
+        </button>
+        <button class="filter-clear-all" id="filter-clear-all" hidden data-i18n="library.clearAll">Limpar tudo</button>
+      </div>
       <div class="filter-chips" id="filter-chips"></div>
-      <button class="filter-clear-all" id="filter-clear-all" hidden data-i18n="library.clearAll">Limpar tudo</button>
     </div>
   </div>
   <div class="wrap library-layout">
