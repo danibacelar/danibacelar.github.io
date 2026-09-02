@@ -612,9 +612,11 @@ function initDetail() {
     <div class="detail-media">${detailMediaHTML}</div>
     <div class="mascot-bubble">
       <div class="mascot mascot-inline"><img src="${prefix}assets/mascot/happy.png" alt="Raposa mascote"></div>
-      <p>${currentLang === 'pt' ? 'Vamos praticar juntos!' : "Let's practice together!"}</p>
+      <div class="mascot-bubble-text">
+        <p>${currentLang === 'pt' ? 'Vamos praticar juntos!' : "Let's practice together!"}</p>
+        <p class="mascot-bubble-desc">${desc}</p>
+      </div>
     </div>
-    <p class="lede">${desc}</p>
     <h3>${t('detail.objectives')}</h3>
     <ul class="objectives-list">${objectivesHTML}</ul>
     <h3>${t('detail.why.title')}</h3>
