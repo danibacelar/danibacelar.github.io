@@ -76,6 +76,10 @@ const I18N = {
     'library.reset': 'Limpar filtros',
     'library.empty': 'Nenhum jogo encontrado com esses filtros. Tente remover algum.',
     'library.count': 'atividades',
+    'library.filtersBtn': 'Filtros',
+    'library.clearAll': 'Limpar tudo',
+    'library.apply': 'Aplicar filtros',
+    'library.close': 'Fechar',
     'detail.practices': 'O que seu filho vai praticar',
     'detail.objectives': 'Neste jogo, você irá aprender a:',
     'detail.why.title': 'Por que esta atividade?',
@@ -144,6 +148,10 @@ const I18N = {
     'library.reset': 'Clear filters',
     'library.empty': 'No games match these filters yet. Try clearing one.',
     'library.count': 'activities',
+    'library.filtersBtn': 'Filters',
+    'library.clearAll': 'Clear all',
+    'library.apply': 'Apply filters',
+    'library.close': 'Close',
     'detail.practices': 'What your child will practice',
     'detail.objectives': 'In this game, you will learn to:',
     'detail.why.title': 'Why this activity?',
@@ -426,6 +434,47 @@ function initLibrary(preserveState) {
     if (gradeParam) libraryState.grade.add(Number(gradeParam));
   }
 
+  const filterBarCount = document.getElementById('filter-bar-count');
+  const filterChipsEl = document.getElementById('filter-chips');
+  const filterClearAllBtn = document.getElementById('filter-clear-all');
+  const filterToggleBtn = document.getElementById('filter-toggle');
+  const filtersPanel = document.getElementById('filters-panel');
+  const filterOverlay = document.getElementById('filter-overlay');
+  const filterPanelClose = document.getElementById('filter-panel-close');
+  const filterPanelApply = document.getElementById('filter-panel-apply');
+
+  const CHIP_LABELS = {
+    grade: v => (currentLang === 'pt' ? `${v}º ano` : `Grade ${v}`),
+    skill: v => document.querySelector(`.filter-option input[data-group="skill"][value="${v}"]`)
+      ?.parentElement.textContent.trim() || v,
+    difficulty: v => document.querySelector(`.filter-option input[data-group="difficulty"][value="${v}"]`)
+      ?.parentElement.textContent.trim() || v,
+  };
+
+  function totalFilterCount() {
+    return libraryState.grade.size + libraryState.skill.size + libraryState.difficulty.size;
+  }
+
+  function renderChips() {
+    const total = totalFilterCount();
+
+    if (filterBarCount) {
+      filterBarCount.hidden = total === 0;
+      filterBarCount.textContent = total;
+    }
+    if (filterClearAllBtn) filterClearAllBtn.hidden = total === 0;
+
+    if (filterChipsEl) {
+      const chips = [];
+      libraryState.grade.forEach(v => chips.push({ group: 'grade', value: v, label: CHIP_LABELS.grade(v) }));
+      libraryState.skill.forEach(v => chips.push({ group: 'skill', value: v, label: CHIP_LABELS.skill(v) }));
+      libraryState.difficulty.forEach(v => chips.push({ group: 'difficulty', value: v, label: CHIP_LABELS.difficulty(v) }));
+      filterChipsEl.innerHTML = chips.map(c =>
+        `<span class="filter-chip" data-group="${c.group}" data-value="${c.value}">${c.label}<button aria-label="Remove">&times;</button></span>`
+      ).join('');
+    }
+  }
+
   function applyFilters() {
     const filtered = GAMES.filter(g => {
       const gradeOk = libraryState.grade.size === 0 || libraryState.grade.has(g.gradeNum);
@@ -440,7 +489,46 @@ function initLibrary(preserveState) {
     grid.innerHTML = filtered.length
       ? filtered.map(gameCardHTML).join('')
       : `<div class="empty-state"><div class="mascot mascot-inline" style="margin:0 auto 10px;">[FOX: curious]</div>${t('library.empty')}</div>`;
+
+    renderChips();
   }
+
+  function openFilterPanel() {
+    filtersPanel?.classList.add('open');
+    filterOverlay?.classList.add('open');
+    document.body.classList.add('filters-open');
+    filterToggleBtn?.setAttribute('aria-expanded', 'true');
+  }
+  function closeFilterPanel() {
+    filtersPanel?.classList.remove('open');
+    filterOverlay?.classList.remove('open');
+    document.body.classList.remove('filters-open');
+    filterToggleBtn?.setAttribute('aria-expanded', 'false');
+  }
+
+  filterToggleBtn?.addEventListener('click', openFilterPanel);
+  filterPanelClose?.addEventListener('click', closeFilterPanel);
+  filterPanelApply?.addEventListener('click', closeFilterPanel);
+  filterOverlay?.addEventListener('click', closeFilterPanel);
+
+  filterClearAllBtn?.addEventListener('click', () => {
+    document.querySelectorAll('.filter-option input').forEach(i => (i.checked = false));
+    Object.values(libraryState).forEach(s => s.clear());
+    applyFilters();
+  });
+
+  filterChipsEl?.addEventListener('click', (e) => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    const chip = btn.closest('.filter-chip');
+    const group = chip.dataset.group;
+    const rawValue = chip.dataset.value;
+    const value = group === 'grade' ? Number(rawValue) : rawValue;
+    libraryState[group].delete(value);
+    const checkbox = document.querySelector(`.filter-option input[data-group="${group}"][value="${rawValue}"]`);
+    if (checkbox) checkbox.checked = false;
+    applyFilters();
+  });
 
   document.querySelectorAll('.filter-option input').forEach(input => {
     const group = input.dataset.group;
