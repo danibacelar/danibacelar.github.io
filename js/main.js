@@ -77,6 +77,7 @@ const I18N = {
     'library.empty': 'Nenhum jogo encontrado com esses filtros. Tente remover algum.',
     'library.count': 'atividades',
     'detail.practices': 'O que seu filho vai praticar',
+    'detail.objectives': 'Neste jogo, você irá aprender a:',
     'detail.why.title': 'Por que esta atividade?',
     'detail.how.title': 'Como funciona',
     'detail.buy': 'Comprar agora',
@@ -144,6 +145,7 @@ const I18N = {
     'library.empty': 'No games match these filters yet. Try clearing one.',
     'library.count': 'activities',
     'detail.practices': 'What your child will practice',
+    'detail.objectives': 'In this game, you will learn to:',
     'detail.why.title': 'Why this activity?',
     'detail.how.title': 'How it works',
     'detail.buy': 'Buy now',
@@ -242,7 +244,23 @@ const GAMES = [
     descriptionPT: "Explore o mapa de uma cidade, siga pistas para encontrar lugares e pratique preposições de lugar e perguntas com \"Where's the...?\".",
     why: 'Connects city vocabulary with prepositions of place and question practice, all through following clues on a map.',
     whyPT: 'Conecta vocabulário da cidade com preposições de lugar e prática de perguntas, tudo seguindo pistas num mapa.',
-    practices: ['next to', 'above', 'between', "Where's the...?"],
+    practices: ['next to', 'above', 'below', 'between', "Where's the...?"],
+    objectivesPT: [
+      'Identificar e nomear lugares da cidade em inglês, como bank, sports center, castle, library, train station, clock tower, market, bus stop, parking lot, fair e map.',
+      'Utilizar preposições de lugar em inglês, como next to, above, below, between, in front of e behind, para localizar e descrever lugares.',
+      'Compreender e seguir pistas para encontrar locais em um mapa.',
+      'Fazer e responder perguntas sobre localização, utilizando estruturas como "Where\'s the...?".',
+      'Associar lugares da cidade às suas funções e finalidades, compreendendo situações do dia a dia.',
+      'Organizar informações espaciais para descrever a posição de diferentes locais em inglês.'
+    ],
+    objectives: [
+      'Identify and name places in the city in English, such as bank, sports center, castle, library, train station, clock tower, market, bus stop, parking lot, fair, and map.',
+      'Use prepositions of place in English, such as next to, above, below, between, in front of, and behind, to locate and describe places.',
+      'Understand and follow clues to find locations on a map.',
+      'Ask and answer questions about location, using structures like "Where\'s the...?"',
+      'Match city places to their functions and purposes, understanding everyday situations.',
+      'Organize spatial information to describe the position of different locations in English.'
+    ],
     price: null,
     currency: 'BRL',
     access: 'beta',
@@ -265,6 +283,20 @@ const GAMES = [
     why: 'Built to connect sports vocabulary to real sentence-writing practice, from naming equipment to expressing opinions with -ing verbs.',
     whyPT: 'Criado para conectar o vocabulário de esportes à prática de escrita de frases de verdade, do nome dos equipamentos até expressar opiniões com verbos em -ing.',
     practices: ['basketball', 'swimming', 'volleyball', '-ing verbs'],
+    objectivesPT: [
+      'Identificar e nomear diferentes esportes em inglês, como badminton, ping-pong, tennis, basketball, baseball, volleyball, soccer, field hockey, swimming e running, associando imagens ao vocabulário correspondente.',
+      'Identificar o vocabulário relacionado aos equipamentos utilizados em cada esporte e aos locais onde eles são praticados.',
+      'Formar frases corretamente utilizando verbos com a terminação -ing, desenvolvendo a construção de sentenças em inglês.',
+      'Usar verbos com -ing para expressar opiniões e sentimentos sobre esportes e atividades.',
+      'Organizar frases em sequência lógica para produzir um pequeno texto sobre um esporte em inglês.'
+    ],
+    objectives: [
+      'Identify and name different sports in English, such as badminton, ping-pong, tennis, basketball, baseball, volleyball, soccer, field hockey, swimming, and running, matching images to the corresponding vocabulary.',
+      'Identify vocabulary related to the equipment used in each sport and the places where they are played.',
+      'Correctly form sentences using verbs ending in -ing, building sentence-construction skills in English.',
+      'Use -ing verbs to express opinions and feelings about sports and activities.',
+      'Organize sentences in logical sequence to produce a short text about a sport in English.'
+    ],
     price: null,
     currency: 'BRL',
     access: 'beta',
@@ -287,6 +319,20 @@ const GAMES = [
     why: 'Connects city vocabulary with yes/no question structure and prepositions of place — skills that build on each other.',
     whyPT: 'Conecta o vocabulário da cidade com a estrutura de perguntas de sim/não e preposições de lugar — habilidades que se conectam.',
     practices: ['Does it have...?', 'next to', 'in front of', 'between'],
+    objectivesPT: [
+      'Identificar e nomear lugares da cidade em inglês, como train station, hospital, movie theater, playground, café, store, street, bus stop, park, school e swimming pool.',
+      'Fazer e responder perguntas utilizando a estrutura "Does Top Town have...?", empregando respostas curtas como "Yes, it does" e "No, it doesn\'t".',
+      'Utilizar preposições de lugar em inglês, como next to, in front of, between e behind, para localizar e descrever lugares da cidade.',
+      'Compreender a posição dos elementos em um mapa utilizando o vocabulário adequado.',
+      'Organizar palavras na ordem correta para formar frases gramaticalmente corretas em inglês.'
+    ],
+    objectives: [
+      'Identify and name places in the city in English, such as train station, hospital, movie theater, playground, café, store, street, bus stop, park, school, and swimming pool.',
+      'Ask and answer questions using the structure "Does Top Town have...?", using short answers like "Yes, it does" and "No, it doesn\'t."',
+      'Use prepositions of place in English, such as next to, in front of, between, and behind, to locate and describe places in the city.',
+      'Understand the position of elements on a map using the appropriate vocabulary.',
+      'Put words in the correct order to form grammatically correct sentences in English.'
+    ],
     price: null,
     currency: 'BRL',
     access: 'beta',
@@ -439,6 +485,8 @@ function initDetail() {
   const desc = currentLang === 'pt' ? game.descriptionPT : game.description;
   const why = currentLang === 'pt' ? game.whyPT : game.why;
   const practices = game.practices.map(p => `<span class="practice-chip">${p}</span>`).join('');
+  const objectivesList = (currentLang === 'pt' ? game.objectivesPT : game.objectives) || [];
+  const objectivesHTML = objectivesList.map(o => `<li>${o}</li>`).join('');
 
   const hasRealLink = game.gameUrl && game.gameUrl !== '#';
 
@@ -480,6 +528,8 @@ function initDetail() {
     </div>
     <h1>${game.title}</h1>
     <p class="lede">${desc}</p>
+    <h3>${t('detail.objectives')}</h3>
+    <ul class="objectives-list">${objectivesHTML}</ul>
     <h3>${t('detail.practices')}</h3>
     <div class="practice-list">${practices}</div>
     <h3>${t('detail.why.title')}</h3>
