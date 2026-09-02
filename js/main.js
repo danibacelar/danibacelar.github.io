@@ -518,7 +518,7 @@ function initDetail() {
   container.innerHTML = `
     <div class="detail-media">${detailMediaHTML}</div>
     <div class="mascot-bubble">
-      <div class="mascot mascot-inline">[FOX: pointing]</div>
+      <div class="mascot mascot-inline"><img src="${prefix}assets/mascot/happy.png" alt="Raposa mascote"></div>
       <p>${currentLang === 'pt' ? 'Vamos praticar juntos!' : "Let's practice together!"}</p>
     </div>
     <div class="detail-meta">
