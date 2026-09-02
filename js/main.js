@@ -572,7 +572,6 @@ function initDetail() {
   const diffLabel = (DIFFICULTY_LABELS[game.difficulty] && DIFFICULTY_LABELS[game.difficulty][currentLang]) || game.difficulty;
   const desc = currentLang === 'pt' ? game.descriptionPT : game.description;
   const why = currentLang === 'pt' ? game.whyPT : game.why;
-  const practices = game.practices.map(p => `<span class="practice-chip">${p}</span>`).join('');
   const objectivesList = (currentLang === 'pt' ? game.objectivesPT : game.objectives) || [];
   const objectivesHTML = objectivesList.map(o => `<li>${o}</li>`).join('');
 
@@ -604,22 +603,20 @@ function initDetail() {
     : '[GAME SCREENSHOT]';
 
   container.innerHTML = `
-    <div class="detail-media">${detailMediaHTML}</div>
-    <div class="mascot-bubble">
-      <div class="mascot mascot-inline"><img src="${prefix}assets/mascot/happy.png" alt="Raposa mascote"></div>
-      <p>${currentLang === 'pt' ? 'Vamos praticar juntos!' : "Let's practice together!"}</p>
-    </div>
+    <h1>${game.title}</h1>
     <div class="detail-meta">
       <span class="tag tag-grade">${gradeLabel}</span>
       ${skills}
       <span class="tag tag-diff">${diffLabel}</span>
     </div>
-    <h1>${game.title}</h1>
+    <div class="detail-media">${detailMediaHTML}</div>
+    <div class="mascot-bubble">
+      <div class="mascot mascot-inline"><img src="${prefix}assets/mascot/happy.png" alt="Raposa mascote"></div>
+      <p>${currentLang === 'pt' ? 'Vamos praticar juntos!' : "Let's practice together!"}</p>
+    </div>
     <p class="lede">${desc}</p>
     <h3>${t('detail.objectives')}</h3>
     <ul class="objectives-list">${objectivesHTML}</ul>
-    <h3>${t('detail.practices')}</h3>
-    <div class="practice-list">${practices}</div>
     <h3>${t('detail.why.title')}</h3>
     <p>${why}</p>
     <div class="detail-access">${accessBlock}</div>
