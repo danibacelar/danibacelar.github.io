@@ -222,7 +222,7 @@ const GRADE_LABELS = {
   3: { pt: '3º ano', en: '3rd Grade' },
   4: { pt: '4º ano', en: '4th Grade' },
   5: { pt: '5º ano', en: '5th Grade' },
-  6: { pt: '6º ano', en: '6th Grade' }
+  8: { pt: '8º ano', en: '8th Grade' }
 };
 const SKILL_LABELS = {
   Vocabulary: { pt: 'Vocabulário', en: 'Vocabulary' },
@@ -347,6 +347,600 @@ const GAMES = [
     status: 'available',
     gameUrl: 'https://mrsdani.com.br/3ano-prepositions_does_it_have/',
     thumbnail: 'assets/games/top-town-screenshot.jpg'
+  },
+  {
+    id: 'personal-narrative',
+    title: 'Personal Narrative',
+    gradeNum: 3,
+    skill: ['Writing', 'Vocabulary'],
+    topic: 'Personal Writing',
+    grammar: 'Sentence sequencing',
+    difficulty: 'Intermediate',
+    gameType: 'Story Planning & Writing',
+    schoolAlignment: '3rd Grade English',
+    description: 'Sort sentences and words, match vocabulary to pictures, then plan and write your own personal narrative in English.',
+    descriptionPT: 'Ordene frases e palavras, associe vocabulário a figuras e depois planeje e escreva sua própria narrativa pessoal em inglês.',
+    why: 'Builds from vocabulary and sentence order into real independent writing, guided by who/when/where/what/how.',
+    whyPT: 'Constrói do vocabulário e da ordem das frases até a escrita independente, guiado pelas perguntas quem/quando/onde/o quê/como.',
+    practices: ['who, when, where, what, how', 'sentence order', 'story planning'],
+    objectivesPT: [
+      'Ordenar frases e palavras para formar textos coerentes em inglês.',
+      'Associar vocabulário de lugares, sentimentos e verbos de ação às imagens correspondentes.',
+      'Planejar uma narrativa pessoal respondendo quem, quando, onde, o quê e como.',
+      'Escrever sua própria narrativa pessoal em inglês.'
+    ],
+    objectives: [
+      'Sort sentences and words to form coherent English texts.',
+      'Match places, feelings, and action verb vocabulary to the correct pictures.',
+      'Plan a personal narrative by answering who, when, where, what, and how.',
+      'Write your own personal narrative in English.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/3ano-personal_writing/'
+  },
+  {
+    id: 'adverbs-adventure',
+    title: 'Adverbs Adventure!',
+    gradeNum: 4,
+    skill: ['Grammar'],
+    topic: 'Adverbs of Frequency',
+    grammar: 'Subject + adverb + verb + rest of sentence',
+    difficulty: 'Beginner',
+    gameType: 'Sentence Building',
+    schoolAlignment: '4th Grade English',
+    description: 'Click words to build correct sentences with adverbs of frequency, in the order subject + adverb + verb + rest of sentence.',
+    descriptionPT: 'Clique nas palavras para montar frases corretas com advérbios de frequência, na ordem sujeito + advérbio + verbo + resto da frase.',
+    why: 'Turns the tricky word-order rule for adverbs of frequency into a hands-on building game.',
+    whyPT: 'Transforma a regra de ordem das palavras com advérbios de frequência em um jogo prático de montar frases.',
+    practices: ['always', 'usually', 'sometimes', 'never', 'word order'],
+    objectivesPT: [
+      'Reconhecer advérbios de frequência em inglês.',
+      'Montar frases na ordem correta: sujeito + advérbio + verbo + resto da frase.',
+      'Praticar a conjugação do verbo junto ao advérbio de frequência.'
+    ],
+    objectives: [
+      'Recognize adverbs of frequency in English.',
+      'Build sentences in the correct order: subject + adverb + verb + rest of sentence.',
+      'Practice verb conjugation together with the adverb of frequency.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/4ano-adverbs_of_frequency/'
+  },
+  {
+    id: 'daily-tasks',
+    title: 'Daily Tasks Games',
+    gradeNum: 4,
+    skill: ['Vocabulary', 'Writing'],
+    topic: 'Household Chores',
+    grammar: 'Daily routines vocabulary',
+    difficulty: 'Beginner',
+    gameType: '5 Mini-Games',
+    schoolAlignment: '4th Grade English',
+    description: 'Five mini-games to learn household chores vocabulary: unscramble words, identify pictures, and complete sentences.',
+    descriptionPT: 'Cinco minijogos para aprender vocabulário de tarefas domésticas: monte palavras embaralhadas, identifique figuras e complete frases.',
+    why: 'Repeats the same daily-routines vocabulary across five different game formats so it really sticks.',
+    whyPT: 'Repete o mesmo vocabulário de tarefas domésticas em cinco formatos de jogo diferentes para fixar de verdade.',
+    practices: ['wash the dishes', 'make the bed', 'take out the trash'],
+    objectivesPT: [
+      'Reconhecer e nomear tarefas domésticas em inglês.',
+      'Reconstituir palavras embaralhadas relacionadas a tarefas domésticas.',
+      'Identificar tarefas a partir de figuras e completar frases sobre rotina.'
+    ],
+    objectives: [
+      'Recognize and name household chores in English.',
+      'Unscramble words related to household chores.',
+      'Identify chores from pictures and complete sentences about daily routine.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/4ano-daily_tasks/'
+  },
+  {
+    id: 'where-are-you-going',
+    title: 'Where Are You Going? — Grammar Trip',
+    gradeNum: 4,
+    skill: ['Grammar'],
+    topic: "Going to (purpose)",
+    grammar: "Be going to + infinitive of purpose",
+    difficulty: 'Beginner',
+    gameType: 'Interactive Trip',
+    schoolAlignment: '4th Grade English',
+    description: "Choose any stop on a trip, in any order, and practice \"I'm going to the ___ to ___\" (be going to + infinitive of purpose).",
+    descriptionPT: 'Escolha as paradas de uma viagem, na ordem que quiser, e pratique "I\'m going to the ___ to ___" (be going to + infinitivo de propósito).',
+    why: 'Turns a grammar structure into a free-choice trip so students can practice the same pattern with places they pick themselves.',
+    whyPT: 'Transforma uma estrutura gramatical em uma viagem de escolha livre, praticando o mesmo padrão com lugares escolhidos pelo aluno.',
+    practices: ["I'm going to the...", 'infinitive of purpose'],
+    objectivesPT: [
+      'Usar a estrutura "be going to" para falar sobre planos e intenções.',
+      'Combinar lugares com a finalidade da visita usando o infinitivo de propósito.',
+      'Formar frases completas com "I\'m going to the ___ to ___".'
+    ],
+    objectives: [
+      'Use the "be going to" structure to talk about plans and intentions.',
+      'Match places with the purpose of the visit using the infinitive of purpose.',
+      'Form complete sentences with "I\'m going to the ___ to ___".'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/4ano-goingto/'
+  },
+  {
+    id: 'sofias-busy-day',
+    title: "Sofia's Busy Day",
+    gradeNum: 4,
+    skill: ['Grammar', 'Reading'],
+    topic: 'Going to (plans)',
+    grammar: "Be going to",
+    difficulty: 'Beginner',
+    gameType: 'Comic Strip & 4 Mini-Games',
+    schoolAlignment: '4th Grade English',
+    description: "Read Sofia's comic strip and play four mini-games to practice \"I'm going to\" for talking about plans.",
+    descriptionPT: 'Leia a tirinha da Sofia e jogue quatro minijogos para praticar "I\'m going to" ao falar sobre planos.',
+    why: 'Connects reading a comic strip with independent grammar practice, in any order, as many times as needed.',
+    whyPT: 'Conecta a leitura de uma tirinha com a prática independente de gramática, em qualquer ordem e quantas vezes forem necessárias.',
+    practices: ["be going to", 'reading comprehension'],
+    objectivesPT: [
+      'Ler e compreender uma tirinha em inglês sobre o dia de Sofia.',
+      'Identificar usos de "be going to" no texto.',
+      'Praticar "be going to" em quatro minijogos independentes.'
+    ],
+    objectives: [
+      "Read and understand a comic strip in English about Sofia's day.",
+      'Identify uses of "be going to" in the text.',
+      'Practice "be going to" in four independent mini-games.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/4ano_going_to/'
+  },
+  {
+    id: 'places-in-a-city',
+    title: 'Places in a City & Prepositions of Place',
+    gradeNum: 4,
+    skill: ['Vocabulary', 'Grammar'],
+    topic: 'City Places',
+    grammar: 'Prepositions of Place',
+    difficulty: 'Beginner',
+    gameType: 'Vocabulary & Prepositions Practice',
+    schoolAlignment: '4th Grade English',
+    description: 'Learn city places vocabulary and practice prepositions of place in English.',
+    descriptionPT: 'Aprenda vocabulário de lugares da cidade e pratique preposições de lugar em inglês.',
+    why: 'Pairs city vocabulary with the prepositions needed to describe where each place is.',
+    whyPT: 'Conecta o vocabulário da cidade com as preposições necessárias para descrever onde cada lugar fica.',
+    practices: ['city places', 'next to', 'between', 'in front of'],
+    objectivesPT: [
+      'Identificar e nomear lugares da cidade em inglês.',
+      'Utilizar preposições de lugar para descrever onde os lugares ficam.'
+    ],
+    objectives: [
+      'Identify and name city places in English.',
+      'Use prepositions of place to describe where places are located.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/4ano-preposition_of_place1/'
+  },
+  {
+    id: 'what-time-is-it',
+    title: 'What Time Is It?',
+    gradeNum: 4,
+    skill: ['Vocabulary', 'Listening'],
+    topic: 'Telling Time',
+    grammar: "What time is it? / It's...",
+    difficulty: 'Beginner',
+    gameType: 'Clock Reading Quiz',
+    schoolAlignment: '4th Grade English',
+    description: 'Look at the clock and choose the correct answer to practice telling time in English.',
+    descriptionPT: 'Olhe para o relógio e escolha a resposta certa para praticar como dizer as horas em inglês.',
+    why: 'Straightforward repetition of clock reading builds confidence telling time quickly.',
+    whyPT: 'A repetição direta da leitura do relógio traz confiança para dizer as horas rapidamente.',
+    practices: ["What time is it?", "It's...", "o'clock, half past, quarter past"],
+    objectivesPT: [
+      'Ler as horas em um relógio analógico em inglês.',
+      'Responder corretamente "What time is it?" para diferentes horários.'
+    ],
+    objectives: [
+      'Read the time on an analog clock in English.',
+      'Correctly answer "What time is it?" for different times.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/4ano-what_time_is_it/'
+  },
+  {
+    id: 'connectors-past-tenses',
+    title: 'Revisão: Connectors & Past Tenses',
+    gradeNum: 5,
+    skill: ['Grammar', 'Reading'],
+    topic: 'Connectors & Past Tenses',
+    grammar: 'Connectors + Past Simple/Continuous',
+    difficulty: 'Intermediate',
+    gameType: 'Study Review with Tabs',
+    schoolAlignment: '5th Grade English',
+    description: 'A full test-review with rules, exercises, sentence unscrambling, and reading comprehension on connectors and past tenses. Progress is saved automatically.',
+    descriptionPT: 'Revisão completa para a prova com regras, exercícios, frases para desembaralhar e interpretação de texto sobre conectores e tempos verbais no passado. O progresso fica salvo automaticamente.',
+    why: 'Groups every format a review needs — rules, drills, and reading — into one page organized by tabs.',
+    whyPT: 'Reúne todos os formatos que uma revisão precisa — regras, exercícios e leitura — em uma só página organizada por abas.',
+    practices: ['connectors', 'past simple', 'past continuous'],
+    objectivesPT: [
+      'Revisar as regras de uso dos conectores e dos tempos verbais no passado.',
+      'Praticar com exercícios, frases desembaralhadas e interpretação de texto.'
+    ],
+    objectives: [
+      'Review the rules for using connectors and past tenses.',
+      'Practice with exercises, sentence unscrambling, and reading comprehension.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/5ano-Connectors_Past_Tenses/'
+  },
+  {
+    id: 'emergency-helpers',
+    title: 'Emergency Helpers • Past Continuous',
+    gradeNum: 5,
+    skill: ['Grammar'],
+    topic: 'Past Continuous',
+    grammar: 'Was / Were',
+    difficulty: 'Beginner',
+    gameType: '5 Quick Games',
+    schoolAlignment: '5th Grade English',
+    description: "Five quick games to help you choose the right word — was or were — every time, including tricky subjects.",
+    descriptionPT: 'Cinco minijogos rápidos para escolher was ou were corretamente, inclusive em sujeitos mais difíceis, e praticar o passado contínuo.',
+    why: 'Isolates the single most common past-continuous mistake (was vs. were) and drills it from every angle.',
+    whyPT: 'Isola o erro mais comum do passado contínuo (was vs. were) e treina de vários ângulos diferentes.',
+    practices: ['was', 'were', 'sentence unscramble'],
+    objectivesPT: [
+      'Escolher corretamente was ou were para pronomes, nomes e sujeitos difíceis.',
+      'Reorganizar frases embaralhadas no passado contínuo.'
+    ],
+    objectives: [
+      'Correctly choose was or were for pronouns, names, and tricky subjects.',
+      'Rearrange scrambled sentences in the past continuous.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/5ano-past_continuous/'
+  },
+  {
+    id: 'time-detective',
+    title: 'Time Detective — Past Simple vs Past Progressive',
+    gradeNum: 5,
+    skill: ['Grammar'],
+    topic: 'Past Simple vs Past Progressive',
+    grammar: 'Past Simple vs Past Progressive',
+    difficulty: 'Intermediate',
+    gameType: 'Detective Case Game',
+    schoolAlignment: '5th Grade English',
+    description: 'Solve the grammar case, one sentence at a time, telling apart the past simple and the past progressive.',
+    descriptionPT: 'Resolva o caso, uma frase de cada vez, distinguindo o passado simples do passado progressivo.',
+    why: 'Frames a hard grammar comparison as a detective case to keep it engaging, breaking each sentence down step by step.',
+    whyPT: 'Transforma uma comparação gramatical difícil em um caso de detetive, quebrando cada frase passo a passo.',
+    practices: ['past simple', 'past progressive'],
+    objectivesPT: [
+      'Diferenciar o passado simples do passado progressivo em contexto.',
+      'Analisar frases passo a passo para identificar o tempo verbal correto.'
+    ],
+    objectives: [
+      'Tell apart the past simple and past progressive in context.',
+      'Break sentences down step by step to identify the correct tense.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/5ano-past_simple_and_progressive/'
+  },
+  {
+    id: 'past-simple-vs-continuous-quiz',
+    title: 'Past Simple vs Past Continuous — Quiz de Revisão',
+    gradeNum: 5,
+    skill: ['Grammar'],
+    topic: 'Past Simple vs Past Continuous',
+    grammar: 'WHEN, WHILE, WAS, WERE',
+    difficulty: 'Intermediate',
+    gameType: 'Review Quiz',
+    schoolAlignment: '5th Grade English',
+    description: 'A review quiz on WHEN, WHILE, WAS, and WERE, comparing the past simple and the past continuous.',
+    descriptionPT: 'Quiz de revisão para a prova sobre WHEN, WHILE, WAS e WERE, comparando o passado simples e o passado contínuo.',
+    why: 'Targets the connector words that signal which past tense to use, not just the verb forms themselves.',
+    whyPT: 'Foca nos conectores que indicam qual tempo verbal usar, e não só nas formas verbais em si.',
+    practices: ['when', 'while', 'was', 'were'],
+    objectivesPT: [
+      'Reconhecer quando usar WHEN e WHILE com o passado simples e contínuo.',
+      'Revisar o uso de WAS e WERE no passado contínuo.'
+    ],
+    objectives: [
+      'Recognize when to use WHEN and WHILE with the past simple and continuous.',
+      'Review the use of WAS and WERE in the past continuous.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/5ano-pastsimple_pastcontinuous/'
+  },
+  {
+    id: 'prepositions-of-time',
+    title: 'Prepositions of Time: IN, ON, AT',
+    gradeNum: 5,
+    skill: ['Grammar'],
+    topic: 'Prepositions of Time',
+    grammar: 'IN, ON, AT',
+    difficulty: 'Beginner',
+    gameType: 'Rules + Practice',
+    schoolAlignment: '5th Grade English',
+    description: 'Learn the rules for using IN, ON, and AT to talk about time in English, then practice.',
+    descriptionPT: 'Aprenda as regras de uso de IN, ON e AT para falar sobre tempo em inglês e depois pratique.',
+    why: 'Walks through the rules first — exact times, days, longer periods — before testing them.',
+    whyPT: 'Apresenta as regras primeiro — horários exatos, dias, períodos mais longos — antes de testá-las na prática.',
+    practices: ['at 7 o\'clock', 'on Monday', 'in the morning'],
+    objectivesPT: [
+      'Compreender quando usar AT, ON e IN para expressar tempo em inglês.',
+      'Aplicar as regras em frases práticas do dia a dia.'
+    ],
+    objectives: [
+      'Understand when to use AT, ON, and IN to express time in English.',
+      'Apply the rules in everyday practice sentences.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/5ano-preposition_in_on_at/'
+  },
+  {
+    id: 'preposicoes-in-on-at',
+    title: 'Preposições — IN, ON, AT',
+    gradeNum: 5,
+    skill: ['Grammar'],
+    topic: 'Prepositions of Time',
+    grammar: 'IN, ON, AT',
+    difficulty: 'Beginner',
+    gameType: 'Categorization Practice',
+    schoolAlignment: '5th Grade English',
+    description: 'Discover when to use IN, ON, and AT by sorting time expressions like days, months, seasons, and exact times.',
+    descriptionPT: 'Descubra quando usar IN, ON e AT organizando expressões de tempo como dias, meses, estações e horários exatos.',
+    why: 'A second, categorization-style pass at IN/ON/AT — good extra practice once the basic rules are known.',
+    whyPT: 'Uma segunda forma de praticar IN/ON/AT, por categorização — ótimo reforço depois de aprender as regras básicas.',
+    practices: ['days', 'months', 'seasons', 'exact times'],
+    objectivesPT: [
+      'Classificar expressões de tempo nas categorias corretas de AT, ON e IN.',
+      'Reforçar o uso de preposições de tempo com exemplos do dia a dia.'
+    ],
+    objectives: [
+      'Sort time expressions into the correct AT, ON, and IN categories.',
+      'Reinforce the use of prepositions of time with everyday examples.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/5ano-preposition_in_on_at_1/'
+  },
+  {
+    id: 'all-aboard-review',
+    title: 'All Aboard! English Review — Super Minds 4',
+    gradeNum: 5,
+    skill: ['Grammar', 'Reading'],
+    topic: 'Units 2 & 4 Review',
+    grammar: 'Super Minds 4, Units 2 & 4',
+    difficulty: 'Intermediate',
+    gameType: 'Test Review',
+    schoolAlignment: '5th Grade English — Super Minds 4',
+    description: 'A test review for Units 2 and 4 of the Super Minds 4 course book.',
+    descriptionPT: 'Revisão para a prova das Units 2 e 4 do livro Super Minds 4.',
+    why: 'Matches the exact units being tested at school, so review time goes straight to what matters for the exam.',
+    whyPT: 'Segue exatamente as unidades cobradas na prova da escola, focando o tempo de revisão no que realmente cai.',
+    practices: ['Super Minds 4 — Units 2 & 4'],
+    objectivesPT: [
+      'Revisar o conteúdo das Units 2 e 4 do livro Super Minds 4 antes da prova.'
+    ],
+    objectives: [
+      'Review the content of Units 2 and 4 of Super Minds 4 before the test.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/5ano-review_test/'
+  },
+  {
+    id: 'simple-past-adventure',
+    title: 'Simple Past Adventure',
+    gradeNum: 5,
+    skill: ['Grammar'],
+    topic: 'Simple Past — Regular Verbs',
+    grammar: 'Regular verbs in the simple past',
+    difficulty: 'Beginner',
+    gameType: 'Learn & Play',
+    schoolAlignment: '5th Grade English',
+    description: 'Learn and practice regular verbs in the simple past in English.',
+    descriptionPT: 'Aprenda e pratique verbos regulares no passado simples em inglês.',
+    why: 'A focused first step into the simple past, limited to regular -ed verbs to build a solid foundation.',
+    whyPT: 'Um primeiro passo focado no passado simples, limitado aos verbos regulares em -ed para construir uma base sólida.',
+    practices: ['-ed verbs', 'regular verbs'],
+    objectivesPT: [
+      'Conjugar verbos regulares no passado simples em inglês.',
+      'Usar verbos no passado simples em frases completas.'
+    ],
+    objectives: [
+      'Conjugate regular verbs in the simple past in English.',
+      'Use simple past verbs in complete sentences.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/5ano-simple_past_1/'
+  },
+  {
+    id: 'permission-obligation',
+    title: 'Permission & Obligation Practice',
+    gradeNum: 8,
+    skill: ['Grammar'],
+    topic: 'Permission & Obligation',
+    grammar: "Be allowed to · Let & Make · It is said / thought",
+    difficulty: 'Advanced',
+    gameType: 'Worksheet Practice',
+    schoolAlignment: '8th Grade English',
+    description: 'Practice be allowed to, let & make, and it is said/thought in a grammar worksheet about permission and obligation.',
+    descriptionPT: 'Pratique be allowed to, let & make e it is said/thought em uma ficha de gramática sobre permissão e obrigação.',
+    why: 'Brings together three related structures that students often mix up, in one focused worksheet.',
+    whyPT: 'Reúne três estruturas relacionadas que os alunos costumam confundir, em uma única ficha focada.',
+    practices: ['be allowed to', 'let / make', 'it is said / thought'],
+    objectivesPT: [
+      'Usar "be allowed to" para falar sobre permissão.',
+      'Diferenciar "let" e "make" para falar sobre permissão e obrigação.',
+      'Usar estruturas como "it is said/thought" para relatar opiniões gerais.'
+    ],
+    objectives: [
+      'Use "be allowed to" to talk about permission.',
+      'Tell apart "let" and "make" to talk about permission and obligation.',
+      'Use structures like "it is said/thought" to report general opinions.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/8ano-be_allowed_to/'
+  },
+  {
+    id: 'active-passive-environment',
+    title: 'Active & Passive: Environment',
+    gradeNum: 8,
+    skill: ['Grammar', 'Writing'],
+    topic: 'Passive Voice',
+    grammar: 'Active vs Passive Voice',
+    difficulty: 'Advanced',
+    gameType: 'Sentence Transformation',
+    schoolAlignment: '8th Grade English',
+    description: 'Practice transforming sentences between active and passive voice using sentences about the environment, with exercises that get harder in each section.',
+    descriptionPT: 'Pratique transformar frases entre a voz ativa e passiva usando frases sobre o meio ambiente, com exercícios que ficam mais difíceis a cada seção.',
+    why: 'Uses a real content topic (the environment) instead of random sentences, so grammar practice feels connected to something meaningful.',
+    whyPT: 'Usa um tema de conteúdo real (o meio ambiente) em vez de frases aleatórias, conectando a prática de gramática a algo significativo.',
+    practices: ['active voice', 'passive voice', 'sentence transformation'],
+    objectivesPT: [
+      'Transformar frases da voz ativa para a passiva e vice-versa.',
+      'Aplicar a voz passiva em frases sobre o meio ambiente.'
+    ],
+    objectives: [
+      'Transform sentences from active to passive voice and vice versa.',
+      'Apply the passive voice to sentences about the environment.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/8ano-passiva-meio-ambiente/'
+  },
+  {
+    id: 'reading-comprehension-tests',
+    title: 'Reading Comprehension Practice Tests',
+    gradeNum: 8,
+    skill: ['Reading', 'Grammar'],
+    topic: 'Reading & Future Tenses',
+    grammar: 'Future Tenses Grammar Review',
+    difficulty: 'Advanced',
+    gameType: '6 Texts + Grammar Review',
+    schoolAlignment: '8th Grade English — Level A2+/B1',
+    description: 'Six informational texts with comprehension questions, plus a future tenses grammar review, level A2+/B1.',
+    descriptionPT: 'Seis textos informativos com perguntas de interpretação, além de revisão de gramática dos tempos futuros, nível A2+/B1.',
+    why: 'Combines reading practice with a grammar review, mirroring the mixed format of real exams.',
+    whyPT: 'Combina prática de leitura com revisão de gramática, no mesmo formato misto das provas de verdade.',
+    practices: ['reading comprehension', 'future tenses'],
+    objectivesPT: [
+      'Ler e interpretar seis textos informativos em inglês.',
+      'Revisar o uso dos tempos futuros em inglês.'
+    ],
+    objectives: [
+      'Read and interpret six informational texts in English.',
+      'Review the use of future tenses in English.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/8ano-reading_comprehension/'
+  },
+  {
+    id: 'a-voz-passiva',
+    title: 'A Voz Passiva — Ficha de Estudo',
+    gradeNum: 8,
+    skill: ['Grammar'],
+    topic: 'Passive Voice',
+    grammar: 'Passive Voice',
+    difficulty: 'Advanced',
+    gameType: 'Study Sheet',
+    schoolAlignment: '8th Grade English',
+    description: "A study sheet about the passive voice: see how it's built, then practice until you memorize it.",
+    descriptionPT: 'Ficha de estudo sobre a voz passiva: veja como ela é montada e treine até memorizar.',
+    why: 'A clear reference sheet for students who need the passive voice explained step by step before practicing.',
+    whyPT: 'Uma ficha de referência clara para alunos que precisam da voz passiva explicada passo a passo antes de praticar.',
+    practices: ['passive voice formula'],
+    objectivesPT: [
+      'Compreender como a voz passiva é formada em inglês.',
+      'Praticar frases na voz passiva até memorizar a estrutura.'
+    ],
+    objectives: [
+      'Understand how the passive voice is formed in English.',
+      'Practice passive voice sentences until the structure is memorized.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/8ano-the_passive/'
+  },
+  {
+    id: 'o-caso-da-voz-oculta',
+    title: 'O Caso da Voz Oculta — Ativa vs. Passiva',
+    gradeNum: 8,
+    skill: ['Grammar', 'Reading'],
+    topic: 'Active vs Passive Voice',
+    grammar: 'Active vs Passive Voice',
+    difficulty: 'Advanced',
+    gameType: 'Detective Investigation',
+    schoolAlignment: '8th Grade English',
+    description: 'An investigation into active and passive voice in English — grammar and reading comprehension practice, exam-prep level.',
+    descriptionPT: 'Uma investigação sobre Voz Ativa e Voz Passiva em inglês — treino de gramática e interpretação de texto, nível vestibular.',
+    why: 'Frames the hardest part of the passive voice — noticing when the agent hides — as a detective mystery.',
+    whyPT: 'Transforma a parte mais difícil da voz passiva — perceber quando o agente se esconde — em um mistério de detetive.',
+    practices: ['active voice', 'passive voice', 'agent identification'],
+    objectivesPT: [
+      'Diferenciar a voz ativa da voz passiva em inglês.',
+      'Identificar quando o agente aparece ou se esconde na frase.',
+      'Interpretar textos usando pistas gramaticais.'
+    ],
+    objectives: [
+      'Tell apart active and passive voice in English.',
+      'Identify when the agent appears or hides in the sentence.',
+      'Interpret texts using grammatical clues.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/8ano-voz_ativa_e_passiva/'
   }
 ];
 
