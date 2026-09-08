@@ -100,6 +100,49 @@ const I18N = {
     'footer.login': 'Entrar',
     'footer.parentArea': 'Área dos pais',
     'footer.contact': 'Contato',
+    'footer.contactPlaceholder': '[INFORMAÇÕES DE CONTATO]',
+    'mascot.homeAlt': 'Raposa mascote da Mrs. Dani, feliz e acenando',
+    'card.screenshot': '[CAPTURA DO JOGO]',
+    'library.emptyIcon': '[RAPOSA: curiosa]',
+    'filter.grade3': '3º ano',
+    'filter.grade4': '4º ano',
+    'filter.grade5': '5º ano',
+    'filter.grade8': '8º ano',
+    'filter.bilingual': 'Bilíngue',
+    'filter.grammar': 'Gramática',
+    'filter.vocabulary': 'Vocabulário',
+    'filter.reading': 'Leitura',
+    'filter.writing': 'Escrita',
+    'filter.listening': 'Escuta',
+    'filter.beginner': 'Iniciante',
+    'filter.intermediate': 'Intermediário',
+    'filter.advanced': 'Avançado',
+    'about.pageTitle': 'Sobre — Mrs. Dani',
+    'about.eyebrow': 'Sobre',
+    'about.title': 'A educadora por trás dos jogos.',
+    'about.photoAlt': 'Foto de Mrs. Dani',
+    'about.bio1': 'Sou formada em Pedagogia pela Unicamp, em Letras Português/Inglês pela Unip, e tenho pós-graduação em Metodologia do Ensino de Língua Inglesa.',
+    'about.bio2': 'Atuo com o ensino de inglês desde 2013, tendo passado por escolas renomadas como o Colégio Notre Dame de Campinas, onde estive por mais de 10 anos, e o Colégio Progresso, por 2 anos. Desde 2023 me dedico às aulas particulares online para adultos e crianças, e com os pequenos venho me especializando em reforço escolar.',
+    'about.bio3': 'Apaixonada por tecnologia, criei este site com jogos para que meus alunos possam reforçar o conteúdo das aulas de um jeito divertido e envolvente. Cada jogo nasce de uma dificuldade real que ela viu em sala de aula — não de uma lista genérica de vocabulário.',
+    'about.callout': 'Antes de virarem jogos, essas atividades foram aulas de reforço escolar de inglês — um serviço que Mrs. Dani ainda oferece. <a href="../school-support/index.html" class="link-inline">Conheça o School Support</a>.',
+    'ss.eyebrow': 'Para crianças e adolescentes',
+    'ss.title': 'Reforço escolar, não mais uma aula de inglês genérica.',
+    'ss.lede': 'Isso não é aula de inglês genérica. É ajuda direcionada com o inglês que seu filho já está aprendendo na escola — o livro didático dele, o dever de casa, as próximas avaliações.',
+    'ss.cta': 'Ver a biblioteca de jogos',
+    'ss.photoPlaceholder': '[FOTO: aluno estudando em casa]',
+    'ss.includedEyebrow': "O que está incluído",
+    'ss.includedTitle': 'Construído em torno do conteúdo real que seu filho estuda.',
+    'ss.card1.title': 'Revisão do conteúdo escolar',
+    'ss.card1.body': 'Revisamos o que está sendo ensinado em sala de aula agora, usando o mesmo vocabulário e as mesmas estruturas do livro didático do seu filho.',
+    'ss.card2.title': 'Ajuda com o dever de casa',
+    'ss.card2.body': 'Fazemos as atividades juntos, para que seu filho entenda o "porquê", não só a resposta.',
+    'ss.card3.title': 'Preparação para avaliações',
+    'ss.card3.body': 'Revisão direcionada antes de provas e testes, focada nos conceitos específicos que o aluno tem mais dificuldade.',
+    'ss.practiceEyebrow': 'Prática além da aula',
+    'ss.practiceTitle': 'Jogos interativos, criados para a dificuldade específica do seu filho.',
+    'ss.practiceBody': 'Quando um aluno está com dificuldade em um conceito específico — preposições, passado verbal, um conjunto de vocabulário — a Mrs. Dani cria uma atividade interativa exatamente sobre isso, usando o vocabulário do próprio livro didático sempre que possível.',
+    'ss.screenshotPlaceholder': '[CAPTURA DE TELA: jogo Town Explorer]',
+    'ss.footerLink': 'Para os pais: como funciona →',
   },
   en: {
     'nav.games': 'Games',
@@ -172,6 +215,49 @@ const I18N = {
     'footer.login': 'Login',
     'footer.parentArea': 'Parent area',
     'footer.contact': 'Contact',
+    'footer.contactPlaceholder': '[CONTACT INFORMATION]',
+    'mascot.homeAlt': "Mrs. Dani's fox mascot, happy and waving",
+    'card.screenshot': '[GAME SCREENSHOT]',
+    'library.emptyIcon': '[FOX: curious]',
+    'filter.grade3': '3rd Grade',
+    'filter.grade4': '4th Grade',
+    'filter.grade5': '5th Grade',
+    'filter.grade8': '8th Grade',
+    'filter.bilingual': 'Bilingual',
+    'filter.grammar': 'Grammar',
+    'filter.vocabulary': 'Vocabulary',
+    'filter.reading': 'Reading',
+    'filter.writing': 'Writing',
+    'filter.listening': 'Listening',
+    'filter.beginner': 'Beginner',
+    'filter.intermediate': 'Intermediate',
+    'filter.advanced': 'Advanced',
+    'about.pageTitle': 'About — Mrs. Dani',
+    'about.eyebrow': 'About',
+    'about.title': 'The educator behind the games.',
+    'about.photoAlt': 'Photo of Mrs. Dani',
+    'about.bio1': "I have a degree in Education (Pedagogy) from Unicamp, in Portuguese/English Language and Literature from Unip, and a postgraduate degree in English Language Teaching Methodology.",
+    'about.bio2': "I've been teaching English since 2013, having worked at well-known schools such as Colégio Notre Dame de Campinas, where I stayed for over 10 years, and Colégio Progresso, for 2 years. Since 2023 I've focused on private online lessons for adults and children, and with younger students I've been specializing in school support.",
+    'about.bio3': "Passionate about technology, I created this site with games so my students can reinforce what they learn in class in a fun and engaging way. Each game is born from a real difficulty I saw in the classroom — not a generic vocabulary list.",
+    'about.callout': 'Before becoming games, these activities were English school-support lessons — a service Mrs. Dani still offers. <a href="../school-support/index.html" class="link-inline">Check out School Support</a>.',
+    'ss.eyebrow': 'For kids & teens',
+    'ss.title': 'School support, not another English class.',
+    'ss.lede': "This isn't general English instruction. It's targeted help with the English your child is already being taught at school — their textbook, their homework, their upcoming assessments.",
+    'ss.cta': 'See the game library',
+    'ss.photoPlaceholder': '[PHOTO: student studying at home]',
+    'ss.includedEyebrow': "What's included",
+    'ss.includedTitle': "Built around your child's actual coursework.",
+    'ss.card1.title': 'Review of school content',
+    'ss.card1.body': "We go over what's being taught in class right now, using the same vocabulary and structures from your child's textbook.",
+    'ss.card2.title': 'Homework support',
+    'ss.card2.body': 'Working through assignments together, so your child understands the "why," not just the answer.',
+    'ss.card3.title': 'Assessment preparation',
+    'ss.card3.body': 'Targeted review before tests and quizzes, focused on the specific concepts a student finds difficult.',
+    'ss.practiceEyebrow': 'Practice beyond the lesson',
+    'ss.practiceTitle': "Interactive games, built for what your child is struggling with.",
+    'ss.practiceBody': "When a student is having a hard time with a specific concept — prepositions, past tense, a vocabulary set — Mrs. Dani builds an interactive activity around exactly that, using the vocabulary from their own textbook where possible.",
+    'ss.screenshotPlaceholder': '[SCREENSHOT: Town Explorer game]',
+    'ss.footerLink': 'For parents: how it works →',
   }
 };
 
@@ -185,6 +271,15 @@ function applyStaticI18n() {
   document.documentElement.lang = currentLang === 'pt' ? 'pt-BR' : 'en';
   document.querySelectorAll('[data-i18n]').forEach(el => {
     el.textContent = t(el.dataset.i18n);
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    el.innerHTML = t(el.dataset.i18nHtml);
+  });
+  document.querySelectorAll('[data-i18n-alt]').forEach(el => {
+    el.setAttribute('alt', t(el.dataset.i18nAlt));
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    el.setAttribute('placeholder', t(el.dataset.i18nPlaceholder));
   });
   document.querySelectorAll('.lang-toggle button').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.lang === currentLang);
@@ -961,7 +1056,7 @@ function gameCardHTML(game) {
   const ctaLabel = game.access === 'included' ? t('card.cta.view') : t('card.cta.buy');
   const mediaHTML = game.thumbnail
     ? `<img src="${prefix}${game.thumbnail}" alt="${game.title}">`
-    : '[GAME SCREENSHOT]';
+    : t('card.screenshot');
 
   return `
     <article class="game-card" data-id="${game.id}">
@@ -1084,7 +1179,7 @@ function initLibrary(preserveState) {
 
     grid.innerHTML = filtered.length
       ? filtered.map(gameCardHTML).join('')
-      : `<div class="empty-state"><div class="mascot mascot-inline" style="margin:0 auto 10px;">[FOX: curious]</div>${t('library.empty')}</div>`;
+      : `<div class="empty-state"><div class="mascot mascot-inline" style="margin:0 auto 10px;">${t('library.emptyIcon')}</div>${t('library.empty')}</div>`;
 
     renderChips();
   }
@@ -1196,7 +1291,7 @@ function initDetail() {
   const prefix = document.body.dataset.assetPrefix || '';
   const detailMediaHTML = game.thumbnail
     ? `<img src="${prefix}${game.thumbnail}" alt="${game.title}" style="width:100%;height:100%;object-fit:cover;">`
-    : '[GAME SCREENSHOT]';
+    : t('card.screenshot');
 
   container.innerHTML = `
     <h1>${game.title}</h1>
