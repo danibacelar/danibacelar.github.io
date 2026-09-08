@@ -822,7 +822,8 @@ const GAMES = [
     currency: 'BRL',
     access: 'beta',
     status: 'available',
-    gameUrl: 'https://mrsdani.com.br/8ano-be_allowed_to/'
+    gameUrl: 'https://mrsdani.com.br/8ano-be_allowed_to/',
+    thumbnail: 'assets/games/permission-obligation-screenshot.jpg'
   },
   {
     id: 'active-passive-environment',
