@@ -229,7 +229,8 @@ const SKILL_LABELS = {
   Grammar: { pt: 'Gramática', en: 'Grammar' },
   Reading: { pt: 'Leitura', en: 'Reading' },
   Writing: { pt: 'Escrita', en: 'Writing' },
-  Listening: { pt: 'Escuta', en: 'Listening' }
+  Listening: { pt: 'Escuta', en: 'Listening' },
+  Bilingual: { pt: 'Bilíngue', en: 'Bilingual' }
 };
 const DIFFICULTY_LABELS = {
   Beginner: { pt: 'Iniciante', en: 'Beginner' },
@@ -352,7 +353,7 @@ const GAMES = [
     id: 'personal-narrative',
     title: 'Personal Narrative',
     gradeNum: 3,
-    skill: ['Writing', 'Vocabulary'],
+    skill: ['Writing', 'Vocabulary', 'Bilingual'],
     topic: 'Personal Writing',
     grammar: 'Sentence sequencing',
     difficulty: 'Intermediate',
