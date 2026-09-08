@@ -159,8 +159,9 @@ hr.rule{ border: none; border-top: 1px solid var(--line); margin: 0; }
 
 .nav-toggle{
   display:none;
+  align-items:center; justify-content:center;
   background:none; border:none; cursor:pointer;
-  width:32px; height:32px;
+  width:44px; height:44px; margin: 0 -6px;
 }
 .nav-toggle svg{ width:24px; height:24px; }
 
@@ -176,7 +177,7 @@ hr.rule{ border: none; border-top: 1px solid var(--line); margin: 0; }
   }
   .nav-links.open{ display:flex; }
   .nav-links a{ width:100%; padding: 10px 0; }
-  .nav-toggle{ display:block; }
+  .nav-toggle{ display:flex; }
   .nav-cta{ gap:8px; }
   .nav-cta .btn-ghost, .nav-cta .btn-primary{ display:none; }
   .lang-toggle button{ padding:4px 8px; }
@@ -268,6 +269,10 @@ hr.rule{ border: none; border-top: 1px solid var(--line); margin: 0; }
    ========================================================= */
 .grid-2{ display:grid; grid-template-columns: 1fr 1fr; gap: 40px; }
 .grid-3{ display:grid; grid-template-columns: repeat(3,1fr); gap: 28px; }
+/* grid items default to a min-width based on their content's min-content size,
+   which lets a wide child (e.g. a scrollable table) force the whole grid wider
+   than the viewport instead of scrolling inside its own box */
+.grid-2 > *, .grid-3 > *{ min-width: 0; }
 @media (max-width: 880px){
   .grid-2, .grid-3{ grid-template-columns: 1fr; }
 }

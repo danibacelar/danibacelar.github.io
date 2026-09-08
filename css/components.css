@@ -220,7 +220,12 @@
 .stat-num{ font-family: var(--font-display); font-size: 2rem; color: var(--teal-dark); }
 .stat-label{ font-size:0.85rem; color: var(--ink-soft); }
 
-.table-wrap{ border:1px solid var(--line); border-radius: var(--radius); overflow-x:auto; -webkit-overflow-scrolling:touch; background: var(--bg-raised); }
+.table-wrap{ position:relative; border:1px solid var(--line); border-radius: var(--radius); overflow-x:auto; -webkit-overflow-scrolling:touch; background: var(--bg-raised); }
+.table-wrap::after{
+  content:""; position:absolute; top:0; right:0; bottom:0; width:28px;
+  background: linear-gradient(to right, rgba(255,255,255,0), var(--bg-raised));
+  pointer-events:none; border-radius: 0 var(--radius) var(--radius) 0;
+}
 table{ min-width: 420px; }
 table{ width:100%; border-collapse: collapse; font-size: 0.9rem; }
 thead th{
@@ -355,6 +360,9 @@ tbody tr:hover{ background: rgba(31,111,107,0.04); }
 
 /* ---- grade finder (home) ---- */
 .grade-row{ display:flex; flex-wrap:wrap; gap:12px; }
+@media (max-width: 479px){
+  .grade-row{ justify-content:center; }
+}
 .grade-chip{
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   width: 88px; height: 88px;
