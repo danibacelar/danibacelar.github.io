@@ -58,6 +58,8 @@
 }
 .filters{
   position: sticky; top: 96px;
+  max-height: calc(100vh - 116px);
+  overflow-y: auto;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 22px;
