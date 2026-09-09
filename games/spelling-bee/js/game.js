@@ -82,19 +82,49 @@
     playWord(word);
   }
 
-  function normalizeAnswer(text) {
-    return text.trim().toLowerCase().replace(/[.!?]+$/, '').replace(/\s+/g, ' ');
+  function tokenize(text) {
+    return text.trim().split(/\s+/).filter(Boolean);
+  }
+
+  function stripTrailingPunct(w) {
+    return w.replace(/[.!?]+$/, '');
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function compareWords(guessWords, correctWords) {
+    const isLastCorrectIndex = correctWords.length - 1;
+    const len = Math.max(guessWords.length, correctWords.length);
+    const results = [];
+    let allMatch = guessWords.length === correctWords.length;
+
+    for (let i = 0; i < len; i++) {
+      const g = guessWords[i];
+      const c = correctWords[i];
+      if (g === undefined) { allMatch = false; continue; }
+      const gClean = i === isLastCorrectIndex ? stripTrailingPunct(g) : g;
+      const cClean = c !== undefined && i === isLastCorrectIndex ? stripTrailingPunct(c) : c;
+      const ok = c !== undefined && gClean === cClean;
+      if (!ok) allMatch = false;
+      results.push({ text: g, ok });
+    }
+    return { allMatch, results };
   }
 
   function checkAnswer() {
     const input = document.getElementById('spell-input');
     const word = state.words[state.index];
-    const guess = normalizeAnswer(input.value);
-    if (!guess) return;
+    const rawGuess = input.value.trim();
+    if (!rawGuess) return;
 
     const feedback = document.getElementById('feedback');
+    const { allMatch, results } = compareWords(tokenize(rawGuess), tokenize(word.word));
 
-    if (guess === normalizeAnswer(word.word)) {
+    if (allMatch) {
       state.score += state.wrongOnCurrent ? 5 : 10;
       state.correctCount++;
       feedback.textContent = '🎉 Correct!';
@@ -106,7 +136,9 @@
       updateHeader();
     } else {
       state.wrongOnCurrent = true;
-      feedback.textContent = '❌ Try again!';
+      feedback.innerHTML = results
+        .map(r => `<span class="${r.ok ? 'word-ok' : 'word-bad'}">${escapeHtml(r.text)}</span>`)
+        .join(' ');
       feedback.className = 'feedback incorrect';
       input.classList.remove('shake');
       requestAnimationFrame(() => input.classList.add('shake'));
@@ -120,7 +152,7 @@
       state.missedWords.push(word.word);
     }
     const feedback = document.getElementById('feedback');
-    feedback.textContent = `The word was: ${word.word}`;
+    feedback.innerHTML = `The word was: <span class="word-bad">${escapeHtml(word.word)}</span>`;
     feedback.className = 'feedback incorrect';
     document.getElementById('spell-input').disabled = true;
     document.getElementById('btn-check').disabled = true;

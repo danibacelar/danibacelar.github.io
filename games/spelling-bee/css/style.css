@@ -223,7 +223,14 @@ html, body {
   margin: 16px 0 0;
 }
 .feedback.correct { color: var(--success); }
-.feedback.incorrect { color: var(--error); }
+.feedback.incorrect { color: var(--hive-black); }
+.word-ok { color: var(--hive-black); }
+.word-bad {
+  color: var(--error);
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-underline-offset: 3px;
+}
 
 /* ===== RESULTS SCREEN ===== */
 .results-card {
