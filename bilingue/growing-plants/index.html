@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🌱 Growing Plants: The Plant Garden Mission</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="sky">
+  <div class="cloud cloud-a"></div>
+  <div class="cloud cloud-b"></div>
+  <div class="cloud cloud-c"></div>
+  <svg class="sun" id="sun-icon" viewBox="0 0 120 120" aria-hidden="true">
+    <g class="sun-rays">
+      <circle cx="60" cy="60" r="44" fill="#FFC857"/>
+    </g>
+    <circle cx="60" cy="60" r="34" fill="#FFD873"/>
+    <circle cx="45" cy="55" r="4.5" fill="#4A3418"/>
+    <circle cx="75" cy="55" r="4.5" fill="#4A3418"/>
+    <path d="M46 70 Q60 82 74 70" stroke="#4A3418" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <circle cx="38" cy="66" r="6" fill="#FF9F87" opacity="0.6"/>
+    <circle cx="82" cy="66" r="6" fill="#FF9F87" opacity="0.6"/>
+  </svg>
+</div>
+
+<div id="app">
+
+  <!-- ===== PERSISTENT HEADER (visible during stages) ===== -->
+  <header id="game-header" class="hidden">
+    <button id="btn-back-menu" class="icon-btn" aria-label="Back to garden">🏡</button>
+    <div class="header-title" id="header-stage-title">Stage</div>
+    <div class="header-stats">
+      <span class="chip score-chip">⭐ <span id="header-score">0</span></span>
+    </div>
+  </header>
+
+  <main id="screens">
+
+    <!-- ===== START SCREEN ===== -->
+    <section id="screen-start" class="screen active">
+      <div class="start-card">
+        <div class="mascot-wrap">
+          <svg class="mascot mascot-big" viewBox="0 0 200 220" aria-hidden="true">
+            <ellipse cx="100" cy="205" rx="55" ry="10" fill="#4A3418" opacity="0.12"/>
+            <path d="M55 150 Q40 110 60 90 Q100 60 140 90 Q160 110 145 150 Z" fill="#8B5E34"/>
+            <path d="M60 150 Q100 165 140 150 L140 160 Q100 175 60 160 Z" fill="#6B4423"/>
+            <g>
+              <path d="M100 95 C100 55 70 45 55 50 C60 75 80 92 100 95 Z" fill="#4CAF6D"/>
+              <path d="M100 95 C100 55 130 45 145 50 C140 75 120 92 100 95 Z" fill="#57C179"/>
+              <path d="M100 95 C96 60 100 30 100 20" stroke="#3E9457" stroke-width="7" fill="none" stroke-linecap="round"/>
+              <circle cx="100" cy="18" r="15" fill="#FFD166"/>
+              <circle cx="100" cy="18" r="8" fill="#FFB347"/>
+            </g>
+            <circle cx="85" cy="112" r="5" fill="#2E3D22"/>
+            <circle cx="115" cy="112" r="5" fill="#2E3D22"/>
+            <path d="M84 126 Q100 138 116 126" stroke="#2E3D22" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <circle cx="72" cy="120" r="7" fill="#FF9F87" opacity="0.55"/>
+            <circle cx="128" cy="120" r="7" fill="#FF9F87" opacity="0.55"/>
+          </svg>
+        </div>
+        <h1 class="game-title">Growing Plants<br><span class="title-accent">The Plant Garden Mission</span></h1>
+        <p class="start-blurb">Hi! I'm Sprout 🌱 I need a Plant Scientist to help my garden grow. Ready to play and learn together?</p>
+        <button id="btn-start" class="btn btn-primary btn-huge">Let's Grow! 🌻</button>
+      </div>
+    </section>
+
+    <!-- ===== GARDEN MENU ===== -->
+    <section id="screen-menu" class="screen">
+      <div class="menu-topbar">
+        <svg class="mascot mascot-small" viewBox="0 0 200 220" aria-hidden="true">
+          <path d="M55 150 Q40 110 60 90 Q100 60 140 90 Q160 110 145 150 Z" fill="#8B5E34"/>
+          <path d="M60 150 Q100 165 140 150 L140 160 Q100 175 60 160 Z" fill="#6B4423"/>
+          <path d="M100 95 C100 55 70 45 55 50 C60 75 80 92 100 95 Z" fill="#4CAF6D"/>
+          <path d="M100 95 C100 55 130 45 145 50 C140 75 120 92 100 95 Z" fill="#57C179"/>
+          <circle cx="85" cy="112" r="5" fill="#2E3D22"/>
+          <circle cx="115" cy="112" r="5" fill="#2E3D22"/>
+          <path d="M84 126 Q100 138 116 126" stroke="#2E3D22" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <h2 class="menu-title">My Garden</h2>
+          <p class="menu-sub" id="menu-progress-text">0 of 6 gardens explored</p>
+        </div>
+        <div class="menu-score chip score-chip">⭐ <span id="menu-score">0</span></div>
+      </div>
+
+      <div class="garden-path" id="garden-path"><!-- stage nodes injected by JS --></div>
+
+      <button id="btn-see-results" class="btn btn-secondary btn-results-link">🏆 See My Plant Scientist Report</button>
+    </section>
+
+    <!-- ===== STAGE (shared container, content injected by JS) ===== -->
+    <section id="screen-stage" class="screen">
+      <div id="stage-container" class="stage-container"></div>
+    </section>
+
+    <!-- ===== RESULTS SCREEN ===== -->
+    <section id="screen-results" class="screen">
+      <div class="results-card">
+        <div class="results-banner">🌟 PLANT SCIENTIST COMPLETE! 🌟</div>
+        <svg class="mascot mascot-medium" viewBox="0 0 200 220" aria-hidden="true">
+          <path d="M55 150 Q40 110 60 90 Q100 60 140 90 Q160 110 145 150 Z" fill="#8B5E34"/>
+          <path d="M60 150 Q100 165 140 150 L140 160 Q100 175 60 160 Z" fill="#6B4423"/>
+          <path d="M100 95 C100 55 70 45 55 50 C60 75 80 92 100 95 Z" fill="#4CAF6D"/>
+          <path d="M100 95 C100 55 130 45 145 50 C140 75 120 92 100 95 Z" fill="#57C179"/>
+          <path d="M100 95 C96 60 100 30 100 20" stroke="#3E9457" stroke-width="7" fill="none" stroke-linecap="round"/>
+          <circle cx="100" cy="18" r="15" fill="#FFD166"/>
+          <circle cx="100" cy="18" r="8" fill="#FFB347"/>
+          <circle cx="85" cy="112" r="5" fill="#2E3D22"/>
+          <circle cx="115" cy="112" r="5" fill="#2E3D22"/>
+          <path d="M82 128 Q100 142 118 128" stroke="#2E3D22" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+          <circle cx="72" cy="120" r="7" fill="#FF9F87" opacity="0.55"/>
+          <circle cx="128" cy="120" r="7" fill="#FF9F87" opacity="0.55"/>
+        </svg>
+
+        <div class="results-stats">
+          <div class="stat-box">
+            <div class="stat-num" id="results-stars">0</div>
+            <div class="stat-label">Total Stars ⭐</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num" id="results-correct">0</div>
+            <div class="stat-label">Correct Answers ✅</div>
+          </div>
+        </div>
+
+        <p class="results-heading">Areas You Practiced</p>
+        <div class="results-badges" id="results-badges"><!-- injected --></div>
+
+        <p class="results-message" id="results-message"></p>
+
+        <div class="results-actions">
+          <button id="btn-replay" class="btn btn-primary">🔁 Play Again</button>
+          <button id="btn-to-garden" class="btn btn-secondary">🏡 Back to Garden</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="soil-strip" aria-hidden="true">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" class="soil-svg">
+      <path d="M0 20 Q 60 0 120 20 T 240 20 T 360 20 T 480 20 T 600 20 T 720 20 T 840 20 T 960 20 T 1080 20 T 1200 20 V60 H0 Z" fill="#7A4E2C"/>
+    </svg>
+  </div>
+</div>
+
+<!-- Feedback toast -->
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<!-- confetti layer -->
+<div id="confetti-layer" aria-hidden="true"></div>
+
+<script src="js/game.js"></script>
+<script src="js/game-stages.js"></script>
+</body>
+</html>
