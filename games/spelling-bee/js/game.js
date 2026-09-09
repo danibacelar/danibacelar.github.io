@@ -82,15 +82,19 @@
     playWord(word);
   }
 
+  function normalizeAnswer(text) {
+    return text.trim().toLowerCase().replace(/[.!?]+$/, '').replace(/\s+/g, ' ');
+  }
+
   function checkAnswer() {
     const input = document.getElementById('spell-input');
     const word = state.words[state.index];
-    const guess = input.value.trim().toLowerCase();
+    const guess = normalizeAnswer(input.value);
     if (!guess) return;
 
     const feedback = document.getElementById('feedback');
 
-    if (guess === word.word.toLowerCase()) {
+    if (guess === normalizeAnswer(word.word)) {
       state.score += state.wrongOnCurrent ? 5 : 10;
       state.correctCount++;
       feedback.textContent = '🎉 Correct!';
