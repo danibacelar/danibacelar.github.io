@@ -148,6 +148,12 @@ html, body {
 .btn-huge { font-size: 1.2rem; padding: 16px 32px; }
 .btn-next { display: block; margin: 18px auto 0; }
 
+.phase-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
 /* ===== GAME SCREEN ===== */
 .game-card {
   max-width: 520px;

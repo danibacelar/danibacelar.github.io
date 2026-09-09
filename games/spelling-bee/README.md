@@ -1,8 +1,10 @@
-# 🐝 Spelling Bee
+# 🐝 Spelling Bee - list 3
 
 Jogo de ortografia (spelling bee) em inglês: a criança ouve a palavra/frase
 (áudio real gerado com ElevenLabs) e digita a grafia correta — sem dicas,
-100% listening.
+100% listening. O vocabulário é dividido em 2 fases que a criança escolhe
+na tela inicial; dentro de cada fase, a ordem das palavras é embaralhada
+a cada partida.
 
 Sem backend, sem login, sem build step — arquivos estáticos que funcionam
 em qualquer navegador, prontos para GitHub Pages.
@@ -19,12 +21,13 @@ assets/audio/         → um arquivo .mp3 por item do vocabulário
 
 ## ✏️ Editando o vocabulário
 
-Todo o vocabulário está em `js/game-data.js`, no array `SPELLING_WORDS`:
+Todo o vocabulário está em `js/game-data.js`, no array `SPELLING_PHASES`
+(uma entrada por fase, cada uma com seu próprio array `words`):
 
 ```js
-const SPELLING_WORDS = [
-  { word: "apple", audio: "apple.mp3" },
-  // ...
+const SPELLING_PHASES = [
+  { name: "Phase 1", words: [ { word: "apple", audio: "apple.mp3" }, /* ... */ ] },
+  { name: "Phase 2", words: [ /* ... */ ] },
 ];
 ```
 
@@ -34,28 +37,34 @@ const SPELLING_WORDS = [
   sintetizada do navegador (`speechSynthesis`) como reserva.
 
 Basta editar o arquivo (e adicionar/trocar o `.mp3` correspondente em
-`assets/audio/`) e recarregar a página — nada mais precisa mudar.
+`assets/audio/`) e recarregar a página — nada mais precisa mudar. Para
+adicionar uma terceira fase, basta acrescentar outro objeto `{ name, words }`
+ao array e um botão correspondente na tela inicial (`index.html`).
 
 ## 🎮 Como funciona
 
-1. A criança clica em "Listen" (ou o áudio já é tocado automaticamente ao
-   carregar) para ouvir a palavra/frase — sem nenhuma dica na tela.
-2. Digita em inglês e clica em "Check" (ou aperta Enter).
-3. Acerto: +10 pontos (5 se acertou depois de errar antes) e avança para o
+1. Na tela inicial, a criança escolhe "Phase 1" ou "Phase 2".
+2. Clica em "Listen" (ou o áudio já é tocado automaticamente ao carregar)
+   para ouvir a palavra/frase — sem nenhuma dica na tela.
+3. Digita em inglês e clica em "Check" (ou aperta Enter). Se errar, a(s)
+   palavra(s) errada(s) da própria resposta aparece(m) em vermelho, para
+   a criança saber exatamente o que corrigir.
+4. Acerto: +10 pontos (5 se acertou depois de errar antes) e avança para o
    próximo item. Erro: pode tentar de novo, sem limite de tentativas.
-4. "Skip" revela a resposta correta e marca para revisão no final.
-5. Ao final, mostra pontuação, acertos e a lista de itens para revisar.
+5. "Skip" revela a resposta correta e marca para revisão no final.
+6. Ao final, mostra pontuação, acertos e a lista de itens para revisar.
+   "Play again" repete a mesma fase, embaralhada de novo.
 
 ## 🔊 Áudio
 
 Cada item toca o `.mp3` correspondente em `assets/audio/`. Esses arquivos
 atuais foram extraídos automaticamente de um único áudio gerado no
 ElevenLabs (cortado por detecção de silêncio entre as palavras, na mesma
-ordem em que aparecem em `SPELLING_WORDS`). Se algum arquivo faltar ou não
-carregar, o jogo usa `window.speechSynthesis` (voz do navegador,
-`lang = 'en-US'`) como reserva — por isso os botões "Listen"/"Let's
-Spell!" sempre acionam o áudio dentro de um gesto do usuário (clique),
-necessário em navegadores mobile.
+ordem em que os itens aparecem em `SPELLING_PHASES`, fase por fase). Se
+algum arquivo faltar ou não carregar, o jogo usa `window.speechSynthesis`
+(voz do navegador, `lang = 'en-US'`) como reserva — por isso os botões
+"Listen"/"Phase 1"/"Phase 2" sempre acionam o áudio dentro de um gesto do
+usuário (clique), necessário em navegadores mobile.
 
 ### Gerando os áudios a partir de um arquivo único
 

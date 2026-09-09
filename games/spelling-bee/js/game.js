@@ -10,6 +10,7 @@
   const header = document.getElementById('game-header');
 
   const state = {
+    phaseIndex: 0,
     words: [],
     index: 0,
     score: 0,
@@ -54,8 +55,9 @@
   }
 
   function updateHeader() {
+    const phaseName = SPELLING_PHASES[state.phaseIndex].name;
     document.getElementById('header-progress').textContent =
-      `Word ${state.index + 1} of ${state.words.length}`;
+      `${phaseName} · Word ${state.index + 1} of ${state.words.length}`;
     document.getElementById('header-score').textContent = state.score;
   }
 
@@ -173,6 +175,8 @@
     document.getElementById('word-audio').pause();
     speechSynthesis.cancel();
     showScreen('results');
+    document.getElementById('results-banner').textContent =
+      `🍯 ${SPELLING_PHASES[state.phaseIndex].name.toUpperCase()} COMPLETE! 🍯`;
     document.getElementById('results-score').textContent = state.score;
     document.getElementById('results-correct').textContent =
       `${state.correctCount}/${state.words.length}`;
@@ -193,8 +197,9 @@
     else msg.textContent = 'Good effort! Let\'s practice these words some more. 💪';
   }
 
-  function startGame() {
-    state.words = shuffle(SPELLING_WORDS);
+  function startGame(phaseIndex) {
+    if (phaseIndex !== undefined) state.phaseIndex = phaseIndex;
+    state.words = shuffle(SPELLING_PHASES[state.phaseIndex].words);
     state.index = 0;
     state.score = 0;
     state.correctCount = 0;
@@ -203,8 +208,9 @@
     loadWord();
   }
 
-  document.getElementById('btn-start').addEventListener('click', startGame);
-  document.getElementById('btn-replay').addEventListener('click', startGame);
+  document.getElementById('btn-phase-1').addEventListener('click', () => startGame(0));
+  document.getElementById('btn-phase-2').addEventListener('click', () => startGame(1));
+  document.getElementById('btn-replay').addEventListener('click', () => startGame());
   document.getElementById('btn-back-start').addEventListener('click', () => {
     document.getElementById('word-audio').pause();
     speechSynthesis.cancel();
