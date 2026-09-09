@@ -478,6 +478,42 @@ const GAMES = [
     gameUrl: 'https://mrsdani.com.br/3ano-personal_writing/'
   },
   {
+    id: 'growing-plants',
+    title: 'Growing Plants',
+    gradeNum: 3,
+    skill: ['Vocabulary', 'Reading', 'Bilingual'],
+    topic: 'Science - Plants',
+    grammar: 'Science vocabulary',
+    difficulty: 'Beginner',
+    gameType: 'Science Garden Mission (8 stages)',
+    schoolAlignment: '3rd Grade Science (Bilingual)',
+    description: 'Explore a garden through 8 mini-games covering parts of a plant, water, light, temperature, healthy plants, and flowering vs. non-flowering plants.',
+    descriptionPT: 'Explore um jardim em 8 minijogos sobre as partes de uma planta, água, luz, temperatura, plantas saudáveis e plantas com e sem flor.',
+    why: 'Reviews the whole "Growing Plants" science unit through hands-on drag-and-drop, sorting, and true/false stages, in English.',
+    whyPT: 'Revisa toda a unidade de ciências "Growing Plants" com estágios práticos de arrastar e soltar, classificação e verdadeiro/falso, em inglês.',
+    practices: ['parts of a plant', 'water journey', 'healthy vs. needs help', 'flowering vs. non-flowering'],
+    objectivesPT: [
+      'Identificar as partes de uma planta (root, stem, leaves, flower) em inglês.',
+      'Reconhecer o que uma planta precisa para crescer saudável: água, luz e temperatura adequada.',
+      'Diferenciar plantas saudáveis de plantas que precisam de cuidado.',
+      'Compreender o caminho da água dentro da planta, do solo até as folhas.',
+      'Classificar plantas em flowering (com flor) e non-flowering (sem flor).'
+    ],
+    objectives: [
+      'Identify the parts of a plant (root, stem, leaves, flower) in English.',
+      'Recognize what a plant needs to grow healthy: water, light, and the right temperature.',
+      'Tell healthy plants apart from plants that need help.',
+      'Understand the water\'s journey inside a plant, from the soil to the leaves.',
+      'Sort plants into flowering and non-flowering.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'growing-plants/index.html',
+    thumbnail: 'games/growing-plants/assets/plant-parts.jpg'
+  },
+  {
     id: 'adverbs-adventure',
     title: 'Adverbs Adventure!',
     gradeNum: 4,
