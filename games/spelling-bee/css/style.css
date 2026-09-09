@@ -189,40 +189,6 @@ html, body {
 }
 .btn-listen:active { transform: translateY(3px); box-shadow: 0 3px 0 var(--honey-dark); }
 
-.hint-box {
-  background: var(--cream-dark);
-  border-radius: 18px;
-  padding: 16px 18px;
-  margin-bottom: 20px;
-}
-.hint-label {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--honey-dark);
-  margin: 0 0 6px;
-}
-.hint-text {
-  margin: 0;
-  font-size: 1.05rem;
-  line-height: 1.4;
-  color: var(--hive-black);
-}
-.hint-en { margin-top: 10px; font-style: italic; color: #555; }
-.hint-toggle {
-  background: none;
-  border: none;
-  color: var(--honey-dark);
-  font-weight: 700;
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  cursor: pointer;
-  margin-top: 8px;
-  padding: 0;
-}
-
 .spell-input {
   width: 100%;
   font-size: 1.2rem;

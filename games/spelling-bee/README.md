@@ -1,8 +1,8 @@
 # 🐝 Spelling Bee
 
 Jogo de ortografia (spelling bee) em inglês: a criança ouve a palavra/frase
-(áudio real gerado com ElevenLabs), lê uma dica em português (e
-opcionalmente em inglês) e digita a grafia correta.
+(áudio real gerado com ElevenLabs) e digita a grafia correta — sem dicas,
+100% listening.
 
 Sem backend, sem login, sem build step — arquivos estáticos que funcionam
 em qualquer navegador, prontos para GitHub Pages.
@@ -23,15 +23,12 @@ Todo o vocabulário está em `js/game-data.js`, no array `SPELLING_WORDS`:
 
 ```js
 const SPELLING_WORDS = [
-  { word: "apple", hintPT: "Fruta redonda...", hintEN: "A round fruit...", audio: "apple.mp3" },
+  { word: "apple", audio: "apple.mp3" },
   // ...
 ];
 ```
 
 - `word`: a grafia correta em inglês (pode ser uma palavra ou uma frase).
-- `hintPT`: dica curta em português, sempre visível.
-- `hintEN`: dica em inglês, escondida atrás do botão "Ver dica em inglês".
-  Deixe como `""` para itens sem dica em inglês (o botão some automaticamente).
 - `audio`: nome do arquivo dentro de `assets/audio/`. Se o arquivo não
   existir/falhar ao carregar, o jogo cai automaticamente para a voz
   sintetizada do navegador (`speechSynthesis`) como reserva.
@@ -41,12 +38,12 @@ Basta editar o arquivo (e adicionar/trocar o `.mp3` correspondente em
 
 ## 🎮 Como funciona
 
-1. A criança clica em "Ouvir a palavra" (ou o áudio já é tocado
-   automaticamente ao carregar) e lê a dica em português.
-2. Digita em inglês e clica em "Verificar" (ou aperta Enter).
+1. A criança clica em "Listen" (ou o áudio já é tocado automaticamente ao
+   carregar) para ouvir a palavra/frase — sem nenhuma dica na tela.
+2. Digita em inglês e clica em "Check" (ou aperta Enter).
 3. Acerto: +10 pontos (5 se acertou depois de errar antes) e avança para o
    próximo item. Erro: pode tentar de novo, sem limite de tentativas.
-4. "Pular" revela a resposta correta e marca para revisão no final.
+4. "Skip" revela a resposta correta e marca para revisão no final.
 5. Ao final, mostra pontuação, acertos e a lista de itens para revisar.
 
 ## 🔊 Áudio
@@ -56,9 +53,9 @@ atuais foram extraídos automaticamente de um único áudio gerado no
 ElevenLabs (cortado por detecção de silêncio entre as palavras, na mesma
 ordem em que aparecem em `SPELLING_WORDS`). Se algum arquivo faltar ou não
 carregar, o jogo usa `window.speechSynthesis` (voz do navegador,
-`lang = 'en-US'`) como reserva — por isso os botões "Ouvir a
-palavra"/"Começar" sempre acionam o áudio dentro de um gesto do usuário
-(clique), necessário em navegadores mobile.
+`lang = 'en-US'`) como reserva — por isso os botões "Listen"/"Let's
+Spell!" sempre acionam o áudio dentro de um gesto do usuário (clique),
+necessário em navegadores mobile.
 
 ### Gerando os áudios a partir de um arquivo único
 

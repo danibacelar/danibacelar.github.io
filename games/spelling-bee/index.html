@@ -46,7 +46,7 @@
           <circle cx="110" cy="20" r="4" fill="#2B2A26"/>
         </svg>
         <h1 class="game-title">Spelling Bee</h1>
-        <p class="start-blurb">Hi! I'm Buzzy 🐝 Listen to the word, read the clue, and spell it correctly. Ready to fly through the hive?</p>
+        <p class="start-blurb">Hi! I'm Buzzy 🐝 Listen carefully and spell each word correctly. Ready to fly through the hive?</p>
         <button id="btn-start" class="btn btn-primary btn-huge">Let's Spell! 🍯</button>
       </div>
     </section>
@@ -57,27 +57,20 @@
         <div class="hex-badge" id="word-counter-badge">1 / 10</div>
 
         <button id="btn-listen" class="btn-listen" aria-label="Listen to the word">
-          🔊 <span>Ouvir a palavra</span>
+          🔊 <span>Listen</span>
         </button>
 
-        <div class="hint-box">
-          <p class="hint-label">Dica</p>
-          <p class="hint-text" id="hint-pt"></p>
-          <button id="btn-toggle-hint-en" class="hint-toggle">💡 Ver dica em inglês</button>
-          <p class="hint-text hint-en hidden" id="hint-en"></p>
-        </div>
-
         <form id="spell-form" autocomplete="off">
-          <input type="text" id="spell-input" class="spell-input" placeholder="Digite em inglês..." aria-label="Type the word">
+          <input type="text" id="spell-input" class="spell-input" placeholder="Type what you hear..." aria-label="Type the word">
           <div class="game-actions">
-            <button type="button" id="btn-skip" class="btn btn-secondary">Pular</button>
-            <button type="submit" id="btn-check" class="btn btn-primary">Verificar</button>
+            <button type="button" id="btn-skip" class="btn btn-secondary">Skip</button>
+            <button type="submit" id="btn-check" class="btn btn-primary">Check</button>
           </div>
         </form>
 
         <p class="feedback" id="feedback" aria-live="polite"></p>
 
-        <button id="btn-next" class="btn btn-primary btn-next hidden">Próxima palavra →</button>
+        <button id="btn-next" class="btn btn-primary btn-next hidden">Next word →</button>
       </div>
     </section>
 
@@ -98,23 +91,23 @@
         <div class="results-stats">
           <div class="stat-box">
             <div class="stat-num" id="results-score">0</div>
-            <div class="stat-label">Pontos ⭐</div>
+            <div class="stat-label">Points ⭐</div>
           </div>
           <div class="stat-box">
             <div class="stat-num" id="results-correct">0</div>
-            <div class="stat-label">Acertos ✅</div>
+            <div class="stat-label">Correct ✅</div>
           </div>
         </div>
 
         <div id="results-review-wrap" class="results-review hidden">
-          <p class="results-heading">Palavras para revisar</p>
+          <p class="results-heading">Words to review</p>
           <ul id="results-review-list" class="review-list"></ul>
         </div>
 
         <p class="results-message" id="results-message"></p>
 
         <div class="results-actions">
-          <button id="btn-replay" class="btn btn-primary">🔁 Jogar de novo</button>
+          <button id="btn-replay" class="btn btn-primary">🔁 Play again</button>
         </div>
       </div>
     </section>

@@ -65,13 +65,6 @@
 
     document.getElementById('word-counter-badge').textContent =
       `${state.index + 1} / ${state.words.length}`;
-    document.getElementById('hint-pt').textContent = word.hintPT || '';
-    const hintEnEl = document.getElementById('hint-en');
-    const toggleBtn = document.getElementById('btn-toggle-hint-en');
-    hintEnEl.textContent = word.hintEN || '';
-    hintEnEl.classList.add('hidden');
-    toggleBtn.textContent = '💡 Ver dica em inglês';
-    toggleBtn.classList.toggle('hidden', !word.hintEN);
 
     const input = document.getElementById('spell-input');
     input.value = '';
@@ -100,7 +93,7 @@
     if (guess === word.word.toLowerCase()) {
       state.score += state.wrongOnCurrent ? 5 : 10;
       state.correctCount++;
-      feedback.textContent = '🎉 Correto!';
+      feedback.textContent = '🎉 Correct!';
       feedback.className = 'feedback correct';
       input.disabled = true;
       document.getElementById('btn-check').disabled = true;
@@ -109,7 +102,7 @@
       updateHeader();
     } else {
       state.wrongOnCurrent = true;
-      feedback.textContent = '❌ Tente de novo!';
+      feedback.textContent = '❌ Try again!';
       feedback.className = 'feedback incorrect';
       input.classList.remove('shake');
       requestAnimationFrame(() => input.classList.add('shake'));
@@ -123,7 +116,7 @@
       state.missedWords.push(word.word);
     }
     const feedback = document.getElementById('feedback');
-    feedback.textContent = `A palavra era: ${word.word}`;
+    feedback.textContent = `The word was: ${word.word}`;
     feedback.className = 'feedback incorrect';
     document.getElementById('spell-input').disabled = true;
     document.getElementById('btn-check').disabled = true;
@@ -159,9 +152,9 @@
 
     const ratio = state.correctCount / state.words.length;
     const msg = document.getElementById('results-message');
-    if (ratio === 1) msg.textContent = 'Perfeito! Você é a abelha rainha da ortografia! 👑🐝';
-    else if (ratio >= 0.7) msg.textContent = 'Muito bem! Continue praticando! 🌻';
-    else msg.textContent = 'Bom esforço! Vamos praticar mais essas palavras. 💪';
+    if (ratio === 1) msg.textContent = 'Perfect! You are the spelling queen bee! 👑🐝';
+    else if (ratio >= 0.7) msg.textContent = 'Great job! Keep practicing! 🌻';
+    else msg.textContent = 'Good effort! Let\'s practice these words some more. 💪';
   }
 
   function startGame() {
@@ -190,12 +183,5 @@
   document.getElementById('btn-next').addEventListener('click', nextWord);
   document.getElementById('btn-listen').addEventListener('click', () => {
     playWord(state.words[state.index]);
-  });
-  document.getElementById('btn-toggle-hint-en').addEventListener('click', (e) => {
-    const hintEnEl = document.getElementById('hint-en');
-    hintEnEl.classList.toggle('hidden');
-    e.target.textContent = hintEnEl.classList.contains('hidden')
-      ? '💡 Ver dica em inglês'
-      : '🙈 Esconder dica em inglês';
   });
 })();
