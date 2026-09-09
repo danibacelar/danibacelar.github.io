@@ -42,6 +42,17 @@
     speechSynthesis.speak(utter);
   }
 
+  function playWord(word) {
+    const audioEl = document.getElementById('word-audio');
+    if (!word.audio) {
+      speak(word.word);
+      return;
+    }
+    audioEl.onerror = () => speak(word.word);
+    audioEl.src = `assets/audio/${word.audio}`;
+    audioEl.play().catch(() => speak(word.word));
+  }
+
   function updateHeader() {
     document.getElementById('header-progress').textContent =
       `Word ${state.index + 1} of ${state.words.length}`;
@@ -56,9 +67,11 @@
       `${state.index + 1} / ${state.words.length}`;
     document.getElementById('hint-pt').textContent = word.hintPT || '';
     const hintEnEl = document.getElementById('hint-en');
+    const toggleBtn = document.getElementById('btn-toggle-hint-en');
     hintEnEl.textContent = word.hintEN || '';
     hintEnEl.classList.add('hidden');
-    document.getElementById('btn-toggle-hint-en').textContent = '💡 Ver dica em inglês';
+    toggleBtn.textContent = '💡 Ver dica em inglês';
+    toggleBtn.classList.toggle('hidden', !word.hintEN);
 
     const input = document.getElementById('spell-input');
     input.value = '';
@@ -73,7 +86,7 @@
 
     updateHeader();
     input.focus();
-    speak(word.word);
+    playWord(word);
   }
 
   function checkAnswer() {
@@ -128,6 +141,7 @@
   }
 
   function showResults() {
+    document.getElementById('word-audio').pause();
     speechSynthesis.cancel();
     showScreen('results');
     document.getElementById('results-score').textContent = state.score;
@@ -163,6 +177,7 @@
   document.getElementById('btn-start').addEventListener('click', startGame);
   document.getElementById('btn-replay').addEventListener('click', startGame);
   document.getElementById('btn-back-start').addEventListener('click', () => {
+    document.getElementById('word-audio').pause();
     speechSynthesis.cancel();
     showScreen('start');
   });
@@ -174,7 +189,7 @@
   document.getElementById('btn-skip').addEventListener('click', skipWord);
   document.getElementById('btn-next').addEventListener('click', nextWord);
   document.getElementById('btn-listen').addEventListener('click', () => {
-    speak(state.words[state.index].word);
+    playWord(state.words[state.index]);
   });
   document.getElementById('btn-toggle-hint-en').addEventListener('click', (e) => {
     const hintEnEl = document.getElementById('hint-en');
