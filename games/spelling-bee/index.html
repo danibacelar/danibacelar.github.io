@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🐝 Spelling Bee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="hive-bg" aria-hidden="true"></div>
+
+<div id="app">
+
+  <!-- ===== PERSISTENT HEADER (visible during the game) ===== -->
+  <header id="game-header" class="hidden">
+    <button id="btn-back-start" class="icon-btn" aria-label="Back to start">🏠</button>
+    <div class="header-progress" id="header-progress">Word 1 of 10</div>
+    <div class="header-stats">
+      <span class="chip score-chip">⭐ <span id="header-score">0</span></span>
+    </div>
+  </header>
+
+  <main id="screens">
+
+    <!-- ===== START SCREEN ===== -->
+    <section id="screen-start" class="screen active">
+      <div class="start-card">
+        <svg class="mascot mascot-big" viewBox="0 0 200 200" aria-hidden="true">
+          <ellipse cx="100" cy="185" rx="50" ry="9" fill="#4A3418" opacity="0.12"/>
+          <ellipse class="bee-wing bee-wing-l" cx="70" cy="80" rx="30" ry="20" fill="#FFF8E7" opacity="0.85"/>
+          <ellipse class="bee-wing bee-wing-r" cx="130" cy="80" rx="30" ry="20" fill="#FFF8E7" opacity="0.85"/>
+          <ellipse cx="100" cy="115" rx="55" ry="45" fill="#2B2A26"/>
+          <path d="M50 100 a55 45 0 0 0 100 0 Z" fill="#FFC107"/>
+          <path d="M45 115 a55 45 0 0 0 110 0 Z" fill="#FFC107"/>
+          <ellipse cx="100" cy="115" rx="55" ry="45" fill="none" stroke="#2B2A26" stroke-width="4"/>
+          <circle cx="80" cy="60" r="24" fill="#2B2A26"/>
+          <circle cx="72" cy="55" r="4.5" fill="#fff"/>
+          <circle cx="88" cy="55" r="4.5" fill="#fff"/>
+          <path d="M65 40 Q55 20 45 24" stroke="#2B2A26" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M92 38 Q98 18 110 20" stroke="#2B2A26" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <circle cx="45" cy="24" r="4" fill="#2B2A26"/>
+          <circle cx="110" cy="20" r="4" fill="#2B2A26"/>
+        </svg>
+        <h1 class="game-title">Spelling Bee</h1>
+        <p class="start-blurb">Hi! I'm Buzzy 🐝 Listen to the word, read the clue, and spell it correctly. Ready to fly through the hive?</p>
+        <button id="btn-start" class="btn btn-primary btn-huge">Let's Spell! 🍯</button>
+      </div>
+    </section>
+
+    <!-- ===== GAME SCREEN ===== -->
+    <section id="screen-game" class="screen">
+      <div class="game-card">
+        <div class="hex-badge" id="word-counter-badge">1 / 10</div>
+
+        <button id="btn-listen" class="btn-listen" aria-label="Listen to the word">
+          🔊 <span>Ouvir a palavra</span>
+        </button>
+
+        <div class="hint-box">
+          <p class="hint-label">Dica</p>
+          <p class="hint-text" id="hint-pt"></p>
+          <button id="btn-toggle-hint-en" class="hint-toggle">💡 Ver dica em inglês</button>
+          <p class="hint-text hint-en hidden" id="hint-en"></p>
+        </div>
+
+        <form id="spell-form" autocomplete="off">
+          <input type="text" id="spell-input" class="spell-input" placeholder="Digite a palavra em inglês..." aria-label="Type the word">
+          <div class="game-actions">
+            <button type="button" id="btn-skip" class="btn btn-secondary">Pular</button>
+            <button type="submit" id="btn-check" class="btn btn-primary">Verificar</button>
+          </div>
+        </form>
+
+        <p class="feedback" id="feedback" aria-live="polite"></p>
+
+        <button id="btn-next" class="btn btn-primary btn-next hidden">Próxima palavra →</button>
+      </div>
+    </section>
+
+    <!-- ===== RESULTS SCREEN ===== -->
+    <section id="screen-results" class="screen">
+      <div class="results-card">
+        <div class="results-banner">🍯 HIVE COMPLETE! 🍯</div>
+        <svg class="mascot mascot-medium" viewBox="0 0 200 200" aria-hidden="true">
+          <ellipse cx="100" cy="115" rx="55" ry="45" fill="#2B2A26"/>
+          <path d="M50 100 a55 45 0 0 0 100 0 Z" fill="#FFC107"/>
+          <path d="M45 115 a55 45 0 0 0 110 0 Z" fill="#FFC107"/>
+          <ellipse cx="100" cy="115" rx="55" ry="45" fill="none" stroke="#2B2A26" stroke-width="4"/>
+          <circle cx="80" cy="60" r="24" fill="#2B2A26"/>
+          <circle cx="72" cy="55" r="4.5" fill="#fff"/>
+          <circle cx="88" cy="55" r="4.5" fill="#fff"/>
+        </svg>
+
+        <div class="results-stats">
+          <div class="stat-box">
+            <div class="stat-num" id="results-score">0</div>
+            <div class="stat-label">Pontos ⭐</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num" id="results-correct">0</div>
+            <div class="stat-label">Acertos ✅</div>
+          </div>
+        </div>
+
+        <div id="results-review-wrap" class="results-review hidden">
+          <p class="results-heading">Palavras para revisar</p>
+          <ul id="results-review-list" class="review-list"></ul>
+        </div>
+
+        <p class="results-message" id="results-message"></p>
+
+        <div class="results-actions">
+          <button id="btn-replay" class="btn btn-primary">🔁 Jogar de novo</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="js/game-data.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>

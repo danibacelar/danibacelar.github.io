@@ -514,6 +514,39 @@ const GAMES = [
     thumbnail: 'games/growing-plants/assets/plant-parts.jpg'
   },
   {
+    id: 'spelling-bee',
+    title: 'Spelling Bee',
+    gradeNum: 4,
+    skill: ['Vocabulary', 'Writing', 'Listening', 'Bilingual'],
+    topic: 'Spelling',
+    grammar: 'Vocabulary & Spelling',
+    difficulty: 'Beginner',
+    gameType: 'Listen & Spell Challenge',
+    schoolAlignment: 'Vocabulary Review (Bilingual)',
+    description: 'Listen to each word, read a clue, and type the correct English spelling — a classic spelling bee, playable solo.',
+    descriptionPT: 'Ouça cada palavra, leia uma dica e digite a grafia correta em inglês — um spelling bee clássico, para jogar sozinho.',
+    why: 'Reinforces spelling and listening together, pairing audio with a Portuguese clue so kids connect sound, meaning, and written form.',
+    whyPT: 'Reforça ortografia e escuta juntas, combinando áudio com uma dica em português para conectar som, significado e escrita.',
+    practices: ['listening', 'spelling', 'vocabulary review'],
+    objectivesPT: [
+      'Reconhecer palavras em inglês pelo som, usando a síntese de voz do navegador.',
+      'Associar uma dica em português ao significado da palavra em inglês.',
+      'Praticar a grafia correta de palavras em inglês digitando-as.',
+      'Revisar e repetir palavras erradas até fixar a ortografia correta.'
+    ],
+    objectives: [
+      'Recognize English words by sound, using the browser\'s speech synthesis.',
+      'Match a Portuguese clue to the meaning of the English word.',
+      'Practice correct English spelling by typing each word.',
+      'Review and repeat missed words to reinforce correct spelling.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'spelling-bee/index.html'
+  },
+  {
     id: 'adverbs-adventure',
     title: 'Adverbs Adventure!',
     gradeNum: 4,
