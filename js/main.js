@@ -118,6 +118,8 @@ const I18N = {
     'filter.intermediate': 'Intermediário',
     'filter.advanced': 'Avançado',
     'library.category': 'Categoria',
+    'library.search': 'Buscar',
+    'library.searchPlaceholder': 'Digite um nome...',
     'about.pageTitle': 'Sobre — Mrs. Dani',
     'about.eyebrow': 'Sobre',
     'about.title': 'A educadora por trás dos jogos.',
@@ -234,6 +236,8 @@ const I18N = {
     'filter.intermediate': 'Intermediate',
     'filter.advanced': 'Advanced',
     'library.category': 'Category',
+    'library.search': 'Search',
+    'library.searchPlaceholder': 'Enter a name...',
     'about.pageTitle': 'About — Mrs. Dani',
     'about.eyebrow': 'About',
     'about.title': 'The educator behind the games.',
@@ -1187,6 +1191,14 @@ function renderGradeRow() {
    GAME LIBRARY: FILTERING
    ========================================================= */
 let libraryState = { grade: new Set(), skill: new Set(), difficulty: new Set(), collection: new Set() };
+let librarySearch = '';
+
+// Registered once: clicking outside an open filter dropdown closes it.
+document.addEventListener('click', (e) => {
+  document.querySelectorAll('.filter-dropdown.open').forEach(dd => {
+    if (!dd.contains(e.target)) dd.classList.remove('open');
+  });
+});
 
 function initLibrary(preserveState) {
   const grid = document.getElementById('game-grid');
@@ -1194,19 +1206,19 @@ function initLibrary(preserveState) {
 
   if (!preserveState) {
     libraryState = { grade: new Set(), skill: new Set(), difficulty: new Set(), collection: new Set() };
+    librarySearch = '';
     const params = new URLSearchParams(window.location.search);
     const gradeParam = params.get('grade');
     if (gradeParam) libraryState.grade.add(Number(gradeParam));
   }
 
-  const filterBarCount = document.getElementById('filter-bar-count');
+  const searchInput = document.getElementById('search-input');
+  const searchBtn = document.getElementById('search-btn');
+  const activeFiltersRow = document.getElementById('active-filters-row');
   const filterChipsEl = document.getElementById('filter-chips');
   const filterClearAllBtn = document.getElementById('filter-clear-all');
-  const filterToggleBtn = document.getElementById('filter-toggle');
-  const filtersPanel = document.getElementById('filters-panel');
-  const filterOverlay = document.getElementById('filter-overlay');
-  const filterPanelClose = document.getElementById('filter-panel-close');
-  const filterPanelApply = document.getElementById('filter-panel-apply');
+
+  if (searchInput) searchInput.value = librarySearch;
 
   const CHIP_LABELS = {
     grade: v => (currentLang === 'pt' ? `${v}º ano` : `Grade ${v}`),
@@ -1222,14 +1234,20 @@ function initLibrary(preserveState) {
     return libraryState.grade.size + libraryState.skill.size + libraryState.difficulty.size + libraryState.collection.size;
   }
 
+  function updateDropdownCounts() {
+    document.querySelectorAll('.filter-dropdown').forEach(dd => {
+      const firstInput = dd.querySelector('.filter-option input');
+      const countEl = dd.querySelector('.filter-dropdown-count');
+      if (!firstInput || !countEl) return;
+      const count = libraryState[firstInput.dataset.group]?.size || 0;
+      countEl.hidden = count === 0;
+      countEl.textContent = count;
+    });
+  }
+
   function renderChips() {
     const total = totalFilterCount();
-
-    if (filterBarCount) {
-      filterBarCount.hidden = total === 0;
-      filterBarCount.textContent = total;
-    }
-    if (filterClearAllBtn) filterClearAllBtn.hidden = total === 0;
+    if (activeFiltersRow) activeFiltersRow.hidden = total === 0;
 
     if (filterChipsEl) {
       const chips = [];
@@ -1238,18 +1256,21 @@ function initLibrary(preserveState) {
       libraryState.difficulty.forEach(v => chips.push({ group: 'difficulty', value: v, label: CHIP_LABELS.difficulty(v) }));
       libraryState.collection.forEach(v => chips.push({ group: 'collection', value: v, label: CHIP_LABELS.collection(v) }));
       filterChipsEl.innerHTML = chips.map(c =>
-        `<span class="filter-chip" data-group="${c.group}" data-value="${c.value}">${c.label}<button aria-label="Remove">&times;</button></span>`
+        `<span class="filter-chip" data-group="${c.group}" data-value="${c.value}">${c.label}<button type="button" aria-label="Remove">&times;</button></span>`
       ).join('');
     }
+    updateDropdownCounts();
   }
 
   function applyFilters() {
+    const query = librarySearch.trim().toLowerCase();
     const filtered = GAMES.filter(g => {
       const gradeOk = libraryState.grade.size === 0 || libraryState.grade.has(g.gradeNum);
       const skillOk = libraryState.skill.size === 0 || g.skill.some(s => libraryState.skill.has(s));
       const diffOk = libraryState.difficulty.size === 0 || libraryState.difficulty.has(g.difficulty);
       const collectionOk = libraryState.collection.size === 0 || libraryState.collection.has(g.collection);
-      return gradeOk && skillOk && diffOk && collectionOk;
+      const searchOk = !query || g.title.toLowerCase().includes(query);
+      return gradeOk && skillOk && diffOk && collectionOk && searchOk;
     });
 
     const countEl = document.getElementById('library-count');
@@ -1262,42 +1283,47 @@ function initLibrary(preserveState) {
     renderChips();
   }
 
-  function openFilterPanel() {
-    filtersPanel?.classList.add('open');
-    filterOverlay?.classList.add('open');
-    document.body.classList.add('filters-open');
-    filterToggleBtn?.setAttribute('aria-expanded', 'true');
+  if (searchInput) {
+    searchInput.oninput = () => {
+      librarySearch = searchInput.value;
+      applyFilters();
+    };
   }
-  function closeFilterPanel() {
-    filtersPanel?.classList.remove('open');
-    filterOverlay?.classList.remove('open');
-    document.body.classList.remove('filters-open');
-    filterToggleBtn?.setAttribute('aria-expanded', 'false');
-  }
+  if (searchBtn) searchBtn.onclick = () => applyFilters();
 
-  filterToggleBtn?.addEventListener('click', openFilterPanel);
-  filterPanelClose?.addEventListener('click', closeFilterPanel);
-  filterPanelApply?.addEventListener('click', closeFilterPanel);
-  filterOverlay?.addEventListener('click', closeFilterPanel);
-
-  filterClearAllBtn?.addEventListener('click', () => {
-    document.querySelectorAll('.filter-option input').forEach(i => (i.checked = false));
-    Object.values(libraryState).forEach(s => s.clear());
-    applyFilters();
+  document.querySelectorAll('.filter-dropdown-btn').forEach(btn => {
+    btn.onclick = () => {
+      const dropdown = btn.closest('.filter-dropdown');
+      const isOpen = dropdown.classList.contains('open');
+      document.querySelectorAll('.filter-dropdown.open').forEach(dd => dd.classList.remove('open'));
+      if (!isOpen) dropdown.classList.add('open');
+    };
   });
 
-  filterChipsEl?.addEventListener('click', (e) => {
-    const btn = e.target.closest('button');
-    if (!btn) return;
-    const chip = btn.closest('.filter-chip');
-    const group = chip.dataset.group;
-    const rawValue = chip.dataset.value;
-    const value = group === 'grade' ? Number(rawValue) : rawValue;
-    libraryState[group].delete(value);
-    const checkbox = document.querySelector(`.filter-option input[data-group="${group}"][value="${rawValue}"]`);
-    if (checkbox) checkbox.checked = false;
-    applyFilters();
-  });
+  if (filterClearAllBtn) {
+    filterClearAllBtn.onclick = () => {
+      document.querySelectorAll('.filter-option input').forEach(i => (i.checked = false));
+      Object.values(libraryState).forEach(s => s.clear());
+      librarySearch = '';
+      if (searchInput) searchInput.value = '';
+      applyFilters();
+    };
+  }
+
+  if (filterChipsEl) {
+    filterChipsEl.onclick = (e) => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      const chip = btn.closest('.filter-chip');
+      const group = chip.dataset.group;
+      const rawValue = chip.dataset.value;
+      const value = group === 'grade' ? Number(rawValue) : rawValue;
+      libraryState[group].delete(value);
+      const checkbox = document.querySelector(`.filter-option input[data-group="${group}"][value="${rawValue}"]`);
+      if (checkbox) checkbox.checked = false;
+      applyFilters();
+    };
+  }
 
   document.querySelectorAll('.filter-option input').forEach(input => {
     const group = input.dataset.group;
@@ -1311,15 +1337,6 @@ function initLibrary(preserveState) {
       applyFilters();
     };
   });
-
-  const resetBtn = document.getElementById('filter-reset');
-  if (resetBtn) {
-    resetBtn.onclick = () => {
-      document.querySelectorAll('.filter-option input').forEach(i => (i.checked = false));
-      Object.values(libraryState).forEach(s => s.clear());
-      applyFilters();
-    };
-  }
 
   applyFilters();
 }

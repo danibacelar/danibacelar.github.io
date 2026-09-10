@@ -41,61 +41,81 @@
 
 <section class="section" style="padding-top:16px;">
   <div class="wrap">
-    <div class="filter-bar" id="filter-bar">
-      <div class="filter-bar-top">
-        <button class="filter-bar-toggle" id="filter-toggle" aria-expanded="false">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
-          <span data-i18n="library.filtersBtn">Filtros</span>
-          <span class="filter-count" id="filter-bar-count" hidden>0</span>
+    <div class="search-bar">
+      <input type="text" id="search-input" class="search-input" data-i18n-placeholder="library.searchPlaceholder" placeholder="Digite um nome..." aria-label="Buscar jogo pelo nome">
+      <button class="search-btn" id="search-btn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <span data-i18n="library.search">Buscar</span>
+      </button>
+    </div>
+
+    <div class="filter-toolbar" id="filter-toolbar">
+      <div class="filter-dropdown">
+        <button class="filter-dropdown-btn" type="button">
+          <span data-i18n="library.grade">Ano escolar</span>
+          <span class="filter-dropdown-count" hidden>0</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
         </button>
-        <button class="filter-clear-all" id="filter-clear-all" hidden data-i18n="library.clearAll">Limpar tudo</button>
+        <div class="filter-dropdown-panel">
+          <label class="filter-option"><input type="checkbox" data-group="grade" value="3"> <span data-i18n="filter.grade3">3º ano</span></label>
+          <label class="filter-option"><input type="checkbox" data-group="grade" value="4"> <span data-i18n="filter.grade4">4º ano</span></label>
+          <label class="filter-option"><input type="checkbox" data-group="grade" value="5"> <span data-i18n="filter.grade5">5º ano</span></label>
+          <label class="filter-option"><input type="checkbox" data-group="grade" value="8"> <span data-i18n="filter.grade8">8º ano</span></label>
+        </div>
       </div>
+
+      <div class="filter-dropdown">
+        <button class="filter-dropdown-btn" type="button">
+          <span data-i18n="library.skill">Habilidade</span>
+          <span class="filter-dropdown-count" hidden>0</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="filter-dropdown-panel">
+          <label class="filter-option"><input type="checkbox" data-group="skill" value="Bilingual"> <span data-i18n="filter.bilingual">Bilíngue</span></label>
+          <label class="filter-option"><input type="checkbox" data-group="skill" value="Grammar"> <span data-i18n="filter.grammar">Gramática</span></label>
+          <label class="filter-option"><input type="checkbox" data-group="skill" value="Vocabulary"> <span data-i18n="filter.vocabulary">Vocabulário</span></label>
+          <label class="filter-option"><input type="checkbox" data-group="skill" value="Reading"> <span data-i18n="filter.reading">Leitura</span></label>
+          <label class="filter-option"><input type="checkbox" data-group="skill" value="Writing"> <span data-i18n="filter.writing">Escrita</span></label>
+          <label class="filter-option"><input type="checkbox" data-group="skill" value="Listening"> <span data-i18n="filter.listening">Escuta</span></label>
+        </div>
+      </div>
+
+      <div class="filter-dropdown">
+        <button class="filter-dropdown-btn" type="button">
+          <span data-i18n="library.difficulty">Dificuldade</span>
+          <span class="filter-dropdown-count" hidden>0</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="filter-dropdown-panel">
+          <label class="filter-option"><input type="checkbox" data-group="difficulty" value="Beginner"> <span data-i18n="filter.beginner">Iniciante</span></label>
+          <label class="filter-option"><input type="checkbox" data-group="difficulty" value="Intermediate"> <span data-i18n="filter.intermediate">Intermediário</span></label>
+          <label class="filter-option"><input type="checkbox" data-group="difficulty" value="Advanced"> <span data-i18n="filter.advanced">Avançado</span></label>
+        </div>
+      </div>
+
+      <div class="filter-dropdown">
+        <button class="filter-dropdown-btn" type="button">
+          <span data-i18n="library.category">Categoria</span>
+          <span class="filter-dropdown-count" hidden>0</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="filter-dropdown-panel">
+          <label class="filter-option"><input type="checkbox" data-group="collection" value="spelling-bee"> <span>🐝 Spelling Bee</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="active-filters-row" id="active-filters-row" hidden>
       <div class="filter-chips" id="filter-chips"></div>
+      <button class="filter-clear-all" id="filter-clear-all" data-i18n="library.clearAll">Limpar tudo</button>
     </div>
   </div>
-  <div class="wrap library-layout">
-    <aside class="filters" id="filters-panel">
-      <div class="filter-panel-head">
-        <h3 data-i18n="library.filtersBtn">Filtros</h3>
-        <button class="filter-panel-close" id="filter-panel-close" aria-label="Close">&times;</button>
-      </div>
-      <div class="filter-group">
-        <h4 data-i18n="library.grade">Ano escolar</h4>
-        <label class="filter-option"><input type="checkbox" data-group="grade" value="3"> <span data-i18n="filter.grade3">3º ano</span></label>
-        <label class="filter-option"><input type="checkbox" data-group="grade" value="4"> <span data-i18n="filter.grade4">4º ano</span></label>
-        <label class="filter-option"><input type="checkbox" data-group="grade" value="5"> <span data-i18n="filter.grade5">5º ano</span></label>
-        <label class="filter-option"><input type="checkbox" data-group="grade" value="8"> <span data-i18n="filter.grade8">8º ano</span></label>
-        <label class="filter-option"><input type="checkbox" data-group="skill" value="Bilingual"> <span data-i18n="filter.bilingual">Bilíngue</span></label>
-      </div>
-      <div class="filter-group">
-        <h4 data-i18n="library.skill">Habilidade</h4>
-        <label class="filter-option"><input type="checkbox" data-group="skill" value="Grammar"> <span data-i18n="filter.grammar">Gramática</span></label>
-        <label class="filter-option"><input type="checkbox" data-group="skill" value="Vocabulary"> <span data-i18n="filter.vocabulary">Vocabulário</span></label>
-        <label class="filter-option"><input type="checkbox" data-group="skill" value="Reading"> <span data-i18n="filter.reading">Leitura</span></label>
-        <label class="filter-option"><input type="checkbox" data-group="skill" value="Writing"> <span data-i18n="filter.writing">Escrita</span></label>
-        <label class="filter-option"><input type="checkbox" data-group="skill" value="Listening"> <span data-i18n="filter.listening">Escuta</span></label>
-      </div>
-      <div class="filter-group">
-        <h4 data-i18n="library.difficulty">Dificuldade</h4>
-        <label class="filter-option"><input type="checkbox" data-group="difficulty" value="Beginner"> <span data-i18n="filter.beginner">Iniciante</span></label>
-        <label class="filter-option"><input type="checkbox" data-group="difficulty" value="Intermediate"> <span data-i18n="filter.intermediate">Intermediário</span></label>
-        <label class="filter-option"><input type="checkbox" data-group="difficulty" value="Advanced"> <span data-i18n="filter.advanced">Avançado</span></label>
-      </div>
-      <div class="filter-group">
-        <h4 data-i18n="library.category">Categoria</h4>
-        <label class="filter-option"><input type="checkbox" data-group="collection" value="spelling-bee"> <span>🐝 Spelling Bee</span></label>
-      </div>
-      <button class="filter-reset" id="filter-reset" data-i18n="library.reset">Limpar filtros</button>
-      <button class="filter-panel-apply" id="filter-panel-apply" data-i18n="library.apply">Aplicar filtros</button>
-    </aside>
-    <div class="filter-overlay" id="filter-overlay"></div>
 
-    <div>
-      <div class="library-results-head">
-        <span class="library-count" id="library-count">—</span>
-      </div>
-      <div class="game-grid" id="game-grid"></div>
+  <div class="wrap" style="margin-top:24px;">
+    <div class="library-results-head">
+      <span class="library-count" id="library-count">—</span>
     </div>
+    <div class="game-grid" id="game-grid"></div>
   </div>
 </section>
 
