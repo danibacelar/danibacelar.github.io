@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🐝 Spelling Bee - list 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="hive-bg" aria-hidden="true"></div>
+
+<div id="app">
+
+  <!-- ===== PERSISTENT HEADER (visible during the game) ===== -->
+  <header id="game-header" class="hidden">
+    <button id="btn-back-start" class="icon-btn" aria-label="Back to start">🏠</button>
+    <div class="header-progress" id="header-progress">Word 1 of 10</div>
+    <div class="header-stats">
+      <span class="chip score-chip">⭐ <span id="header-score">0</span></span>
+    </div>
+  </header>
+
+  <main id="screens">
+
+    <!-- ===== START SCREEN ===== -->
+    <section id="screen-start" class="screen active">
+      <div class="start-card">
+        <img class="mascot mascot-big" src="assets/img/bee-mascot.png" alt="Buzzy the bee">
+        <h1 class="game-title">Spelling Bee - list 3</h1>
+        <p class="start-blurb">Hi! I'm Buzzy 🐝 Listen carefully and spell each word correctly. Pick a phase to start!</p>
+        <div class="phase-buttons">
+          <button id="btn-phase-1" class="btn btn-primary btn-huge" data-phase="0">Phase 1 🍯</button>
+          <button id="btn-phase-2" class="btn btn-primary btn-huge" data-phase="1">Phase 2 🍯</button>
+          <button id="btn-challenge" class="btn btn-primary btn-huge">Challenge 🧩</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== GAME SCREEN ===== -->
+    <section id="screen-game" class="screen">
+      <div class="game-card">
+        <div class="hex-badge" id="word-counter-badge">1 / 10</div>
+
+        <button id="btn-listen" class="btn-listen" aria-label="Listen to the word">
+          🔊 <span>Listen</span>
+        </button>
+
+        <form id="spell-form" autocomplete="off">
+          <input type="text" id="spell-input" class="spell-input" placeholder="Type what you hear..." aria-label="Type the word">
+          <div class="game-actions">
+            <button type="button" id="btn-skip" class="btn btn-secondary">Skip</button>
+            <button type="submit" id="btn-check" class="btn btn-primary">Check</button>
+          </div>
+        </form>
+
+        <p class="feedback" id="feedback" aria-live="polite"></p>
+        <p class="hint-reveal hidden" id="hint-reveal" aria-live="polite"></p>
+
+        <button id="btn-next" class="btn btn-primary btn-next hidden">Next word →</button>
+      </div>
+    </section>
+
+    <!-- ===== CHALLENGE SCREEN (Letter Scramble) ===== -->
+    <section id="screen-challenge" class="screen">
+      <div class="game-card">
+        <div class="hex-badge" id="challenge-counter-badge">1 / 10</div>
+
+        <button id="btn-challenge-listen" class="btn-listen" aria-label="Listen to the word">
+          🔊 <span>Listen</span>
+        </button>
+
+        <div class="scramble-slots" id="scramble-slots"></div>
+        <div class="scramble-tiles" id="scramble-tiles"></div>
+
+        <div class="game-actions">
+          <button type="button" id="btn-challenge-skip" class="btn btn-secondary">Skip</button>
+        </div>
+
+        <p class="feedback" id="challenge-feedback" aria-live="polite"></p>
+        <p class="hint-reveal hidden" id="challenge-hint" aria-live="polite"></p>
+
+        <button id="btn-challenge-next" class="btn btn-primary btn-next hidden">Next word →</button>
+      </div>
+    </section>
+
+    <!-- ===== RESULTS SCREEN ===== -->
+    <section id="screen-results" class="screen">
+      <div class="results-card">
+        <div class="results-banner" id="results-banner">🍯 HIVE COMPLETE! 🍯</div>
+        <img class="mascot mascot-medium" src="assets/img/bee-mascot.png" alt="Buzzy the bee">
+
+        <div class="results-stats">
+          <div class="stat-box">
+            <div class="stat-num" id="results-score">0</div>
+            <div class="stat-label">Points ⭐</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num" id="results-correct">0</div>
+            <div class="stat-label">Correct ✅</div>
+          </div>
+        </div>
+
+        <div id="results-review-wrap" class="results-review hidden">
+          <p class="results-heading">Words to review</p>
+          <ul id="results-review-list" class="review-list"></ul>
+        </div>
+
+        <p class="results-message" id="results-message"></p>
+
+        <div class="results-actions">
+          <button id="btn-replay" class="btn btn-primary">🔁 Play again</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<audio id="word-audio" preload="none"></audio>
+<div id="confetti-layer" aria-hidden="true"></div>
+
+<script src="js/game-data.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>

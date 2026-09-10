@@ -117,6 +117,7 @@ const I18N = {
     'filter.beginner': 'Iniciante',
     'filter.intermediate': 'Intermediário',
     'filter.advanced': 'Avançado',
+    'library.category': 'Categoria',
     'about.pageTitle': 'Sobre — Mrs. Dani',
     'about.eyebrow': 'Sobre',
     'about.title': 'A educadora por trás dos jogos.',
@@ -232,6 +233,7 @@ const I18N = {
     'filter.beginner': 'Beginner',
     'filter.intermediate': 'Intermediate',
     'filter.advanced': 'Advanced',
+    'library.category': 'Category',
     'about.pageTitle': 'About — Mrs. Dani',
     'about.eyebrow': 'About',
     'about.title': 'The educator behind the games.',
@@ -512,6 +514,42 @@ const GAMES = [
     status: 'available',
     gameUrl: 'growing-plants/index.html',
     thumbnail: 'games/growing-plants/assets/plant-parts.jpg'
+  },
+  {
+    id: 'spelling-bee',
+    title: 'Spelling Bee',
+    collection: 'spelling-bee',
+    gradeNum: 4,
+    skill: ['Vocabulary', 'Writing', 'Listening'],
+    topic: 'Spelling',
+    grammar: 'Vocabulary & Spelling',
+    difficulty: 'Beginner',
+    gameType: 'Listen & Spell Challenge',
+    schoolAlignment: 'Vocabulary Review',
+    description: 'Listen to each word or sentence, then spell it — type it in Phase 1/2, or tap the scrambled letters into order in the Challenge round.',
+    descriptionPT: 'Ouça cada palavra ou frase e escreva — digitando nas Fases 1/2, ou clicando nas letras embaralhadas na ordem certa no Challenge.',
+    why: 'Combines two ways to practice spelling by ear: typing what you hear, and rebuilding a scrambled word letter by letter.',
+    whyPT: 'Combina duas formas de praticar ortografia pelo ouvido: digitar o que ouve e remontar uma palavra embaralhada letra por letra.',
+    practices: ['listening', 'spelling', 'vocabulary review'],
+    objectivesPT: [
+      'Reconhecer palavras e frases em inglês pelo som, usando áudio real.',
+      'Praticar a grafia e a pontuação corretas em inglês digitando o que ouviu.',
+      'Identificar exatamente qual palavra de uma frase precisa ser corrigida.',
+      'Reconstruir a ortografia de uma palavra clicando suas letras na ordem certa.',
+      'Revisar e repetir itens errados até fixar a ortografia correta.'
+    ],
+    objectives: [
+      'Recognize English words and sentences by sound, using real audio.',
+      'Practice correct English spelling and punctuation by typing what they hear.',
+      'Identify exactly which word in a sentence needs to be corrected.',
+      'Rebuild a word\'s spelling by tapping its letters in the right order.',
+      'Review and repeat missed items to reinforce correct spelling.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'spelling-bee/index.html'
   },
   {
     id: 'adverbs-adventure',
@@ -1148,14 +1186,14 @@ function renderGradeRow() {
 /* =========================================================
    GAME LIBRARY: FILTERING
    ========================================================= */
-let libraryState = { grade: new Set(), skill: new Set(), difficulty: new Set() };
+let libraryState = { grade: new Set(), skill: new Set(), difficulty: new Set(), collection: new Set() };
 
 function initLibrary(preserveState) {
   const grid = document.getElementById('game-grid');
   if (!grid) return;
 
   if (!preserveState) {
-    libraryState = { grade: new Set(), skill: new Set(), difficulty: new Set() };
+    libraryState = { grade: new Set(), skill: new Set(), difficulty: new Set(), collection: new Set() };
     const params = new URLSearchParams(window.location.search);
     const gradeParam = params.get('grade');
     if (gradeParam) libraryState.grade.add(Number(gradeParam));
@@ -1176,10 +1214,12 @@ function initLibrary(preserveState) {
       ?.parentElement.textContent.trim() || v,
     difficulty: v => document.querySelector(`.filter-option input[data-group="difficulty"][value="${v}"]`)
       ?.parentElement.textContent.trim() || v,
+    collection: v => document.querySelector(`.filter-option input[data-group="collection"][value="${v}"]`)
+      ?.parentElement.textContent.trim() || v,
   };
 
   function totalFilterCount() {
-    return libraryState.grade.size + libraryState.skill.size + libraryState.difficulty.size;
+    return libraryState.grade.size + libraryState.skill.size + libraryState.difficulty.size + libraryState.collection.size;
   }
 
   function renderChips() {
@@ -1196,6 +1236,7 @@ function initLibrary(preserveState) {
       libraryState.grade.forEach(v => chips.push({ group: 'grade', value: v, label: CHIP_LABELS.grade(v) }));
       libraryState.skill.forEach(v => chips.push({ group: 'skill', value: v, label: CHIP_LABELS.skill(v) }));
       libraryState.difficulty.forEach(v => chips.push({ group: 'difficulty', value: v, label: CHIP_LABELS.difficulty(v) }));
+      libraryState.collection.forEach(v => chips.push({ group: 'collection', value: v, label: CHIP_LABELS.collection(v) }));
       filterChipsEl.innerHTML = chips.map(c =>
         `<span class="filter-chip" data-group="${c.group}" data-value="${c.value}">${c.label}<button aria-label="Remove">&times;</button></span>`
       ).join('');
@@ -1207,7 +1248,8 @@ function initLibrary(preserveState) {
       const gradeOk = libraryState.grade.size === 0 || libraryState.grade.has(g.gradeNum);
       const skillOk = libraryState.skill.size === 0 || g.skill.some(s => libraryState.skill.has(s));
       const diffOk = libraryState.difficulty.size === 0 || libraryState.difficulty.has(g.difficulty);
-      return gradeOk && skillOk && diffOk;
+      const collectionOk = libraryState.collection.size === 0 || libraryState.collection.has(g.collection);
+      return gradeOk && skillOk && diffOk && collectionOk;
     });
 
     const countEl = document.getElementById('library-count');
