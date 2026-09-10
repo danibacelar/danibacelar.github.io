@@ -1,9 +1,11 @@
 # 🐝 Spelling Bee - list 3
 
 Jogo de ortografia (spelling bee) em inglês: a criança ouve a palavra/frase
-(áudio real gerado com ElevenLabs) e digita a grafia correta. O vocabulário
-é dividido em 2 fases que a criança escolhe na tela inicial; dentro de cada
-fase, a ordem das palavras é embaralhada a cada partida.
+(áudio real gerado com ElevenLabs). Tem 3 modos, escolhidos na tela inicial:
+"Phase 1" e "Phase 2" (digitar a palavra ouvida) e "Challenge" (Letter
+Scramble — clicar nas letras embaralhadas, na ordem certa, sem digitar
+nada). A ordem dos itens é embaralhada a cada partida, dentro do modo
+escolhido.
 
 Sem backend, sem login, sem build step — arquivos estáticos que funcionam
 em qualquer navegador, prontos para GitHub Pages.
@@ -52,10 +54,19 @@ const SPELLING_PHASES = [
 
 Basta editar o arquivo (e adicionar/trocar o `.mp3` correspondente em
 `assets/audio/`) e recarregar a página — nada mais precisa mudar. Para
-adicionar uma terceira fase, basta acrescentar outro objeto `{ name, words }`
-ao array e um botão correspondente na tela inicial (`index.html`).
+adicionar uma quarta fase no modo "digitar", acrescente outro objeto
+`{ name, words }` ao array `SPELLING_PHASES` e um botão correspondente na
+tela inicial (`index.html`).
+
+O modo "Challenge" usa um array separado, `CHALLENGE_WORDS` (mesmo formato,
+sem `properWords`), logo abaixo no mesmo arquivo. Só funciona bem com
+**palavras de uma única peça, sem espaço nem apóstrofo** (a criança clica
+letra por letra) — por isso reúne só os itens desse tipo das duas fases,
+não frases inteiras.
 
 ## 🎮 Como funciona
+
+### Phase 1 / Phase 2 (digitar)
 
 1. Na tela inicial, a criança escolhe "Phase 1" ou "Phase 2".
 2. Clica em "Listen" (ou o áudio já é tocado automaticamente ao carregar)
@@ -69,8 +80,23 @@ ao array e um botão correspondente na tela inicial (`index.html`).
    avança para o próximo item. Erro: pode tentar de novo, sem limite de
    tentativas.
 6. "Skip" revela a resposta correta e marca para revisão no final.
-7. Ao final, mostra pontuação, acertos e a lista de itens para revisar.
-   "Play again" repete a mesma fase, embaralhada de novo.
+
+### Challenge (Letter Scramble)
+
+1. Na tela inicial, a criança escolhe "Challenge".
+2. Ouve a palavra e vê suas letras embaralhadas como botões, com espaços
+   vazios acima mostrando o tamanho da palavra — nada de digitar.
+3. Clica nas letras na ordem certa para preenchê-los; clicar em uma letra
+   já colocada devolve ela para a fileira de baixo, caso erre.
+4. Ao preencher todos os espaços: se estiver certo, mesmo efeito de acerto
+   (som + confete de abelhas + pontos). Se estiver errado, mostra uma dica
+   em inglês (na primeira vez) e as letras voltam sozinhas para tentar de
+   novo. "Skip" revela a palavra e marca para revisão.
+
+### Final
+
+Ao final de qualquer modo, mostra pontuação, acertos e a lista de itens
+para revisar. "Play again" repete o mesmo modo, embaralhado de novo.
 
 ## 🔊 Áudio
 

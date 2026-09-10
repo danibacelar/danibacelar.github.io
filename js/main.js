@@ -523,21 +523,23 @@ const GAMES = [
     difficulty: 'Beginner',
     gameType: 'Listen & Spell Challenge',
     schoolAlignment: 'Vocabulary Review',
-    description: 'Listen to each word or sentence and type the correct English spelling, no hints — split into two phases, shuffled every time.',
-    descriptionPT: 'Ouça cada palavra ou frase e digite a grafia correta em inglês, sem dicas — dividido em duas fases, embaralhado a cada partida.',
-    why: 'Pure listening practice: with no on-screen hint, kids have to rely entirely on sound and spelling knowledge to write each word correctly.',
-    whyPT: 'Prática pura de listening: sem nenhuma dica na tela, a criança depende só do som e do conhecimento de ortografia para escrever certo.',
+    description: 'Listen to each word or sentence, then spell it — type it in Phase 1/2, or tap the scrambled letters into order in the Challenge round.',
+    descriptionPT: 'Ouça cada palavra ou frase e escreva — digitando nas Fases 1/2, ou clicando nas letras embaralhadas na ordem certa no Challenge.',
+    why: 'Combines two ways to practice spelling by ear: typing what you hear, and rebuilding a scrambled word letter by letter.',
+    whyPT: 'Combina duas formas de praticar ortografia pelo ouvido: digitar o que ouve e remontar uma palavra embaralhada letra por letra.',
     practices: ['listening', 'spelling', 'vocabulary review'],
     objectivesPT: [
       'Reconhecer palavras e frases em inglês pelo som, usando áudio real.',
       'Praticar a grafia e a pontuação corretas em inglês digitando o que ouviu.',
       'Identificar exatamente qual palavra de uma frase precisa ser corrigida.',
+      'Reconstruir a ortografia de uma palavra clicando suas letras na ordem certa.',
       'Revisar e repetir itens errados até fixar a ortografia correta.'
     ],
     objectives: [
       'Recognize English words and sentences by sound, using real audio.',
       'Practice correct English spelling and punctuation by typing what they hear.',
       'Identify exactly which word in a sentence needs to be corrected.',
+      'Rebuild a word\'s spelling by tapping its letters in the right order.',
       'Review and repeat missed items to reinforce correct spelling.'
     ],
     price: null,

@@ -5,18 +5,22 @@
   const screens = {
     start: document.getElementById('screen-start'),
     game: document.getElementById('screen-game'),
+    challenge: document.getElementById('screen-challenge'),
     results: document.getElementById('screen-results')
   };
   const header = document.getElementById('game-header');
 
   const state = {
+    mode: 'type', // 'type' (Phase 1/2) or 'scramble' (Challenge)
     phaseIndex: 0,
+    roundLabel: '',
     words: [],
     index: 0,
     score: 0,
     correctCount: 0,
     missedWords: [],
-    wrongOnCurrent: false
+    wrongOnCurrent: false,
+    scramble: null // { letters, slotAssignment, tileUsed, locked } — Challenge only
   };
 
   function shuffle(arr) {
@@ -31,7 +35,7 @@
   function showScreen(name) {
     Object.values(screens).forEach(s => s.classList.remove('active'));
     screens[name].classList.add('active');
-    header.classList.toggle('hidden', name !== 'game');
+    header.classList.toggle('hidden', name !== 'game' && name !== 'challenge');
   }
 
   function speak(text) {
@@ -97,9 +101,8 @@
   }
 
   function updateHeader() {
-    const phaseName = SPELLING_PHASES[state.phaseIndex].name;
     document.getElementById('header-progress').textContent =
-      `${phaseName} · Word ${state.index + 1} of ${state.words.length}`;
+      `${state.roundLabel} · Word ${state.index + 1} of ${state.words.length}`;
     document.getElementById('header-score').textContent = state.score;
   }
 
@@ -218,6 +221,8 @@
     state.index++;
     if (state.index >= state.words.length) {
       showResults();
+    } else if (state.mode === 'scramble') {
+      loadChallengeWord();
     } else {
       loadWord();
     }
@@ -228,7 +233,7 @@
     speechSynthesis.cancel();
     showScreen('results');
     document.getElementById('results-banner').textContent =
-      `🍯 ${SPELLING_PHASES[state.phaseIndex].name.toUpperCase()} COMPLETE! 🍯`;
+      `🍯 ${state.roundLabel.toUpperCase()} COMPLETE! 🍯`;
     document.getElementById('results-score').textContent = state.score;
     document.getElementById('results-correct').textContent =
       `${state.correctCount}/${state.words.length}`;
@@ -251,6 +256,8 @@
 
   function startGame(phaseIndex) {
     if (phaseIndex !== undefined) state.phaseIndex = phaseIndex;
+    state.mode = 'type';
+    state.roundLabel = SPELLING_PHASES[state.phaseIndex].name;
     state.words = shuffle(SPELLING_PHASES[state.phaseIndex].words);
     state.index = 0;
     state.score = 0;
@@ -260,9 +267,161 @@
     loadWord();
   }
 
+  /* ===== CHALLENGE — LETTER SCRAMBLE ===== */
+
+  function renderScrambleTiles() {
+    const { letters, tileUsed, locked } = state.scramble;
+    const tilesEl = document.getElementById('scramble-tiles');
+    tilesEl.innerHTML = letters.map((letter, i) => `
+      <button type="button" class="scramble-tile${tileUsed[i] ? ' used' : ''}" data-tile-index="${i}" ${locked ? 'disabled' : ''}>${escapeHtml(letter)}</button>
+    `).join('');
+    tilesEl.querySelectorAll('.scramble-tile').forEach(btn => {
+      btn.addEventListener('click', () => handleTileClick(Number(btn.dataset.tileIndex)));
+    });
+  }
+
+  function renderScrambleSlots() {
+    const { slotAssignment, letters } = state.scramble;
+    const slotsEl = document.getElementById('scramble-slots');
+    slotsEl.innerHTML = slotAssignment.map((tileIndex, i) => {
+      const filled = tileIndex !== null;
+      const letter = filled ? letters[tileIndex] : '';
+      return `<div class="scramble-slot${filled ? ' filled' : ''}" data-slot-index="${i}">${escapeHtml(letter)}</div>`;
+    }).join('');
+    slotsEl.querySelectorAll('.scramble-slot.filled').forEach(el => {
+      el.addEventListener('click', () => handleSlotClick(Number(el.dataset.slotIndex)));
+    });
+  }
+
+  function handleTileClick(tileIndex) {
+    const s = state.scramble;
+    if (s.locked || s.tileUsed[tileIndex]) return;
+    const emptySlot = s.slotAssignment.indexOf(null);
+    if (emptySlot === -1) return;
+    s.slotAssignment[emptySlot] = tileIndex;
+    s.tileUsed[tileIndex] = true;
+    renderScrambleTiles();
+    renderScrambleSlots();
+    if (s.slotAssignment.every(v => v !== null)) {
+      checkChallengeAnswer();
+    }
+  }
+
+  function handleSlotClick(slotIndex) {
+    const s = state.scramble;
+    if (s.locked) return;
+    const tileIndex = s.slotAssignment[slotIndex];
+    if (tileIndex === null) return;
+    s.tileUsed[tileIndex] = false;
+    s.slotAssignment[slotIndex] = null;
+    renderScrambleTiles();
+    renderScrambleSlots();
+  }
+
+  function checkChallengeAnswer() {
+    const word = state.words[state.index];
+    const s = state.scramble;
+    const assembled = s.slotAssignment.map(i => s.letters[i]).join('');
+    const target = word.word.toUpperCase();
+    const feedback = document.getElementById('challenge-feedback');
+    const hintEl = document.getElementById('challenge-hint');
+
+    if (assembled === target) {
+      s.locked = true;
+      state.score += state.wrongOnCurrent ? 5 : 10;
+      state.correctCount++;
+      feedback.textContent = '🎉 Correct!';
+      feedback.className = 'feedback correct';
+      document.getElementById('scramble-slots').classList.add('correct');
+      document.getElementById('btn-challenge-skip').disabled = true;
+      document.getElementById('btn-challenge-next').classList.remove('hidden');
+      renderScrambleTiles();
+      updateHeader();
+      playSuccessSound();
+      burstBeeConfetti();
+    } else {
+      state.wrongOnCurrent = true;
+      feedback.textContent = '❌ Not quite — try again!';
+      feedback.className = 'feedback incorrect';
+      if (word.hintEN) {
+        hintEl.textContent = `💡 ${word.hintEN}`;
+        hintEl.classList.remove('hidden');
+      }
+      const slotsEl = document.getElementById('scramble-slots');
+      slotsEl.classList.remove('shake');
+      requestAnimationFrame(() => slotsEl.classList.add('shake'));
+      setTimeout(() => {
+        s.slotAssignment = s.slotAssignment.map(() => null);
+        s.tileUsed = s.tileUsed.map(() => false);
+        slotsEl.classList.remove('shake');
+        renderScrambleTiles();
+        renderScrambleSlots();
+      }, 700);
+    }
+  }
+
+  function skipChallengeWord() {
+    const word = state.words[state.index];
+    if (!state.missedWords.includes(word.word)) {
+      state.missedWords.push(word.word);
+    }
+    state.scramble.locked = true;
+    const feedback = document.getElementById('challenge-feedback');
+    feedback.innerHTML = `The word was: <span class="word-bad">${escapeHtml(word.word)}</span>`;
+    feedback.className = 'feedback incorrect';
+    document.getElementById('btn-challenge-skip').disabled = true;
+    document.getElementById('btn-challenge-next').classList.remove('hidden');
+    renderScrambleTiles();
+  }
+
+  function loadChallengeWord() {
+    const word = state.words[state.index];
+    state.wrongOnCurrent = false;
+
+    document.getElementById('challenge-counter-badge').textContent =
+      `${state.index + 1} / ${state.words.length}`;
+
+    const letters = shuffle(word.word.toUpperCase().split(''));
+    state.scramble = {
+      letters,
+      slotAssignment: letters.map(() => null),
+      tileUsed: letters.map(() => false),
+      locked: false
+    };
+    renderScrambleTiles();
+    renderScrambleSlots();
+
+    const feedback = document.getElementById('challenge-feedback');
+    feedback.textContent = '';
+    feedback.className = 'feedback';
+    document.getElementById('challenge-hint').textContent = '';
+    document.getElementById('challenge-hint').classList.add('hidden');
+    document.getElementById('scramble-slots').classList.remove('correct');
+    document.getElementById('btn-challenge-next').classList.add('hidden');
+    document.getElementById('btn-challenge-skip').disabled = false;
+
+    updateHeader();
+    playWord(word);
+  }
+
+  function startChallenge() {
+    state.mode = 'scramble';
+    state.roundLabel = 'Challenge';
+    state.words = shuffle(CHALLENGE_WORDS);
+    state.index = 0;
+    state.score = 0;
+    state.correctCount = 0;
+    state.missedWords = [];
+    showScreen('challenge');
+    loadChallengeWord();
+  }
+
   document.getElementById('btn-phase-1').addEventListener('click', () => startGame(0));
   document.getElementById('btn-phase-2').addEventListener('click', () => startGame(1));
-  document.getElementById('btn-replay').addEventListener('click', () => startGame());
+  document.getElementById('btn-challenge').addEventListener('click', () => startChallenge());
+  document.getElementById('btn-replay').addEventListener('click', () => {
+    if (state.mode === 'scramble') startChallenge(); else startGame();
+  });
   document.getElementById('btn-back-start').addEventListener('click', () => {
     document.getElementById('word-audio').pause();
     speechSynthesis.cancel();
@@ -276,6 +435,12 @@
   document.getElementById('btn-skip').addEventListener('click', skipWord);
   document.getElementById('btn-next').addEventListener('click', nextWord);
   document.getElementById('btn-listen').addEventListener('click', () => {
+    playWord(state.words[state.index]);
+  });
+
+  document.getElementById('btn-challenge-skip').addEventListener('click', skipChallengeWord);
+  document.getElementById('btn-challenge-next').addEventListener('click', nextWord);
+  document.getElementById('btn-challenge-listen').addEventListener('click', () => {
     playWord(state.words[state.index]);
   });
 })();

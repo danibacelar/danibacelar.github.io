@@ -35,6 +35,7 @@
         <div class="phase-buttons">
           <button id="btn-phase-1" class="btn btn-primary btn-huge" data-phase="0">Phase 1 🍯</button>
           <button id="btn-phase-2" class="btn btn-primary btn-huge" data-phase="1">Phase 2 🍯</button>
+          <button id="btn-challenge" class="btn btn-primary btn-huge">Challenge 🧩</button>
         </div>
       </div>
     </section>
@@ -60,6 +61,29 @@
         <p class="hint-reveal hidden" id="hint-reveal" aria-live="polite"></p>
 
         <button id="btn-next" class="btn btn-primary btn-next hidden">Next word →</button>
+      </div>
+    </section>
+
+    <!-- ===== CHALLENGE SCREEN (Letter Scramble) ===== -->
+    <section id="screen-challenge" class="screen">
+      <div class="game-card">
+        <div class="hex-badge" id="challenge-counter-badge">1 / 10</div>
+
+        <button id="btn-challenge-listen" class="btn-listen" aria-label="Listen to the word">
+          🔊 <span>Listen</span>
+        </button>
+
+        <div class="scramble-slots" id="scramble-slots"></div>
+        <div class="scramble-tiles" id="scramble-tiles"></div>
+
+        <div class="game-actions">
+          <button type="button" id="btn-challenge-skip" class="btn btn-secondary">Skip</button>
+        </div>
+
+        <p class="feedback" id="challenge-feedback" aria-live="polite"></p>
+        <p class="hint-reveal hidden" id="challenge-hint" aria-live="polite"></p>
+
+        <button id="btn-challenge-next" class="btn btn-primary btn-next hidden">Next word →</button>
       </div>
     </section>
 

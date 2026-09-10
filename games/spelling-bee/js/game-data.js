@@ -72,3 +72,44 @@ const SPELLING_PHASES = [
     ]
   }
 ];
+
+/* =========================================================
+   CHALLENGE — LETTER SCRAMBLE
+   -----------------------------------------------------------
+   Single-word items mixed from both phases (no spaces, so the
+   letters can be tapped into place one by one). Same fields as
+   above, minus properWords (not needed — the child taps from a
+   fixed set of letters, there is nothing to type).
+   ========================================================= */
+const CHALLENGE_WORDS = [
+  { word: "Portuguese", audio: "portuguese.mp3", hintEN: "The subject where you learn to read and write in Portuguese." },
+  { word: "English", audio: "english.mp3", hintEN: "The subject where you learn to read and write in English." },
+  { word: "Maths", audio: "maths.mp3", hintEN: "The subject where you learn numbers and calculations." },
+  { word: "Science", audio: "science.mp3", hintEN: "The subject where you learn about nature and how things work." },
+  { word: "Arts", audio: "arts.mp3", hintEN: "The subject where you draw, paint, and create things." },
+  { word: "alligator", audio: "alligator.mp3", hintEN: "A large reptile with a long snout and sharp teeth that lives near water." },
+  { word: "giraffe", audio: "giraffe.mp3", hintEN: "A tall African animal with a very long neck." },
+  { word: "hippo", audio: "hippo.mp3", hintEN: "A large, heavy animal that lives near rivers in Africa." },
+  { word: "iguana", audio: "iguana.mp3", hintEN: "A lizard with spikes along its back." },
+  { word: "leopard", audio: "leopard.mp3", hintEN: "A wild cat with spots on its fur." },
+  { word: "lion", audio: "lion.mp3", hintEN: "A big wild cat known as the king of the jungle." },
+  { word: "monkey", audio: "monkey.mp3", hintEN: "An animal that climbs trees and has a tail." },
+  { word: "panda", audio: "panda.mp3", hintEN: "A black and white bear that eats bamboo." },
+  { word: "snake", audio: "snake.mp3", hintEN: "A long reptile with no legs that slithers on the ground." },
+  { word: "head", audio: "head.mp3", hintEN: "The top part of your body, where your brain is." },
+  { word: "eye", audio: "eye.mp3", hintEN: "The body part you use to see." },
+  { word: "ear", audio: "ear.mp3", hintEN: "The body part you use to hear." },
+  { word: "tooth", audio: "tooth.mp3", hintEN: "A hard white part inside your mouth used for chewing." },
+  { word: "tail", audio: "tail.mp3", hintEN: "The part at the back of an animal's body." },
+  { word: "tall", audio: "tall.mp3", hintEN: "Having a big height." },
+  { word: "Brazil", audio: "brazil.mp3", hintEN: "The country where you live, famous for its rainforest and carnival." },
+  { word: "Canada", audio: "canada.mp3", hintEN: "A large country in North America, north of the United States." },
+  { word: "Italy", audio: "italy.mp3", hintEN: "A country in Europe shaped like a boot, famous for pizza and pasta." },
+  { word: "Japan", audio: "japan.mp3", hintEN: "An island country in Asia, famous for sushi and anime." },
+  { word: "Mexico", audio: "mexico.mp3", hintEN: "A country south of the United States, famous for tacos." },
+  { word: "computer", audio: "computer.mp3", hintEN: "A machine you use to work, play games, and go online." },
+  { word: "headphones", audio: "headphones.mp3", hintEN: "You wear them on your ears to listen to music." },
+  { word: "handbag", audio: "handbag.mp3", hintEN: "A small bag people carry, usually by hand or on the shoulder." },
+  { word: "trousers", audio: "trousers.mp3", hintEN: "Clothing you wear on your legs; also called pants." },
+  { word: "towel", audio: "towel.mp3", hintEN: "A cloth used to dry yourself after a bath." },
+];
