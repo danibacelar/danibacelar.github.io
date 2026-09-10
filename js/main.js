@@ -1193,6 +1193,68 @@ function renderGradeRow() {
 let libraryState = { grade: new Set(), skill: new Set(), difficulty: new Set(), collection: new Set() };
 let librarySearch = '';
 
+// Portuguese/English synonym groups for grammar & vocabulary topics used in
+// the catalog, so a search in one language also finds activities whose
+// title/topic is only written in the other. Each group lists every
+// singular/plural spelling that should be treated as equivalent.
+const SEARCH_SYNONYMS = [
+  { pt: ['preposição', 'preposições'], en: ['preposition', 'prepositions'] },
+  { pt: ['voz passiva'], en: ['passive voice', 'passive'] },
+  { pt: ['voz ativa'], en: ['active voice', 'active'] },
+  { pt: ['advérbio', 'advérbios'], en: ['adverb', 'adverbs'] },
+  { pt: ['verbo', 'verbos'], en: ['verb', 'verbs'] },
+  { pt: ['passado'], en: ['past'] },
+  { pt: ['futuro'], en: ['future'] },
+  { pt: ['contínuo', 'progressivo'], en: ['continuous', 'progressive'] },
+  { pt: ['lugar', 'lugares', 'cidade', 'cidades'], en: ['place', 'places', 'city'] },
+  { pt: ['esporte', 'esportes'], en: ['sport', 'sports'] },
+  { pt: ['tarefa', 'tarefas'], en: ['chore', 'chores', 'household'] },
+  { pt: ['hora', 'horas', 'horário'], en: ['time', 'telling time'] },
+  { pt: ['ciência', 'ciências'], en: ['science'] },
+  { pt: ['planta', 'plantas'], en: ['plant', 'plants'] },
+  { pt: ['ortografia'], en: ['spelling'] },
+  { pt: ['escrita'], en: ['writing'] },
+  { pt: ['leitura'], en: ['reading'] },
+  { pt: ['pessoal'], en: ['personal'] },
+  { pt: ['permissão'], en: ['permission'] },
+  { pt: ['obrigação'], en: ['obligation'] },
+  { pt: ['conectivo', 'conectivos', 'conjunção', 'conjunções'], en: ['connector', 'connectors'] },
+  { pt: ['revisão'], en: ['review'] },
+  { pt: ['vocabulário'], en: ['vocabulary'] },
+  { pt: ['gramática'], en: ['grammar'] },
+];
+
+function stripAccents(str) {
+  return str.normalize('NFD').replace(/[̀-ͯ]/g, '');
+}
+
+function normalizeSearchText(str) {
+  return stripAccents(String(str).toLowerCase());
+}
+
+// Turn a raw search query into every term (in either language) that should
+// count as a match — the query itself plus, if it matches a synonym group,
+// every spelling in that group.
+function expandSearchTerms(rawQuery) {
+  const query = normalizeSearchText(rawQuery).trim();
+  if (!query) return [];
+  const terms = new Set([query]);
+  SEARCH_SYNONYMS.forEach(group => {
+    const allTerms = [...group.pt, ...group.en].map(normalizeSearchText);
+    const groupMatches = allTerms.some(term => term === query || term.startsWith(query) || query.startsWith(term));
+    if (groupMatches) allTerms.forEach(term => terms.add(term));
+  });
+  return [...terms];
+}
+
+function gameSearchHaystack(g) {
+  return normalizeSearchText([
+    g.title, g.topic, g.grammar, g.description, g.descriptionPT, g.why, g.whyPT,
+    g.schoolAlignment, ...(g.skill || []), ...(g.practices || []),
+    ...(g.objectives || []), ...(g.objectivesPT || [])
+  ].filter(Boolean).join(' '));
+}
+
 // Registered once: clicking outside an open filter dropdown closes it.
 document.addEventListener('click', (e) => {
   document.querySelectorAll('.filter-dropdown.open').forEach(dd => {
@@ -1263,13 +1325,13 @@ function initLibrary(preserveState) {
   }
 
   function applyFilters() {
-    const query = librarySearch.trim().toLowerCase();
+    const searchTerms = expandSearchTerms(librarySearch);
     const filtered = GAMES.filter(g => {
       const gradeOk = libraryState.grade.size === 0 || libraryState.grade.has(g.gradeNum);
       const skillOk = libraryState.skill.size === 0 || g.skill.some(s => libraryState.skill.has(s));
       const diffOk = libraryState.difficulty.size === 0 || libraryState.difficulty.has(g.difficulty);
       const collectionOk = libraryState.collection.size === 0 || libraryState.collection.has(g.collection);
-      const searchOk = !query || g.title.toLowerCase().includes(query);
+      const searchOk = searchTerms.length === 0 || searchTerms.some(term => gameSearchHaystack(g).includes(term));
       return gradeOk && skillOk && diffOk && collectionOk && searchOk;
     });
 
