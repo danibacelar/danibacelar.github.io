@@ -1,4 +1,4 @@
-# 🐝 Spelling Bee - list 3
+# 🐝 Spelling Bee
 
 Jogo de ortografia (spelling bee) em inglês: a criança ouve a palavra/frase
 (áudio real gerado com ElevenLabs). Tem 3 modos, escolhidos na tela inicial:
