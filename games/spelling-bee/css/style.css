@@ -237,6 +237,14 @@ html, body {
   text-decoration-style: wavy;
   text-underline-offset: 3px;
 }
+.hint-reveal {
+  margin: 10px 0 0;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--honey-dark);
+}
 
 /* ===== RESULTS SCREEN ===== */
 .results-card {

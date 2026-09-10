@@ -75,6 +75,8 @@
 
     document.getElementById('feedback').textContent = '';
     document.getElementById('feedback').className = 'feedback';
+    document.getElementById('hint-reveal').textContent = '';
+    document.getElementById('hint-reveal').classList.add('hidden');
     document.getElementById('btn-next').classList.add('hidden');
     document.getElementById('btn-check').disabled = false;
     document.getElementById('btn-skip').disabled = false;
@@ -98,7 +100,7 @@
     return div.innerHTML;
   }
 
-  function compareWords(guessWords, correctWords) {
+  function compareWords(guessWords, correctWords, properWords) {
     const isLastCorrectIndex = correctWords.length - 1;
     const len = Math.max(guessWords.length, correctWords.length);
     const results = [];
@@ -110,7 +112,8 @@
       if (g === undefined) { allMatch = false; continue; }
       const gClean = i === isLastCorrectIndex ? stripTrailingPunct(g) : g;
       const cClean = c !== undefined && i === isLastCorrectIndex ? stripTrailingPunct(c) : c;
-      const ok = c !== undefined && gClean === cClean;
+      const isProper = c !== undefined && properWords.includes(cClean);
+      const ok = c !== undefined && (isProper ? gClean === cClean : gClean.toLowerCase() === cClean.toLowerCase());
       if (!ok) allMatch = false;
       results.push({ text: g, ok });
     }
@@ -124,7 +127,8 @@
     if (!rawGuess) return;
 
     const feedback = document.getElementById('feedback');
-    const { allMatch, results } = compareWords(tokenize(rawGuess), tokenize(word.word));
+    const hintEl = document.getElementById('hint-reveal');
+    const { allMatch, results } = compareWords(tokenize(rawGuess), tokenize(word.word), word.properWords || []);
 
     if (allMatch) {
       state.score += state.wrongOnCurrent ? 5 : 10;
@@ -142,6 +146,10 @@
         .map(r => `<span class="${r.ok ? 'word-ok' : 'word-bad'}">${escapeHtml(r.text)}</span>`)
         .join(' ');
       feedback.className = 'feedback incorrect';
+      if (word.hintEN) {
+        hintEl.textContent = `💡 ${word.hintEN}`;
+        hintEl.classList.remove('hidden');
+      }
       input.classList.remove('shake');
       requestAnimationFrame(() => input.classList.add('shake'));
       input.select();
