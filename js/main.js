@@ -519,7 +519,6 @@ const GAMES = [
     id: 'spelling-bee',
     title: 'Spelling Bee',
     collection: 'spelling-bee',
-    gradeNum: 4,
     skill: ['Vocabulary', 'Writing', 'Listening'],
     topic: 'Spelling',
     grammar: 'Vocabulary & Spelling',
@@ -549,7 +548,8 @@ const GAMES = [
     currency: 'BRL',
     access: 'beta',
     status: 'available',
-    gameUrl: 'spelling-bee/index.html'
+    gameUrl: 'spelling-bee/index.html',
+    thumbnail: 'games/spelling-bee/assets/img/bee-mascot.png'
   },
   {
     id: 'adverbs-adventure',
@@ -1137,7 +1137,7 @@ function gameCardHTML(game) {
       <div class="game-card-media">${mediaHTML}</div>
       <div class="game-card-body">
         <div class="game-card-tags">
-          <span class="tag tag-grade">${gradeLabel}</span>
+          ${gradeLabel ? `<span class="tag tag-grade">${gradeLabel}</span>` : ''}
           ${skills}
           <span class="tag tag-diff">${diffLabel}</span>
         </div>
@@ -1172,7 +1172,7 @@ function renderHomePreview() {
 function renderGradeRow() {
   const el = document.getElementById('grade-row');
   if (!el) return;
-  const grades = [...new Set(GAMES.map(g => g.gradeNum))].sort((a, b) => a - b);
+  const grades = [...new Set(GAMES.map(g => g.gradeNum).filter(Boolean))].sort((a, b) => a - b);
   el.innerHTML = grades.map(num => {
     const label = GRADE_LABELS[num][currentLang];
     const [n, word] = currentLang === 'pt' ? label.split('º ') : [String(num), 'grade'];
@@ -1336,7 +1336,7 @@ function initDetail() {
 
   document.title = `${game.title} — Mrs. Dani`;
 
-  const gradeLabel = GRADE_LABELS[game.gradeNum][currentLang];
+  const gradeLabel = GRADE_LABELS[game.gradeNum] ? GRADE_LABELS[game.gradeNum][currentLang] : '';
   const skills = game.skill.map(s => `<span class="tag tag-skill">${(SKILL_LABELS[s] && SKILL_LABELS[s][currentLang]) || s}</span>`).join('');
   const diffLabel = (DIFFICULTY_LABELS[game.difficulty] && DIFFICULTY_LABELS[game.difficulty][currentLang]) || game.difficulty;
   const desc = currentLang === 'pt' ? game.descriptionPT : game.description;
@@ -1374,7 +1374,7 @@ function initDetail() {
   container.innerHTML = `
     <h1>${game.title}</h1>
     <div class="detail-meta">
-      <span class="tag tag-grade">${gradeLabel}</span>
+      ${gradeLabel ? `<span class="tag tag-grade">${gradeLabel}</span>` : ''}
       ${skills}
       <span class="tag tag-diff">${diffLabel}</span>
     </div>
