@@ -29,22 +29,7 @@
     <!-- ===== START SCREEN ===== -->
     <section id="screen-start" class="screen active">
       <div class="start-card">
-        <svg class="mascot mascot-big" viewBox="0 0 200 200" aria-hidden="true">
-          <ellipse cx="100" cy="185" rx="50" ry="9" fill="#4A3418" opacity="0.12"/>
-          <ellipse class="bee-wing bee-wing-l" cx="70" cy="80" rx="30" ry="20" fill="#FFF8E7" opacity="0.85"/>
-          <ellipse class="bee-wing bee-wing-r" cx="130" cy="80" rx="30" ry="20" fill="#FFF8E7" opacity="0.85"/>
-          <ellipse cx="100" cy="115" rx="55" ry="45" fill="#2B2A26"/>
-          <path d="M50 100 a55 45 0 0 0 100 0 Z" fill="#FFC107"/>
-          <path d="M45 115 a55 45 0 0 0 110 0 Z" fill="#FFC107"/>
-          <ellipse cx="100" cy="115" rx="55" ry="45" fill="none" stroke="#2B2A26" stroke-width="4"/>
-          <circle cx="80" cy="60" r="24" fill="#2B2A26"/>
-          <circle cx="72" cy="55" r="4.5" fill="#fff"/>
-          <circle cx="88" cy="55" r="4.5" fill="#fff"/>
-          <path d="M65 40 Q55 20 45 24" stroke="#2B2A26" stroke-width="4" fill="none" stroke-linecap="round"/>
-          <path d="M92 38 Q98 18 110 20" stroke="#2B2A26" stroke-width="4" fill="none" stroke-linecap="round"/>
-          <circle cx="45" cy="24" r="4" fill="#2B2A26"/>
-          <circle cx="110" cy="20" r="4" fill="#2B2A26"/>
-        </svg>
+        <img class="mascot mascot-big" src="assets/img/bee-mascot.png" alt="Buzzy the bee">
         <h1 class="game-title">Spelling Bee - list 3</h1>
         <p class="start-blurb">Hi! I'm Buzzy 🐝 Listen carefully and spell each word correctly. Pick a phase to start!</p>
         <div class="phase-buttons">
@@ -82,15 +67,7 @@
     <section id="screen-results" class="screen">
       <div class="results-card">
         <div class="results-banner" id="results-banner">🍯 HIVE COMPLETE! 🍯</div>
-        <svg class="mascot mascot-medium" viewBox="0 0 200 200" aria-hidden="true">
-          <ellipse cx="100" cy="115" rx="55" ry="45" fill="#2B2A26"/>
-          <path d="M50 100 a55 45 0 0 0 100 0 Z" fill="#FFC107"/>
-          <path d="M45 115 a55 45 0 0 0 110 0 Z" fill="#FFC107"/>
-          <ellipse cx="100" cy="115" rx="55" ry="45" fill="none" stroke="#2B2A26" stroke-width="4"/>
-          <circle cx="80" cy="60" r="24" fill="#2B2A26"/>
-          <circle cx="72" cy="55" r="4.5" fill="#fff"/>
-          <circle cx="88" cy="55" r="4.5" fill="#fff"/>
-        </svg>
+        <img class="mascot mascot-medium" src="assets/img/bee-mascot.png" alt="Buzzy the bee">
 
         <div class="results-stats">
           <div class="stat-box">
@@ -120,6 +97,7 @@
 </div>
 
 <audio id="word-audio" preload="none"></audio>
+<div id="confetti-layer" aria-hidden="true"></div>
 
 <script src="js/game-data.js"></script>
 <script src="js/game.js"></script>

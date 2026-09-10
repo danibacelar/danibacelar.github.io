@@ -43,6 +43,48 @@
     speechSynthesis.speak(utter);
   }
 
+  let audioCtx = null;
+
+  function playSuccessSound() {
+    try {
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      const now = audioCtx.currentTime;
+      const notes = [523.25, 659.25, 783.99, 1046.5]; // C5 E5 G5 C6
+      notes.forEach((freq, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        const start = now + i * 0.09;
+        gain.gain.setValueAtTime(0, start);
+        gain.gain.linearRampToValueAtTime(0.25, start + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, start + 0.25);
+        osc.connect(gain).connect(audioCtx.destination);
+        osc.start(start);
+        osc.stop(start + 0.26);
+      });
+    } catch (e) { /* Web Audio unavailable — silently skip the chime */ }
+  }
+
+  function burstBeeConfetti() {
+    const layer = document.getElementById('confetti-layer');
+    const count = 18;
+    for (let i = 0; i < count; i++) {
+      const bee = document.createElement('span');
+      bee.className = 'confetti-bee';
+      bee.textContent = '🐝';
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 120 + Math.random() * 220;
+      bee.style.setProperty('--bee-x', `${Math.cos(angle) * distance}px`);
+      bee.style.setProperty('--bee-y', `${Math.sin(angle) * distance}px`);
+      bee.style.setProperty('--bee-rot', `${(Math.random() * 720 - 360)}deg`);
+      bee.style.setProperty('--bee-size', `${1.2 + Math.random() * 1.4}rem`);
+      bee.style.setProperty('--bee-duration', `${0.8 + Math.random() * 0.6}s`);
+      layer.appendChild(bee);
+      bee.addEventListener('animationend', () => bee.remove());
+    }
+  }
+
   function playWord(word) {
     const audioEl = document.getElementById('word-audio');
     if (!word.audio) {
@@ -140,6 +182,8 @@
       document.getElementById('btn-skip').disabled = true;
       document.getElementById('btn-next').classList.remove('hidden');
       updateHeader();
+      playSuccessSound();
+      burstBeeConfetti();
     } else {
       state.wrongOnCurrent = true;
       feedback.innerHTML = results

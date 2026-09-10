@@ -16,6 +16,7 @@ css/style.css        → visual (tema abelha/colmeia)
 js/game-data.js       → a lista de vocabulário (EDITAR AQUI)
 js/game.js            → motor do jogo (lógica, pontuação, áudio)
 assets/audio/         → um arquivo .mp3 por item do vocabulário
+assets/img/            → mascote Buzzy (bee-mascot.png)
 ```
 
 ## ✏️ Editando o vocabulário
@@ -63,8 +64,10 @@ ao array e um botão correspondente na tela inicial (`index.html`).
 4. Se errar, a(s) palavra(s) errada(s) da própria resposta aparece(m) em
    vermelho (maiúscula/minúscula só conta para nomes próprios), e uma dica
    em inglês aparece embaixo — sem revelar a resposta.
-5. Acerto: +10 pontos (5 se acertou depois de errar antes) e avança para o
-   próximo item. Erro: pode tentar de novo, sem limite de tentativas.
+5. Acerto: toca um som de sucesso, uma explosão de abelhinhas 🐝 voa pela
+   tela (efeito confete), +10 pontos (5 se acertou depois de errar antes) e
+   avança para o próximo item. Erro: pode tentar de novo, sem limite de
+   tentativas.
 6. "Skip" revela a resposta correta e marca para revisão no final.
 7. Ao final, mostra pontuação, acertos e a lista de itens para revisar.
    "Play again" repete a mesma fase, embaralhada de novo.
