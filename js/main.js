@@ -517,7 +517,7 @@ const GAMES = [
   },
   {
     id: 'spelling-bee',
-    title: 'Spelling Bee',
+    title: 'Spelling Bee - list 3',
     collection: 'spelling-bee',
     skill: ['Vocabulary', 'Writing', 'Listening'],
     topic: 'Spelling',
