@@ -1,6 +1,7 @@
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import GameCard from "../components/GameCard";
+import SearchAndFilters from "../components/SearchAndFilters";
 import { GAMES } from "../data/games";
 
 export default function MeusJogosPage() {
@@ -25,15 +26,18 @@ export default function MeusJogosPage() {
 
       <section className="section" style={{ paddingTop: 16 }}>
         <div className="wrap">
-          <div className="prototype-note">
+          <SearchAndFilters resultCount={meusJogos.length} />
+
+          <div className="prototype-note" style={{ marginTop: 24 }}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="12" cy="12" r="10" />
               <path d="M12 8v5M12 16h.01" />
             </svg>
             <span>
-              Protótipo — hoje mostra o &quot;Town Explorer&quot; fixo como exemplo
-              de jogo comprado. Na versão real, essa lista vem do banco de
-              dados, ligada à conta de quem fez login.
+              Protótipo — a busca e os filtros abrem e fecham, mas ainda não
+              filtram de verdade. Hoje mostra o &quot;Town Explorer&quot; fixo
+              como exemplo de jogo comprado. Na versão real, essa lista vem do
+              banco de dados, ligada à conta de quem fez login.
             </span>
           </div>
 
