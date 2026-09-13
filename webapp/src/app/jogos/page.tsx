@@ -1,10 +1,31 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import GameCard from "../components/GameCard";
 import SearchAndFilters from "../components/SearchAndFilters";
 import { GAMES } from "../data/games";
+import { getSession, type Session } from "../lib/fakeAuth";
 
 export default function TodosOsJogosPage() {
+  const router = useRouter();
+  const [session, setSession] = useState<Session | null>(null);
+
+  function refresh() {
+    const atual = getSession();
+    if (!atual) {
+      router.replace("/login");
+      return;
+    }
+    setSession(atual);
+  }
+
+  useEffect(refresh, [router]);
+
+  if (!session) return null;
+
   return (
     <>
       <Nav active="/jogos" />
@@ -32,19 +53,21 @@ export default function TodosOsJogosPage() {
               <path d="M12 8v5M12 16h.01" />
             </svg>
             <span>
-              Protótipo — a busca e os filtros abrem e fecham, mas ainda não
-              filtram de verdade (igual ao restante da tela, isso ainda não
-              está conectado). Os jogos abaixo são de exemplo, mostrando os
-              três estados do cartão: &quot;Growing Plants&quot; é gratuito
-              para qualquer um testar, &quot;Town Explorer&quot; já foi
-              comprado, e os demais estão disponíveis para compra com
-              créditos.
+              Teste — clicar em &quot;Comprar&quot; desconta créditos de
+              mentira do seu saldo (salvo só no seu navegador) e libera o
+              jogo. Sem crédito suficiente, você vai para a tela de comprar
+              créditos. A busca e os filtros ainda não filtram de verdade.
             </span>
           </div>
 
           <div className="game-grid" style={{ marginTop: 24 }}>
             {GAMES.map((game) => (
-              <GameCard game={game} key={game.slug} />
+              <GameCard
+                game={game}
+                owned={session.jogosComprados.includes(game.slug)}
+                onChange={refresh}
+                key={game.slug}
+              />
             ))}
           </div>
         </div>

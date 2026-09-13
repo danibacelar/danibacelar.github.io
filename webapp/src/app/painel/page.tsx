@@ -1,7 +1,26 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
+import { getSession, type Session } from "../lib/fakeAuth";
 
 export default function PainelPage() {
+  const router = useRouter();
+  const [session, setSession] = useState<Session | null>(null);
+
+  useEffect(() => {
+    const atual = getSession();
+    if (!atual) {
+      router.replace("/login");
+      return;
+    }
+    setSession(atual);
+  }, [router]);
+
+  if (!session) return null;
+
   return (
     <>
       <Nav active="/painel" />
@@ -14,17 +33,17 @@ export default function PainelPage() {
               <path d="M12 8v5M12 16h.01" />
             </svg>
             <span>
-              Protótipo — esta é a tela que aparece assim que você faz login.
+              Teste — este saldo é de mentira, salvo só no seu navegador.
               Daqui você escolhe se quer ver o que já comprou ou o catálogo
               inteiro.
             </span>
           </div>
 
           <h1 style={{ fontSize: "2rem", marginBottom: 8 }} className="center">
-            Olá, Mrs. Dani
+            Olá, {session.nome}
           </h1>
           <p className="center" style={{ marginBottom: 24 }}>
-            Saldo atual: <strong>40 créditos</strong>
+            Saldo atual: <strong>{session.creditos} créditos</strong>
           </p>
 
           <div className="callout" style={{ marginBottom: 16, textAlign: "center" }}>

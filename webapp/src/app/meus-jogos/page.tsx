@@ -1,11 +1,34 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import GameCard from "../components/GameCard";
 import SearchAndFilters from "../components/SearchAndFilters";
 import { GAMES } from "../data/games";
+import { getSession, type Session } from "../lib/fakeAuth";
 
 export default function MeusJogosPage() {
-  const meusJogos = GAMES.filter((game) => game.owned);
+  const router = useRouter();
+  const [session, setSession] = useState<Session | null>(null);
+
+  function refresh() {
+    const atual = getSession();
+    if (!atual) {
+      router.replace("/login");
+      return;
+    }
+    setSession(atual);
+  }
+
+  useEffect(refresh, [router]);
+
+  if (!session) return null;
+
+  const meusJogos = GAMES.filter(
+    (game) => game.free || session.jogosComprados.includes(game.slug)
+  );
 
   return (
     <>
@@ -18,8 +41,8 @@ export default function MeusJogosPage() {
             Jogos que você já comprou
           </h1>
           <p className="lede">
-            Só os jogos desbloqueados aparecem aqui, prontos para jogar — sem
-            precisar de créditos de novo.
+            Os jogos gratuitos e os que você já desbloqueou aparecem aqui,
+            prontos para jogar — sem precisar de créditos de novo.
           </p>
         </div>
       </header>
@@ -34,17 +57,21 @@ export default function MeusJogosPage() {
               <path d="M12 8v5M12 16h.01" />
             </svg>
             <span>
-              Protótipo — a busca e os filtros abrem e fecham, mas ainda não
-              filtram de verdade. Hoje mostra o &quot;Town Explorer&quot; fixo
-              como exemplo de jogo comprado. Na versão real, essa lista vem do
-              banco de dados, ligada à conta de quem fez login.
+              Teste — esta lista reflete o que você comprou de mentira nesta
+              sessão do navegador. Entre com outro nome de teste para começar
+              com um saldo zerado.
             </span>
           </div>
 
           {meusJogos.length > 0 ? (
             <div className="game-grid" style={{ marginTop: 24 }}>
               {meusJogos.map((game) => (
-                <GameCard game={game} key={game.slug} />
+                <GameCard
+                  game={game}
+                  owned={session.jogosComprados.includes(game.slug)}
+                  onChange={refresh}
+                  key={game.slug}
+                />
               ))}
             </div>
           ) : (

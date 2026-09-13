@@ -1,12 +1,33 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 import Nav from "../../components/Nav";
 import Footer from "../../components/Footer";
+import { GAMES } from "../../data/games";
+import { getSession, type Session } from "../../lib/fakeAuth";
 
-export default async function JogarPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
+export default function JogarPage() {
+  const router = useRouter();
+  const params = useParams<{ slug: string }>();
+  const [session, setSession] = useState<Session | null | undefined>(undefined);
+
+  useEffect(() => {
+    const atual = getSession();
+    if (!atual) {
+      router.replace("/login");
+      return;
+    }
+    setSession(atual);
+  }, [router]);
+
+  if (session === undefined) return null;
+
+  const slug = params.slug;
+  const game = GAMES.find((g) => g.slug === slug);
+  const desbloqueado = game
+    ? game.free || (session?.jogosComprados.includes(slug) ?? false)
+    : false;
 
   return (
     <>
@@ -20,27 +41,35 @@ export default async function JogarPage({
               <path d="M12 8v5M12 16h.01" />
             </svg>
             <span>
-              Protótipo — esta é a página mais importante para resolver o
-              vazamento de link: quando estiver pronta de verdade, ela vai
-              rodar no servidor e checar, antes de mostrar qualquer coisa: (1)
-              você está logado? (2) este jogo é gratuito, ou você já
-              desbloqueou ele, ou tem créditos para desbloquear agora? Só
-              depois disso o jogo aparece. Ninguém vai conseguir copiar este
-              link e mandar para outra pessoa jogar de graça — exceto nos
-              jogos marcados como gratuitos, que ficam abertos de propósito
-              para quem quiser testar antes de comprar.
+              Teste — esta página confere, antes de mostrar qualquer coisa:
+              (1) você está logado? (2) este jogo é gratuito, ou você já
+              desbloqueou ele com créditos de mentira? Só depois disso o jogo
+              aparece. Um link copiado e enviado para outra pessoa não vai
+              funcionar sozinho — a não ser que a pessoa também entre com um
+              nome de teste e já tenha esse jogo.
             </span>
           </div>
 
-          <h1 style={{ marginBottom: 12 }}>Jogo: {slug}</h1>
-          <p className="lede" style={{ marginBottom: 16 }}>
-            Aqui vai aparecer o jogo de verdade, só depois que a verificação
-            de login e créditos estiver conectada.
-          </p>
+          <h1 style={{ marginBottom: 12 }}>
+            Jogo: {game ? game.title : slug}
+          </h1>
 
-          <div className="callout" style={{ padding: 40, textAlign: "center" }}>
-            <p style={{ margin: 0 }}>🔒 (espaço reservado para o jogo, protegido por sessão)</p>
-          </div>
+          {desbloqueado ? (
+            <div className="callout" style={{ padding: 40, textAlign: "center" }}>
+              <p style={{ margin: 0 }}>
+                🔒✅ Acesso liberado — aqui vai aparecer o jogo de verdade.
+              </p>
+            </div>
+          ) : (
+            <div className="callout" style={{ padding: 40, textAlign: "center" }}>
+              <p style={{ marginBottom: 16 }}>
+                Você ainda não desbloqueou este jogo.
+              </p>
+              <a href="/jogos" className="btn btn-primary">
+                Ver todos os jogos
+              </a>
+            </div>
+          )}
         </div>
       </section>
 

@@ -1,5 +1,10 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
+import { adicionarCreditos, getSession, type Session } from "../lib/fakeAuth";
 
 const pacotesFalsos = [
   { creditos: 50, preco: "R$ 25,00" },
@@ -8,6 +13,29 @@ const pacotesFalsos = [
 ];
 
 export default function CreditosPage() {
+  const router = useRouter();
+  const [session, setSession] = useState<Session | null>(null);
+  const [mensagem, setMensagem] = useState<string | null>(null);
+
+  useEffect(() => {
+    const atual = getSession();
+    if (!atual) {
+      router.replace("/login");
+      return;
+    }
+    setSession(atual);
+  }, [router]);
+
+  if (!session) return null;
+
+  function handleComprar(creditos: number) {
+    const atualizada = adicionarCreditos(creditos);
+    if (atualizada) {
+      setSession(atualizada);
+      setMensagem(`Pagamento de mentira aprovado: +${creditos} créditos adicionados.`);
+    }
+  }
+
   return (
     <>
       <Nav active="/creditos" />
@@ -17,7 +45,7 @@ export default function CreditosPage() {
           <p className="eyebrow">Créditos</p>
           <h1 style={{ fontSize: "clamp(1.8rem,3.5vw,2.6rem)" }}>Comprar créditos</h1>
           <p className="lede">
-            Saldo atual: <strong>40 créditos</strong>
+            Saldo atual: <strong>{session.creditos} créditos</strong>
           </p>
         </div>
       </header>
@@ -30,19 +58,30 @@ export default function CreditosPage() {
               <path d="M12 8v5M12 16h.01" />
             </svg>
             <span>
-              Protótipo — pacotes e preços de exemplo. Ao clicar em
-              &quot;Comprar&quot;, aqui é onde o Mercado Pago vai abrir o
-              checkout de verdade e, após confirmado, os créditos entram
-              sozinhos na conta.
+              Teste — clicar em &quot;Comprar&quot; aqui não cobra nada de
+              verdade, é um pagamento de mentira que só soma créditos no seu
+              saldo de teste. Quando o Mercado Pago for conectado, isso vira
+              um checkout de verdade.
             </span>
           </div>
+
+          {mensagem && (
+            <div className="prototype-note" style={{ background: "var(--peach)", marginBottom: 16 }}>
+              <span>{mensagem}</span>
+            </div>
+          )}
 
           <div className="stat-row">
             {pacotesFalsos.map((pacote) => (
               <div className="stat-card" key={pacote.creditos}>
                 <div className="stat-num">{pacote.creditos}</div>
                 <div className="stat-label">créditos — {pacote.preco}</div>
-                <button className="btn btn-primary" type="button" disabled style={{ marginTop: 12 }}>
+                <button
+                  className="btn btn-primary"
+                  type="button"
+                  style={{ marginTop: 12 }}
+                  onClick={() => handleComprar(pacote.creditos)}
+                >
                   Comprar
                 </button>
               </div>
