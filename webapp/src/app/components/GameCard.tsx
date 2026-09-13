@@ -27,9 +27,9 @@ export default function GameCard({ game }: { game: Game }) {
         <p className="game-card-desc">{game.description}</p>
         <div className="price-block">
           <span className="price">
-            {game.owned ? "Incluído" : `${game.credits} créditos`}
+            {game.free ? "Grátis" : game.owned ? "Incluído" : `${game.credits} créditos`}
           </span>
-          {game.owned ? (
+          {game.free || game.owned ? (
             <a className="link-inline" href={`/jogar/${game.slug}`}>
               Jogar
               <ArrowIcon />
@@ -42,8 +42,14 @@ export default function GameCard({ game }: { game: Game }) {
           )}
         </div>
         <div className="game-card-footer">
-          <span className={`access-pill ${game.owned ? "included" : "purchase"}`}>
-            {game.owned ? "Já disponível" : "Disponível para compra"}
+          <span
+            className={`access-pill ${game.free || game.owned ? "included" : "purchase"}`}
+          >
+            {game.free
+              ? "Grátis para testar"
+              : game.owned
+                ? "Já disponível"
+                : "Disponível para compra"}
           </span>
         </div>
       </div>

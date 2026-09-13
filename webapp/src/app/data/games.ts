@@ -8,9 +8,23 @@ export type Game = {
   credits: number;
   thumbnail: string;
   owned: boolean;
+  free?: boolean;
 };
 
 export const GAMES: Game[] = [
+  {
+    slug: "growing-plants",
+    title: "Growing Plants",
+    description:
+      "Descubra como as plantas crescem e aprenda o vocabulário das partes de uma planta em inglês, em atividades curtas e ilustradas.",
+    grade: "3º ano",
+    skills: ["Vocabulário", "Leitura"],
+    difficulty: "Iniciante",
+    credits: 0,
+    thumbnail: "/assets/games/growing-plants-thumb.jpg",
+    owned: false,
+    free: true,
+  },
   {
     slug: "town-explorer",
     title: "Town Explorer",

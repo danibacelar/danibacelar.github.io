@@ -13,8 +13,9 @@ export default function TodosOsJogosPage() {
           <p className="eyebrow">Jogos</p>
           <h1 style={{ fontSize: "clamp(1.8rem,3.5vw,2.6rem)" }}>Todos os jogos</h1>
           <p className="lede">
-            Cada jogo mostra quanto custa em créditos. Os que você já comprou
-            aparecem como &quot;Já disponível&quot;, com o botão Jogar no lugar de
+            Cada jogo mostra quanto custa em créditos. Os gratuitos aparecem
+            como &quot;Grátis para testar&quot;, e os que você já comprou como
+            &quot;Já disponível&quot; — os dois com o botão Jogar no lugar de
             Comprar.
           </p>
         </div>
@@ -28,9 +29,10 @@ export default function TodosOsJogosPage() {
               <path d="M12 8v5M12 16h.01" />
             </svg>
             <span>
-              Protótipo — os 3 jogos abaixo são de exemplo. &quot;Town
-              Explorer&quot; está marcado como já comprado só para mostrar os dois
-              estados do cartão (comprado vs. disponível para compra).
+              Protótipo — os jogos abaixo são de exemplo, mostrando os três
+              estados do cartão: &quot;Growing Plants&quot; é gratuito para
+              qualquer um testar, &quot;Town Explorer&quot; já foi comprado, e
+              os demais estão disponíveis para compra com créditos.
             </span>
           </div>
 

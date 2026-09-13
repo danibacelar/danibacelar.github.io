@@ -23,10 +23,12 @@ export default async function JogarPage({
               Protótipo — esta é a página mais importante para resolver o
               vazamento de link: quando estiver pronta de verdade, ela vai
               rodar no servidor e checar, antes de mostrar qualquer coisa: (1)
-              você está logado? (2) você já desbloqueou este jogo, ou tem
-              créditos para desbloquear agora? Só depois disso o jogo aparece.
-              Ninguém vai conseguir copiar este link e mandar para outra
-              pessoa jogar de graça.
+              você está logado? (2) este jogo é gratuito, ou você já
+              desbloqueou ele, ou tem créditos para desbloquear agora? Só
+              depois disso o jogo aparece. Ninguém vai conseguir copiar este
+              link e mandar para outra pessoa jogar de graça — exceto nos
+              jogos marcados como gratuitos, que ficam abertos de propósito
+              para quem quiser testar antes de comprar.
             </span>
           </div>
 
