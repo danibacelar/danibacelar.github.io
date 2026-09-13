@@ -1,3 +1,6 @@
+import Nav from "../../components/Nav";
+import Footer from "../../components/Footer";
+
 export default async function JogarPage({
   params,
 }: {
@@ -6,26 +9,40 @@ export default async function JogarPage({
   const { slug } = await params;
 
   return (
-    <div>
-      <div className="build-note">
-        🚧 Página de jogar — placeholder. Esta é a parte mais importante
-        para resolver o vazamento de link: quando estiver pronta de
-        verdade, esta página vai rodar no servidor e checar, antes de
-        mostrar qualquer coisa: (1) você está logado? (2) você já
-        desbloqueou este jogo, ou tem créditos para desbloquear agora? Só
-        depois disso o jogo aparece. Ninguém vai conseguir copiar este
-        link e mandar para outra pessoa jogar de graça.
-      </div>
+    <>
+      <Nav />
 
-      <h1 className="page-title">Jogo: {slug}</h1>
-      <p className="page-lede">
-        Aqui vai aparecer o jogo de verdade, só depois que a verificação de
-        login e créditos estiver conectada.
-      </p>
+      <section className="section">
+        <div className="wrap">
+          <div className="prototype-note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 8v5M12 16h.01" />
+            </svg>
+            <span>
+              Protótipo — esta é a página mais importante para resolver o
+              vazamento de link: quando estiver pronta de verdade, ela vai
+              rodar no servidor e checar, antes de mostrar qualquer coisa: (1)
+              você está logado? (2) você já desbloqueou este jogo, ou tem
+              créditos para desbloquear agora? Só depois disso o jogo aparece.
+              Ninguém vai conseguir copiar este link e mandar para outra
+              pessoa jogar de graça.
+            </span>
+          </div>
 
-      <div className="card">
-        <p>🔒 (espaço reservado para o jogo, protegido por sessão)</p>
-      </div>
-    </div>
+          <h1 style={{ marginBottom: 12 }}>Jogo: {slug}</h1>
+          <p className="lede" style={{ marginBottom: 16 }}>
+            Aqui vai aparecer o jogo de verdade, só depois que a verificação
+            de login e créditos estiver conectada.
+          </p>
+
+          <div className="callout" style={{ padding: 40, textAlign: "center" }}>
+            <p style={{ margin: 0 }}>🔒 (espaço reservado para o jogo, protegido por sessão)</p>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </>
   );
 }

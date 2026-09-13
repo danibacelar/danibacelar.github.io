@@ -1,37 +1,38 @@
-const jogosFalsos = [
-  { nome: "Growing Plants", creditos: 10 },
-  { nome: "Spelling Bee", creditos: 15 },
-  { nome: "Top Town", creditos: 20 },
-];
+import Footer from "./components/Footer";
 
-export default function CatalogoPage() {
+export default function HomePage() {
   return (
-    <div>
-      <div className="build-note">
-        🚧 Página de catálogo — placeholder. Os jogos abaixo são de mentira, só
-        para mostrar como o preço em créditos vai aparecer ao lado de cada
-        jogo. Ainda não busca dados reais nem verifica login.
-      </div>
-
-      <h1 className="page-title">Todos os jogos</h1>
-      <p className="page-lede">
-        Cada jogo mostra quantos créditos custa. Ao clicar em &quot;Jogar&quot;,
-        o sistema vai verificar se você já tem esse jogo ou se tem créditos
-        suficientes para desbloquear.
-      </p>
-
-      <div className="game-grid">
-        {jogosFalsos.map((jogo) => (
-          <div className="game-card" key={jogo.nome}>
-            <h3>{jogo.nome}</h3>
-            <div className="credit-badge">{jogo.creditos} créditos</div>
-            <br />
-            <a className="btn" href="/jogar/exemplo">
-              Jogar
+    <>
+      <nav className="nav">
+        <div className="wrap">
+          <a href="/" className="brand">
+            Mrs. <span>Dani</span>
+          </a>
+          <div className="nav-cta">
+            <a href="/login" className="btn btn-primary">
+              Fazer login
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
             </a>
           </div>
-        ))}
-      </div>
-    </div>
+        </div>
+      </nav>
+
+      <section className="section">
+        <div className="wrap section-head center">
+          <p className="eyebrow">Mrs. Dani</p>
+          <h1 style={{ fontSize: "clamp(2rem,4.5vw,3rem)" }}>
+            Jogos de inglês para crianças
+          </h1>
+          <p className="lede" style={{ margin: "0 auto" }}>
+            Faça login para ver os jogos que você já comprou ou comprar novos
+            com créditos.
+          </p>
+        </div>
+      </section>
+
+      <Footer />
+    </>
   );
 }
