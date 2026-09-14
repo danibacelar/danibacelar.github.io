@@ -36,11 +36,8 @@ export default function HomePage() {
               <button className="active">PT</button>
               <button>EN</button>
             </div>
-            <a href="/login" className="btn btn-ghost">
+            <a href="/login" className="btn btn-primary">
               Fazer login
-            </a>
-            <a href="/jogos" className="btn btn-primary">
-              Explorar jogos
             </a>
             <button className="nav-toggle" aria-label="Open menu" aria-expanded="false">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
