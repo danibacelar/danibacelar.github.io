@@ -154,23 +154,27 @@ export default function HomePage() {
           <div className="steps">
             <div className="step">
               <div className="step-num">1</div>
-              <h3>Escolha um jogo</h3>
+              <h3>Crie sua conta gratuitamente</h3>
               <p>
-                Filtre pelo ano escolar do seu filho e pela habilidade que ele
-                precisa praticar.
+                Leva menos de um minuto, sem cartão de crédito. Você só paga
+                quando decidir começar a jogar.
               </p>
             </div>
             <div className="step">
               <div className="step-num">2</div>
-              <h3>Compre com segurança</h3>
-              <p>Crie uma conta e adquira a atividade certa para o seu filho.</p>
+              <h3>Compre seus créditos</h3>
+              <p>
+                Quer testar com um jogo só? Compre ele avulso. Quer aproveitar
+                mais? Compre um pacote de créditos e use em quantos jogos
+                quiser.
+              </p>
             </div>
             <div className="step">
               <div className="step-num">3</div>
               <h3>Seu filho pratica sozinho</h3>
               <p>
                 Com um acesso simples, seu filho entra e já vê as atividades
-                dele — sem senha complicada.
+                dele.
               </p>
             </div>
           </div>
