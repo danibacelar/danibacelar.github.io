@@ -59,6 +59,11 @@ poucos o site estático que já existe na raiz (HTML puro, no ar hoje em
   (self-hosted) — havia um bug real em que o build de produção do
   Next.js descartava o `@import` do Google Fonts; já corrigido, não
   reintroduzir o `@import` em CSS solto.
+- Página `/creditos`: os 3 pacotes usam as imagens reais dos selos
+  (bronze/prata/ouro) que a Dani enviou — `public/assets/badges/
+  bronze-10.png`, `prata-30.png`, `ouro-50.png`. Cada card mostra só
+  o selo, "X jogo(s)" e o preço total (ex: "R$ 30,00"), sem preço por
+  jogo — ela pediu para tirar essa quebra por unidade.
 
 ## O que falta (próximos passos possíveis)
 
