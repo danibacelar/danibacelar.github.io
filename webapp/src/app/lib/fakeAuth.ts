@@ -58,6 +58,18 @@ export const SENHA_FIXA = "student123";
 const STORAGE_KEY = "mrsdani_fake_session";
 const CREDITOS_INICIAIS = 20;
 export const VALIDADE_DIAS = 30;
+export const PRECO_POR_CREDITO_REAIS = 3; // 10 créditos = R$30, os 30 dias de validade
+
+export function precoAvulsoReais(creditos: number): number {
+  return creditos * PRECO_POR_CREDITO_REAIS;
+}
+
+export function formatarReais(valor: number): string {
+  return valor.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+}
 
 export type Compra = {
   slug: string;
@@ -211,6 +223,30 @@ export function comprarJogo(
   const atualizada: Session = {
     ...session,
     creditos: session.creditos - custo,
+    jogosComprados: [
+      ...session.jogosComprados.filter((c) => c.slug !== slug),
+      novaCompra,
+    ],
+  };
+  salvar(atualizada);
+  return { ok: true, session: atualizada };
+}
+
+// Compra avulsa: paga o valor exato daquele jogo (via Pix, na versão real)
+// e libera na hora, sem mexer no saldo de créditos — é um pagamento à
+// parte, não um jeito de "gastar" crédito.
+export function comprarAvulso(
+  slug: string
+): { ok: boolean; erro?: string; session?: Session } {
+  const session = getSession();
+  if (!session) return { ok: false, erro: "Você precisa entrar primeiro." };
+
+  const expiraEm = new Date();
+  expiraEm.setDate(expiraEm.getDate() + VALIDADE_DIAS);
+
+  const novaCompra: Compra = { slug, expiraEm: expiraEm.toISOString() };
+  const atualizada: Session = {
+    ...session,
     jogosComprados: [
       ...session.jogosComprados.filter((c) => c.slug !== slug),
       novaCompra,

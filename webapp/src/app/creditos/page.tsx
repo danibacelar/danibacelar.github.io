@@ -3,13 +3,18 @@
 import { useState } from "react";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
-import { adicionarCreditos } from "../lib/fakeAuth";
+import { adicionarCreditos, formatarReais } from "../lib/fakeAuth";
 import { useSessaoAtiva } from "../lib/useSessaoAtiva";
 
+// Cada jogo custa 10 créditos hoje (pode variar por jogo no futuro), então
+// os pacotes são vendidos em "quantidade de jogos" para ficar mais claro
+// para os pais — por baixo, é a mesma coisa: soma créditos ao saldo.
+const CREDITOS_POR_JOGO_HOJE = 10;
+
 const pacotesFalsos = [
-  { creditos: 50, preco: "R$ 25,00" },
-  { creditos: 100, preco: "R$ 45,00" },
-  { creditos: 250, preco: "R$ 100,00" },
+  { jogos: 1, preco: 30 },
+  { jogos: 3, preco: 90 },
+  { jogos: 5, preco: 140 },
 ];
 
 export default function CreditosPage() {
@@ -18,11 +23,14 @@ export default function CreditosPage() {
 
   if (!session) return null;
 
-  function handleComprar(creditos: number) {
+  function handleComprar(jogos: number, preco: number) {
+    const creditos = jogos * CREDITOS_POR_JOGO_HOJE;
     const atualizada = adicionarCreditos(creditos);
     if (atualizada) {
       refresh();
-      setMensagem(`Pagamento de mentira aprovado: +${creditos} créditos adicionados.`);
+      setMensagem(
+        `Pagamento de mentira aprovado: +${creditos} créditos adicionados (${formatarReais(preco)}).`
+      );
     }
   }
 
@@ -51,8 +59,8 @@ export default function CreditosPage() {
               Teste — clicar em &quot;Comprar&quot; aqui não cobra nada de
               verdade, é um pagamento de mentira que só soma créditos no seu
               saldo de teste. Na versão real, o pagamento é só por Pix (sem
-              cartão de crédito): você paga, os créditos entram na hora, e
-              cada jogo comprado fica liberado por 30 dias.
+              cartão de crédito). Quanto mais jogos no pacote, menor o preço
+              de cada um — e cada jogo comprado fica liberado por 30 dias.
             </span>
           </div>
 
@@ -64,14 +72,19 @@ export default function CreditosPage() {
 
           <div className="stat-row">
             {pacotesFalsos.map((pacote) => (
-              <div className="stat-card" key={pacote.creditos}>
-                <div className="stat-num">{pacote.creditos}</div>
-                <div className="stat-label">créditos — {pacote.preco} via Pix</div>
+              <div className="stat-card" key={pacote.jogos}>
+                <div className="stat-num">{pacote.jogos}</div>
+                <div className="stat-label">
+                  {pacote.jogos === 1 ? "jogo" : "jogos"} — {formatarReais(pacote.preco)}
+                </div>
+                <div className="stat-label">
+                  {formatarReais(pacote.preco / pacote.jogos)} por jogo via Pix
+                </div>
                 <button
                   className="btn btn-primary"
                   type="button"
                   style={{ marginTop: 12 }}
-                  onClick={() => handleComprar(pacote.creditos)}
+                  onClick={() => handleComprar(pacote.jogos, pacote.preco)}
                 >
                   Comprar
                 </button>

@@ -39,11 +39,11 @@ export default function TodosOsJogosPage() {
               <path d="M12 8v5M12 16h.01" />
             </svg>
             <span>
-              Teste — clicar em &quot;Comprar&quot; desconta créditos de
-              mentira do seu saldo (salvo só no seu navegador) e libera o
-              jogo por 30 dias. Sem crédito suficiente, você vai para a tela
-              de comprar créditos. A busca e os filtros ainda não filtram de
-              verdade.
+              Teste — com créditos suficientes, &quot;Comprar&quot; desconta
+              do seu saldo de mentira e libera o jogo por 30 dias. Sem
+              crédito suficiente, aparece a opção de comprar só aquele jogo
+              avulso (sem mexer no saldo) ou ir para os pacotes de créditos.
+              A busca e os filtros ainda não filtram de verdade.
             </span>
           </div>
 
@@ -52,6 +52,7 @@ export default function TodosOsJogosPage() {
               <GameCard
                 game={game}
                 compra={getCompra(session, game.slug)}
+                creditosDisponiveis={session.creditos}
                 onChange={refresh}
                 key={game.slug}
               />

@@ -57,6 +57,7 @@ export default function MeusJogosPage() {
                 <GameCard
                   game={game}
                   compra={getCompra(session, game.slug)}
+                  creditosDisponiveis={session.creditos}
                   onChange={refresh}
                   key={game.slug}
                 />

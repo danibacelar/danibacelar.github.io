@@ -2,7 +2,15 @@
 
 import { useRouter } from "next/navigation";
 import type { Game } from "../data/games";
-import { comprarJogo, diasRestantes, estaValido, type Compra } from "../lib/fakeAuth";
+import {
+  comprarAvulso,
+  comprarJogo,
+  diasRestantes,
+  estaValido,
+  formatarReais,
+  precoAvulsoReais,
+  type Compra,
+} from "../lib/fakeAuth";
 
 const ArrowIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -13,24 +21,35 @@ const ArrowIcon = () => (
 export default function GameCard({
   game,
   compra,
+  creditosDisponiveis,
   onChange,
 }: {
   game: Game;
   compra: Compra | undefined;
+  creditosDisponiveis: number;
   onChange?: () => void;
 }) {
   const router = useRouter();
   const valido = estaValido(compra);
   const expirado = !!compra && !valido;
   const desbloqueado = game.free || valido;
+  const temCreditoSuficiente = creditosDisponiveis >= game.credits;
 
-  function handleComprar() {
+  function handleComprarComCreditos() {
     const resultado = comprarJogo(game.slug, game.credits);
     if (resultado.ok) {
       onChange?.();
       router.push(`/jogar/${game.slug}`);
     } else {
       router.push(`/creditos?jogo=${game.slug}`);
+    }
+  }
+
+  function handleComprarAvulso() {
+    const resultado = comprarAvulso(game.slug);
+    if (resultado.ok) {
+      onChange?.();
+      router.push(`/jogar/${game.slug}`);
     }
   }
 
@@ -69,18 +88,37 @@ export default function GameCard({
               Jogar
               <ArrowIcon />
             </a>
+          ) : temCreditoSuficiente ? (
+            <button
+              type="button"
+              className="link-inline"
+              style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
+              onClick={handleComprarComCreditos}
+            >
+              {expirado ? "Comprar de novo" : "Comprar"}
+              <ArrowIcon />
+            </button>
           ) : (
             <button
               type="button"
               className="link-inline"
               style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
-              onClick={handleComprar}
+              onClick={handleComprarAvulso}
             >
-              {expirado ? "Comprar de novo" : "Comprar"}
+              Comprar só este — {formatarReais(precoAvulsoReais(game.credits))}
               <ArrowIcon />
             </button>
           )}
         </div>
+        {!desbloqueado && !temCreditoSuficiente && (
+          <p style={{ fontSize: "0.82rem", color: "var(--ink-soft)", margin: 0 }}>
+            Ou{" "}
+            <a className="link-inline" href={`/creditos?jogo=${game.slug}`} style={{ display: "inline" }}>
+              compre um pacote de créditos
+            </a>{" "}
+            e use em vários jogos.
+          </p>
+        )}
         <div className="game-card-footer">
           <span className={`access-pill ${desbloqueado ? "included" : "purchase"}`}>
             {pillLabel}
