@@ -75,10 +75,12 @@ export default function CreditosPage() {
               <div className="stat-card" key={pacote.jogos}>
                 <div className="stat-num">{pacote.jogos}</div>
                 <div className="stat-label">
-                  {pacote.jogos === 1 ? "jogo" : "jogos"} — {formatarReais(pacote.preco)}
+                  {pacote.jogos === 1 ? "jogo" : "jogos"} —{" "}
+                  {pacote.jogos * CREDITOS_POR_JOGO_HOJE} créditos
                 </div>
                 <div className="stat-label">
-                  {formatarReais(pacote.preco / pacote.jogos)} por jogo via Pix
+                  {formatarReais(pacote.preco)} · {formatarReais(pacote.preco / pacote.jogos)}{" "}
+                  por jogo via Pix
                 </div>
                 <button
                   className="btn btn-primary"
