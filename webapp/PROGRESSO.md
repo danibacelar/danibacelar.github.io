@@ -23,15 +23,73 @@ poucos o site estático que já existe na raiz (HTML puro, no ar hoje em
   (`CLOUDFLARE_API_TOKEN`) e o `account_id` já está em `wrangler.jsonc`.
   **Isso já está funcionando de ponta a ponta — não precisa reconfigurar.**
 
+## IMPORTANTE: o protótipo estático da raiz é a fonte da verdade do design
+
+A raiz deste repositório (fora de `webapp/`) não é só a home — é um
+protótipo completo de front-end que a Dani (ou alguém a pedido dela) já
+tinha construído e aprovado, com todo o fluxo e o visual do jeito que ela
+quer: `index.html`, `games/index.html` (catálogo com busca/filtros),
+`games/detail.html` (produto do jogo), `login/index.html` (entrar),
+`login/aluno.html` (seletor de perfil do aluno), `student/index.html`
+(painel do aluno), `parent/index.html` (área dos pais), `about/index.html`
+(sobre), `school-support/index.html`, `admin/index.html` — tudo com CSS
+real em `css/style.css` + `css/components.css` e um `js/main.js` de
+~1600 linhas que já simulava (com dados de mentira) o fluxo inteiro.
+
+Numa sessão anterior eu tinha construído o `webapp/` do zero, com páginas
+e um modelo de conta *diferentes* desse protótipo (login único por nome de
+criança + senha fixa, um painel genérico). A Dani percebeu a diferença e
+pediu para o site novo ficar **igual ao protótipo**, mantendo só o que já
+tínhamos validado nele por cima (preços, créditos, selos, botão "Fazer
+login"). Essa reconstrução foi feita nesta sessão — ver commit
+"Reconstruir o site para casar com o protótipo real".
+
+**Lição para o futuro:** antes de desenhar uma página nova no `webapp/`,
+sempre olhar primeiro se já existe uma versão dela no protótipo estático
+da raiz (mesmo nome de conceito: jogos → `games/`, login → `login/`,
+etc.) e portar a estrutura/HTML de lá, em vez de inventar um layout novo.
+O CSS (`css/style.css` + `css/components.css`) já está 100% espelhado em
+`webapp/src/app/site-style.css` + `site-components.css` — qualquer classe
+usada no protótipo (`.game-card`, `.stat-row`, `.profile-picker`,
+`.dash-header`, `.child-row`, etc.) já existe e já funciona no `webapp/`.
+
+## Modelo de conta: responsável + filhos (como no protótipo)
+
+Isto mudou de verdade nesta sessão — o modelo antigo (nome da criança +
+senha fixa `student123`) foi substituído por um modelo de duas camadas,
+igual ao que o protótipo já desenhava:
+
+- **Conta do responsável** (pai/mãe): e-mail + senha de verdade (validada
+  contra o que foi cadastrado — ver limitação abaixo), cadastro
+  funcional em `/login` (alternando entre "Entrar" e "Criar conta"). É
+  essa conta que guarda o **saldo de créditos** e a lista de filhos.
+- **Perfis dos filhos**: cada filho é só um nome (+ série opcional),
+  sem senha própria — em `/login/aluno` a criança toca no próprio nome
+  para entrar, estilo "seletor de perfil" (Netflix). São adicionados
+  pelo responsável em `/pais` ("Adicionar filho(a)").
+- **Compras são por (jogo, filho)**: o mesmo jogo pode ser comprado
+  separadamente para dois filhos diferentes; os créditos saem do saldo
+  da família, mas a validade de 30 dias é por perfil.
+- **"1 aparelho por login" agora vale por conta de responsável**, não
+  mais por nome de criança: logar com o e-mail/senha em um novo aparelho
+  derruba a sessão anterior (pai e todos os filhos daquela família usam o
+  mesmo aparelho autenticado, sem senha extra para cada um).
+
+Tudo isso vive em `webapp/src/app/lib/fakeAuth.ts`. **Limitação atual e
+esperada:** as contas ficam salvas só no `localStorage` do navegador onde
+foram criadas — não existe banco de dados real ainda, então uma conta
+criada num navegador não aparece em outro. Isso é o próximo passo grande
+(Supabase), não um bug.
+
 ## Decisões de negócio já fechadas com a Dani
 
 - **Validade de compra:** cada jogo comprado fica liberado por **30
   dias**, jogando quantas vezes quiser nesse período. Depois expira e
   precisa comprar de novo.
-- **1 aparelho por login:** o mesmo login não pode ficar ativo em dois
-  aparelhos ao mesmo tempo — o último que loga derruba o anterior (sem
+- **1 aparelho por login** (ver seção acima — agora por conta de
+  responsável): o último aparelho que loga derruba o anterior, sem
   aviso prévio, é intencional, para evitar compartilhar senha entre
-  famílias).
+  famílias.
 - **Pagamento só por Pix**, sem cartão de crédito.
 - **Preços (hoje, jogo = 10 créditos; no futuro alguns jogos podem
   custar mais créditos):**
@@ -40,21 +98,36 @@ poucos o site estático que já existe na raiz (HTML puro, no ar hoje em
   - Pacotes de créditos: 1 jogo = R$30, 3 jogos = R$90, 5 jogos = R$140
     (desconto por volume só a partir do pacote de 5)
   - A compra avulsa **não mexe no saldo de créditos** — é um pagamento
-    separado que libera só aquele jogo.
+    separado que libera só aquele jogo, para o filho selecionado.
 - **Jogos gratuitos** existem (campo `free: true` em `data/games.ts`) —
   ficam sempre liberados, sem gastar crédito nem precisar comprar.
 
+## Mapa de páginas (protótipo → webapp)
+
+| Protótipo (raiz)          | webapp (Next.js)      | Observação |
+|----------------------------|------------------------|------------|
+| `index.html`                | `/`                    | Cópia fiel + botão "Fazer login" |
+| `games/index.html`          | `/jogos`               | Catálogo público, não exige login |
+| `games/detail.html`         | `/jogos/[slug]`        | Produto do jogo + compra/jogar |
+| `login/index.html`          | `/login`               | "Sou aluno" / "Sou responsável", cadastro real |
+| `login/aluno.html`          | `/login/aluno`         | Seletor de perfil dos filhos |
+| `student/index.html`        | `/aluno`               | Painel do aluno (em inglês, como no protótipo) |
+| `parent/index.html`         | `/pais`                | Área dos pais: créditos, filhos, compras |
+| `about/index.html`          | `/sobre`               | Portada direto |
+| `school-support/index.html` | `/school-support`      | Portada direto |
+| `admin/index.html`          | `/admin`               | Ainda com números de mentira |
+| (não existe no protótipo)   | `/creditos`            | Página nova, pedida pela Dani; segue o mesmo visual (`stat-row`/`stat-card`) |
+
 ## O que já está pronto (mas ainda com dados de mentira)
 
-- Login "de mentira" para testar o fluxo inteiro: lista de nomes comuns
-  brasileiros como usuário (`NOMES_VALIDOS` em `lib/fakeAuth.ts`) +
-  senha fixa `student123`. Tudo fica salvo no `localStorage` do
-  navegador — reseta trocando de aparelho/nome.
-- Fluxo completo: login → painel → catálogo (`/jogos`) → comprar
-  (crédito ou avulso) → jogar (`/jogar/[slug]`, com checagem de posse e
-  validade) → créditos (`/creditos`) → meus jogos (`/meus-jogos`).
-- Home (`/`) já é uma cópia fiel da home real (`index.html` da raiz do
-  repo), com um botão "Fazer login" a mais.
+- Fluxo completo: `/login` (criar conta ou entrar) → `/pais` (adicionar
+  filho, ver créditos) → `/login/aluno` (escolher perfil) → `/aluno`
+  (jogar) → `/jogos` (catálogo, comprar com crédito ou avulso) →
+  `/jogos/[slug]` (produto + comprar/jogar) → `/creditos` (comprar
+  pacote). Testado ponta a ponta com Playwright, inclusive rodando o
+  build de produção real via `wrangler dev`.
+- Home (`/`) é cópia fiel da home real, com "Fazer login" no lugar de
+  "Explorar jogos" no canto superior direito.
 - Fontes (Fraunces + Inter) carregadas via `next/font/google`
   (self-hosted) — havia um bug real em que o build de produção do
   Next.js descartava o `@import` do Google Fonts; já corrigido, não
@@ -63,23 +136,28 @@ poucos o site estático que já existe na raiz (HTML puro, no ar hoje em
   (bronze/prata/ouro) que a Dani enviou — `public/assets/badges/
   bronze-10.png`, `prata-30.png`, `ouro-50.png`. Cada card mostra só
   o selo, "X jogo(s)" e o preço total (ex: "R$ 30,00"), sem preço por
-  jogo — ela pediu para tirar essa quebra por unidade.
+  jogo.
 
 ## O que falta (próximos passos possíveis)
 
-1. **Banco de dados de verdade** (ex: Supabase) para substituir o
-   login/créditos de mentira por algo persistente e real.
+1. **Banco de dados de verdade** (ex: Supabase) para que as contas dos
+   responsáveis valham em qualquer navegador/aparelho, não só onde foram
+   criadas.
 2. **Mercado Pago (ou outro gateway com Pix)** conectado de verdade — a
    compra hoje só simula "pagamento aprovado" na hora.
-3. Mover o "quem está logado em qual aparelho" (hoje em memória, em
+3. Mover o "qual aparelho está logado em qual conta" (hoje em memória, em
    `lib/sessionStore.ts`) para **Cloudflare KV** — funciona para teste,
    mas não sobrevive em produção real na borda da Cloudflare (múltiplas
    instâncias sem memória compartilhada).
-4. Páginas de marketing que ainda não foram portadas para o `webapp/`:
-   Sobre, Área dos pais, School Support (hoje só existem no site
-   estático da raiz).
+4. Catálogo de jogos ainda é só um subconjunto de 4 jogos
+   (`data/games.ts`) — o protótipo tem dezenas de jogos com muito mais
+   detalhe (objetivos, alinhamento escolar etc., em `js/main.js`). Migrar
+   o catálogo completo é um trabalho de conteúdo separado, ainda não
+   feito.
 5. Painel admin (`/admin`) ainda mostra números de mentira, não
-   conectado a dados reais.
+   conectado a dados reais (contas/filhos/compras já existem em
+   `lib/fakeAuth.ts`, dava para ligar números reais ali como próximo
+   passo pequeno).
 6. Decidir e executar a troca de DNS de `mrsdani.com.br` para a
    Cloudflare, quando tudo estiver validado.
 
