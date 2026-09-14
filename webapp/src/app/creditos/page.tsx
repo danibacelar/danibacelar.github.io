@@ -60,8 +60,9 @@ export default function CreditosPage() {
             <span>
               Teste — clicar em &quot;Comprar&quot; aqui não cobra nada de
               verdade, é um pagamento de mentira que só soma créditos no seu
-              saldo de teste. Quando o Mercado Pago for conectado, isso vira
-              um checkout de verdade.
+              saldo de teste. Na versão real, o pagamento é só por Pix (sem
+              cartão de crédito): você paga, os créditos entram na hora, e
+              cada jogo comprado fica liberado por 45 dias.
             </span>
           </div>
 
@@ -75,7 +76,7 @@ export default function CreditosPage() {
             {pacotesFalsos.map((pacote) => (
               <div className="stat-card" key={pacote.creditos}>
                 <div className="stat-num">{pacote.creditos}</div>
-                <div className="stat-label">créditos — {pacote.preco}</div>
+                <div className="stat-label">créditos — {pacote.preco} via Pix</div>
                 <button
                   className="btn btn-primary"
                   type="button"

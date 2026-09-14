@@ -7,7 +7,7 @@ import Footer from "../components/Footer";
 import GameCard from "../components/GameCard";
 import SearchAndFilters from "../components/SearchAndFilters";
 import { GAMES } from "../data/games";
-import { getSession, type Session } from "../lib/fakeAuth";
+import { getCompra, getSession, type Session } from "../lib/fakeAuth";
 
 export default function TodosOsJogosPage() {
   const router = useRouter();
@@ -35,10 +35,9 @@ export default function TodosOsJogosPage() {
           <p className="eyebrow">Jogos</p>
           <h1 style={{ fontSize: "clamp(1.8rem,3.5vw,2.6rem)" }}>Todos os jogos</h1>
           <p className="lede">
-            Cada jogo mostra quanto custa em créditos. Os gratuitos aparecem
-            como &quot;Grátis para testar&quot;, e os que você já comprou como
-            &quot;Já disponível&quot; — os dois com o botão Jogar no lugar de
-            Comprar.
+            Cada jogo mostra quanto custa em créditos. Depois de comprado,
+            fica liberado por 45 dias — pode jogar quantas vezes quiser
+            nesse período. Passado o prazo, é só comprar de novo.
           </p>
         </div>
       </header>
@@ -55,8 +54,9 @@ export default function TodosOsJogosPage() {
             <span>
               Teste — clicar em &quot;Comprar&quot; desconta créditos de
               mentira do seu saldo (salvo só no seu navegador) e libera o
-              jogo. Sem crédito suficiente, você vai para a tela de comprar
-              créditos. A busca e os filtros ainda não filtram de verdade.
+              jogo por 45 dias. Sem crédito suficiente, você vai para a tela
+              de comprar créditos. A busca e os filtros ainda não filtram de
+              verdade.
             </span>
           </div>
 
@@ -64,7 +64,7 @@ export default function TodosOsJogosPage() {
             {GAMES.map((game) => (
               <GameCard
                 game={game}
-                owned={session.jogosComprados.includes(game.slug)}
+                compra={getCompra(session, game.slug)}
                 onChange={refresh}
                 key={game.slug}
               />

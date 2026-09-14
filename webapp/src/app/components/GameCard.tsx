@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import type { Game } from "../data/games";
-import { comprarJogo } from "../lib/fakeAuth";
+import { comprarJogo, diasRestantes, estaValido, type Compra } from "../lib/fakeAuth";
 
 const ArrowIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -12,15 +12,17 @@ const ArrowIcon = () => (
 
 export default function GameCard({
   game,
-  owned,
+  compra,
   onChange,
 }: {
   game: Game;
-  owned: boolean;
+  compra: Compra | undefined;
   onChange?: () => void;
 }) {
   const router = useRouter();
-  const desbloqueado = game.free || owned;
+  const valido = estaValido(compra);
+  const expirado = !!compra && !valido;
+  const desbloqueado = game.free || valido;
 
   function handleComprar() {
     const resultado = comprarJogo(game.slug, game.credits);
@@ -31,6 +33,16 @@ export default function GameCard({
       router.push(`/creditos?jogo=${game.slug}`);
     }
   }
+
+  let precoLabel = `${game.credits} créditos`;
+  if (game.free) precoLabel = "Grátis";
+  else if (valido) precoLabel = `Incluído · ${diasRestantes(compra!)}d restantes`;
+  else if (expirado) precoLabel = "Expirado";
+
+  let pillLabel = "Disponível para compra";
+  if (game.free) pillLabel = "Grátis para testar";
+  else if (valido) pillLabel = "Já disponível";
+  else if (expirado) pillLabel = "Validade de 45 dias encerrada";
 
   return (
     <article className="game-card">
@@ -51,9 +63,7 @@ export default function GameCard({
         <h3>{game.title}</h3>
         <p className="game-card-desc">{game.description}</p>
         <div className="price-block">
-          <span className="price">
-            {game.free ? "Grátis" : owned ? "Incluído" : `${game.credits} créditos`}
-          </span>
+          <span className="price">{precoLabel}</span>
           {desbloqueado ? (
             <a className="link-inline" href={`/jogar/${game.slug}`}>
               Jogar
@@ -66,18 +76,14 @@ export default function GameCard({
               style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
               onClick={handleComprar}
             >
-              Comprar
+              {expirado ? "Comprar de novo" : "Comprar"}
               <ArrowIcon />
             </button>
           )}
         </div>
         <div className="game-card-footer">
           <span className={`access-pill ${desbloqueado ? "included" : "purchase"}`}>
-            {game.free
-              ? "Grátis para testar"
-              : owned
-                ? "Já disponível"
-                : "Disponível para compra"}
+            {pillLabel}
           </span>
         </div>
       </div>

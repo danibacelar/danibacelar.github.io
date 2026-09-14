@@ -7,7 +7,7 @@ import Footer from "../components/Footer";
 import GameCard from "../components/GameCard";
 import SearchAndFilters from "../components/SearchAndFilters";
 import { GAMES } from "../data/games";
-import { getSession, type Session } from "../lib/fakeAuth";
+import { getCompra, getSession, type Session } from "../lib/fakeAuth";
 
 export default function MeusJogosPage() {
   const router = useRouter();
@@ -27,7 +27,7 @@ export default function MeusJogosPage() {
   if (!session) return null;
 
   const meusJogos = GAMES.filter(
-    (game) => game.free || session.jogosComprados.includes(game.slug)
+    (game) => game.free || getCompra(session, game.slug)
   );
 
   return (
@@ -41,8 +41,9 @@ export default function MeusJogosPage() {
             Jogos que você já comprou
           </h1>
           <p className="lede">
-            Os jogos gratuitos e os que você já desbloqueou aparecem aqui,
-            prontos para jogar — sem precisar de créditos de novo.
+            Os jogos gratuitos e os que você já desbloqueou aparecem aqui.
+            Os liberados mostram quantos dias faltam; os que passaram dos 45
+            dias aparecem como &quot;Expirado&quot;, prontos para renovar.
           </p>
         </div>
       </header>
@@ -68,7 +69,7 @@ export default function MeusJogosPage() {
               {meusJogos.map((game) => (
                 <GameCard
                   game={game}
-                  owned={session.jogosComprados.includes(game.slug)}
+                  compra={getCompra(session, game.slug)}
                   onChange={refresh}
                   key={game.slug}
                 />

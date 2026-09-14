@@ -57,12 +57,28 @@ export const NOMES_VALIDOS = [
 export const SENHA_FIXA = "student123";
 const STORAGE_KEY = "mrsdani_fake_session";
 const CREDITOS_INICIAIS = 20;
+export const VALIDADE_DIAS = 45;
+
+export type Compra = {
+  slug: string;
+  expiraEm: string; // ISO date
+};
 
 export type Session = {
   nome: string;
   creditos: number;
-  jogosComprados: string[];
+  jogosComprados: Compra[];
 };
+
+export function estaValido(compra: Compra | undefined): boolean {
+  if (!compra) return false;
+  return new Date(compra.expiraEm).getTime() > Date.now();
+}
+
+export function diasRestantes(compra: Compra): number {
+  const ms = new Date(compra.expiraEm).getTime() - Date.now();
+  return Math.max(0, Math.ceil(ms / (1000 * 60 * 60 * 24)));
+}
 
 function normalizar(texto: string): string {
   return texto
@@ -109,7 +125,7 @@ export function login(nome: string, senha: string): { ok: boolean; erro?: string
   if (existente && normalizar(existente.nome) === normalizar(nomeFormatado(nome))) {
     return { ok: true };
   }
-  salvar({ nome: nomeFormatado(nome), creditos: CREDITOS_INICIAIS, jogosComprados: [] });
+  salvar({ nome: nomeFormatado(nome), creditos: CREDITOS_INICIAIS, jogosComprados: [] as Compra[] });
   return { ok: true };
 }
 
@@ -126,20 +142,35 @@ export function adicionarCreditos(quantidade: number): Session | null {
   return atualizada;
 }
 
+export function getCompra(session: Session, slug: string): Compra | undefined {
+  return session.jogosComprados.find((c) => c.slug === slug);
+}
+
 export function comprarJogo(
   slug: string,
   custo: number
 ): { ok: boolean; erro?: string; session?: Session } {
   const session = getSession();
   if (!session) return { ok: false, erro: "Você precisa entrar primeiro." };
-  if (session.jogosComprados.includes(slug)) return { ok: true, session };
+
+  const compraExistente = getCompra(session, slug);
+  if (estaValido(compraExistente)) return { ok: true, session };
+
   if (session.creditos < custo) {
     return { ok: false, erro: "Créditos insuficientes." };
   }
+
+  const expiraEm = new Date();
+  expiraEm.setDate(expiraEm.getDate() + VALIDADE_DIAS);
+
+  const novaCompra: Compra = { slug, expiraEm: expiraEm.toISOString() };
   const atualizada: Session = {
     ...session,
     creditos: session.creditos - custo,
-    jogosComprados: [...session.jogosComprados, slug],
+    jogosComprados: [
+      ...session.jogosComprados.filter((c) => c.slug !== slug),
+      novaCompra,
+    ],
   };
   salvar(atualizada);
   return { ok: true, session: atualizada };

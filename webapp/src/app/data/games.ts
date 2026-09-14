@@ -7,7 +7,6 @@ export type Game = {
   difficulty: string;
   credits: number;
   thumbnail: string;
-  owned: boolean;
   free?: boolean;
 };
 
@@ -22,7 +21,6 @@ export const GAMES: Game[] = [
     difficulty: "Iniciante",
     credits: 0,
     thumbnail: "/assets/games/growing-plants-thumb.jpg",
-    owned: false,
     free: true,
   },
   {
@@ -35,7 +33,6 @@ export const GAMES: Game[] = [
     difficulty: "Iniciante",
     credits: 10,
     thumbnail: "/assets/games/town-explorer-screenshot.jpg",
-    owned: true,
   },
   {
     slug: "sports-playground",
@@ -47,7 +44,6 @@ export const GAMES: Game[] = [
     difficulty: "Iniciante",
     credits: 15,
     thumbnail: "/assets/games/sports-playground-screenshot.jpg",
-    owned: false,
   },
   {
     slug: "top-town",
@@ -59,6 +55,5 @@ export const GAMES: Game[] = [
     difficulty: "Iniciante",
     credits: 20,
     thumbnail: "/assets/games/top-town-screenshot.jpg",
-    owned: false,
   },
 ];
