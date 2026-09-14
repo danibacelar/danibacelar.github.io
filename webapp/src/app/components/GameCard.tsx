@@ -8,8 +8,9 @@ import {
   diasRestantes,
   estaValido,
   formatarReais,
+  getCompra,
   precoAvulsoReais,
-  type Compra,
+  type Session,
 } from "../lib/fakeAuth";
 
 const ArrowIcon = () => (
@@ -20,36 +21,39 @@ const ArrowIcon = () => (
 
 export default function GameCard({
   game,
-  compra,
-  creditosDisponiveis,
+  session,
   onChange,
 }: {
   game: Game;
-  compra: Compra | undefined;
-  creditosDisponiveis: number;
+  session: Session | null;
   onChange?: () => void;
 }) {
   const router = useRouter();
+  const childId = session?.activeChildId ?? null;
+  const compra = session ? getCompra(session, game.slug, childId) : undefined;
   const valido = estaValido(compra);
   const expirado = !!compra && !valido;
   const desbloqueado = game.free || valido;
+  const creditosDisponiveis = session?.creditos ?? 0;
   const temCreditoSuficiente = creditosDisponiveis >= game.credits;
 
   function handleComprarComCreditos() {
-    const resultado = comprarJogo(game.slug, game.credits);
+    if (!childId) return;
+    const resultado = comprarJogo(game.slug, game.credits, childId);
     if (resultado.ok) {
       onChange?.();
-      router.push(`/jogar/${game.slug}`);
+      router.push(`/jogos/${game.slug}`);
     } else {
       router.push(`/creditos?jogo=${game.slug}`);
     }
   }
 
   function handleComprarAvulso() {
-    const resultado = comprarAvulso(game.slug);
+    if (!childId) return;
+    const resultado = comprarAvulso(game.slug, childId);
     if (resultado.ok) {
       onChange?.();
-      router.push(`/jogar/${game.slug}`);
+      router.push(`/jogos/${game.slug}`);
     }
   }
 
@@ -62,6 +66,54 @@ export default function GameCard({
   if (game.free) pillLabel = "Grátis para testar";
   else if (valido) pillLabel = "Já disponível";
   else if (expirado) pillLabel = "Validade de 30 dias encerrada";
+
+  let acao: React.ReactNode;
+  if (desbloqueado) {
+    acao = (
+      <a className="link-inline" href={`/jogos/${game.slug}`}>
+        Jogar
+        <ArrowIcon />
+      </a>
+    );
+  } else if (!session) {
+    acao = (
+      <a className="link-inline" href="/login">
+        Entrar para jogar
+        <ArrowIcon />
+      </a>
+    );
+  } else if (!childId) {
+    acao = (
+      <a className="link-inline" href="/login/aluno">
+        Escolha um perfil
+        <ArrowIcon />
+      </a>
+    );
+  } else if (temCreditoSuficiente) {
+    acao = (
+      <button
+        type="button"
+        className="link-inline"
+        style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
+        onClick={handleComprarComCreditos}
+      >
+        {expirado ? "Comprar de novo" : "Comprar"}
+        <ArrowIcon />
+      </button>
+    );
+  } else {
+    acao = (
+      <button
+        type="button"
+        className="link-inline"
+        style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
+        onClick={handleComprarAvulso}
+      >
+        Comprar só este — {formatarReais(precoAvulsoReais(game.credits))}
+        <ArrowIcon />
+      </button>
+    );
+  }
 
   return (
     <article className="game-card">
@@ -83,34 +135,9 @@ export default function GameCard({
         <p className="game-card-desc">{game.description}</p>
         <div className="price-block">
           <span className="price">{precoLabel}</span>
-          {desbloqueado ? (
-            <a className="link-inline" href={`/jogar/${game.slug}`}>
-              Jogar
-              <ArrowIcon />
-            </a>
-          ) : temCreditoSuficiente ? (
-            <button
-              type="button"
-              className="link-inline"
-              style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
-              onClick={handleComprarComCreditos}
-            >
-              {expirado ? "Comprar de novo" : "Comprar"}
-              <ArrowIcon />
-            </button>
-          ) : (
-            <button
-              type="button"
-              className="link-inline"
-              style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
-              onClick={handleComprarAvulso}
-            >
-              Comprar só este — {formatarReais(precoAvulsoReais(game.credits))}
-              <ArrowIcon />
-            </button>
-          )}
+          {acao}
         </div>
-        {!desbloqueado && !temCreditoSuficiente && (
+        {!desbloqueado && session && childId && !temCreditoSuficiente && (
           <p style={{ fontSize: "0.82rem", color: "var(--ink-soft)", margin: 0 }}>
             Ou{" "}
             <a className="link-inline" href={`/creditos?jogo=${game.slug}`} style={{ display: "inline" }}>
@@ -120,9 +147,7 @@ export default function GameCard({
           </p>
         )}
         <div className="game-card-footer">
-          <span className={`access-pill ${desbloqueado ? "included" : "purchase"}`}>
-            {pillLabel}
-          </span>
+          <span className={`access-pill ${desbloqueado ? "included" : "purchase"}`}>{pillLabel}</span>
         </div>
       </div>
     </article>

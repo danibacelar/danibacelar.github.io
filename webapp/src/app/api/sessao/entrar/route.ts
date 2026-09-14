@@ -3,13 +3,13 @@ import { claimSession } from "../../../lib/sessionStore";
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null);
-  const nome = body?.nome;
+  const email = body?.email;
   const deviceToken = body?.deviceToken;
 
-  if (typeof nome !== "string" || typeof deviceToken !== "string" || !nome || !deviceToken) {
+  if (typeof email !== "string" || typeof deviceToken !== "string" || !email || !deviceToken) {
     return NextResponse.json({ erro: "Dados inválidos." }, { status: 400 });
   }
 
-  claimSession(nome, deviceToken);
+  claimSession(email, deviceToken);
   return NextResponse.json({ ok: true });
 }

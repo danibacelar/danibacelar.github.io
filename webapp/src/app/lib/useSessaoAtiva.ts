@@ -41,3 +41,21 @@ export function useSessaoAtiva() {
 
   return { session, refresh };
 }
+
+// Usado nas páginas do aluno (/aluno, jogar): além de exigir uma sessão de
+// responsável ativa, exige que um perfil de filho já tenha sido escolhido
+// em /login/aluno nesse aparelho.
+export function useSessaoComPerfil() {
+  const router = useRouter();
+  const { session, refresh } = useSessaoAtiva();
+
+  useEffect(() => {
+    if (session && !session.activeChildId) {
+      router.replace("/login/aluno");
+    }
+  }, [session, router]);
+
+  const activeChild = session?.children.find((c) => c.id === session.activeChildId) ?? null;
+
+  return { session, activeChild, refresh };
+}

@@ -231,7 +231,7 @@ export default function HomePage() {
                     <span className="price">
                       {game.free ? "Grátis" : `${game.credits} créditos`}
                     </span>
-                    <a className="link-inline" href="/jogos">
+                    <a className="link-inline" href={`/jogos/${game.slug}`}>
                       Ver atividade
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M5 12h14M13 6l6 6-6 6" />
@@ -258,7 +258,7 @@ export default function HomePage() {
           <div className="footer-grid">
             <div className="footer-col">
               <h4>Mrs. Dani</h4>
-              <a href="/">Sobre</a>
+              <a href="/sobre">Sobre</a>
               <a href="/jogos">Jogos</a>
             </div>
             <div className="footer-col">
@@ -269,13 +269,13 @@ export default function HomePage() {
             <div className="footer-col">
               <h4>Ajuda</h4>
               <a href="#como-funciona">Como funciona</a>
-              <a href="/login">Acesso do aluno</a>
-              <a href="/">School Support</a>
+              <a href="/login/aluno">Acesso do aluno</a>
+              <a href="/school-support">School Support</a>
             </div>
             <div className="footer-col">
               <h4>Conta</h4>
               <a href="/login">Entrar</a>
-              <a href="/">Área dos pais</a>
+              <a href="/pais">Área dos pais</a>
             </div>
             <div className="footer-col">
               <h4>Contato</h4>

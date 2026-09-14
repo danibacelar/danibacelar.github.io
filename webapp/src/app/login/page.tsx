@@ -4,7 +4,7 @@ import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
-import { login } from "../lib/fakeAuth";
+import { cadastrar, login } from "../lib/fakeAuth";
 
 function AvisoOutroAparelho() {
   const searchParams = useSearchParams();
@@ -17,8 +17,8 @@ function AvisoOutroAparelho() {
         <path d="M12 8v5M12 16h.01" />
       </svg>
       <span>
-        Você foi desconectado porque esse login foi usado em outro aparelho
-        — cada login de teste só pode estar ativo em 1 aparelho por vez.
+        Você foi desconectado porque esta conta foi usada em outro aparelho —
+        cada conta só pode estar ativa em 1 aparelho por vez.
       </span>
     </div>
   );
@@ -26,7 +26,9 @@ function AvisoOutroAparelho() {
 
 export default function LoginPage() {
   const router = useRouter();
-  const [nome, setNome] = useState("");
+  const [modo, setModo] = useState<"entrar" | "criar">("entrar");
+  const [nomeResponsavel, setNomeResponsavel] = useState("");
+  const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState<string | null>(null);
   const [carregando, setCarregando] = useState(false);
@@ -34,11 +36,12 @@ export default function LoginPage() {
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     setCarregando(true);
-    const resultado = await login(nome, senha);
+    const resultado =
+      modo === "entrar" ? await login(email, senha) : await cadastrar(nomeResponsavel, email, senha);
     setCarregando(false);
     if (resultado.ok) {
       setErro(null);
-      router.push("/painel");
+      router.push("/pais");
     } else {
       setErro(resultado.erro ?? "Não foi possível entrar.");
     }
@@ -46,7 +49,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <Nav active="/login" />
+      <Nav variant="login" />
 
       <section className="section">
         <div className="wrap auth-wrap">
@@ -67,25 +70,55 @@ export default function LoginPage() {
               <path d="M12 8v5M12 16h.01" />
             </svg>
             <span>
-              Teste — use um dos nomes combinados como login (ex:{" "}
-              <strong>Maria</strong>, <strong>João</strong>,{" "}
-              <strong>Camila</strong>...) e a senha{" "}
-              <strong>student123</strong>. Isso não é uma senha real, é só
-              para testar o fluxo inteiro (login, créditos, compra de jogos).
+              Teste — este login ainda não é o de verdade. As contas criadas
+              aqui ficam salvas só neste navegador (não em um banco de dados
+              real ainda), e servem para você testar o fluxo inteiro: criar
+              conta, adicionar um filho, comprar créditos e liberar jogos.
             </span>
           </div>
 
+          <div className="callout" style={{ marginBottom: 16, textAlign: "center" }}>
+            <h3 style={{ marginBottom: 6 }}>Sou aluno</h3>
+            <p style={{ marginBottom: 16 }}>
+              Acesse suas atividades de forma simples e rápida.
+            </p>
+            <a
+              href="/login/aluno"
+              className="btn btn-amber"
+              style={{ width: "100%", justifyContent: "center" }}
+            >
+              Acessar como aluno
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
+          </div>
+
           <div className="callout">
-            <h3 style={{ marginBottom: 16 }}>Entrar com nome de teste</h3>
+            <h3 style={{ marginBottom: 16 }}>
+              {modo === "entrar" ? "Sou responsável (pai/mãe)" : "Criar minha conta"}
+            </h3>
             <form onSubmit={handleSubmit}>
+              {modo === "criar" && (
+                <div className="field">
+                  <label htmlFor="nomeResponsavel">Seu nome</label>
+                  <input
+                    id="nomeResponsavel"
+                    type="text"
+                    placeholder="Ex: Ana Almeida"
+                    value={nomeResponsavel}
+                    onChange={(event) => setNomeResponsavel(event.target.value)}
+                  />
+                </div>
+              )}
               <div className="field">
-                <label htmlFor="nome">Nome</label>
+                <label htmlFor="email">E-mail</label>
                 <input
-                  id="nome"
-                  type="text"
-                  placeholder="Ex: Maria"
-                  value={nome}
-                  onChange={(event) => setNome(event.target.value)}
+                  id="email"
+                  type="email"
+                  placeholder="voce@exemplo.com"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
                 />
               </div>
               <div className="field">
@@ -93,29 +126,56 @@ export default function LoginPage() {
                 <input
                   id="senha"
                   type="password"
-                  placeholder="student123"
+                  placeholder="••••••••"
                   value={senha}
                   onChange={(event) => setSenha(event.target.value)}
                 />
               </div>
-              {erro && (
-                <p style={{ color: "var(--amber-dark)", marginBottom: 14 }}>{erro}</p>
-              )}
+              {erro && <p style={{ color: "var(--amber-dark)", marginBottom: 14 }}>{erro}</p>}
               <button
                 type="submit"
                 className="btn btn-primary"
                 style={{ width: "100%", justifyContent: "center" }}
                 disabled={carregando}
               >
-                {carregando ? "Entrando..." : "Entrar"}
+                {carregando ? "Enviando..." : modo === "entrar" ? "Entrar" : "Criar conta"}
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M5 12h14M13 6l6 6-6 6" />
                 </svg>
               </button>
             </form>
             <p className="form-note">
-              Isso é só um ambiente de teste. Quando o login real for
-              conectado, essas contas de mentira deixam de funcionar.
+              {modo === "entrar" ? (
+                <>
+                  Ainda não tem uma conta?{" "}
+                  <button
+                    type="button"
+                    className="link-inline"
+                    style={{ background: "none", border: "none", cursor: "pointer", padding: 0, display: "inline" }}
+                    onClick={() => {
+                      setModo("criar");
+                      setErro(null);
+                    }}
+                  >
+                    Criar conta
+                  </button>
+                </>
+              ) : (
+                <>
+                  Já tem uma conta?{" "}
+                  <button
+                    type="button"
+                    className="link-inline"
+                    style={{ background: "none", border: "none", cursor: "pointer", padding: 0, display: "inline" }}
+                    onClick={() => {
+                      setModo("entrar");
+                      setErro(null);
+                    }}
+                  >
+                    Entrar
+                  </button>
+                </>
+              )}
             </p>
           </div>
         </div>
