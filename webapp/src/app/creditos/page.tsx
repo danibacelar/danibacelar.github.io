@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import CreditBadge from "../components/CreditBadge";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import { adicionarCreditos, formatarReais } from "../lib/fakeAuth";
@@ -12,9 +13,9 @@ import { useSessaoAtiva } from "../lib/useSessaoAtiva";
 const CREDITOS_POR_JOGO_HOJE = 10;
 
 const pacotesFalsos = [
-  { jogos: 1, preco: 30 },
-  { jogos: 3, preco: 90 },
-  { jogos: 5, preco: 140 },
+  { jogos: 1, preco: 30, tier: "bronze" as const },
+  { jogos: 3, preco: 90, tier: "prata" as const },
+  { jogos: 5, preco: 140, tier: "ouro" as const },
 ];
 
 export default function CreditosPage() {
@@ -72,11 +73,10 @@ export default function CreditosPage() {
 
           <div className="stat-row">
             {pacotesFalsos.map((pacote) => (
-              <div className="stat-card" key={pacote.jogos}>
-                <div className="stat-num">{pacote.jogos}</div>
-                <div className="stat-label">
-                  {pacote.jogos === 1 ? "jogo" : "jogos"} —{" "}
-                  {pacote.jogos * CREDITOS_POR_JOGO_HOJE} créditos
+              <div className="stat-card" key={pacote.jogos} style={{ textAlign: "center" }}>
+                <CreditBadge creditos={pacote.jogos * CREDITOS_POR_JOGO_HOJE} tier={pacote.tier} />
+                <div className="stat-label" style={{ marginTop: 10 }}>
+                  {pacote.jogos} {pacote.jogos === 1 ? "jogo" : "jogos"}
                 </div>
                 <div className="stat-label">
                   {formatarReais(pacote.preco)} · {formatarReais(pacote.preco / pacote.jogos)}{" "}
