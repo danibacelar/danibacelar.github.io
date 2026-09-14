@@ -1,23 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
-import { getSession, type Session } from "../lib/fakeAuth";
+import { useSessaoAtiva } from "../lib/useSessaoAtiva";
 
 export default function PainelPage() {
-  const router = useRouter();
-  const [session, setSession] = useState<Session | null>(null);
-
-  useEffect(() => {
-    const atual = getSession();
-    if (!atual) {
-      router.replace("/login");
-      return;
-    }
-    setSession(atual);
-  }, [router]);
+  const { session } = useSessaoAtiva();
 
   if (!session) return null;
 

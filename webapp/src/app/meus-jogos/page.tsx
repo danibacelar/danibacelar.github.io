@@ -1,28 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import GameCard from "../components/GameCard";
 import SearchAndFilters from "../components/SearchAndFilters";
 import { GAMES } from "../data/games";
-import { getCompra, getSession, type Session } from "../lib/fakeAuth";
+import { getCompra } from "../lib/fakeAuth";
+import { useSessaoAtiva } from "../lib/useSessaoAtiva";
 
 export default function MeusJogosPage() {
-  const router = useRouter();
-  const [session, setSession] = useState<Session | null>(null);
-
-  function refresh() {
-    const atual = getSession();
-    if (!atual) {
-      router.replace("/login");
-      return;
-    }
-    setSession(atual);
-  }
-
-  useEffect(refresh, [router]);
+  const { session, refresh } = useSessaoAtiva();
 
   if (!session) return null;
 

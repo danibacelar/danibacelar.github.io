@@ -68,6 +68,7 @@ export type Session = {
   nome: string;
   creditos: number;
   jogosComprados: Compra[];
+  deviceToken: string;
 };
 
 export function estaValido(compra: Compra | undefined): boolean {
@@ -114,24 +115,67 @@ function salvar(session: Session) {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
 }
 
-export function login(nome: string, senha: string): { ok: boolean; erro?: string } {
+export async function login(
+  nome: string,
+  senha: string
+): Promise<{ ok: boolean; erro?: string }> {
   if (!nomeEhValido(nome)) {
     return { ok: false, erro: "Esse nome não está na lista de testadores." };
   }
   if (senha !== SENHA_FIXA) {
     return { ok: false, erro: `Senha incorreta. A senha de teste é "${SENHA_FIXA}".` };
   }
+
+  const nomeFinal = nomeFormatado(nome);
+  const deviceToken =
+    typeof crypto !== "undefined" && "randomUUID" in crypto
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random()}`;
+
+  try {
+    const resposta = await fetch("/api/sessao/entrar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nome: nomeFinal, deviceToken }),
+    });
+    if (!resposta.ok) {
+      return { ok: false, erro: "Não foi possível conectar ao servidor de teste." };
+    }
+  } catch {
+    return { ok: false, erro: "Não foi possível conectar ao servidor de teste." };
+  }
+
   const existente = getSession();
-  if (existente && normalizar(existente.nome) === normalizar(nomeFormatado(nome))) {
+  if (existente && normalizar(existente.nome) === normalizar(nomeFinal)) {
+    salvar({ ...existente, deviceToken });
     return { ok: true };
   }
-  salvar({ nome: nomeFormatado(nome), creditos: CREDITOS_INICIAIS, jogosComprados: [] as Compra[] });
+
+  salvar({
+    nome: nomeFinal,
+    creditos: CREDITOS_INICIAIS,
+    jogosComprados: [] as Compra[],
+    deviceToken,
+  });
   return { ok: true };
 }
 
 export function logout() {
   if (typeof window === "undefined") return;
   window.localStorage.removeItem(STORAGE_KEY);
+}
+
+export async function sessaoAindaAtiva(session: Session): Promise<boolean> {
+  try {
+    const resposta = await fetch(
+      `/api/sessao/verificar?nome=${encodeURIComponent(session.nome)}&deviceToken=${encodeURIComponent(session.deviceToken)}`
+    );
+    if (!resposta.ok) return true; // falha de rede não desconecta ninguém
+    const dados = (await resposta.json()) as { ativo: boolean };
+    return dados.ativo;
+  } catch {
+    return true;
+  }
 }
 
 export function adicionarCreditos(quantidade: number): Session | null {

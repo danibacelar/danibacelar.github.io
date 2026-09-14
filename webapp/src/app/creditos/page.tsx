@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
-import { adicionarCreditos, getSession, type Session } from "../lib/fakeAuth";
+import { adicionarCreditos } from "../lib/fakeAuth";
+import { useSessaoAtiva } from "../lib/useSessaoAtiva";
 
 const pacotesFalsos = [
   { creditos: 50, preco: "R$ 25,00" },
@@ -13,25 +13,15 @@ const pacotesFalsos = [
 ];
 
 export default function CreditosPage() {
-  const router = useRouter();
-  const [session, setSession] = useState<Session | null>(null);
+  const { session, refresh } = useSessaoAtiva();
   const [mensagem, setMensagem] = useState<string | null>(null);
-
-  useEffect(() => {
-    const atual = getSession();
-    if (!atual) {
-      router.replace("/login");
-      return;
-    }
-    setSession(atual);
-  }, [router]);
 
   if (!session) return null;
 
   function handleComprar(creditos: number) {
     const atualizada = adicionarCreditos(creditos);
     if (atualizada) {
-      setSession(atualizada);
+      refresh();
       setMensagem(`Pagamento de mentira aprovado: +${creditos} créditos adicionados.`);
     }
   }

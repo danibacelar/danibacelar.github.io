@@ -1,20 +1,41 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import { login } from "../lib/fakeAuth";
+
+function AvisoOutroAparelho() {
+  const searchParams = useSearchParams();
+  if (searchParams.get("motivo") !== "outro-aparelho") return null;
+
+  return (
+    <div className="prototype-note payment" style={{ marginBottom: 16 }}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 8v5M12 16h.01" />
+      </svg>
+      <span>
+        Você foi desconectado porque esse login foi usado em outro aparelho
+        — cada login de teste só pode estar ativo em 1 aparelho por vez.
+      </span>
+    </div>
+  );
+}
 
 export default function LoginPage() {
   const router = useRouter();
   const [nome, setNome] = useState("");
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState<string | null>(null);
+  const [carregando, setCarregando] = useState(false);
 
-  function handleSubmit(event: React.FormEvent) {
+  async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    const resultado = login(nome, senha);
+    setCarregando(true);
+    const resultado = await login(nome, senha);
+    setCarregando(false);
     if (resultado.ok) {
       setErro(null);
       router.push("/painel");
@@ -35,6 +56,10 @@ export default function LoginPage() {
           <p className="center" style={{ marginBottom: 24 }}>
             Escolha como você quer entrar.
           </p>
+
+          <Suspense fallback={null}>
+            <AvisoOutroAparelho />
+          </Suspense>
 
           <div className="prototype-note">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -80,8 +105,9 @@ export default function LoginPage() {
                 type="submit"
                 className="btn btn-primary"
                 style={{ width: "100%", justifyContent: "center" }}
+                disabled={carregando}
               >
-                Entrar
+                {carregando ? "Entrando..." : "Entrar"}
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M5 12h14M13 6l6 6-6 6" />
                 </svg>

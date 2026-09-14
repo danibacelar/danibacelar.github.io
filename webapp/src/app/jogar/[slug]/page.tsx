@@ -1,27 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import Nav from "../../components/Nav";
 import Footer from "../../components/Footer";
 import { GAMES } from "../../data/games";
-import { diasRestantes, estaValido, getCompra, getSession, type Session } from "../../lib/fakeAuth";
+import { diasRestantes, estaValido, getCompra } from "../../lib/fakeAuth";
+import { useSessaoAtiva } from "../../lib/useSessaoAtiva";
 
 export default function JogarPage() {
-  const router = useRouter();
   const params = useParams<{ slug: string }>();
-  const [session, setSession] = useState<Session | null | undefined>(undefined);
+  const { session } = useSessaoAtiva();
 
-  useEffect(() => {
-    const atual = getSession();
-    if (!atual) {
-      router.replace("/login");
-      return;
-    }
-    setSession(atual);
-  }, [router]);
-
-  if (session === undefined || !session) return null;
+  if (!session) return null;
 
   const slug = params.slug;
   const game = GAMES.find((g) => g.slug === slug);
