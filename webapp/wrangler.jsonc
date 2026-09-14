@@ -2,6 +2,7 @@
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"main": ".open-next/worker.js",
 	"name": "mrsdani-webapp",
+	"account_id": "c62d915807e7e95e9fca7734d77f9859",
 	"compatibility_date": "2026-09-14",
 	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
 	"assets": {
