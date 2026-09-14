@@ -84,10 +84,7 @@ export default function CreditosPage() {
                 <div className="stat-label" style={{ marginTop: 10 }}>
                   {pacote.jogos} {pacote.jogos === 1 ? "jogo" : "jogos"}
                 </div>
-                <div className="stat-label">
-                  {formatarReais(pacote.preco)} · {formatarReais(pacote.preco / pacote.jogos)}{" "}
-                  por jogo via Pix
-                </div>
+                <div className="stat-label">{formatarReais(pacote.preco)}</div>
                 <button
                   className="btn btn-primary"
                   type="button"
