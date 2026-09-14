@@ -2,8 +2,6 @@
    MRS. DANI — CORE DESIGN SYSTEM
    ========================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');
-
 :root{
   /* ---- palette (official brand colors, chosen to harmonize with the fox mascot) ---- */
   --bg:        #FBF6EF;
@@ -21,8 +19,8 @@
   --cream-tag: #F1D3AC;
 
   /* ---- type ---- */
-  --font-display: 'Fraunces', Georgia, serif;
-  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-body: var(--font-inter), -apple-system, sans-serif;
 
   /* ---- layout ---- */
   --maxw: 1180px;
