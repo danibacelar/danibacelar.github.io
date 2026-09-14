@@ -57,7 +57,7 @@ export const NOMES_VALIDOS = [
 export const SENHA_FIXA = "student123";
 const STORAGE_KEY = "mrsdani_fake_session";
 const CREDITOS_INICIAIS = 20;
-export const VALIDADE_DIAS = 45;
+export const VALIDADE_DIAS = 30;
 
 export type Compra = {
   slug: string;

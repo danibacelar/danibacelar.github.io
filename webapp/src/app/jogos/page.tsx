@@ -23,7 +23,7 @@ export default function TodosOsJogosPage() {
           <h1 style={{ fontSize: "clamp(1.8rem,3.5vw,2.6rem)" }}>Todos os jogos</h1>
           <p className="lede">
             Cada jogo mostra quanto custa em créditos. Depois de comprado,
-            fica liberado por 45 dias — pode jogar quantas vezes quiser
+            fica liberado por 30 dias — pode jogar quantas vezes quiser
             nesse período. Passado o prazo, é só comprar de novo.
           </p>
         </div>
@@ -41,7 +41,7 @@ export default function TodosOsJogosPage() {
             <span>
               Teste — clicar em &quot;Comprar&quot; desconta créditos de
               mentira do seu saldo (salvo só no seu navegador) e libera o
-              jogo por 45 dias. Sem crédito suficiente, você vai para a tela
+              jogo por 30 dias. Sem crédito suficiente, você vai para a tela
               de comprar créditos. A busca e os filtros ainda não filtram de
               verdade.
             </span>

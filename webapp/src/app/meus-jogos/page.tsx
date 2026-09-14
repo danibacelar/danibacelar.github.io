@@ -29,7 +29,7 @@ export default function MeusJogosPage() {
           </h1>
           <p className="lede">
             Os jogos gratuitos e os que você já desbloqueou aparecem aqui.
-            Os liberados mostram quantos dias faltam; os que passaram dos 45
+            Os liberados mostram quantos dias faltam; os que passaram dos 30
             dias aparecem como &quot;Expirado&quot;, prontos para renovar.
           </p>
         </div>

@@ -52,7 +52,7 @@ export default function CreditosPage() {
               verdade, é um pagamento de mentira que só soma créditos no seu
               saldo de teste. Na versão real, o pagamento é só por Pix (sem
               cartão de crédito): você paga, os créditos entram na hora, e
-              cada jogo comprado fica liberado por 45 dias.
+              cada jogo comprado fica liberado por 30 dias.
             </span>
           </div>
 

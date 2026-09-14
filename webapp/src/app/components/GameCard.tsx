@@ -42,7 +42,7 @@ export default function GameCard({
   let pillLabel = "Disponível para compra";
   if (game.free) pillLabel = "Grátis para testar";
   else if (valido) pillLabel = "Já disponível";
-  else if (expirado) pillLabel = "Validade de 45 dias encerrada";
+  else if (expirado) pillLabel = "Validade de 30 dias encerrada";
 
   return (
     <article className="game-card">

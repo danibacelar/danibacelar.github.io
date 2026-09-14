@@ -34,7 +34,7 @@ export default function JogarPage() {
             <span>
               Teste — esta página confere, antes de mostrar qualquer coisa:
               (1) você está logado? (2) este jogo é gratuito, ou você tem uma
-              compra ainda dentro dos 45 dias de validade? Só depois disso o
+              compra ainda dentro dos 30 dias de validade? Só depois disso o
               jogo aparece. Um link copiado e enviado para outra pessoa não
               vai funcionar sozinho — a não ser que a pessoa também entre com
               um nome de teste e tenha esse jogo válido.
@@ -60,7 +60,7 @@ export default function JogarPage() {
             <div className="callout" style={{ padding: 40, textAlign: "center" }}>
               <p style={{ marginBottom: 16 }}>
                 {expirado
-                  ? "Os 45 dias deste jogo expiraram. Compre de novo para continuar jogando."
+                  ? "Os 30 dias deste jogo expiraram. Compre de novo para continuar jogando."
                   : "Você ainda não desbloqueou este jogo."}
               </p>
               <a href="/jogos" className="btn btn-primary">
