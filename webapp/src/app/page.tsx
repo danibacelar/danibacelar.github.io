@@ -92,11 +92,11 @@ export default function HomePage() {
             className="section-head center"
             style={{ marginLeft: "auto", marginRight: "auto" }}
           >
-            <p className="eyebrow">A diferença</p>
+            <p className="eyebrow" style={{ margin: "0 auto 10px" }}>A diferença</p>
             <h2 style={{ fontSize: "clamp(1.5rem,2.6vw,2.1rem)" }}>
               Não são jogos genéricos de inglês.
             </h2>
-            <p>
+            <p style={{ margin: "0 auto" }}>
               Cada atividade é criada a partir dos conteúdos que os alunos
               estudam na escola e pensada para reforçar dificuldades
               específicas.
