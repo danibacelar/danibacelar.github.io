@@ -48,7 +48,10 @@ export default function HomePage() {
         </div>
       </nav>
 
-      <header className="hero wrap">
+      <header
+        className="hero wrap"
+        style={{ paddingTop: "clamp(14px, 1.6vw, 22px)", paddingBottom: "clamp(16px, 2vw, 24px)" }}
+      >
         <div className="hero-text">
           <p className="hero-eyebrow hero-anim">Jogos de inglês escolar</p>
           <h1 className="hero-anim d2">
@@ -69,7 +72,7 @@ export default function HomePage() {
         </div>
         <div className="hero-visual">
           <div className="hero-media-wrap">
-            <div className="hero-media">
+            <div className="hero-media" style={{ maxHeight: "min(32vh, 280px)" }}>
               {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
               <video autoPlay muted loop playsInline poster="/assets/games/town-explorer-poster.jpg">
                 <source src="/assets/games/town-explorer-preview.mp4" type="video/mp4" />
@@ -86,11 +89,11 @@ export default function HomePage() {
         </div>
       </header>
 
-      <section className="section" style={{ paddingTop: 20 }}>
+      <section className="section" style={{ paddingTop: 4 }}>
         <div className="wrap">
           <div
             className="section-head center"
-            style={{ marginLeft: "auto", marginRight: "auto" }}
+            style={{ marginLeft: "auto", marginRight: "auto", marginBottom: 20 }}
           >
             <p className="eyebrow" style={{ margin: "0 auto 10px" }}>A diferença</p>
             <h2 style={{ fontSize: "clamp(1.5rem,2.6vw,2.1rem)" }}>
