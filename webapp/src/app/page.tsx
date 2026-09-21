@@ -1,12 +1,5 @@
 import { GAMES } from "./data/games";
 
-const GRADES = [
-  { num: 3, label: "ano" },
-  { num: 4, label: "ano" },
-  { num: 5, label: "ano" },
-  { num: 8, label: "ano" },
-];
-
 export default function HomePage() {
   const destaques = GAMES.slice(0, 3);
 
@@ -180,27 +173,6 @@ export default function HomePage() {
                 dele.
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="wrap">
-          <div className="section-head">
-            <p className="eyebrow">Encontre por ano escolar</p>
-            <h2 style={{ fontSize: "clamp(1.5rem,2.6vw,2.1rem)" }}>
-              Em que ano seu filho está?
-            </h2>
-          </div>
-          <div className="grade-row">
-            {GRADES.map((grade) => (
-              <a className="grade-chip" href="/jogos" key={grade.num}>
-                <span style={{ fontFamily: "var(--font-display)", fontSize: "1.3rem" }}>
-                  {grade.num}º
-                </span>
-                <span>{grade.label}</span>
-              </a>
-            ))}
           </div>
         </div>
       </section>
