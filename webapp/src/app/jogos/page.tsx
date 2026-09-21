@@ -24,13 +24,15 @@ export default function TodosOsJogosPage() {
       <Nav active="/jogos" />
 
       <header className="section" style={{ paddingBottom: 0, paddingTop: 36 }}>
-        <div className="wrap section-head" style={{ marginBottom: 20 }}>
-          <p className="eyebrow">Jogos</p>
-          <h1 style={{ fontSize: "clamp(1.8rem,3.5vw,2.6rem)" }}>Todos os jogos</h1>
-          <p className="lede">
-            Encontre a atividade certa pelo ano escolar, pela habilidade ou
-            pela dificuldade.
-          </p>
+        <div className="wrap">
+          <div className="section-head" style={{ marginBottom: 20 }}>
+            <p className="eyebrow">Jogos</p>
+            <h1 style={{ fontSize: "clamp(1.8rem,3.5vw,2.6rem)" }}>Todos os jogos</h1>
+            <p className="lede">
+              Encontre a atividade certa pelo ano escolar, pela habilidade ou
+              pela dificuldade.
+            </p>
+          </div>
         </div>
       </header>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const FILTER_GROUPS = [
   {
@@ -38,6 +38,19 @@ const FILTER_GROUPS = [
 
 export default function SearchAndFilters({ resultCount }: { resultCount: number }) {
   const [openGroup, setOpenGroup] = useState<string | null>(null);
+
+  // Clicar fora de um filtro aberto fecha ele.
+  useEffect(() => {
+    if (!openGroup) return;
+    function handleClickOutside(event: MouseEvent) {
+      const target = event.target as Element;
+      if (!target.closest(".filter-dropdown")) {
+        setOpenGroup(null);
+      }
+    }
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [openGroup]);
 
   return (
     <>

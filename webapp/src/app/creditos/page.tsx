@@ -39,12 +39,14 @@ export default function CreditosPage() {
       <Nav variant="pais" active="/creditos" />
 
       <header className="section" style={{ paddingBottom: 0, paddingTop: 36 }}>
-        <div className="wrap section-head" style={{ marginBottom: 20 }}>
-          <p className="eyebrow">Créditos</p>
-          <h1 style={{ fontSize: "clamp(1.8rem,3.5vw,2.6rem)" }}>Comprar créditos</h1>
-          <p className="lede">
-            Saldo atual: <strong>{session.creditos} créditos</strong>
-          </p>
+        <div className="wrap">
+          <div className="section-head" style={{ marginBottom: 20 }}>
+            <p className="eyebrow">Créditos</p>
+            <h1 style={{ fontSize: "clamp(1.8rem,3.5vw,2.6rem)" }}>Comprar créditos</h1>
+            <p className="lede">
+              Saldo atual: <strong>{session.creditos} créditos</strong>
+            </p>
+          </div>
         </div>
       </header>
 
