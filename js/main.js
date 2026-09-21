@@ -1125,24 +1125,24 @@ const GAMES = [
     topic: 'Placement Test Practice',
     grammar: 'Pronouns, verb to be, present simple/continuous, wh-questions, there is/are, quantifiers, possessives',
     difficulty: 'Beginner',
-    gameType: '30-Question Placement Test (Reading, Picture Reading, Cloze & Grammar)',
+    gameType: '40-Question Placement Test (Reading, Picture Reading, Cloze & Grammar)',
     schoolAlignment: '5th/6th Grade English — Middle School Placement Test Practice',
-    description: 'A 30-question, two-part check-up in the same format as a Middle School placement test: reading texts, picture reading, vocabulary cloze, and grammar — numbered 1 to 30, with an answer key and a topic-by-topic review at the end.',
-    descriptionPT: 'Uma checagem de 30 questões, em duas partes, no mesmo formato de uma prova de nivelamento para o Middle School: textos de leitura, picture reading, cloze de vocabulário e gramática — numeradas de 1 a 30, com gabarito e revisão por tópico ao final.',
+    description: 'A two-part check-up in the same format as a Middle School placement test: reading texts, picture reading, vocabulary cloze, and 20 grammar questions — numbered to match the real test, with a topic-by-topic review at the end.',
+    descriptionPT: 'Uma checagem em duas partes, no mesmo formato de uma prova de nivelamento para o Middle School: textos de leitura, picture reading, cloze de vocabulário e 20 questões de gramática — numeradas como na prova real, com revisão por tópico ao final.',
     why: 'Built to mirror a real school placement test, so parents get a clear, topic-by-topic picture of where a child stands in English before choosing the next game or material to practice.',
     whyPT: 'Criado no mesmo formato de uma prova de nivelamento real da escola, para que os pais tenham uma visão clara, tópico por tópico, de onde o filho está em inglês — útil antes de escolher o próximo jogo ou material.',
     practices: ['reading comprehension', 'picture reading', 'vocabulary cloze', 'pronouns', 'verb to be', 'present simple & continuous', 'there is/are', 'quantifiers', 'possessives'],
     objectivesPT: [
       'Praticar leitura e interpretação de texto: ideia principal, detalhes, sequência, vocabulário em contexto e causa e efeito.',
       'Praticar picture reading: ações, localização de objetos, preposições de lugar e afirmações verdadeiro/falso.',
-      'Praticar cloze de vocabulário e os principais pontos de gramática do Grade 6: pronomes, verbo to be, presente simples e contínuo, wh-questions, there is/are, quantificadores e possessivos.',
-      'Ver o gabarito completo e identificar, ao final, exatamente quais tópicos precisam de mais estudo.'
+      'Praticar cloze de vocabulário e 20 questões de gramática cobrindo os principais pontos do Grade 6: pronomes, verbo to be, presente simples e contínuo, wh-questions, there is/are, quantificadores e possessivos.',
+      'Identificar, ao final, exatamente quais tópicos precisam de mais estudo.'
     ],
     objectives: [
       'Practice reading comprehension: main idea, details, sequence, vocabulary in context, and cause and effect.',
       'Practice picture reading: actions, object location, prepositions of place, and true/false statements.',
-      'Practice vocabulary cloze and the main Grade 6 grammar points: pronouns, verb to be, present simple and continuous, wh-questions, there is/are, quantifiers, and possessives.',
-      'See the full answer key and exactly which topics need more study at the end.'
+      'Practice vocabulary cloze and 20 grammar questions covering the main Grade 6 points: pronouns, verb to be, present simple and continuous, wh-questions, there is/are, quantifiers, and possessives.',
+      'See exactly which topics need more study at the end.'
     ],
     price: null,
     currency: 'BRL',
