@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Check-Up</title>
+<meta name="description" content="A grammar and reading comprehension check-up that shows exactly what to study next.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFF8EE;
+    --surface:#FFFFFF;
+    --surface-2:#FFEFDC;
+    --ink:#2A2447;
+    --ink-soft:#726A8F;
+    --accent:#5B5FEF;
+    --accent-strong:#4245C4;
+    --accent-soft:#E9E9FF;
+    --accent2:#FF7A55;
+    --accent2-strong:#E85F38;
+    --accent2-soft:#FFE7DC;
+    --gold:#FFB100;
+    --gold-soft:#FFF1CE;
+    --good:#22B573;
+    --good-soft:#E1F8EC;
+    --bad:#FF5C5C;
+    --bad-soft:#FFE9E9;
+    --border:#F0E3CE;
+    --dot-color: rgba(42,36,71,0.07);
+    --shadow: 0 2px 0 rgba(42,36,71,0.05), 0 10px 24px -14px rgba(42,36,71,0.28);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#181433;
+      --surface:#221C47;
+      --surface-2:#2B2557;
+      --ink:#F2EFFF;
+      --ink-soft:#B7AEDD;
+      --accent:#9296FF;
+      --accent-strong:#B7BAFF;
+      --accent-soft:#332D68;
+      --accent2:#FF9C7F;
+      --accent2-strong:#FFB89F;
+      --accent2-soft:#472C25;
+      --gold:#FFCC4D;
+      --gold-soft:#3C2E10;
+      --good:#4FE39B;
+      --good-soft:#163826;
+      --bad:#FF8686;
+      --bad-soft:#3E2020;
+      --border:#3B3469;
+      --dot-color: rgba(255,255,255,0.07);
+      --shadow: 0 2px 0 rgba(0,0,0,0.2), 0 10px 24px -14px rgba(0,0,0,0.55);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#181433;
+    --surface:#221C47;
+    --surface-2:#2B2557;
+    --ink:#F2EFFF;
+    --ink-soft:#B7AEDD;
+    --accent:#9296FF;
+    --accent-strong:#B7BAFF;
+    --accent-soft:#332D68;
+    --accent2:#FF9C7F;
+    --accent2-strong:#FFB89F;
+    --accent2-soft:#472C25;
+    --gold:#FFCC4D;
+    --gold-soft:#3C2E10;
+    --good:#4FE39B;
+    --good-soft:#163826;
+    --bad:#FF8686;
+    --bad-soft:#3E2020;
+    --border:#3B3469;
+    --dot-color: rgba(255,255,255,0.07);
+    --shadow: 0 2px 0 rgba(0,0,0,0.2), 0 10px 24px -14px rgba(0,0,0,0.55);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background-color:var(--bg);
+    background-image: radial-gradient(var(--dot-color) 1.6px, transparent 1.6px);
+    background-size: 22px 22px;
+    color:var(--ink);
+    font-family:'Nunito', system-ui, sans-serif;
+    padding-inline:16px;
+    padding-block:24px;
+    max-width:760px;
+    margin:0 auto;
+    min-height:100vh;
+  }
+  h1,h2,h3{font-family:'Baloo 2', system-ui, sans-serif; text-wrap:balance; margin:0;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:12.5px; font-weight:800; letter-spacing:0.03em;
+    color:var(--accent-strong);
+    background:var(--accent-soft);
+    padding:5px 12px;
+    border-radius:99px;
+  }
+  header.top{
+    display:flex; flex-direction:column; gap:10px; margin-bottom:22px;
+    padding-top:4px;
+  }
+  header.top h1{font-size:clamp(24px,5.5vw,32px); font-weight:700; color:var(--ink);}
+  header.top p{margin:0; color:var(--ink-soft); font-size:15px; line-height:1.5; max-width:52ch;}
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:20px;
+  }
+
+  nav.simulados{
+    display:flex; gap:12px; margin-bottom:22px;
+  }
+  nav.simulados button{
+    --btn-color:var(--accent);
+    --btn-soft:var(--accent-soft);
+    flex:1;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    border:2px solid var(--border);
+    background:var(--surface);
+    padding:18px 12px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:15.5px;
+    color:var(--ink);
+    border-radius:18px;
+    cursor:pointer;
+    box-shadow:var(--shadow);
+    transition:border-color .15s, background .15s, transform .12s;
+  }
+  nav.simulados button:nth-child(2){--btn-color:var(--accent2); --btn-soft:var(--accent2-soft);}
+  nav.simulados button .icon{
+    width:38px; height:38px;
+    border-radius:12px;
+    background:var(--btn-soft);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--btn-color);
+  }
+  nav.simulados button:hover{transform:translateY(-2px); border-color:var(--btn-color);}
+  nav.simulados button.active{
+    border-color:var(--btn-color);
+    background:var(--btn-soft);
+    color:var(--btn-color);
+  }
+  nav.simulados button:focus-visible{outline:3px solid var(--btn-color); outline-offset:2px;}
+
+  .back-btn{
+    display:inline-flex; align-items:center; gap:6px;
+    border:none; background:transparent;
+    color:var(--subject, var(--accent));
+    font-family:'Nunito', sans-serif;
+    font-weight:800;
+    font-size:14px;
+    padding:8px 4px;
+    margin-bottom:12px;
+    cursor:pointer;
+  }
+  .back-btn:hover{text-decoration:underline;}
+  .back-btn:focus-visible{outline:2px solid var(--subject, var(--accent)); outline-offset:2px; border-radius:6px;}
+
+  #grammarPane{--subject:var(--accent); --subject-strong:var(--accent-strong); --subject-soft:var(--accent-soft);}
+  #readingPane{--subject:var(--accent2); --subject-strong:var(--accent2-strong); --subject-soft:var(--accent2-soft);}
+
+  .score-row{
+    display:flex; gap:10px; margin-bottom:16px;
+  }
+  .score-chip{
+    flex:1;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    border-radius:14px;
+    padding:10px 12px;
+    font-family:'Nunito', sans-serif;
+    font-weight:700;
+    font-size:13.5px;
+  }
+  .score-chip.good{background:var(--good-soft); color:var(--good);}
+  .score-chip.bad{background:var(--bad-soft); color:var(--bad);}
+  .score-chip .num{
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:16px; font-variant-numeric:tabular-nums;
+  }
+
+  .passage{
+    background:var(--subject-soft, var(--accent-soft));
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:16px;
+    margin-bottom:16px;
+    font-size:14.5px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  .passage .ptitle{
+    font-family:'Baloo 2',sans-serif; font-weight:700; font-size:17px; margin-bottom:8px; color:var(--subject-strong, var(--accent-strong));
+  }
+
+  .qcard{margin-bottom:16px;}
+  .qcard .qnum{font-size:12.5px; font-weight:800; color:var(--subject-strong, var(--accent-strong)); letter-spacing:0.02em; margin-bottom:8px;}
+  .qcard .qtext{font-size:17px; font-weight:700; margin-bottom:14px; line-height:1.4;}
+
+  .options{display:flex; flex-direction:column; gap:9px;}
+  .opt{
+    display:flex; align-items:center; gap:12px;
+    text-align:left;
+    border:2px solid var(--border);
+    background:var(--surface);
+    color:var(--ink);
+    border-radius:14px;
+    padding:12px 14px;
+    font-family:inherit;
+    font-weight:600;
+    font-size:15px;
+    cursor:pointer;
+    transition:border-color .12s, background .12s, transform .1s;
+  }
+  .opt:hover:not(:disabled){border-color:var(--subject, var(--accent)); transform:translateY(-1px);}
+  .opt:active:not(:disabled){transform:translateY(0) scale(0.99);}
+  .opt:focus-visible{outline:3px solid var(--subject, var(--accent)); outline-offset:2px;}
+  .opt .letter{
+    flex:none;
+    width:28px; height:28px;
+    border-radius:50%;
+    background:var(--surface-2);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Baloo 2',sans-serif;
+    font-weight:700; font-size:13.5px; color:var(--ink-soft);
+  }
+  .opt:disabled{cursor:default;}
+  .opt.correct{border-color:var(--good); background:var(--good-soft);}
+  .opt.correct .letter{background:var(--good); color:#fff;}
+  .opt.wrong{border-color:var(--bad); background:var(--bad-soft);}
+  .opt.wrong .letter{background:var(--bad); color:#fff;}
+
+  .feedback{
+    margin-top:10px; padding:11px 14px; border-radius:12px; font-size:14px; font-weight:600; line-height:1.5;
+    display:none;
+  }
+  .feedback.show{display:block;}
+  .feedback.good{background:var(--good-soft); color:var(--good);}
+  .feedback.bad{background:var(--bad-soft); color:var(--bad);}
+  .feedback b{color:inherit;}
+
+  .next-row{margin-top:14px; display:flex; justify-content:flex-end;}
+  button.primary{
+    background:var(--subject, var(--accent)); color:#fff; border:none; border-radius:12px;
+    padding:11px 20px; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:15px; cursor:pointer;
+    box-shadow:0 3px 0 rgba(0,0,0,0.12);
+    transition:transform .1s, box-shadow .1s;
+  }
+  button.primary:hover{filter:brightness(1.05); transform:translateY(-1px);}
+  button.primary:active{transform:translateY(1px); box-shadow:0 1px 0 rgba(0,0,0,0.12);}
+  button.primary:disabled{opacity:.4; cursor:default; transform:none; box-shadow:none;}
+
+  .result{
+    text-align:center; padding:8px 0 4px;
+  }
+  .stars{
+    display:flex; justify-content:center; gap:6px; margin:6px 0 16px;
+  }
+  .stars svg{width:38px; height:38px;}
+  .result h3{font-size:21px; margin-bottom:4px; font-family:'Baloo 2',sans-serif;}
+  .result p{color:var(--ink-soft); font-size:14.5px; font-weight:600; margin:0 0 16px;}
+  .pass-badge{
+    display:inline-block; padding:6px 16px; border-radius:99px; font-weight:800; font-size:13.5px; margin-bottom:14px;
+  }
+  .pass-badge.pass{background:var(--good-soft); color:var(--good);}
+  .pass-badge.fail{background:var(--gold-soft); color:var(--gold);}
+
+  .review-title{
+    font-family:'Baloo 2',sans-serif; font-weight:700; font-size:15px; margin:18px 0 10px; text-align:left; color:var(--ink);
+  }
+  .review-list{display:flex; flex-direction:column; gap:8px; text-align:left; margin-bottom:18px;}
+  .review-item{
+    display:flex; justify-content:space-between; align-items:center; gap:10px;
+    background:var(--surface-2); border-radius:10px; padding:10px 13px;
+    font-size:13.5px; font-weight:700; color:var(--ink);
+  }
+  .review-item .frac{
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:12.5px; color:var(--bad); font-variant-numeric:tabular-nums;
+  }
+  .review-empty{
+    font-size:13.5px; font-weight:700; color:var(--good); text-align:left; margin-bottom:18px;
+  }
+
+  .result-actions{display:flex; gap:10px; justify-content:center; flex-wrap:wrap;}
+
+  footer.hint{
+    margin-top:22px; text-align:center; font-size:13px; color:var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>English Check-Up</h1>
+  <p>Choose what to check first. Answer, see the explanation right away, and get a clear picture of what to study next.</p>
+</header>
+
+<nav class="simulados">
+  <button id="tabGrammarBtn">
+    <span class="icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 20l1.2-4.2L15.6 5.4a1.5 1.5 0 0 1 2.1 0l1 1a1.5 1.5 0 0 1 0 2.1L8.3 18.8 4 20z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M13.8 7.2l3 3" stroke="currentColor" stroke-width="1.8"/></svg></span>
+    Grammar
+  </button>
+  <button id="tabReadingBtn">
+    <span class="icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 6.5c-1.6-1.3-4-2-6.5-2v12.5c2.5 0 4.9.7 6.5 2 1.6-1.3 4-2 6.5-2V4.5c-2.5 0-4.9.7-6.5 2z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 6.5v12.5" stroke="currentColor" stroke-width="1.8"/></svg></span>
+    Reading Comprehension
+  </button>
+</nav>
+
+<div id="grammarPane" hidden>
+  <button type="button" class="back-btn" id="backFromGrammar">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back to menu
+  </button>
+  <div id="grammarSection"></div>
+</div>
+
+<div id="readingPane" hidden>
+  <button type="button" class="back-btn" id="backFromReading">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back to menu
+  </button>
+  <div id="readingSection"></div>
+</div>
+
+<footer class="hint">Tip: redo each section as many times as you like. The questions stay the same — the goal is to learn the rule, not memorize the order.</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var grammar = [
+    {q:"________ a new student in this class. My name is Tom.", opts:["You are","I am","He is","They is"], a:1,
+      exp:"We use 'I am' with the first person singular (I).", topic:"Verb to be", difficulty:1},
+    {q:"My sister ________ to school every day.", opts:["walk","walking","walks","is walk"], a:2,
+      exp:"In the third person singular (he/she/it) of the Simple Present, the verb takes -s: walks.", topic:"Simple Present", difficulty:1},
+    {q:"________ your parents like pizza?", opts:["Do","Does","Is","Are"], a:0,
+      exp:"'Parents' is plural, so the Simple Present question uses 'Do'.", topic:"Simple Present", difficulty:1},
+    {q:"Look! The children ________ in the garden right now.", opts:["play","plays","are playing","played"], a:2,
+      exp:"'Right now' shows an action happening at this moment: Present Continuous (are + verb-ing).", topic:"Present Continuous", difficulty:2},
+    {q:"________ a book on the table, but there aren't any pens.", opts:["There is","There are","There has","It is"], a:0,
+      exp:"'A book' is singular, so we use 'There is'.", topic:"There is / There are", difficulty:1},
+    {q:"I don't have ________ money with me today.", opts:["some","any","an","the"], a:1,
+      exp:"In negative sentences, we use 'any' (not... any).", topic:"Some / Any", difficulty:2},
+    {q:"Yesterday, my friends ________ football in the park.", opts:["play","plays","played","playing"], a:2,
+      exp:"'Yesterday' shows the past; regular verbs take -ed: played.", topic:"Past Simple", difficulty:1},
+    {q:"She ________ to London last summer.", opts:["goed","went","go","gone"], a:1,
+      exp:"'Go' is irregular: past simple = went.", topic:"Past Simple (irregular verbs)", difficulty:2},
+    {q:"We ________ our homework yesterday because the internet was down.", opts:["didn't do","don't did","not did","doesn't do"], a:0,
+      exp:"Past negative: didn't + base verb (didn't do).", topic:"Past Simple (negative)", difficulty:2},
+    {q:"Look at those clouds! It ________ rain soon.", opts:["will","is going to","goes to","go to"], a:1,
+      exp:"We use 'going to' for predictions based on something we can already see (the clouds).", topic:"Future: going to", difficulty:2},
+    {q:"I think our team ________ the game tomorrow. I'm optimistic!", opts:["win","wins","will win","winning"], a:2,
+      exp:"For an opinion or prediction about the future, we use 'will' + base verb.", topic:"Future: will", difficulty:2},
+    {q:"This backpack is ________ than my old one.", opts:["heavy","heavier","more heavy","heaviest"], a:1,
+      exp:"Comparative of short adjectives: adjective + -er (heavier).", topic:"Comparatives", difficulty:1},
+    {q:"Mount Everest is ________ mountain in the world.", opts:["the higher","the highest","higher","more high"], a:1,
+      exp:"Superlative: the + adjective + -est (the highest).", topic:"Superlatives", difficulty:2},
+    {q:"The cat is sleeping ________ the sofa.", opts:["in","on","at","to"], a:1,
+      exp:"We use 'on' to show that something is on top of a surface.", topic:"Prepositions of Place", difficulty:1},
+    {q:"That isn't your pencil case, it's ________.", opts:["my","mine","I","me"], a:1,
+      exp:"'Mine' is the possessive pronoun that replaces 'my pencil case'.", topic:"Possessive Pronouns", difficulty:2},
+    {q:"She ________ a doctor. She's a teacher.", opts:["isn't","doesn't","not is","don't"], a:0,
+      exp:"Negative of the verb to be: isn't (is not).", topic:"Verb to be", difficulty:1},
+    {q:"________ they at home right now?", opts:["Do","Does","Are","Is"], a:2,
+      exp:"'They' is plural, so we use 'Are' with the verb to be.", topic:"Verb to be", difficulty:1},
+    {q:"My brother ________ like vegetables.", opts:["don't","doesn't","isn't","not"], a:1,
+      exp:"Third person singular (he) uses 'doesn't' in the Simple Present negative.", topic:"Simple Present", difficulty:1},
+    {q:"________ do you usually go to school? – By bus.", opts:["What","How","Where","Who"], a:1,
+      exp:"'How' asks about the means of transportation or way of doing something.", topic:"Question Words", difficulty:2},
+    {q:"My dad ________ two brothers and one sister.", opts:["have","has","haves","having"], a:1,
+      exp:"'Have' is irregular in the third person singular: has.", topic:"Simple Present", difficulty:1},
+    {q:"________ you doing your homework at the moment?", opts:["Do","Does","Are","Is"], a:2,
+      exp:"Present Continuous question with 'you': Are you + verb-ing?", topic:"Present Continuous", difficulty:2},
+    {q:"The weather ________ terrible yesterday.", opts:["was","were","is","be"], a:0,
+      exp:"'The weather' is singular, so we use 'was' in the past of the verb to be.", topic:"Past Simple (to be)", difficulty:1},
+    {q:"My little sister ________ swim very well already.", opts:["can","cans","is can","do can"], a:0,
+      exp:"'Can' expresses ability and doesn't change depending on the person.", topic:"Modals: can", difficulty:1},
+    {q:"You ________ wear a seatbelt in the car. It's the law.", opts:["can","must","could","may not"], a:1,
+      exp:"'Must' expresses obligation or a rule.", topic:"Modals: must", difficulty:2},
+    {q:"If you're tired, you ________ go to bed earlier.", opts:["should","must","can't","will"], a:0,
+      exp:"'Should' is used to give advice.", topic:"Modals: should", difficulty:2},
+    {q:"I saw ________ elephant and ________ giraffe at the zoo.", opts:["a / a","an / a","a / an","an / an"], a:1,
+      exp:"'Elephant' starts with a vowel sound (an); 'giraffe' starts with a consonant sound (a).", topic:"Articles: a / an", difficulty:2},
+    {q:"There is a park near my house. ________ park has a big lake.", opts:["A","An","The","(no article)"], a:2,
+      exp:"We use 'the' for something that was already mentioned before (the park).", topic:"Articles: the", difficulty:2},
+    {q:"That is ________ bike. He got it for his birthday.", opts:["Peter","Peter's","Peters","of Peter"], a:1,
+      exp:"Possessive 's shows ownership: Peter's bike.", topic:"Possessive 's", difficulty:2},
+    {q:"Can you help ________? I can't open this jar.", opts:["I","me","my","mine"], a:1,
+      exp:"'Me' is the object pronoun, used after the verb.", topic:"Object Pronouns", difficulty:1},
+    {q:"________ any pencils in your pencil case?", opts:["Is there","Are there","There is","There are"], a:1,
+      exp:"With a plural noun (pencils), the question is 'Are there...?'.", topic:"There is / There are", difficulty:2}
+  ];
+
+  var passages = [
+    {
+      title:"Busy Bees",
+      text:"Bees are small insects, but they do a very big job. When a bee visits a flower, it collects a sweet liquid called nectar. At the same time, yellow dust called pollen sticks to the bee's legs. The bee carries this pollen to the next flower it visits. This process is called pollination, and it helps plants make seeds and fruit. Without bees, many plants could not reproduce. Scientists say that one-third of the food we eat depends on pollinators like bees. Sadly, the number of bees in the world is falling because of pollution and the loss of wild flowers. Many people are now planting gardens to help protect these important insects.",
+      questions:[
+        {q:"What is the main idea of the text?", opts:["Bees only make honey.","Bees help plants reproduce through pollination.","Bees are dangerous insects.","Flowers do not need bees."], a:1,
+          exp:"The text explains how pollination by bees helps plants reproduce.", topic:"Main Idea"},
+        {q:"What is pollen?", opts:["A sweet liquid inside flowers","A yellow dust that sticks to bees' legs","A type of flower","A kind of bee"], a:1,
+          exp:"The text says: 'yellow dust called pollen sticks to the bee's legs'.", topic:"Vocabulary in Context"},
+        {q:"According to the text, how much of our food depends on pollinators?", opts:["All of it","None of it","About one-third","About half"], a:2,
+          exp:"The text says 'one-third of the food we eat depends on pollinators'.", topic:"Finding Details"},
+        {q:"Why is the number of bees falling, according to the text?", opts:["Because of pollution and the loss of wild flowers","Because people eat too much honey","Because flowers are disappearing on purpose","Because bees do not like nectar anymore"], a:0,
+          exp:"The text mentions pollution and the loss of wild flowers as causes.", topic:"Cause and Effect"},
+        {q:"What are people doing to help bees?", opts:["Catching them","Planting gardens","Building more cities","Stopping pollination"], a:1,
+          exp:"The text ends by saying that people are planting gardens to protect bees.", topic:"Finding Details"}
+      ]
+    },
+    {
+      title:"The Lost Backpack",
+      text:"Last Saturday, Marina went to the park with her dog, Bolt. She put her backpack on a bench while she played with Bolt near the lake. After an hour, Marina and Bolt walked home, laughing and tired. When she arrived, she suddenly remembered: her backpack was still at the park! Marina felt worried because her favorite book was inside. She ran back to the bench, but the backpack wasn't there. Just then, an old man came over holding it. 'Is this yours?' he asked kindly. 'I found it and waited here for someone to come back.' Marina smiled and thanked him. She learned that some people are always ready to help.",
+      questions:[
+        {q:"Where did Marina leave her backpack?", opts:["At home","On a bench in the park","At school","In the lake"], a:1,
+          exp:"The text says: 'She put her backpack on a bench'.", topic:"Finding Details"},
+        {q:"Why did Marina feel worried?", opts:["Bolt was lost","Her favorite book was inside the backpack","It was getting dark","She lost her dog"], a:1,
+          exp:"The text says: 'Marina felt worried because her favorite book was inside'.", topic:"Cause and Effect"},
+        {q:"Who had the backpack when Marina returned?", opts:["A police officer","Her mother","An old man","Nobody; it was gone forever"], a:2,
+          exp:"'Just then, an old man came over holding it.'", topic:"Finding Details"},
+        {q:"Why did the man wait at the bench?", opts:["He wanted to keep the backpack","He was resting after a walk","He wanted someone to come back for it","He was waiting for Bolt"], a:2,
+          exp:"He said: 'I found it and waited here for someone to come back.'", topic:"Cause and Effect"},
+        {q:"What lesson does Marina learn at the end of the story?", opts:["Never go to the park","Some people are always ready to help","Dogs cannot be trusted","Books are not important"], a:1,
+          exp:"The last sentence sums up the lesson: kind people exist and are ready to help.", topic:"Making Inferences"}
+      ]
+    },
+    {
+      title:"Why We Recycle",
+      text:"Every day, people around the world throw away tons of plastic, paper, and glass. Much of this trash ends up in rivers and oceans, where it can harm animals and pollute the water. Recycling is one simple way to reduce this problem. When we recycle paper, we save trees. When we recycle plastic bottles, factories use less oil to make new products. Many schools now have colored bins: blue for paper, red for plastic, and green for glass. Students separate their trash before throwing it away. Small actions, like recycling a bottle or reusing a bag, can make a big difference for our planet's future.",
+      questions:[
+        {q:"What is the main topic of this text?", opts:["How to build a school","The importance of recycling","Animals that live in the ocean","How plastic is made"], a:1,
+          exp:"The whole text is about the importance of recycling.", topic:"Main Idea"},
+        {q:"What happens to trash that is not recycled, according to the text?", opts:["It disappears completely","It often ends up in rivers and oceans","It turns into new bottles automatically","It becomes soil"], a:1,
+          exp:"The text says: 'Much of this trash ends up in rivers and oceans'.", topic:"Finding Details"},
+        {q:"What do we save when we recycle paper?", opts:["Water","Oil","Trees","Plastic"], a:2,
+          exp:"'When we recycle paper, we save trees.'", topic:"Finding Details"},
+        {q:"In the text, what color bin is used for plastic?", opts:["Blue","Green","Yellow","Red"], a:3,
+          exp:"'red for plastic' — the red bin is for plastic.", topic:"Vocabulary in Context"},
+        {q:"What is the author's main message?", opts:["Recycling is too difficult for students","Small actions can make a big difference for the planet","Only factories can help the environment","Oceans cannot be saved"], a:1,
+          exp:"The last sentence sums up the message: small actions make a big difference.", topic:"Making Inferences"}
+      ]
+    }
+  ];
+
+  // Flatten reading into one question list, remembering passage boundaries for display.
+  var reading = [];
+  passages.forEach(function(p, pi){
+    p.questions.forEach(function(item, qi){
+      reading.push({q:item.q, opts:item.opts, a:item.a, exp:item.exp, topic:item.topic, passageIndex:pi, isFirstOfPassage:(qi===0)});
+    });
+  });
+
+  function buildSection(containerId, itemsProvider, sectionLabel, includePassages){
+    var container = document.getElementById(containerId);
+    var items, state;
+
+    function reset(){
+      items = itemsProvider();
+      state = {current:0, answered:new Array(items.length).fill(false), correct:new Array(items.length).fill(false), rightCount:0, wrongCount:0};
+    }
+
+    function render(){
+      if(state.current >= items.length){ renderResult(); return; }
+      var item = items[state.current];
+
+      var html = '';
+      html += '<div class="score-row">' +
+              '<div class="score-chip good">Correct <span class="num" id="rightNum_'+containerId+'">'+state.rightCount+'</span></div>' +
+              '<div class="score-chip bad">Wrong <span class="num" id="wrongNum_'+containerId+'">'+state.wrongCount+'</span></div>' +
+              '</div>';
+
+      if(includePassages && item.isFirstOfPassage){
+        var p = passages[item.passageIndex];
+        html += '<div class="passage"><div class="ptitle">'+p.title+'</div>'+p.text+'</div>';
+      }
+
+      html += '<div class="card qcard">';
+      html += '<div class="qnum">'+sectionLabel+'</div>';
+      html += '<div class="qtext">'+item.q+'</div>';
+      html += '<div class="options" id="opts_'+containerId+'"></div>';
+      html += '<div class="feedback" id="fb_'+containerId+'"></div>';
+      html += '<div class="next-row"><button class="primary" id="next_'+containerId+'" disabled>Next</button></div>';
+      html += '</div>';
+
+      container.innerHTML = html;
+
+      var optsWrap = document.getElementById('opts_'+containerId);
+      var letters = ['A','B','C','D'];
+      item.opts.forEach(function(optText, idx){
+        var btn = document.createElement('button');
+        btn.className = 'opt';
+        btn.type = 'button';
+        btn.innerHTML = '<span class="letter">'+letters[idx]+'</span><span>'+optText+'</span>';
+        btn.addEventListener('click', function(){ selectAnswer(idx); });
+        optsWrap.appendChild(btn);
+      });
+
+      var nextBtn = document.getElementById('next_'+containerId);
+      nextBtn.addEventListener('click', function(){
+        state.current++;
+        render();
+      });
+
+      function selectAnswer(idx){
+        if(state.answered[state.current]) return;
+        state.answered[state.current] = true;
+        var isCorrect = (idx === item.a);
+        state.correct[state.current] = isCorrect;
+
+        if(isCorrect){
+          state.rightCount++;
+          document.getElementById('rightNum_'+containerId).textContent = state.rightCount;
+        } else {
+          state.wrongCount++;
+          document.getElementById('wrongNum_'+containerId).textContent = state.wrongCount;
+        }
+
+        var optButtons = optsWrap.querySelectorAll('.opt');
+        optButtons.forEach(function(b, i){
+          b.disabled = true;
+          if(i === item.a) b.classList.add('correct');
+          if(i === idx && !isCorrect) b.classList.add('wrong');
+        });
+
+        var fb = document.getElementById('fb_'+containerId);
+        fb.classList.add('show');
+        fb.classList.add(isCorrect ? 'good' : 'bad');
+        fb.innerHTML = (isCorrect ? '<b>Nice! That\'s correct.</b> ' : '<b>Almost!</b> ') + item.exp;
+
+        nextBtn.disabled = false;
+        if(state.current === items.length - 1){ nextBtn.textContent = 'See Results'; }
+      }
+    }
+
+    function renderResult(){
+      var score = state.rightCount;
+      var total = items.length;
+      var pct = Math.round(score/total*100);
+      var passed = pct >= 60;
+      var starCount = pct >= 90 ? 3 : (pct >= 75 ? 2 : (pct >= 60 ? 1 : 0));
+
+      function star(filled){
+        var color = filled ? 'var(--gold)' : 'var(--surface-2)';
+        return '<svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.5 1.3 6.6L12 17.6l-5.9 2.9 1.3-6.6-4.9-4.5 6.6-.8z" fill="'+color+'"/></svg>';
+      }
+      var starsHtml = '';
+      for(var s=0; s<3; s++){ starsHtml += star(s < starCount); }
+
+      var message = passed
+        ? 'Great job! You did really well in this section.'
+        : 'Almost there! How about practicing a bit more?';
+
+      // Group results by topic to see what needs more practice.
+      var topicStats = {};
+      items.forEach(function(it, idx){
+        var t = it.topic || 'General';
+        if(!topicStats[t]) topicStats[t] = {right:0, total:0};
+        topicStats[t].total++;
+        if(state.correct[idx]) topicStats[t].right++;
+      });
+      var weakTopics = Object.keys(topicStats).map(function(t){
+        return {topic:t, right:topicStats[t].right, total:topicStats[t].total};
+      }).filter(function(t){ return t.right < t.total; })
+        .sort(function(a,b){ return (a.right/a.total) - (b.right/b.total); });
+
+      var reviewHtml = '<div class="review-title">Where to study more</div>';
+      if(weakTopics.length){
+        reviewHtml += '<div class="review-list">';
+        weakTopics.forEach(function(t){
+          reviewHtml += '<div class="review-item"><span>'+t.topic+'</span><span class="frac">'+t.right+'/'+t.total+'</span></div>';
+        });
+        reviewHtml += '</div>';
+      } else {
+        reviewHtml += '<div class="review-empty">Awesome — every topic was 100% correct this time!</div>';
+      }
+
+      var html = '<div class="card result">';
+      html += '<div class="eyebrow">'+sectionLabel+' · Results</div>';
+      html += '<div class="stars">'+starsHtml+'</div>';
+      html += '<h3>'+score+' out of '+total+' correct ('+pct+'%)</h3>';
+      html += '<p>'+message+'</p>';
+      html += '<div class="pass-badge '+(passed?'pass':'fail')+'">'+(passed ? 'You did great!' : 'Let\'s practice a bit more')+'</div>';
+      html += reviewHtml;
+      html += '<div class="result-actions">';
+      html += '<button class="primary" id="retry_'+containerId+'">Practice Again</button>';
+      html += '</div></div>';
+
+      container.innerHTML = html;
+      document.getElementById('retry_'+containerId).addEventListener('click', function(){
+        reset();
+        render();
+      });
+    }
+
+    reset();
+    render();
+  }
+
+  function shuffle(array){
+    var arr = array.slice();
+    for(var i = arr.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = arr[i]; arr[i] = arr[j]; arr[j] = temp;
+    }
+    return arr;
+  }
+
+  // Shuffled within each difficulty tier, but easy questions always come before medium, then hard.
+  function easyToHard(items){
+    var byLevel = [1,2,3].map(function(level){
+      return shuffle(items.filter(function(it){ return it.difficulty === level; }));
+    });
+    return byLevel[0].concat(byLevel[1], byLevel[2]);
+  }
+
+  buildSection('grammarSection', function(){ return easyToHard(grammar); }, 'Grammar', false);
+  buildSection('readingSection', function(){ return reading; }, 'Reading', true);
+
+  var tabG = document.getElementById('tabGrammarBtn');
+  var tabR = document.getElementById('tabReadingBtn');
+  var paneG = document.getElementById('grammarPane');
+  var paneR = document.getElementById('readingPane');
+  var menu = document.querySelector('nav.simulados');
+  var backG = document.getElementById('backFromGrammar');
+  var backR = document.getElementById('backFromReading');
+
+  function showMenu(){
+    menu.hidden = false;
+    paneG.hidden = true;
+    paneR.hidden = true;
+    tabG.classList.remove('active');
+    tabR.classList.remove('active');
+  }
+
+  tabG.addEventListener('click', function(){
+    tabG.classList.add('active'); tabR.classList.remove('active');
+    menu.hidden = true;
+    buildSection('grammarSection', function(){ return easyToHard(grammar); }, 'Grammar', false);
+    paneG.hidden = false; paneR.hidden = true;
+  });
+  tabR.addEventListener('click', function(){
+    tabR.classList.add('active'); tabG.classList.remove('active');
+    menu.hidden = true;
+    paneR.hidden = false; paneG.hidden = true;
+  });
+  backG.addEventListener('click', showMenu);
+  backR.addEventListener('click', showMenu);
+})();
+</script>
+</body>
+</html>

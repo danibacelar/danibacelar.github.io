@@ -1116,6 +1116,37 @@ const GAMES = [
     access: 'beta',
     status: 'available',
     gameUrl: 'https://mrsdani.com.br/8ano-voz_ativa_e_passiva/'
+  },
+  {
+    id: 'english-checkup',
+    title: 'English Check-Up',
+    gradeNum: 5,
+    skill: ['Grammar', 'Reading'],
+    topic: 'English Level Check-Up',
+    grammar: 'Verb to be, tenses, articles, modals, comparatives',
+    difficulty: 'Beginner',
+    gameType: 'Diagnostic Quiz (Grammar + Reading)',
+    schoolAlignment: '5th Grade English — Placement / Level Check',
+    description: 'A 30-question grammar and 15-question reading comprehension check-up that shows exactly which topics to review next.',
+    descriptionPT: 'Uma checagem com 30 questões de gramática e 15 de interpretação de texto, que mostra exatamente quais tópicos revisar em seguida.',
+    why: 'Built to give parents a clear, topic-by-topic picture of where a child stands in English — useful before choosing the next game or material to practice.',
+    whyPT: 'Criado para dar aos pais uma visão clara, tópico por tópico, de onde o filho está em inglês — útil antes de escolher o próximo jogo ou material.',
+    practices: ['verb to be', 'present & past tenses', 'articles', 'modals', 'reading comprehension'],
+    objectivesPT: [
+      'Revisar os principais pontos de gramática do inglês básico: verbo to be, tempos verbais, artigos, modais e mais.',
+      'Praticar interpretação de texto com questões de ideia principal, detalhes, vocabulário e inferência.',
+      'Identificar, ao final, exatamente quais tópicos precisam de mais estudo.'
+    ],
+    objectives: [
+      'Review the main points of basic English grammar: verb to be, verb tenses, articles, modals, and more.',
+      'Practice reading comprehension with main idea, detail, vocabulary, and inference questions.',
+      'See exactly which topics need more study at the end.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'english-checkup/index.html'
   }
 ];
 
