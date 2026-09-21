@@ -459,7 +459,7 @@
   var part1Items = [];
   part1Passages.forEach(function(p, pi){
     p.questions.forEach(function(item, qi){
-      part1Items.push({number:item.number, q:item.q, opts:item.opts, a:item.a, exp:item.exp, topic:item.topic, passageIndex:pi, isFirstOfPassage:(qi===0)});
+      part1Items.push({number:item.number, q:item.q, opts:item.opts, a:item.a, exp:item.exp, topic:item.topic, passageIndex:pi});
     });
   });
 
@@ -511,7 +511,7 @@
   var part2Items = [];
   part2Passages.forEach(function(p, pi){
     p.questions.forEach(function(item, qi){
-      part2Items.push({number:item.number, q:item.q, opts:item.opts, a:item.a, exp:item.exp, topic:item.topic, passageIndex:pi, isFirstOfPassage:(qi===0)});
+      part2Items.push({number:item.number, q:item.q, opts:item.opts, a:item.a, exp:item.exp, topic:item.topic, passageIndex:pi});
     });
   });
   grammarE.forEach(function(item){
@@ -544,7 +544,7 @@
               '<div class="score-chip bad">Wrong <span class="num" id="wrongNum_'+containerId+'">'+state.wrongCount+'</span></div>' +
               '</div>';
 
-      if(passagesForSection && item.isFirstOfPassage){
+      if(passagesForSection && item.passageIndex !== undefined){
         var p = passagesForSection[item.passageIndex];
         html += '<div class="passage"><div class="ptitle">'+p.title+'</div>'+p.text+'</div>';
       }
