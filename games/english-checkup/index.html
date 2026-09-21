@@ -291,16 +291,6 @@
     font-size:13.5px; font-weight:700; color:var(--good); text-align:left; margin-bottom:18px;
   }
 
-  .answerkey-grid{
-    display:grid; grid-template-columns:repeat(auto-fill, minmax(58px,1fr)); gap:8px; text-align:left; margin-bottom:8px;
-  }
-  .answerkey-item{
-    background:var(--surface-2); border-radius:8px; padding:8px 4px;
-    text-align:center; font-size:12px; font-weight:700; color:var(--ink-soft);
-    font-variant-numeric:tabular-nums;
-  }
-  .answerkey-item b{color:var(--subject-strong, var(--accent-strong)); font-size:14px;}
-
   .result-actions{display:flex; gap:10px; justify-content:center; flex-wrap:wrap;}
 
   footer.hint{
@@ -642,12 +632,6 @@
         reviewHtml += '<div class="review-empty">Awesome — every topic was 100% correct this time!</div>';
       }
 
-      var keyHtml = '<div class="review-title">Answer Key</div><div class="answerkey-grid">';
-      items.forEach(function(it){
-        keyHtml += '<div class="answerkey-item">Q'+it.number+'<br><b>'+letterFor(it.opts, it.a)+'</b></div>';
-      });
-      keyHtml += '</div>';
-
       var html = '<div class="card result">';
       html += '<div class="eyebrow">'+sectionLabel+' · Results</div>';
       html += '<div class="stars">'+starsHtml+'</div>';
@@ -655,7 +639,6 @@
       html += '<p>'+message+'</p>';
       html += '<div class="pass-badge '+(passed?'pass':'fail')+'">'+(passed ? 'You did great!' : 'Let\'s practice a bit more')+'</div>';
       html += reviewHtml;
-      html += keyHtml;
       html += '<div class="result-actions">';
       html += '<button class="primary" id="retry_'+containerId+'">Practice Again</button>';
       html += '</div></div>';
