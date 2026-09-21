@@ -138,7 +138,59 @@ criada num navegador não aparece em outro. Isso é o próximo passo grande
   o selo, "X jogo(s)" e o preço total (ex: "R$ 30,00"), sem preço por
   jogo.
 
-## O que falta (próximos passos possíveis)
+## IMPORTANTE: trocar o DNS não "mescla" os dois sites — substitui
+
+A Dani perguntou se trocar o DNS de `mrsdani.com.br` para a Cloudflare
+"traz tudo" do site estático atual. **Não traz.** Trocar DNS é uma
+substituição: o que não estiver pronto no `webapp/` simplesmente some do
+ar. Ela confirmou que `mrsdani.com.br` ainda não tem usuários reais (só
+subiu os arquivos lá para teste), o que reduz o risco, mas o checklist
+abaixo continua valendo antes de trocar de vez.
+
+## Checklist para o site novo poder substituir o mrsdani.com.br
+
+**🔴 Bloqueia a troca de domínio:**
+1. ~~Catálogo completo de jogos~~ — **feito** (ver seção abaixo).
+2. **Banco de dados de verdade** (Supabase ou similar) — contas ainda só
+   valem no navegador onde foram criadas.
+3. **Pagamento real via Pix** (Mercado Pago ou outro) — hoje só simula.
+4. Mover sessão "1 aparelho por login" para **Cloudflare KV** (hoje é
+   memória do processo, não aguenta produção real com múltiplas
+   instâncias).
+
+**🟡 Importante, não trava:**
+5. Painel admin (`/admin`) conectado a dados reais.
+6. Decidir o botão PT/EN — hoje é só decorativo, nunca funcionou nesta
+   reconstrução (perguntei à Dani se remove ou implementa de verdade,
+   ainda sem resposta definitiva quando este texto foi escrito).
+
+**🟢 Polimento final:**
+7. Revisão geral de texto/conteúdo.
+8. Testar em vários navegadores/celulares.
+9. Trocar o DNS.
+
+## Catálogo completo de jogos — feito nesta sessão
+
+Os 25 jogos reais do `mrsdani.com.br` (dados extraídos de `js/main.js`)
+foram portados para `webapp/src/app/data/games.ts`: título, descrição,
+ano escolar, habilidade, dificuldade e o **link real de cada jogo** (a
+maioria em `https://mrsdani.com.br/<slug>/`, dois hospedados localmente
+em `games/growing-plants/` e `games/spelling-bee/`). Todos custam 10
+créditos, exceto Growing Plants que continua grátis.
+
+**Os jogos em si não foram reconstruídos** — só linkados. A Dani
+confirmou que já funcionam de verdade no site atual (abrem em outra
+aba), então o botão "Jogar agora" em `/jogos/[slug]` já leva pro jogo
+de verdade assim que o jogo é liberado (comprado ou grátis).
+
+19 dos 25 jogos não têm uma imagem de capa (campo `thumbnail` ausente
+em `data/games.ts`) — os componentes já lidam com isso mostrando um
+placeholder ("Prévia do jogo em breve") em vez de quebrar. Se a Dani
+mandar screenshots dos jogos que faltam, é só adicionar o arquivo em
+`public/assets/games/` e preencher o campo `thumbnail` do jogo
+correspondente.
+
+## Próximos passos possíveis (itens que não bloqueiam o catálogo)
 
 1. **Banco de dados de verdade** (ex: Supabase) para que as contas dos
    responsáveis valham em qualquer navegador/aparelho, não só onde foram
@@ -149,16 +201,11 @@ criada num navegador não aparece em outro. Isso é o próximo passo grande
    `lib/sessionStore.ts`) para **Cloudflare KV** — funciona para teste,
    mas não sobrevive em produção real na borda da Cloudflare (múltiplas
    instâncias sem memória compartilhada).
-4. Catálogo de jogos ainda é só um subconjunto de 4 jogos
-   (`data/games.ts`) — o protótipo tem dezenas de jogos com muito mais
-   detalhe (objetivos, alinhamento escolar etc., em `js/main.js`). Migrar
-   o catálogo completo é um trabalho de conteúdo separado, ainda não
-   feito.
-5. Painel admin (`/admin`) ainda mostra números de mentira, não
+4. Painel admin (`/admin`) ainda mostra números de mentira, não
    conectado a dados reais (contas/filhos/compras já existem em
    `lib/fakeAuth.ts`, dava para ligar números reais ali como próximo
    passo pequeno).
-6. Decidir e executar a troca de DNS de `mrsdani.com.br` para a
+5. Decidir e executar a troca de DNS de `mrsdani.com.br` para a
    Cloudflare, quando tudo estiver validado.
 
 ## Como testar localmente (se precisar)
