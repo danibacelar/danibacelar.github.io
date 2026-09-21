@@ -20,17 +20,17 @@ export default function HomePage() {
             <li>
               <a href="/sobre">Sobre</a>
             </li>
-            <li>
-              <a href="/login">Entrar</a>
-            </li>
           </ul>
           <div className="nav-cta">
             <div className="lang-toggle">
               <button className="active">PT</button>
               <button>EN</button>
             </div>
-            <a href="/login" className="btn btn-primary">
-              Fazer login
+            <a href="/login" className="btn btn-ghost">
+              Entrar
+            </a>
+            <a href="/login?modo=criar" className="btn btn-primary">
+              Criar conta
             </a>
             <button className="nav-toggle" aria-label="Open menu" aria-expanded="false">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

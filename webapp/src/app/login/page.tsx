@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
@@ -32,6 +32,12 @@ export default function LoginPage() {
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState<string | null>(null);
   const [carregando, setCarregando] = useState(false);
+
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("modo") === "criar") {
+      setModo("criar");
+    }
+  }, []);
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
