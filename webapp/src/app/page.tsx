@@ -198,12 +198,16 @@ export default function HomePage() {
             {destaques.map((game) => (
               <article className="game-card" key={game.slug}>
                 <div className="game-card-media">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={game.thumbnail} alt={game.title} />
+                  {game.thumbnail ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={game.thumbnail} alt={game.title} />
+                  ) : (
+                    <span>Prévia do jogo em breve</span>
+                  )}
                 </div>
                 <div className="game-card-body">
                   <div className="game-card-tags">
-                    <span className="tag tag-grade">{game.grade}</span>
+                    {game.grade && <span className="tag tag-grade">{game.grade}</span>}
                     {game.skills.map((skill) => (
                       <span className="tag tag-skill" key={skill}>
                         {skill}

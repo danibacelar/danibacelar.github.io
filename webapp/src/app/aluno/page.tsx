@@ -47,8 +47,12 @@ export default function AlunoPage() {
               {meusJogos.map((game) => (
                 <article className="game-card" key={game.slug}>
                   <div className="game-card-media">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={game.thumbnail} alt={game.title} />
+                    {game.thumbnail ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={game.thumbnail} alt={game.title} />
+                    ) : (
+                      <span>Prévia do jogo em breve</span>
+                    )}
                   </div>
                   <div className="game-card-body">
                     <h3>{game.title}</h3>
