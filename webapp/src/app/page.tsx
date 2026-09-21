@@ -63,9 +63,9 @@ export default function HomePage() {
             </a>
           </div>
         </div>
-        <div className="hero-visual">
+        <div className="hero-visual" style={{ maxWidth: 420, margin: "0 auto" }}>
           <div className="hero-media-wrap">
-            <div className="hero-media" style={{ maxHeight: "min(32vh, 280px)" }}>
+            <div className="hero-media">
               {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
               <video autoPlay muted loop playsInline poster="/assets/games/town-explorer-poster.jpg">
                 <source src="/assets/games/town-explorer-preview.mp4" type="video/mp4" />
