@@ -332,7 +332,7 @@
   <div id="part2Section"></div>
 </div>
 
-<footer class="hint">Tip: this follows the same structure as the school's placement test — 30 questions, numbered from 1 to 30, with an answer key at the end of each part.</footer>
+<footer class="hint">Tip: this follows the same structure as the school's placement test, with each question numbered to match.</footer>
 
 <script>
 (function(){
@@ -439,7 +439,27 @@
     {number:29, q:"________ bike is this? – It's Marcos's.", opts:["Who","Whose","Which","What"], a:1,
       exp:"'Whose' asks about possession — who something belongs to.", topic:"Possessives"},
     {number:30, q:"A: Hi, I'm Laura. ________ B: I'm Marco. Nice to meet you!", opts:["What's your name?","How much is it?","Where are you from?","What time is it?"], a:0,
-      exp:"When you introduce yourself, a natural reply is to ask 'What's your name?'.", topic:"Functional Language"}
+      exp:"When you introduce yourself, a natural reply is to ask 'What's your name?'.", topic:"Functional Language"},
+    {number:31, q:"This letter is for ________. It has your name on it.", opts:["you","your","yours","you're"], a:0,
+      exp:"'You' is the object pronoun, used after a preposition like 'for'.", topic:"Pronouns"},
+    {number:32, q:"My shoes ________ new; I bought them last year.", opts:["isn't","aren't","doesn't","don't"], a:1,
+      exp:"'Shoes' is plural, so we use 'aren't' (are not).", topic:"Verb to be"},
+    {number:33, q:"My sister ________ eat meat; she's a vegetarian.", opts:["doesn't","don't","isn't","aren't"], a:0,
+      exp:"'Sister' is 3rd person singular, so the negative uses 'doesn't'.", topic:"Present Simple"},
+    {number:34, q:"Be quiet! The baby ________ right now.", opts:["doesn't sleep","isn't sleeping","don't sleep","not sleeping"], a:1,
+      exp:"Present Continuous negative: isn't + verb-ing.", topic:"Present Continuous"},
+    {number:35, q:"________ is your birthday party? – Next Saturday.", opts:["What","When","Why","Who"], a:1,
+      exp:"'When' asks about time, matching the answer 'Next Saturday'.", topic:"Wh- Questions"},
+    {number:36, q:"The movie starts ________ 7 o'clock.", opts:["in","on","at","of"], a:2,
+      exp:"We use 'at' with exact clock times: at 7 o'clock.", topic:"Prepositions of Time"},
+    {number:37, q:"________ a big park near my school.", opts:["There is","There are","There has","It is"], a:0,
+      exp:"'A big park' is singular, so we use 'There is'.", topic:"There is / There are"},
+    {number:38, q:"How ________ students are there in your class?", opts:["much","many","some","any"], a:1,
+      exp:"'Students' is countable and plural, so we use 'many'.", topic:"Quantifiers"},
+    {number:39, q:"That is ________ notebook. She left it on the desk.", opts:["Ana","Ana's","Anas","of Ana"], a:1,
+      exp:"Possessive 's shows ownership: Ana's notebook.", topic:"Possessives"},
+    {number:40, q:"A: Excuse me, ________ B: It's two o'clock.", opts:["what time is it?","how are you?","where do you live?","what's your name?"], a:0,
+      exp:"This is a common, polite way to ask a stranger for the time.", topic:"Functional Language"}
   ];
 
   var part2Items = [];
@@ -451,6 +471,8 @@
   grammarE.forEach(function(item){
     part2Items.push({number:item.number, q:item.q, opts:item.opts, a:item.a, exp:item.exp, topic:item.topic});
   });
+
+  var TOTAL_QUESTIONS = part1Items.length + part2Items.length;
 
   /* ===================== ENGINE ===================== */
 
@@ -484,7 +506,7 @@
       }
 
       html += '<div class="card qcard">';
-      html += '<div class="qnum">'+sectionLabel+' · Question '+item.number+' of 30</div>';
+      html += '<div class="qnum">'+sectionLabel+' · Question '+item.number+' of '+TOTAL_QUESTIONS+'</div>';
       html += '<div class="qtext">'+item.q+'</div>';
       html += '<div class="options" id="opts_'+containerId+'"></div>';
       html += '<div class="feedback" id="fb_'+containerId+'"></div>';
