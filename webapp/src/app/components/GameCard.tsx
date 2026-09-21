@@ -59,7 +59,7 @@ export default function GameCard({
 
   let precoLabel = `${game.credits} créditos`;
   if (game.free) precoLabel = "Grátis";
-  else if (valido) precoLabel = `Incluído · ${diasRestantes(compra!)}d restantes`;
+  else if (valido) precoLabel = `${diasRestantes(compra!)} dias restantes`;
   else if (expirado) precoLabel = "Expirado";
 
   let pillLabel = "Disponível para compra";
