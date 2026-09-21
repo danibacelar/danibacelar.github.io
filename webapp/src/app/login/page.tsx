@@ -61,10 +61,12 @@ export default function LoginPage() {
         <div className="wrap">
           <div style={{ maxWidth: 640, margin: "0 auto" }}>
             <h1 style={{ fontSize: "2rem", marginBottom: 8 }} className="center">
-              Entrar
+              {modo === "criar" ? "Criar conta" : "Entrar"}
             </h1>
             <p className="center" style={{ marginBottom: 20 }}>
-              Escolha como você quer entrar.
+              {modo === "criar"
+                ? "Crie sua conta de responsável em menos de um minuto."
+                : "Escolha como você quer entrar."}
             </p>
 
             <Suspense fallback={null}>
@@ -85,26 +87,36 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className="grid-2" style={{ marginTop: 24, maxWidth: 860, marginLeft: "auto", marginRight: "auto" }}>
-            <div
-              className="callout"
-              style={{ textAlign: "center", display: "flex", flexDirection: "column", justifyContent: "center" }}
-            >
-              <h3 style={{ marginBottom: 6 }}>Sou aluno</h3>
-              <p style={{ marginBottom: 16 }}>
-                Acesse suas atividades de forma simples e rápida.
-              </p>
-              <a
-                href="/login/aluno"
-                className="btn btn-amber"
-                style={{ width: "100%", justifyContent: "center" }}
+          <div
+            className={modo === "entrar" ? "grid-2" : undefined}
+            style={{
+              marginTop: 24,
+              maxWidth: modo === "entrar" ? 860 : 480,
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          >
+            {modo === "entrar" && (
+              <div
+                className="callout"
+                style={{ textAlign: "center", display: "flex", flexDirection: "column", justifyContent: "center" }}
               >
-                Acessar como aluno
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M5 12h14M13 6l6 6-6 6" />
-                </svg>
-              </a>
-            </div>
+                <h3 style={{ marginBottom: 6 }}>Sou aluno</h3>
+                <p style={{ marginBottom: 16 }}>
+                  Acesse suas atividades de forma simples e rápida.
+                </p>
+                <a
+                  href="/login/aluno"
+                  className="btn btn-amber"
+                  style={{ width: "100%", justifyContent: "center" }}
+                >
+                  Acessar como aluno
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </a>
+              </div>
+            )}
 
             <div className="callout">
               <h3 style={{ marginBottom: 16 }}>
