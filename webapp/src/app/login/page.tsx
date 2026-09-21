@@ -63,11 +63,11 @@ export default function LoginPage() {
             <h1 style={{ fontSize: "2rem", marginBottom: 8 }} className="center">
               {modo === "criar" ? "Criar conta" : "Entrar"}
             </h1>
-            <p className="center" style={{ marginBottom: 20 }}>
-              {modo === "criar"
-                ? "Crie sua conta de responsável em menos de um minuto."
-                : "Escolha como você quer entrar."}
-            </p>
+            {modo === "criar" && (
+              <p className="center" style={{ marginBottom: 20 }}>
+                Crie sua conta de responsável em menos de um minuto.
+              </p>
+            )}
 
             <Suspense fallback={null}>
               <AvisoOutroAparelho />
