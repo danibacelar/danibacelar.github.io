@@ -34,10 +34,23 @@ const FILTER_GROUPS = [
       { value: "Advanced", label: "Avançado" },
     ],
   },
-];
+] as const;
+
+type GroupId = (typeof FILTER_GROUPS)[number]["group"];
+type Selected = Record<GroupId, Set<string>>;
+
+function novoVazio(): Selected {
+  return { grade: new Set(), skill: new Set(), difficulty: new Set() };
+}
+
+function rotuloDaOpcao(group: GroupId, value: string): string {
+  const grupo = FILTER_GROUPS.find((g) => g.group === group);
+  return grupo?.options.find((o) => o.value === value)?.label ?? value;
+}
 
 export default function SearchAndFilters({ resultCount }: { resultCount: number }) {
   const [openGroup, setOpenGroup] = useState<string | null>(null);
+  const [selected, setSelected] = useState<Selected>(novoVazio);
 
   // Clicar fora de um filtro aberto fecha ele.
   useEffect(() => {
@@ -51,6 +64,27 @@ export default function SearchAndFilters({ resultCount }: { resultCount: number 
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, [openGroup]);
+
+  function toggleOpcao(group: GroupId, value: string) {
+    setSelected((atual) => {
+      const proximo = new Set(atual[group]);
+      if (proximo.has(value)) proximo.delete(value);
+      else proximo.add(value);
+      return { ...atual, [group]: proximo };
+    });
+  }
+
+  function limparTudo() {
+    setSelected(novoVazio());
+  }
+
+  const chips = FILTER_GROUPS.flatMap((grupo) =>
+    [...selected[grupo.group]].map((value) => ({
+      group: grupo.group,
+      value,
+      label: rotuloDaOpcao(grupo.group, value),
+    }))
+  );
 
   return (
     <>
@@ -71,41 +105,63 @@ export default function SearchAndFilters({ resultCount }: { resultCount: number 
       </div>
 
       <div className="filter-toolbar">
-        {FILTER_GROUPS.map((group) => (
-          <div
-            className={`filter-dropdown${openGroup === group.group ? " open" : ""}`}
-            key={group.group}
-          >
-            <button
-              className="filter-dropdown-btn"
-              type="button"
-              onClick={() =>
-                setOpenGroup((current) => (current === group.group ? null : group.group))
-              }
+        {FILTER_GROUPS.map((group) => {
+          const count = selected[group.group].size;
+          return (
+            <div
+              className={`filter-dropdown${openGroup === group.group ? " open" : ""}`}
+              key={group.group}
             >
-              <span>{group.label}</span>
-              <span className="filter-dropdown-count" hidden>
-                0
-              </span>
-              <svg className="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M6 9l6 6 6-6" />
-              </svg>
-            </button>
-            <div className="filter-dropdown-panel">
-              {group.options.map((option) => (
-                <label className="filter-option" key={option.value}>
-                  <input type="checkbox" />
-                  <span>{option.label}</span>
-                </label>
-              ))}
+              <button
+                className="filter-dropdown-btn"
+                type="button"
+                onClick={() =>
+                  setOpenGroup((current) => (current === group.group ? null : group.group))
+                }
+              >
+                <span>{group.label}</span>
+                <span className="filter-dropdown-count" hidden={count === 0}>
+                  {count}
+                </span>
+                <svg className="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </button>
+              <div className="filter-dropdown-panel">
+                {group.options.map((option) => (
+                  <label className="filter-option" key={option.value}>
+                    <input
+                      type="checkbox"
+                      checked={selected[group.group].has(option.value)}
+                      onChange={() => toggleOpcao(group.group, option.value)}
+                    />
+                    <span>{option.label}</span>
+                  </label>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
-      <div className="active-filters-row" hidden>
-        <div className="filter-chips"></div>
-        <button className="filter-clear-all">Limpar tudo</button>
+      <div className="active-filters-row" hidden={chips.length === 0}>
+        <div className="filter-chips">
+          {chips.map((chip) => (
+            <span className="filter-chip" key={`${chip.group}-${chip.value}`}>
+              {chip.label}
+              <button
+                type="button"
+                aria-label="Remover"
+                onClick={() => toggleOpcao(chip.group, chip.value)}
+              >
+                &times;
+              </button>
+            </span>
+          ))}
+        </div>
+        <button className="filter-clear-all" type="button" onClick={limparTudo}>
+          Limpar tudo
+        </button>
       </div>
 
       <div className="library-results-head" style={{ marginTop: 24 }}>
