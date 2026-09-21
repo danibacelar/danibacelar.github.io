@@ -16,7 +16,6 @@ const LINKS_PUBLICO = [
   { href: "/jogos", label: "Jogos" },
   { href: "/#como-funciona", label: "Como funciona" },
   { href: "/sobre", label: "Sobre" },
-  { href: "/login", label: "Entrar" },
 ];
 
 export default function Nav({
@@ -179,6 +178,12 @@ export default function Nav({
             <button className="active">PT</button>
             <button>EN</button>
           </div>
+          <a href="/login" className="btn btn-ghost">
+            Entrar
+          </a>
+          <a href="/login?modo=criar" className="btn btn-primary">
+            Criar conta
+          </a>
           <button className="nav-toggle" aria-label="Open menu" aria-expanded="false">
             <MenuIcon />
           </button>
