@@ -120,7 +120,7 @@ export default function LoginPage() {
 
             <div className="callout">
               <h3 style={{ marginBottom: 16 }}>
-                {modo === "entrar" ? "Sou responsável (pai/mãe)" : "Criar minha conta"}
+                {modo === "entrar" ? "Sou responsável" : "Criar minha conta"}
               </h3>
               <form onSubmit={handleSubmit}>
                 {modo === "criar" && (
