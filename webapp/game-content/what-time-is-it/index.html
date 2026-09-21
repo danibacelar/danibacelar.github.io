@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>What Time Is It?</title>
+<style>
+  /* ── Reset & Base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: linear-gradient(135deg, #fce4ec, #e3f2fd);
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 16px;
+    color: #333;
+  }
+
+  /* ── Header ── */
+  header {
+    text-align: center; margin-bottom: 12px;
+  }
+  header h1 { font-size: clamp(1.4rem, 4vw, 2rem); color: #e91e63; }
+  header p  { font-size: .9rem; color: #555; margin-top: 4px; }
+
+  /* ── Score bar ── */
+  #scorebar {
+    display: flex; gap: 20px; justify-content: center; align-items: center;
+    background: #fff; border-radius: 40px; padding: 8px 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.12);
+    margin-bottom: 16px; font-weight: 600;
+  }
+  .score-item span { color: #e91e63; font-size: 1.2rem; }
+
+  /* ── Card ── */
+  #card {
+    background: #fff; border-radius: 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,.14);
+    padding: 24px 20px; width: 100%; max-width: 420px;
+    display: flex; flex-direction: column; align-items: center; gap: 18px;
+  }
+
+  /* ── Activity ── */
+  #activity {
+    font-size: 1rem; font-weight: 600; color: #5c35ae;
+    background: #ede7f6; border-radius: 12px; padding: 8px 16px;
+    text-align: center; width: 100%;
+  }
+  #activity-emoji { font-size: 2.2rem; display: block; margin-bottom: 4px; }
+
+  /* ── Clock ── */
+  #clock-wrap {
+    position: relative; width: 220px; height: 220px;
+  }
+  #clock-svg { width: 100%; height: 100%; }
+
+  /* ── Choices ── */
+  #choices {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; width: 100%;
+  }
+  .choice-btn {
+    background: #f3e5f5; border: 3px solid #ce93d8;
+    border-radius: 14px; padding: 12px 8px;
+    font-size: .95rem; font-weight: 700; color: #6a1b9a;
+    cursor: pointer; transition: transform .15s, background .15s, border-color .15s;
+    text-align: center; line-height: 1.3;
+  }
+  .choice-btn:hover { background: #e1bee7; transform: scale(1.04); }
+  .choice-btn.correct { background: #c8e6c9; border-color: #388e3c; color: #1b5e20; }
+  .choice-btn.wrong   { background: #ffcdd2; border-color: #c62828; color: #b71c1c; }
+  .choice-btn:disabled { cursor: default; transform: none; }
+
+  /* ── Feedback ── */
+  #feedback {
+    font-size: 1rem; font-weight: 700; text-align: center;
+    min-height: 28px; border-radius: 10px; padding: 4px 12px;
+    transition: opacity .3s;
+  }
+  #feedback.correct { color: #2e7d32; background: #e8f5e9; }
+  #feedback.wrong   { color: #c62828; background: #ffebee; }
+
+  /* ── Next button ── */
+  #next-btn {
+    display: none; background: #e91e63; color: #fff;
+    border: none; border-radius: 40px; padding: 12px 36px;
+    font-size: 1rem; font-weight: 700; cursor: pointer;
+    box-shadow: 0 3px 10px rgba(233,30,99,.35);
+    transition: background .2s, transform .15s;
+  }
+  #next-btn:hover { background: #c2185b; transform: scale(1.04); }
+
+  /* ── End screen ── */
+  #end-screen {
+    display: none; flex-direction: column; align-items: center; gap: 16px;
+    background: #fff; border-radius: 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,.14);
+    padding: 36px 28px; max-width: 420px; width: 100%;
+    text-align: center;
+  }
+  #end-screen h2 { font-size: 1.8rem; color: #e91e63; }
+  #end-screen p  { font-size: 1rem; color: #555; }
+  #end-screen .big { font-size: 3rem; }
+  #restart-btn {
+    background: #e91e63; color: #fff; border: none;
+    border-radius: 40px; padding: 12px 40px;
+    font-size: 1rem; font-weight: 700; cursor: pointer;
+    box-shadow: 0 3px 10px rgba(233,30,99,.35);
+  }
+  #restart-btn:hover { background: #c2185b; }
+
+  /* ── Bounce animation ── */
+  @keyframes bounce {
+    0%,100% { transform: translateY(0); }
+    40%      { transform: translateY(-10px); }
+    70%      { transform: translateY(-4px); }
+  }
+  .bounce { animation: bounce .5s ease; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>⏰ What Time Is It?</h1>
+  <p>Look at the clock and choose the correct answer!</p>
+</header>
+
+<div id="scorebar">
+  <div class="score-item">✅ <span id="correct-count">0</span></div>
+  <div class="score-item">❌ <span id="wrong-count">0</span></div>
+  <div class="score-item">📋 <span id="q-count">0</span> / 10</div>
+</div>
+
+<!-- Game card -->
+<div id="card">
+  <div id="activity">
+    <span id="activity-emoji">🌅</span>
+    <span id="activity-text">Time to wake up!</span>
+  </div>
+
+  <div id="clock-wrap">
+    <svg id="clock-svg" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+      <!-- Clock face -->
+      <circle cx="110" cy="110" r="104" fill="#fffde7" stroke="#f9a825" stroke-width="6"/>
+      <circle cx="110" cy="110" r="96"  fill="#fffde7"/>
+      <!-- Tick marks & numbers drawn by JS -->
+      <g id="ticks"></g>
+      <g id="numbers"></g>
+      <!-- Hands -->
+      <line id="hour-hand"   x1="110" y1="110" x2="110" y2="55"
+            stroke="#4a148c" stroke-width="8" stroke-linecap="round"/>
+      <line id="minute-hand" x1="110" y1="110" x2="110" y2="35"
+            stroke="#e91e63" stroke-width="4" stroke-linecap="round"/>
+      <!-- Centre dot -->
+      <circle cx="110" cy="110" r="6" fill="#4a148c"/>
+    </svg>
+  </div>
+
+  <div id="choices">
+    <button class="choice-btn" id="btn0"></button>
+    <button class="choice-btn" id="btn1"></button>
+    <button class="choice-btn" id="btn2"></button>
+    <button class="choice-btn" id="btn3"></button>
+  </div>
+
+  <div id="feedback"></div>
+  <button id="next-btn">Next ▶</button>
+</div>
+
+<!-- End screen -->
+<div id="end-screen">
+  <div class="big" id="end-emoji">🎉</div>
+  <h2>Well done!</h2>
+  <p id="end-msg"></p>
+  <button id="restart-btn">Play Again 🔄</button>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════
+   DATA
+════════════════════════════════════════════════ */
+const ACTIVITIES = [
+  { emoji:"🛏️",  text:"Time to wake up!" },
+  { emoji:"🧹",  text:"Sweep the floor time!" },
+  { emoji:"🥞",  text:"Breakfast time!" },
+  { emoji:"🦷",  text:"Brush your teeth!" },
+  { emoji:"🎒",  text:"Go to school!" },
+  { emoji:"📚",  text:"Study time!" },
+  { emoji:"🍎",  text:"Snack time!" },
+  { emoji:"⚽",  text:"Play outside!" },
+  { emoji:"🍽️", text:"Lunch time!" },
+  { emoji:"😴",  text:"Nap time!" },
+  { emoji:"🚿",  text:"Shower time!" },
+  { emoji:"📖",  text:"Reading time!" },
+  { emoji:"🌙",  text:"Bedtime!" },
+  { emoji:"🍵",  text:"Tea time!" },
+];
+
+/* All possible times: hour 1-12, minutes 0/15/30/45 */
+function buildAllTimes() {
+  const list = [];
+  for (let h = 1; h <= 12; h++) {
+    for (const m of [0, 15, 30, 45]) {
+      list.push({ h, m });
+    }
+  }
+  return list;
+}
+const ALL_TIMES = buildAllTimes();
+
+/* Convert {h, m} → display string */
+function timeToLabel(h, m) {
+  const names = ["one","two","three","four","five","six",
+                 "seven","eight","nine","ten","eleven","twelve"];
+  const hName  = names[h - 1];
+  const nextH  = names[h % 12]; // for "quarter to"
+  if (m === 0)  return `${hName} o'clock`;
+  if (m === 15) return `quarter past ${hName}`;
+  if (m === 30) return `half past ${hName}`;
+  if (m === 45) return `quarter to ${nextH}`;
+}
+
+/* Pick 4 unique wrong distractors from remaining times */
+function pickDistractors(correct, count) {
+  const pool = ALL_TIMES.filter(t => !(t.h===correct.h && t.m===correct.m));
+  shuffle(pool);
+  const chosen = [];
+  const usedLabels = new Set([timeToLabel(correct.h, correct.m)]);
+  for (const t of pool) {
+    const lbl = timeToLabel(t.h, t.m);
+    if (!usedLabels.has(lbl)) {
+      usedLabels.add(lbl);
+      chosen.push(lbl);
+      if (chosen.length === count) break;
+    }
+  }
+  return chosen;
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+/* ════════════════════════════════════════════════
+   CLOCK DRAWING
+════════════════════════════════════════════════ */
+const CX = 110, CY = 110, R = 96;
+
+/* Draw static ticks & numbers once */
+(function drawFace() {
+  const tg = document.getElementById("ticks");
+  const ng = document.getElementById("numbers");
+  const numNames = ["12","1","2","3","4","5","6","7","8","9","10","11"];
+  for (let i = 0; i < 12; i++) {
+    const angle = (i * 30 - 90) * Math.PI / 180;
+    const isMajor = true;
+    const r0 = R - 8, r1 = R - 18;
+    const x0 = CX + r0 * Math.cos(angle);
+    const y0 = CY + r0 * Math.sin(angle);
+    const x1 = CX + r1 * Math.cos(angle);
+    const y1 = CY + r1 * Math.sin(angle);
+    const line = document.createElementNS("http://www.w3.org/2000/svg","line");
+    line.setAttribute("x1", x0); line.setAttribute("y1", y0);
+    line.setAttribute("x2", x1); line.setAttribute("y2", y1);
+    line.setAttribute("stroke","#f9a825"); line.setAttribute("stroke-width","3");
+    line.setAttribute("stroke-linecap","round");
+    tg.appendChild(line);
+
+    /* Number */
+    const nr = R - 32;
+    const nx = CX + nr * Math.cos(angle);
+    const ny = CY + nr * Math.sin(angle);
+    const txt = document.createElementNS("http://www.w3.org/2000/svg","text");
+    txt.setAttribute("x", nx); txt.setAttribute("y", ny);
+    txt.setAttribute("text-anchor","middle"); txt.setAttribute("dominant-baseline","central");
+    txt.setAttribute("font-size","16"); txt.setAttribute("font-weight","bold");
+    txt.setAttribute("fill","#4a148c"); txt.setAttribute("font-family","Segoe UI,sans-serif");
+    txt.textContent = numNames[i];
+    ng.appendChild(txt);
+  }
+  /* Minor ticks */
+  for (let i = 0; i < 60; i++) {
+    if (i % 5 === 0) continue;
+    const angle = (i * 6 - 90) * Math.PI / 180;
+    const x0 = CX + (R-8)  * Math.cos(angle);
+    const y0 = CY + (R-8)  * Math.sin(angle);
+    const x1 = CX + (R-14) * Math.cos(angle);
+    const y1 = CY + (R-14) * Math.sin(angle);
+    const line = document.createElementNS("http://www.w3.org/2000/svg","line");
+    line.setAttribute("x1",x0); line.setAttribute("y1",y0);
+    line.setAttribute("x2",x1); line.setAttribute("y2",y1);
+    line.setAttribute("stroke","#ffe082"); line.setAttribute("stroke-width","1.5");
+    tg.appendChild(line);
+  }
+})();
+
+function setHands(h, m) {
+  /* Minute hand: 360°/60 = 6° per minute */
+  const mDeg = m * 6 - 90;
+  const mRad = mDeg * Math.PI / 180;
+  const mLen = 65;
+  const mx = CX + mLen * Math.cos(mRad);
+  const my = CY + mLen * Math.sin(mRad);
+  document.getElementById("minute-hand").setAttribute("x2", mx);
+  document.getElementById("minute-hand").setAttribute("y2", my);
+
+  /* Hour hand: 360°/12 = 30° per hour + 0.5° per minute */
+  const hDeg = (h % 12) * 30 + m * 0.5 - 90;
+  const hRad = hDeg * Math.PI / 180;
+  const hLen = 45;
+  const hx = CX + hLen * Math.cos(hRad);
+  const hy = CY + hLen * Math.sin(hRad);
+  document.getElementById("hour-hand").setAttribute("x2", hx);
+  document.getElementById("hour-hand").setAttribute("y2", hy);
+}
+
+/* ════════════════════════════════════════════════
+   GAME STATE
+════════════════════════════════════════════════ */
+let correctCount = 0, wrongCount = 0, qNum = 0;
+const TOTAL_Q = 10;
+let correctLabel = "";
+let answered = false;
+let usedActivities = [];
+
+function nextQuestion() {
+  if (qNum >= TOTAL_Q) { showEnd(); return; }
+  qNum++;
+  answered = false;
+
+  /* Random time */
+  const t = ALL_TIMES[Math.floor(Math.random() * ALL_TIMES.length)];
+  correctLabel = timeToLabel(t.h, t.m);
+  setHands(t.h, t.m);
+
+  /* Activity */
+  if (usedActivities.length === ACTIVITIES.length) usedActivities = [];
+  let act;
+  do { act = ACTIVITIES[Math.floor(Math.random() * ACTIVITIES.length)]; }
+  while (usedActivities.includes(act));
+  usedActivities.push(act);
+  document.getElementById("activity-emoji").textContent = act.emoji;
+  document.getElementById("activity-text").textContent  = act.text;
+
+  /* Build 4 choices */
+  const wrong = pickDistractors(t, 3);
+  const allChoices = shuffle([correctLabel, ...wrong]);
+  const btns = document.querySelectorAll(".choice-btn");
+  btns.forEach((btn, i) => {
+    btn.textContent  = allChoices[i];
+    btn.className    = "choice-btn";
+    btn.disabled     = false;
+    btn.dataset.label = allChoices[i];
+  });
+
+  /* UI reset */
+  const fb = document.getElementById("feedback");
+  fb.textContent = ""; fb.className = "";
+  document.getElementById("next-btn").style.display = "none";
+  document.getElementById("q-count").textContent = qNum;
+}
+
+function handleChoice(btn) {
+  if (answered) return;
+  answered = true;
+  const fb = document.getElementById("feedback");
+
+  document.querySelectorAll(".choice-btn").forEach(b => {
+    b.disabled = true;
+    if (b.dataset.label === correctLabel) b.classList.add("correct");
+  });
+
+  if (btn.dataset.label === correctLabel) {
+    correctCount++;
+    document.getElementById("correct-count").textContent = correctCount;
+    fb.textContent = "🌟 Correct! Great job!";
+    fb.className = "correct";
+    /* Bounce clock */
+    const cw = document.getElementById("clock-wrap");
+    cw.classList.remove("bounce");
+    void cw.offsetWidth; // reflow
+    cw.classList.add("bounce");
+  } else {
+    wrongCount++;
+    document.getElementById("wrong-count").textContent = wrongCount;
+    btn.classList.add("wrong");
+    fb.textContent = `❌ The answer is: "${correctLabel}"`;
+    fb.className = "wrong";
+  }
+
+  document.getElementById("next-btn").style.display = "inline-block";
+}
+
+function showEnd() {
+  document.getElementById("card").style.display = "none";
+  const es = document.getElementById("end-screen");
+  es.style.display = "flex";
+  const pct = Math.round((correctCount / TOTAL_Q) * 100);
+  let emoji = "😊", msg = "";
+  if (pct === 100) { emoji = "🏆"; msg = "Perfect score! You're a time master!"; }
+  else if (pct >= 70) { emoji = "🌟"; msg = `${correctCount} out of ${TOTAL_Q} correct. Awesome work!`; }
+  else if (pct >= 40) { emoji = "👍"; msg = `${correctCount} out of ${TOTAL_Q} correct. Keep practising!`; }
+  else { emoji = "💪"; msg = `${correctCount} out of ${TOTAL_Q} correct. You'll do better next time!`; }
+  document.getElementById("end-emoji").textContent = emoji;
+  document.getElementById("end-msg").textContent = msg;
+}
+
+function restart() {
+  correctCount = 0; wrongCount = 0; qNum = 0; usedActivities = [];
+  document.getElementById("correct-count").textContent = 0;
+  document.getElementById("wrong-count").textContent   = 0;
+  document.getElementById("q-count").textContent       = 0;
+  document.getElementById("end-screen").style.display  = "none";
+  document.getElementById("card").style.display        = "flex";
+  nextQuestion();
+}
+
+/* ════════════════════════════════════════════════
+   EVENT LISTENERS
+════════════════════════════════════════════════ */
+document.querySelectorAll(".choice-btn").forEach(btn => {
+  btn.addEventListener("click", () => handleChoice(btn));
+});
+document.getElementById("next-btn").addEventListener("click", nextQuestion);
+document.getElementById("restart-btn").addEventListener("click", restart);
+
+/* ── Start ── */
+nextQuestion();
+</script>
+</body>
+</html>

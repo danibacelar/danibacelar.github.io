@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time Detective — Past Simple vs Past Progressive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --board: #1c2a3a;
+    --board-dark: #131d29;
+    --paper: #f4ecd8;
+    --paper-shadow: #d9cba9;
+    --ink: #22273a;
+    --gold: #d4a94b;
+    --gold-light: #f0cf83;
+    --string: #b8433b;
+    --green: #4f8a5b;
+    --green-light: #c8e2c4;
+    --red: #b8433b;
+    --red-light: #f0d0cc;
+    --radius: 10px;
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at top, #24374d 0%, var(--board) 45%, var(--board-dark) 100%);
+    background-attachment: fixed;
+    color: var(--ink);
+    font-family:'Nunito', sans-serif;
+    min-height:100vh;
+    padding: 24px 16px 60px;
+  }
+
+  /* corkboard texture */
+  body::before{
+    content:"";
+    position: fixed;
+    inset:0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.03) 0, transparent 3%),
+      radial-gradient(circle at 80% 10%, rgba(255,255,255,0.03) 0, transparent 3%),
+      radial-gradient(circle at 60% 80%, rgba(255,255,255,0.03) 0, transparent 3%),
+      radial-gradient(circle at 10% 90%, rgba(255,255,255,0.03) 0, transparent 3%);
+    pointer-events:none;
+  }
+
+  .wrap{max-width: 880px; margin: 0 auto; position:relative;}
+
+  header{
+    text-align:center;
+    margin-bottom: 28px;
+    padding-top: 8px;
+  }
+
+  .badge{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background: var(--gold);
+    color: var(--board-dark);
+    font-family:'Special Elite', monospace;
+    letter-spacing:1px;
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    margin-bottom: 14px;
+    box-shadow: 0 3px 0 rgba(0,0,0,0.25);
+  }
+
+  h1{
+    font-family:'Special Elite', monospace;
+    color: var(--paper);
+    font-size: clamp(1.7rem, 5vw, 2.6rem);
+    margin: 0 0 6px;
+    text-shadow: 0 2px 0 rgba(0,0,0,0.35);
+  }
+
+  .subtitle{
+    color: #b9c6d6;
+    font-size: 1rem;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* ---------- Simple step-by-step guide ---------- */
+  .steps-section{ margin-bottom: 32px; }
+
+  .steps-card{
+    background: var(--paper);
+    border-radius: 14px;
+    padding: 22px 22px 20px;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.35);
+  }
+
+  .steps-title{
+    font-family:'Special Elite', monospace;
+    font-size: 1.15rem;
+    color: var(--ink);
+    margin-bottom: 18px;
+    text-align:center;
+  }
+
+  .step-row{
+    display:flex;
+    gap: 14px;
+    align-items:flex-start;
+    margin-bottom: 20px;
+  }
+
+  .step-num{
+    flex: 0 0 auto;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--string);
+    color: #fff;
+    font-family:'Special Elite', monospace;
+    font-size: 1.1rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow: 0 3px 0 #8a2f28;
+  }
+
+  .step-text{ flex: 1; }
+  .step-text b{ font-size: 1.02rem; color: var(--ink); }
+  .step-text p{ margin: 6px 0 0; font-size: 0.95rem; line-height: 1.55; }
+
+  .hl-when{
+    background: var(--red-light);
+    color: var(--string);
+    font-weight: 800;
+    padding: 1px 6px;
+    border-radius: 5px;
+  }
+  .hl-while{
+    background: var(--green-light);
+    color: #275a33;
+    font-weight: 800;
+    padding: 1px 6px;
+    border-radius: 5px;
+  }
+
+  .split-demo{
+    margin-top: 12px;
+    display:flex;
+    flex-wrap: wrap;
+    align-items:center;
+    gap: 8px;
+    font-size: 0.92rem;
+  }
+  .split-part{
+    background: #fff;
+    border: 1px solid var(--paper-shadow);
+    border-radius: 6px;
+    padding: 6px 10px;
+  }
+  .split-cut{ font-weight: 800; }
+
+  .choice-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  @media (max-width: 560px){ .choice-grid{grid-template-columns: 1fr;} }
+
+  .choice-box{
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 0.9rem;
+  }
+  .choice-while{ background: var(--green-light); }
+  .choice-when{ background: var(--red-light); }
+
+  .choice-head{
+    font-family:'Special Elite', monospace;
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+
+  .choice-box p{ margin: 0 0 8px; line-height: 1.4; }
+
+  .mono{
+    font-family:'Special Elite', monospace;
+    font-size: 0.85rem;
+    background: rgba(0,0,0,0.06);
+    padding: 2px 6px;
+    border-radius: 4px;
+    display:inline-block;
+    margin-top: 3px;
+  }
+
+  .choice-ex{
+    font-style: italic;
+    font-size: 0.85rem;
+    opacity: 0.85;
+  }
+
+  .steps-summary{
+    text-align:center;
+    background: var(--board-dark);
+    color: var(--gold-light);
+    font-family:'Special Elite', monospace;
+    font-size: 0.85rem;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-top: 4px;
+  }
+
+  /* ---------- Case cards (explanation) ---------- */
+  .board-section{
+    position:relative;
+    margin-bottom: 40px;
+  }
+
+  .cards-row{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px 30px;
+    position:relative;
+  }
+
+  @media (max-width: 620px){
+    .cards-row{grid-template-columns: 1fr;}
+  }
+
+  .card{
+    background: var(--paper);
+    border-radius: 2px;
+    padding: 22px 20px 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.35), 0 2px 0 rgba(0,0,0,0.1) inset;
+    position:relative;
+    transform: rotate(-1.2deg);
+  }
+  .card.tilt-right{transform: rotate(1.1deg);}
+
+  .pin{
+    position:absolute;
+    top:-10px;
+    left:50%;
+    transform:translateX(-50%);
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, #ff8a7a, var(--string) 70%);
+    box-shadow: 0 3px 4px rgba(0,0,0,0.4);
+    z-index:2;
+  }
+
+  .card-eyebrow{
+    font-family:'Special Elite', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--string);
+    margin-bottom: 6px;
+  }
+
+  .card h2{
+    font-family:'Special Elite', monospace;
+    font-size: 1.15rem;
+    margin: 0 0 10px;
+    color: var(--ink);
+  }
+
+  .formula{
+    display:inline-block;
+    background: var(--board-dark);
+    color: var(--gold-light);
+    font-family:'Special Elite', monospace;
+    font-size: 0.95rem;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+  }
+
+  .card p{
+    margin: 0 0 10px;
+    line-height: 1.5;
+    font-size: 0.95rem;
+  }
+
+  .card .example{
+    font-style: italic;
+    background: rgba(0,0,0,0.05);
+    border-left: 3px solid var(--gold);
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-size: 0.92rem;
+  }
+
+  .card .example b{font-style:normal; color: var(--string);}
+
+  /* timeline mini diagrams inside cards */
+  .mini-timeline{
+    margin-top: 14px;
+    height: 46px;
+    position: relative;
+  }
+  .mini-track{
+    position:absolute;
+    left:0; right:0; top:50%;
+    height:2px;
+    background: repeating-linear-gradient(to right, #b6a781 0, #b6a781 6px, transparent 6px, transparent 12px);
+  }
+  .mini-bar{
+    position:absolute;
+    top: 50%;
+    left: 8%;
+    width: 62%;
+    height: 14px;
+    transform: translateY(-50%);
+    background: linear-gradient(180deg, #8fb6a0, var(--green));
+    border-radius: 8px;
+  }
+  .mini-dot{
+    position:absolute;
+    top:50%;
+    left: 78%;
+    width: 16px;
+    height: 16px;
+    transform: translate(-50%,-50%);
+    background: var(--string);
+    border: 2px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+
+  /* string connecting the two cards to the combined example */
+  .string-svg{
+    display:block;
+    width: 100%;
+    height: 46px;
+    margin: -6px 0 6px;
+  }
+
+  .combo-card{
+    background: var(--paper);
+    border-radius: 2px;
+    padding: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.35);
+    position: relative;
+    margin-top: 6px;
+  }
+
+  .combo-card .card-eyebrow{color: var(--green);}
+
+  .combo-timeline{
+    position: relative;
+    height: 70px;
+    margin: 16px 0 8px;
+  }
+  .combo-track{
+    position:absolute; left:2%; right:2%; top:50%; height:2px;
+    background: repeating-linear-gradient(to right, #b6a781 0, #b6a781 6px, transparent 6px, transparent 12px);
+  }
+  .combo-bar{
+    position:absolute; top:50%; left:6%; width:70%; height:20px;
+    transform: translateY(-50%);
+    background: linear-gradient(180deg, #8fb6a0, var(--green));
+    border-radius: 10px;
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-size:0.7rem; font-family:'Special Elite', monospace;
+    letter-spacing:0.5px;
+  }
+  .combo-pin{
+    position:absolute; top:50%; left:64%; transform: translate(-50%,-70%);
+    display:flex; flex-direction:column; align-items:center;
+  }
+  .combo-pin .dot{
+    width:18px; height:18px; border-radius:50%;
+    background: var(--string); border:2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+  .combo-pin .lbl{
+    margin-top:4px;
+    font-family:'Special Elite', monospace;
+    font-size:0.68rem;
+    background: var(--board-dark);
+    color: var(--gold-light);
+    padding: 2px 6px;
+    border-radius: 4px;
+    white-space:nowrap;
+  }
+
+  .rules-row{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 14px;
+  }
+  @media (max-width: 560px){ .rules-row{grid-template-columns: 1fr;} }
+
+  .rule-chip{
+    background: rgba(0,0,0,0.05);
+    border: 1px dashed var(--gold);
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 0.88rem;
+    line-height:1.45;
+  }
+  .rule-chip b{color: var(--string);}
+
+  .tip-box{
+    margin-top: 16px;
+    background: var(--board-dark);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .tip-title{
+    font-family:'Special Elite', monospace;
+    color: var(--gold-light);
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+  }
+  .tip-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 560px){ .tip-grid{grid-template-columns: 1fr;} }
+  .tip-item{
+    color: #ece3d0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .tip-word{
+    font-family:'Special Elite', monospace;
+    color: var(--gold);
+  }
+  .tip-ex{
+    margin-top: 4px;
+    font-style: italic;
+    color: #b9c6d6;
+    font-size: 0.85rem;
+  }
+
+  /* ---------- Game section ---------- */
+  .game-section{
+    background: var(--paper);
+    border-radius: 14px;
+    box-shadow: 0 14px 30px rgba(0,0,0,0.4);
+    padding: 24px 22px 26px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .game-header{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+
+  .game-title{
+    font-family:'Special Elite', monospace;
+    font-size: 1.1rem;
+    color: var(--ink);
+  }
+
+  .stars{
+    font-family:'Special Elite', monospace;
+    color: var(--string);
+    font-size: 0.95rem;
+    background: var(--red-light);
+    padding: 5px 12px;
+    border-radius: 999px;
+  }
+
+  .progress-track{
+    display:flex;
+    gap: 6px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+  }
+  .progress-dot{
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--paper-shadow);
+    flex:1;
+    overflow:hidden;
+  }
+  .progress-dot.done{background: var(--green);}
+  .progress-dot.current{background: var(--gold);}
+
+  .case-file{
+    background: #fffdf8;
+    border: 1px solid var(--paper-shadow);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.06);
+  }
+
+  .case-number{
+    font-family:'Special Elite', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    color: var(--string);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .sentence{
+    font-size: 1.25rem;
+    line-height: 1.6;
+    margin-bottom: 4px;
+    color: var(--ink);
+  }
+  .sentence .verb-hint{
+    color: #8a8067;
+    font-size: 0.85rem;
+    font-style: italic;
+  }
+  .blank{
+    display:inline-block;
+    min-width: 130px;
+    border-bottom: 3px dotted var(--string);
+    text-align:center;
+    font-weight:800;
+    color: var(--string);
+  }
+
+  .verb-box{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 16px;
+    padding: 18px 10px 8px;
+    flex-wrap: wrap;
+  }
+  .verb-present{
+    font-family:'Special Elite', monospace;
+    font-size: 1.7rem;
+    letter-spacing: 1px;
+    background: var(--board-dark);
+    color: var(--gold-light);
+    padding: 8px 18px;
+    border-radius: 8px;
+  }
+  .verb-arrow{
+    font-size: 1.6rem;
+    color: var(--string);
+  }
+  .verb-caption{
+    text-align:center;
+    font-size: 0.82rem;
+    color: #8a8067;
+    font-style: italic;
+    margin-top: 4px;
+  }
+
+  .q-timeline{
+    height: 56px;
+    position: relative;
+    margin: 18px 0 20px;
+  }
+
+  .options{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 6px;
+  }
+  @media (max-width: 480px){ .options{grid-template-columns: 1fr;} }
+
+  .opt-btn{
+    font-family:'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1.05rem;
+    padding: 14px 10px;
+    border-radius: 10px;
+    border: 2px solid var(--ink);
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    box-shadow: 0 4px 0 var(--ink);
+  }
+  .opt-btn:hover{ transform: translateY(-2px); }
+  .opt-btn:active{ transform: translateY(2px); box-shadow: 0 1px 0 var(--ink); }
+  .opt-btn:disabled{cursor:default;}
+
+  .opt-btn.correct{
+    background: var(--green-light);
+    border-color: var(--green);
+    box-shadow: 0 4px 0 var(--green);
+    color: #1e3a24;
+  }
+  .opt-btn.wrong{
+    background: var(--red-light);
+    border-color: var(--string);
+    box-shadow: 0 4px 0 var(--string);
+    color: #5a1f1a;
+    animation: shake 0.35s ease;
+  }
+  .opt-btn.dim{opacity: 0.5;}
+
+  @keyframes shake{
+    0%,100%{transform:translateX(0);}
+    25%{transform:translateX(-6px);}
+    75%{transform:translateX(6px);}
+  }
+
+  .feedback{
+    margin-top: 16px;
+    min-height: 30px;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+  .feedback.ok{color: var(--green);}
+  .feedback.no{color: var(--string);}
+
+  .next-btn{
+    margin-top: 14px;
+    display:none;
+    font-family:'Special Elite', monospace;
+    background: var(--gold);
+    color: var(--board-dark);
+    border: none;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #a97f2c;
+  }
+  .next-btn:active{ transform: translateY(3px); box-shadow: 0 1px 0 #a97f2c; }
+
+  .check-mark{
+    display:inline-block;
+    color: var(--green);
+    font-weight: 900;
+    margin-left: 4px;
+  }
+
+  /* exercise menu */
+  .menu-screen{
+    padding: 6px 2px 4px;
+  }
+  .menu-title{
+    font-family:'Special Elite', monospace;
+    font-size: 1.15rem;
+    color: var(--ink);
+    text-align:center;
+    margin: 0 0 6px;
+  }
+  .menu-subtitle{
+    text-align:center;
+    font-size: 0.9rem;
+    color: #6b6550;
+    margin: 0 0 20px;
+  }
+  .menu-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 560px){ .menu-grid{grid-template-columns: 1fr;} }
+
+  .menu-card{
+    text-align:left;
+    background: #fffdf8;
+    border: 1px solid var(--paper-shadow);
+    border-radius: 12px;
+    padding: 16px 16px 14px;
+    cursor: pointer;
+    font-family:'Nunito', sans-serif;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    box-shadow: 0 3px 0 rgba(0,0,0,0.08);
+  }
+  .menu-card:hover{ transform: translateY(-2px); box-shadow: 0 6px 10px rgba(0,0,0,0.12); }
+  .menu-card:active{ transform: translateY(1px); }
+
+  .menu-card-icon{ font-size: 1.8rem; margin-bottom: 6px; }
+  .menu-card-title{
+    font-family:'Special Elite', monospace;
+    font-size: 0.95rem;
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.35;
+  }
+  .menu-card-desc{
+    font-size: 0.85rem;
+    color: #5c5744;
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+  .menu-card-status{
+    font-size: 0.8rem;
+    font-weight: 800;
+    display:inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .menu-card-status.done{ background: var(--green-light); color: #1e3a24; }
+  .menu-card-status.todo{ background: rgba(0,0,0,0.06); color: #8a8067; }
+
+  .menu-back-btn{
+    display:block;
+    margin: 18px auto 0;
+    background: none;
+    border: none;
+    color: #7a7358;
+    font-family:'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .stage-btn{
+    font-family:'Special Elite', monospace;
+    background: var(--gold);
+    color: var(--board-dark);
+    border: none;
+    padding: 12px 26px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #a97f2c;
+    margin-top: 6px;
+  }
+  .stage-btn:active{ transform: translateY(3px); box-shadow: 0 1px 0 #a97f2c; }
+
+  .result-actions{
+    display:flex;
+    gap: 12px;
+    justify-content:center;
+    flex-wrap: wrap;
+  }
+
+  /* end screen */
+  .end-screen{
+    text-align:center;
+    padding: 30px 10px 10px;
+  }
+  .end-screen .medal{
+    font-size: 3.4rem;
+    margin-bottom: 6px;
+  }
+  .end-screen h2{
+    font-family:'Special Elite', monospace;
+    margin: 0 0 8px;
+  }
+  .end-screen p{
+    font-size: 1rem;
+    color: #4a4632;
+    margin-bottom: 20px;
+  }
+  .replay-btn{
+    font-family:'Special Elite', monospace;
+    background: var(--ink);
+    color: var(--paper);
+    border:none;
+    padding: 12px 26px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #0b0f18;
+  }
+  .replay-btn:active{transform: translateY(3px); box-shadow: 0 1px 0 #0b0f18;}
+
+  footer{
+    text-align:center;
+    color: #8496a8;
+    font-size: 0.78rem;
+    margin-top: 28px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="badge">🔍 Caso: gramática do inglês</div>
+    <h1>Time Detective</h1>
+    <p class="subtitle">Past Simple vs. Past Progressive — resolva o caso, uma frase de cada vez.</p>
+  </header>
+
+  <!-- ================= SIMPLE STEP-BY-STEP GUIDE ================= -->
+  <section class="steps-section">
+    <div class="steps-card">
+      <div class="steps-title">📖 Passo a passo — bem fácil!</div>
+
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-text">
+          <b>Corte a frase em 2 pedaços.</b>
+          <p>Ache a palavra <span class="hl-when">when</span> ou <span class="hl-while">while</span> no meio da frase. Ela é a tesoura! ✂️ Tudo antes dela é o <u>pedaço 1</u>, tudo depois é o <u>pedaço 2</u>.</p>
+          <div class="split-demo">
+            <span class="split-part">I was watching TV</span>
+            <span class="split-cut hl-when">when</span>
+            <span class="split-part">the phone rang</span>
+          </div>
+          <div class="split-demo">
+            <span class="split-cut hl-while">While</span>
+            <span class="split-part">I was watching TV</span>
+            <span class="split-part">, the phone rang</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-text">
+          <b>Olhe para a palavra que você achou.</b>
+          <div class="choice-grid">
+            <div class="choice-box choice-while">
+              <div class="choice-head"><span class="hl-while">while</span> 🐢</div>
+              <p>O pedaço <u>que tem</u> <b>while</b> fica assim:<br>
+              <span class="mono">was / were + verbo-ing</span></p>
+              <div class="choice-ex">While I <b>was watching</b> TV, ...</div>
+            </div>
+            <div class="choice-box choice-when">
+              <div class="choice-head"><span class="hl-when">when</span> ⚡</div>
+              <p>O pedaço <u>que tem</u> <b>when</b> fica assim:<br>
+              <span class="mono">verbo no passado</span></p>
+              <div class="choice-ex">..., when the phone <b>rang</b>.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= EXPLANATION BOARD ================= -->
+  <section class="board-section">
+    <div class="cards-row">
+      <div class="card">
+        <div class="pin"></div>
+        <div class="card-eyebrow">Pista nº 1</div>
+        <h2>Past Progressive</h2>
+        <div class="formula">was / were + verbo-ing</div>
+        <p>É a <b>ação longa</b>. Ela já estava acontecendo — como um filme rodando ao fundo.</p>
+        <div class="example"><b>I was watching</b> TV. <span style="opacity:0.7;">(Eu estava assistindo TV.)</span></div>
+        <div class="mini-timeline">
+          <div class="mini-track"></div>
+          <div class="mini-bar"></div>
+        </div>
+      </div>
+
+      <div class="card tilt-right">
+        <div class="pin"></div>
+        <div class="card-eyebrow">Pista nº 2</div>
+        <h2>Past Simple</h2>
+        <div class="formula">verbo + ed (ou irregular)</div>
+        <p>É a <b>ação curta</b>. Ela acontece rápido e interrompe a ação longa.</p>
+        <div class="example"><b>The phone rang.</b> <span style="opacity:0.7;">(O telefone tocou.)</span></div>
+        <div class="mini-timeline">
+          <div class="mini-track"></div>
+          <div class="mini-dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <svg class="string-svg" viewBox="0 0 800 46" preserveAspectRatio="none">
+      <path d="M 200 0 C 260 40, 540 40, 600 0" stroke="#b8433b" stroke-width="2" fill="none" opacity="0.55"/>
+    </svg>
+
+    <div class="combo-card">
+      <div class="pin"></div>
+      <div class="card-eyebrow">Juntando as duas pistas</div>
+      <h2>Uma ação longa + uma ação curta</h2>
+      <div class="combo-timeline">
+        <div class="combo-track"></div>
+        <div class="combo-bar">I was watching TV</div>
+        <div class="combo-pin">
+          <div class="dot"></div>
+          <div class="lbl">the phone rang</div>
+        </div>
+      </div>
+      <p style="margin-top:14px;">A ação curta (past simple) interrompe, no meio, a ação longa (past progressive).</p>
+
+      <div class="rules-row">
+        <div class="rule-chip">
+          <b>Ordem 1 — ação longa primeiro:</b><br>
+          I was watching TV <b>when</b> the phone rang.
+          <br><span style="font-size:0.8rem;">(Eu estava assistindo TV quando o telefone tocou.)</span>
+        </div>
+        <div class="rule-chip">
+          <b>Ordem 2 — ação curta primeiro:</b><br>
+          <b>When</b> the phone rang, I was watching TV.
+          <br><span style="font-size:0.8rem;">(use vírgula! / Quando o telefone tocou, eu estava assistindo TV.)</span>
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <div class="tip-title">💡 Dica rápida</div>
+        <div class="tip-grid">
+          <div class="tip-item">
+            <span class="tip-word">while</span> (enquanto) → <b>past progressive</b> (ação longa)
+            <div class="tip-ex">While I was watching TV, the phone rang.</div>
+          </div>
+          <div class="tip-item">
+            <span class="tip-word">when</span> (quando) → <b>past simple</b> (ação curta)
+            <div class="tip-ex">When the phone rang, I was watching TV.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GAME ================= -->
+  <section class="game-section" id="gameSection">
+
+    <div class="menu-screen" id="menuScreen">
+      <h2 class="menu-title">📁 Escolha um exercício</h2>
+      <p class="menu-subtitle">Você pode fazer na ordem que quiser, quantas vezes quiser!</p>
+      <div class="menu-grid" id="menuGrid"></div>
+    </div>
+
+    <div id="playArea" style="display:none;">
+      <div class="game-header">
+        <div class="game-title" id="exerciseLabel">📋 Exercício 1</div>
+        <div class="stars" id="scoreLabel">⭐ 0 / 5</div>
+      </div>
+
+      <div class="progress-track" id="progressTrack"></div>
+
+      <div class="case-file">
+        <div class="case-number" id="caseNumber">Caso 1 de 5</div>
+        <div class="sentence" id="sentenceText"></div>
+        <div class="q-timeline" id="qTimeline"></div>
+        <div class="options" id="optionsRow"></div>
+        <div class="feedback" id="feedback"></div>
+        <button class="next-btn" id="nextBtn">Próximo caso →</button>
+      </div>
+
+      <button class="menu-back-btn" id="backToMenuBtn">← Voltar ao menu</button>
+    </div>
+
+    <div class="end-screen" id="resultScreen" style="display:none;">
+      <div class="medal" id="resultMedal">🏅</div>
+      <h2 id="resultTitle">Exercício concluído!</h2>
+      <p id="resultText">Você acertou X de Y.</p>
+      <div class="result-actions">
+        <button class="replay-btn" id="retryBtn">Fazer de novo</button>
+        <button class="stage-btn" id="menuBtn">Voltar ao menu</button>
+      </div>
+    </div>
+
+  </section>
+
+  <footer>Feito para alunos de inglês nível A1 · Past Simple &amp; Past Progressive</footer>
+</div>
+
+<script>
+  const sets = [
+    {
+      key: 'verbs',
+      icon: '📚',
+      title: 'Exercício 1 — Aprenda os verbos no passado',
+      desc: 'Antes das frases, vamos praticar o passado de alguns verbos. Presente → Passado. Você vai usar esses verbos nos próximos exercícios!',
+      questions: [
+        { mode: 'verb', base: 'go', correct: 'went', wrong: 'goed' },
+        { mode: 'verb', base: 'see', correct: 'saw', wrong: 'seed' },
+        { mode: 'verb', base: 'do', correct: 'did', wrong: 'doed' },
+        { mode: 'verb', base: 'break', correct: 'broke', wrong: 'breaked' },
+        { mode: 'verb', base: 'ring', correct: 'rang', wrong: 'ringed' },
+        { mode: 'verb', base: 'fall', correct: 'fell', wrong: 'falled' },
+        { mode: 'verb', base: 'begin', correct: 'began', wrong: 'beginned' },
+        { mode: 'verb', base: 'call', correct: 'called', wrong: 'call' },
+        { mode: 'verb', base: 'watch', correct: 'watched', wrong: 'watch' },
+        { mode: 'verb', base: 'talk', correct: 'talked', wrong: 'talk' },
+        { mode: 'verb', base: 'walk', correct: 'walked', wrong: 'walk' },
+        { mode: 'verb', base: 'play', correct: 'played', wrong: 'play' },
+        { mode: 'verb', base: 'knock', correct: 'knocked', wrong: 'knock' }
+      ]
+    },
+    {
+      key: 'when',
+      icon: '⚡',
+      title: 'Exercício 2 — Só WHEN',
+      desc: 'Todas as frases usam a palavra "when". Leia cada frase com atenção antes de escolher a resposta!',
+      questions: [
+        {
+          before: "I was doing my homework when my sister", after: "me.",
+          correct: "called", wrong: "was calling", type: "simple",
+          barLabel: "I was doing my homework", pinLabel: "my sister called"
+        },
+        {
+          before: "She was sleeping when the phone", after: ".",
+          correct: "rang", wrong: "was ringing", type: "simple",
+          barLabel: "she was sleeping", pinLabel: "the phone rang"
+        },
+        {
+          before: "They were watching a movie when the lights", after: "out.",
+          correct: "went", wrong: "were going", type: "simple",
+          barLabel: "they were watching a movie", pinLabel: "the lights went out"
+        },
+        {
+          before: "When the teacher came in, we", after: ".",
+          correct: "were talking", wrong: "talked", type: "progressive",
+          barLabel: "we were talking", pinLabel: "teacher came in", pinFirst: true
+        },
+        {
+          before: "My brother was reading a book when he", after: "asleep.",
+          correct: "fell", wrong: "was falling", type: "simple",
+          barLabel: "my brother was reading", pinLabel: "he fell asleep"
+        }
+      ]
+    },
+    {
+      key: 'while',
+      icon: '🐢',
+      title: 'Exercício 3 — Só WHILE',
+      desc: 'Agora todas as frases usam "while". Ache o pedaço que combina com ele!',
+      questions: [
+        {
+          before: "While I", after: "TV, the phone rang.",
+          correct: "was watching", wrong: "watched", type: "progressive",
+          barLabel: "I was watching TV", pinLabel: "the phone rang"
+        },
+        {
+          before: "While she was cooking dinner, the fire alarm", after: ".",
+          correct: "rang", wrong: "was ringing", type: "simple",
+          barLabel: "she was cooking dinner", pinLabel: "the fire alarm rang"
+        },
+        {
+          before: "While we were waiting for the bus, we", after: "our friend.",
+          correct: "saw", wrong: "were seeing", type: "simple",
+          barLabel: "we were waiting for the bus", pinLabel: "we saw our friend"
+        },
+        {
+          before: "While he", after: "soccer, he broke his leg.",
+          correct: "was playing", wrong: "played", type: "progressive",
+          barLabel: "he was playing soccer", pinLabel: "he broke his leg"
+        },
+        {
+          before: "While the children were playing outside, it", after: "to snow.",
+          correct: "began", wrong: "was beginning", type: "simple",
+          barLabel: "children were playing outside", pinLabel: "it began to snow"
+        }
+      ]
+    },
+    {
+      key: 'mixed',
+      icon: '🔀',
+      title: 'Exercício 4 — Misturando WHEN e WHILE',
+      desc: 'Hora do desafio final! As frases misturam "when" e "while". Você consegue!',
+      questions: [
+        {
+          before: "While I", after: "home, it started to rain.",
+          correct: "was walking", wrong: "walked", type: "progressive",
+          barLabel: "I was walking home", pinLabel: "it started to rain"
+        },
+        {
+          before: "When it began to snow, the children", after: "outside.",
+          correct: "were playing", wrong: "played", type: "progressive",
+          barLabel: "children were playing outside", pinLabel: "it began to snow", pinFirst: true
+        },
+        {
+          before: "We were playing soccer when he", after: "his leg.",
+          correct: "broke", wrong: "was breaking", type: "simple",
+          barLabel: "we were playing soccer", pinLabel: "he broke his leg"
+        },
+        {
+          before: "While she was reading, her phone", after: ".",
+          correct: "rang", wrong: "was ringing", type: "simple",
+          barLabel: "she was reading", pinLabel: "her phone rang"
+        },
+        {
+          before: "When my computer broke, I", after: "my homework.",
+          correct: "was doing", wrong: "did", type: "progressive",
+          barLabel: "I was doing my homework", pinLabel: "my computer broke", pinFirst: true
+        },
+        {
+          before: "While the dog was sleeping, the cat", after: "over a vase.",
+          correct: "knocked", wrong: "was knocking", type: "simple",
+          barLabel: "the dog was sleeping", pinLabel: "the cat knocked over a vase"
+        }
+      ]
+    }
+  ];
+
+  let setIdx = 0;
+  let qIdx = 0;
+  let score = 0;
+  let answered = false;
+  const completedScores = new Array(sets.length).fill(null);
+
+  const menuScreen = document.getElementById('menuScreen');
+  const menuGrid = document.getElementById('menuGrid');
+  const backToMenuBtn = document.getElementById('backToMenuBtn');
+
+  const exerciseLabel = document.getElementById('exerciseLabel');
+  const sentenceText = document.getElementById('sentenceText');
+  const qTimeline = document.getElementById('qTimeline');
+  const optionsRow = document.getElementById('optionsRow');
+  const feedback = document.getElementById('feedback');
+  const nextBtn = document.getElementById('nextBtn');
+  const caseNumber = document.getElementById('caseNumber');
+  const scoreLabel = document.getElementById('scoreLabel');
+  const progressTrack = document.getElementById('progressTrack');
+  const playArea = document.getElementById('playArea');
+  const resultScreen = document.getElementById('resultScreen');
+  const resultMedal = document.getElementById('resultMedal');
+  const resultTitle = document.getElementById('resultTitle');
+  const resultText = document.getElementById('resultText');
+  const retryBtn = document.getElementById('retryBtn');
+  const menuBtn = document.getElementById('menuBtn');
+
+  function renderMenu(){
+    menuGrid.innerHTML = '';
+    sets.forEach((s, i) => {
+      const card = document.createElement('button');
+      card.className = 'menu-card';
+      const statusHtml = completedScores[i]
+        ? `<div class="menu-card-status done">✅ ${completedScores[i].score}/${completedScores[i].total} acertos</div>`
+        : `<div class="menu-card-status todo">Ainda não feito</div>`;
+      card.innerHTML = `
+        <div class="menu-card-icon">${s.icon}</div>
+        <div class="menu-card-title">${s.title}</div>
+        <div class="menu-card-desc">${s.desc}</div>
+        ${statusHtml}
+      `;
+      card.addEventListener('click', () => startExercise(i));
+      menuGrid.appendChild(card);
+    });
+  }
+
+  function showMenu(){
+    playArea.style.display = 'none';
+    resultScreen.style.display = 'none';
+    menuScreen.style.display = 'block';
+    renderMenu();
+  }
+
+  function startExercise(index){
+    setIdx = index;
+    qIdx = 0;
+    score = 0;
+    buildProgress();
+    menuScreen.style.display = 'none';
+    resultScreen.style.display = 'none';
+    playArea.style.display = 'block';
+    renderQuestion();
+  }
+
+  backToMenuBtn.addEventListener('click', showMenu);
+
+  function buildProgress(){
+    progressTrack.innerHTML = '';
+    sets[setIdx].questions.forEach(() => {
+      const d = document.createElement('div');
+      d.className = 'progress-dot';
+      progressTrack.appendChild(d);
+    });
+  }
+
+  function updateProgress(){
+    const dots = progressTrack.children;
+    for(let i=0;i<dots.length;i++){
+      dots[i].className = 'progress-dot' + (i < qIdx ? ' done' : (i === qIdx ? ' current' : ''));
+    }
+  }
+
+  function renderTimeline(q){
+    qTimeline.innerHTML = '';
+    const track = document.createElement('div');
+    track.style.position = 'absolute';
+    track.style.left = '2%';
+    track.style.right = '2%';
+    track.style.top = '50%';
+    track.style.height = '2px';
+    track.style.background = "repeating-linear-gradient(to right, #b6a781 0, #b6a781 6px, transparent 6px, transparent 12px)";
+    qTimeline.appendChild(track);
+
+    const bar = document.createElement('div');
+    bar.style.position = 'absolute';
+    bar.style.top = '50%';
+    bar.style.left = '6%';
+    bar.style.width = '68%';
+    bar.style.height = '18px';
+    bar.style.transform = 'translateY(-50%)';
+    bar.style.background = 'linear-gradient(180deg, #8fb6a0, #4f8a5b)';
+    bar.style.borderRadius = '9px';
+    bar.style.display = 'flex';
+    bar.style.alignItems = 'center';
+    bar.style.justifyContent = 'center';
+    bar.style.color = '#fff';
+    bar.style.fontSize = '0.66rem';
+    bar.style.fontFamily = "'Special Elite', monospace";
+    bar.style.padding = '0 6px';
+    bar.style.whiteSpace = 'nowrap';
+    bar.style.overflow = 'hidden';
+    bar.style.textOverflow = 'ellipsis';
+    bar.textContent = q.barLabel;
+    qTimeline.appendChild(bar);
+
+    const pinWrap = document.createElement('div');
+    pinWrap.style.position = 'absolute';
+    pinWrap.style.top = '50%';
+    pinWrap.style.left = q.pinFirst ? '10%' : '62%';
+    pinWrap.style.transform = 'translate(-50%,-75%)';
+    pinWrap.style.display = 'flex';
+    pinWrap.style.flexDirection = 'column';
+    pinWrap.style.alignItems = 'center';
+
+    const dot = document.createElement('div');
+    dot.style.width = '16px';
+    dot.style.height = '16px';
+    dot.style.borderRadius = '50%';
+    dot.style.background = '#b8433b';
+    dot.style.border = '2px solid #fff';
+    dot.style.boxShadow = '0 2px 4px rgba(0,0,0,0.3)';
+    pinWrap.appendChild(dot);
+
+    const lbl = document.createElement('div');
+    lbl.style.marginTop = '4px';
+    lbl.style.fontFamily = "'Special Elite', monospace";
+    lbl.style.fontSize = '0.62rem';
+    lbl.style.background = '#131d29';
+    lbl.style.color = '#f0cf83';
+    lbl.style.padding = '2px 6px';
+    lbl.style.borderRadius = '4px';
+    lbl.style.whiteSpace = 'nowrap';
+    lbl.textContent = q.pinLabel;
+    pinWrap.appendChild(lbl);
+
+    qTimeline.appendChild(pinWrap);
+  }
+
+  function renderQuestion(){
+    answered = false;
+    nextBtn.style.display = 'none';
+    feedback.textContent = '';
+    feedback.className = 'feedback';
+
+    const set = sets[setIdx];
+    const q = set.questions[qIdx];
+    const isVerbMode = q.mode === 'verb';
+
+    caseNumber.textContent = isVerbMode
+      ? `Verbo ${qIdx+1} de ${set.questions.length}`
+      : `Caso ${qIdx+1} de ${set.questions.length}`;
+    exerciseLabel.textContent = `📋 ${set.title}`;
+
+    if(isVerbMode){
+      sentenceText.innerHTML = `
+        <div class="verb-box">
+          <span class="verb-present">${q.base.toUpperCase()}</span>
+          <span class="verb-arrow">→</span>
+          <span class="blank">＿＿＿＿</span>
+        </div>
+        <div class="verb-caption">presente → passado</div>
+      `;
+      qTimeline.style.display = 'none';
+      qTimeline.innerHTML = '';
+    } else {
+      qTimeline.style.display = 'block';
+      sentenceText.innerHTML = `${q.before} <span class="blank">＿＿＿＿</span> ${q.after}`;
+      renderTimeline(q);
+    }
+
+    const opts = Math.random() < 0.5 ? [q.correct, q.wrong] : [q.wrong, q.correct];
+    optionsRow.innerHTML = '';
+    opts.forEach(optText => {
+      const btn = document.createElement('button');
+      btn.className = 'opt-btn';
+      btn.textContent = optText;
+      btn.addEventListener('click', () => handleAnswer(btn, optText, q));
+      optionsRow.appendChild(btn);
+    });
+
+    updateProgress();
+    scoreLabel.textContent = `⭐ ${score} / ${set.questions.length}`;
+  }
+
+  function handleAnswer(btn, chosen, q){
+    if(answered) return;
+    answered = true;
+
+    const allBtns = optionsRow.querySelectorAll('.opt-btn');
+    allBtns.forEach(b => b.disabled = true);
+
+    allBtns.forEach(b => {
+      if(b.textContent === q.correct){
+        b.classList.add('correct');
+        b.innerHTML = q.correct + ' <span class="check-mark">✓</span>';
+      }
+    });
+
+    if(chosen === q.correct){
+      score++;
+      if(q.mode === 'verb'){
+        feedback.textContent = "Isso mesmo! 🎉";
+      } else {
+        feedback.textContent = q.type === 'progressive'
+          ? "Correto! Essa é a ação longa — use was/were + verbo-ing."
+          : "Correto! Essa é a ação curta — use o past simple.";
+      }
+      feedback.classList.add('ok');
+    } else {
+      btn.classList.add('wrong');
+      if(q.mode === 'verb'){
+        feedback.textContent = `Quase! O passado de "${q.base}" é "${q.correct}".`;
+      } else {
+        feedback.textContent = q.type === 'progressive'
+          ? `Quase! A resposta certa é "${q.correct}" — é a ação longa, que ainda estava acontecendo.`
+          : `Quase! A resposta certa é "${q.correct}" — é a ação curta que interrompe.`;
+      }
+      feedback.classList.add('no');
+    }
+
+    scoreLabel.textContent = `⭐ ${score} / ${sets[setIdx].questions.length}`;
+    nextBtn.style.display = 'inline-block';
+  }
+
+  nextBtn.addEventListener('click', () => {
+    qIdx++;
+    const set = sets[setIdx];
+    if(qIdx >= set.questions.length){
+      completedScores[setIdx] = { score: score, total: set.questions.length };
+      showResult();
+    } else {
+      renderQuestion();
+    }
+  });
+
+  function showResult(){
+    playArea.style.display = 'none';
+    menuScreen.style.display = 'none';
+    resultScreen.style.display = 'block';
+    const set = sets[setIdx];
+    const pct = score / set.questions.length;
+    resultMedal.textContent = pct === 1 ? '🏅' : '🕵️‍♀️';
+    resultTitle.textContent = pct === 1 ? 'Mandou muito bem!' : 'Exercício concluído!';
+    resultText.textContent = `Você acertou ${score} de ${set.questions.length} no ${set.title.replace(/^Exercício \d+ — /, '')}.`;
+  }
+
+  retryBtn.addEventListener('click', () => startExercise(setIdx));
+  menuBtn.addEventListener('click', showMenu);
+
+  showMenu();
+</script>
+</body>
+</html>

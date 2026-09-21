@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Voz Passiva — Ficha de Estudo</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+:root{
+  --linen:#F1EDE3;
+  --linen-dark:#E7E0D0;
+  --ink:#22221E;
+  --ink-soft:#55534A;
+  --denim:#2E4057;
+  --denim-light:#4C6584;
+  --brass:#B08B4F;
+  --brass-light:#D9BE8C;
+  --stamp-green:#3F6B4A;
+  --stamp-green-bg:#E4EEE3;
+  --stamp-red:#AE3D3D;
+  --stamp-red-bg:#F3E3E0;
+  --paper-line:#CFC6AE;
+  --radius:14px;
+}
+
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  background:var(--linen);
+  background-image:
+    linear-gradient(var(--paper-line) 1px, transparent 1px);
+  background-size: 100% 42px;
+  color:var(--ink);
+  font-family:'IBM Plex Sans', sans-serif;
+  line-height:1.55;
+  padding-bottom:80px;
+}
+
+h1,h2,h3{
+  font-family:'Space Grotesk', sans-serif;
+  margin:0 0 8px 0;
+  letter-spacing:-0.01em;
+}
+
+.eyebrow{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--denim);
+  font-weight:600;
+}
+
+.wrap{
+  max-width:760px;
+  margin:0 auto;
+  padding:0 22px;
+}
+
+/* ---- progress bar ---- */
+.progress-shell{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(241,237,227,0.94);
+  backdrop-filter:blur(4px);
+  border-bottom:1px solid var(--paper-line);
+  padding:10px 0;
+}
+.progress-inner{
+  max-width:760px;
+  margin:0 auto;
+  padding:0 22px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.progress-label{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11.5px;
+  color:var(--ink-soft);
+  white-space:nowrap;
+}
+.progress-track{
+  flex:1;
+  height:8px;
+  background:var(--linen-dark);
+  border-radius:5px;
+  overflow:hidden;
+  border:1px solid var(--paper-line);
+}
+.progress-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,var(--brass),var(--denim));
+  transition:width .4s ease;
+}
+
+/* ---- hero ---- */
+.hero{
+  padding:46px 0 10px 0;
+}
+.hero h1{
+  font-size:38px;
+}
+.hero p.lead{
+  max-width:56ch;
+  color:var(--ink-soft);
+  font-size:16px;
+}
+
+/* conveyor belt formula */
+.belt{
+  margin:30px 0 8px 0;
+  position:relative;
+  padding:22px 0 26px 0;
+}
+.belt-track{
+  position:absolute;
+  left:0; right:0; bottom:6px;
+  height:3px;
+  background-image: repeating-linear-gradient(90deg, var(--brass) 0 10px, transparent 10px 20px);
+  background-size:200% 100%;
+  animation: slide 3.2s linear infinite;
+  opacity:0.6;
+}
+@keyframes slide{ from{background-position:0 0;} to{background-position:-200px 0;} }
+.belt-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+  position:relative;
+}
+.belt-block{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12.5px;
+  font-weight:600;
+  letter-spacing:0.03em;
+  background:#fff;
+  border:1.5px solid var(--ink);
+  border-radius:8px;
+  padding:9px 12px;
+  color:var(--ink);
+  position:relative;
+}
+.belt-block::before{
+  content:"";
+  position:absolute;
+  top:4px; left:50%;
+  transform:translateX(-50%);
+  width:6px; height:6px;
+  border-radius:50%;
+  background:var(--linen);
+  border:1.3px solid var(--ink);
+}
+.belt-block.accent{ background:var(--denim); color:#fff; border-color:var(--denim); }
+.belt-block.optional{ opacity:0.65; border-style:dashed; }
+.belt-arrow{ color:var(--brass); font-size:16px; }
+
+/* ---- explanation card ---- */
+.card{
+  background:#fff;
+  border:1px solid var(--paper-line);
+  border-radius:var(--radius);
+  padding:24px 24px;
+  margin:22px 0;
+  box-shadow:0 1px 0 rgba(0,0,0,0.02);
+}
+.card p{ margin:8px 0; }
+.rule-box{
+  background:var(--linen-dark);
+  border-left:3px solid var(--denim);
+  border-radius:6px;
+  padding:12px 16px;
+  font-size:14.5px;
+  margin:14px 0;
+}
+
+table.ex-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:14px;
+  font-size:14px;
+}
+table.ex-table th{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  color:var(--ink-soft);
+  text-align:left;
+  padding:6px 8px;
+  border-bottom:1.5px solid var(--ink);
+}
+table.ex-table td{
+  padding:9px 8px;
+  border-bottom:1px solid var(--paper-line);
+  vertical-align:top;
+}
+.tag{
+  display:inline-block;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:0.05em;
+  padding:2px 7px;
+  border-radius:4px;
+  background:var(--brass-light);
+  color:#5c4720;
+  margin-top:4px;
+}
+
+/* ---- section headers ---- */
+.section-head{
+  margin:46px 0 6px 0;
+}
+.section-num{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px;
+  color:var(--brass);
+  font-weight:600;
+}
+.section-head h2{ font-size:24px; }
+.section-sub{ color:var(--ink-soft); font-size:14.5px; margin-top:2px;}
+
+/* ---- garment tag question card ---- */
+.q-card{
+  background:#fff;
+  border:1.5px dashed var(--ink-soft);
+  border-radius:12px;
+  padding:20px 20px 18px 20px;
+  margin:16px 0;
+  position:relative;
+}
+.q-card::before{
+  content:"";
+  position:absolute;
+  top:-8px; left:26px;
+  width:14px; height:14px;
+  border-radius:50%;
+  background:var(--linen);
+  border:1.5px dashed var(--ink-soft);
+}
+.q-num{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  color:var(--ink-soft);
+  letter-spacing:0.06em;
+}
+.q-text{
+  font-size:16px;
+  margin:6px 0 14px 0;
+  font-weight:500;
+}
+.q-text em{ color:var(--denim); font-style:normal; border-bottom:2px dotted var(--brass); }
+.opts{ display:flex; flex-direction:column; gap:8px; }
+.opt-btn{
+  text-align:left;
+  font-family:'IBM Plex Sans', sans-serif;
+  font-size:14.5px;
+  padding:10px 14px;
+  border-radius:8px;
+  border:1.5px solid var(--paper-line);
+  background:var(--linen);
+  cursor:pointer;
+  transition:border-color .15s, background .15s;
+}
+.opt-btn:hover{ border-color:var(--denim); }
+.q-card.answered .opt-btn{ cursor:default; }
+.q-card.answered .opt-btn:hover{ border-color:var(--paper-line); }
+.opt-btn.is-correct{
+  background:var(--stamp-green-bg);
+  border-color:var(--stamp-green);
+  color:var(--stamp-green);
+  font-weight:600;
+}
+.opt-btn.is-wrong{
+  background:var(--stamp-red-bg);
+  border-color:var(--stamp-red);
+  color:var(--stamp-red);
+  font-weight:600;
+}
+.feedback{
+  margin-top:12px;
+  font-size:13.5px;
+  padding-top:10px;
+  border-top:1px dashed var(--paper-line);
+  display:none;
+  color:var(--ink-soft);
+}
+.feedback .stamp{
+  font-family:'IBM Plex Mono', monospace;
+  font-weight:700;
+  font-size:11.5px;
+  letter-spacing:0.06em;
+  padding:2px 8px;
+  border-radius:4px;
+  display:inline-block;
+  transform:rotate(-2deg);
+  margin-right:8px;
+}
+.stamp.ok{ background:var(--stamp-green-bg); color:var(--stamp-green); border:1.5px solid var(--stamp-green); }
+.stamp.no{ background:var(--stamp-red-bg); color:var(--stamp-red); border:1.5px solid var(--stamp-red); }
+
+/* ---- text identification exercise ---- */
+.passage{
+  background:#fff;
+  border:1px solid var(--paper-line);
+  border-radius:var(--radius);
+  padding:22px 24px;
+  margin-top:16px;
+}
+.sentence{
+  display:block;
+  padding:9px 10px;
+  margin:3px -10px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:15.5px;
+  transition:background .15s;
+  border:1.5px solid transparent;
+}
+.sentence:hover{ background:var(--linen-dark); }
+.sentence.selected{
+  background:var(--brass-light);
+  border-color:var(--brass);
+}
+.sentence .result-tag{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:0.05em;
+  padding:2px 7px;
+  border-radius:4px;
+  margin-left:8px;
+  display:none;
+}
+.passage.checked .sentence{ cursor:default; }
+.passage.checked .sentence:hover{ background:inherit; }
+.passage.checked .sentence.selected{ background:var(--linen); border-color:transparent; }
+.passage.checked .sentence.selected.correct{ background:var(--stamp-green-bg); border-color:var(--stamp-green); }
+.passage.checked .sentence.selected.incorrect{ background:var(--stamp-red-bg); border-color:var(--stamp-red); }
+.passage.checked .sentence.missed{ background:var(--stamp-red-bg); border-color:var(--stamp-red); border-style:dashed; }
+.passage.checked .result-tag{ display:inline-block; }
+.result-tag.ok{ background:var(--stamp-green-bg); color:var(--stamp-green); }
+.result-tag.no{ background:var(--stamp-red-bg); color:var(--stamp-red); }
+
+.check-btn{
+  margin-top:16px;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:0.04em;
+  background:var(--denim);
+  color:#fff;
+  border:none;
+  padding:11px 20px;
+  border-radius:8px;
+  cursor:pointer;
+}
+.check-btn:hover{ background:var(--denim-light); }
+.check-btn:disabled{ background:var(--paper-line); cursor:default; color:var(--ink-soft); }
+
+.passage-score{
+  margin-top:14px;
+  font-size:14px;
+  display:none;
+}
+
+/* ---- final certificate ---- */
+.certificate{
+  margin:52px 0 20px 0;
+  background:#fff;
+  border:2px solid var(--ink);
+  border-radius:16px;
+  padding:34px 28px;
+  text-align:center;
+  position:relative;
+}
+.certificate::before, .certificate::after{
+  content:"";
+  position:absolute;
+  width:10px; height:10px;
+  border-radius:50%;
+  background:var(--linen);
+  border:2px solid var(--ink);
+  top:50%;
+  transform:translateY(-50%);
+}
+.certificate::before{ left:-6px; }
+.certificate::after{ right:-6px; }
+.cert-eyebrow{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  letter-spacing:0.14em;
+  color:var(--ink-soft);
+}
+.cert-score{
+  font-family:'Space Grotesk', sans-serif;
+  font-size:52px;
+  font-weight:700;
+  color:var(--denim);
+  margin:8px 0;
+}
+.cert-msg{ font-size:15px; color:var(--ink-soft); max-width:44ch; margin:8px auto 18px auto; }
+.reset-btn{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:13px;
+  font-weight:600;
+  background:transparent;
+  border:1.5px solid var(--ink);
+  color:var(--ink);
+  padding:10px 18px;
+  border-radius:8px;
+  cursor:pointer;
+}
+.reset-btn:hover{ background:var(--ink); color:#fff; }
+
+footer{
+  text-align:center;
+  font-size:12px;
+  color:var(--ink-soft);
+  margin-top:30px;
+}
+</style>
+</head>
+<body>
+
+<div class="progress-shell">
+  <div class="progress-inner">
+    <span class="progress-label" id="progressLabel">0 / 22 respondidas</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">Ficha de estudo — Gramática</div>
+    <h1>A Voz Passiva</h1>
+    <p class="lead">Quando o foco está na <strong>ação</strong>, e não em quem a pratica, usamos a voz passiva. Veja abaixo como ela é montada, depois treine até memorizar.</p>
+
+    <div class="belt">
+      <div class="belt-track"></div>
+      <div class="belt-row">
+        <div class="belt-block">SUJEITO</div>
+        <span class="belt-arrow">→</span>
+        <div class="belt-block accent">TO BE</div>
+        <span class="belt-arrow">→</span>
+        <div class="belt-block accent">PARTICÍPIO PASSADO</div>
+        <span class="belt-arrow">→</span>
+        <div class="belt-block optional">(BY + AGENTE)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <p><strong>Clothes are sold more often now.</strong> — não importa quem vende; o importante é que as roupas <em>são vendidas</em>.</p>
+    <div class="rule-box">
+      A voz passiva é formada por <strong>to be</strong> (conjugado no tempo verbal necessário) + <strong>particípio passado</strong> do verbo principal. O agente da ação (quem faz) é opcional e, quando aparece, vem depois de <strong>by</strong>.
+    </div>
+    <table class="ex-table">
+      <tr><th>Tempo verbal</th><th>Exemplo na passiva</th></tr>
+      <tr>
+        <td>Present Simple<div class="tag">am/is/are + V3</div></td>
+        <td>Clothes <strong>are sold</strong> more often now.</td>
+      </tr>
+      <tr>
+        <td>Past Simple<div class="tag">was/were + V3</div></td>
+        <td>This T-shirt <strong>was made</strong> in Asia.</td>
+      </tr>
+      <tr>
+        <td>Future Simple<div class="tag">will be + V3</div></td>
+        <td>How many clothes <strong>will be thrown</strong> away next week?</td>
+      </tr>
+      <tr>
+        <td>Going to<div class="tag">going to be + V3</div></td>
+        <td>Are endangered species going to <strong>be protected</strong>?</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- EXERCISE 1 -->
+  <div class="section-head">
+    <div class="section-num">Exercício 01</div>
+    <h2>Complete com a forma correta</h2>
+    <div class="section-sub">Escolha a opção que completa a frase na voz passiva.</div>
+  </div>
+
+  <div id="ex1"></div>
+
+  <!-- EXERCISE 2 -->
+  <div class="section-head">
+    <div class="section-num">Exercício 02</div>
+    <h2>Transforme para a voz passiva</h2>
+    <div class="section-sub">Escolha a versão passiva correta de cada frase ativa.</div>
+  </div>
+
+  <div id="ex2"></div>
+
+  <!-- EXERCISE 3 -->
+  <div class="section-head">
+    <div class="section-num">Exercício 03</div>
+    <h2>Encontre a voz passiva no texto</h2>
+    <div class="section-sub">Clique nas frases que estão na voz passiva. Depois, clique em "Verificar respostas".</div>
+  </div>
+
+  <div class="passage" id="passage"></div>
+  <button class="check-btn" id="checkPassageBtn">Verificar respostas</button>
+  <div class="passage-score" id="passageScore"></div>
+
+  <div class="certificate">
+    <div class="cert-eyebrow">RESULTADO FINAL</div>
+    <div class="cert-score" id="finalScore">0%</div>
+    <div class="cert-msg" id="finalMsg">Responda aos exercícios acima para ver seu resultado aqui.</div>
+    <button class="reset-btn" onclick="location.reload()">Tentar novamente</button>
+  </div>
+
+  <footer>Estude com calma — releia a explicação sempre que precisar. Boa prova! 🍀</footer>
+</div>
+
+<script>
+// ---------- state ----------
+let answered = 0;
+let correct = 0;
+const TOTAL = 22; // 8 + 6 + 8
+
+function updateProgress(){
+  document.getElementById('progressLabel').textContent = answered + " / " + TOTAL + " respondidas";
+  document.getElementById('progressFill').style.width = (answered/TOTAL*100) + "%";
+  if(answered >= TOTAL){
+    const pct = Math.round(correct/TOTAL*100);
+    document.getElementById('finalScore').textContent = pct + "%";
+    let msg;
+    if(pct >= 85) msg = "Excelente! A estrutura da voz passiva já está bem memorizada.";
+    else if(pct >= 60) msg = "Bom progresso! Releia os itens que errou e tente de novo.";
+    else msg = "Vale a pena revisar a explicação e repetir os exercícios com calma.";
+    document.getElementById('finalMsg').textContent = msg;
+  }
+}
+
+// ---------- exercise data ----------
+const ex1Data = [
+  {q:"This shirt <em>___ (make)</em> in Vietnam.", opts:["make","was made","making"], correct:1},
+  {q:"New clothes <em>___ (design)</em> every season.", opts:["are designed","design","is design"], correct:0},
+  {q:"The old factory <em>___ (close)</em> next year.", opts:["will close","will be closed","is closing"], correct:1},
+  {q:"Endangered animals <em>___ (protect)</em> by this law.", opts:["are protecting","protect","are protected"], correct:2},
+  {q:"This book <em>___ (write)</em> in 1990.", opts:["was written","wrote","is write"], correct:0},
+  {q:"The letters <em>___ (send)</em> tomorrow.", opts:["send","will be sent","are send"], correct:1},
+  {q:"Recycled paper <em>___ (use)</em> to make these bags.", opts:["uses","is used","used"], correct:1},
+  {q:"The bridge <em>___ (build)</em> last year.", opts:["was build","was built","built"], correct:1},
+];
+
+const ex2Data = [
+  {q:"Workers make these shoes in a factory.", opts:["These shoes are made in a factory.","These shoes make in a factory.","A factory is made these shoes."], correct:0},
+  {q:"They will throw away tons of clothes next week.", opts:["Tons of clothes will throw away next week.","Tons of clothes will be thrown away next week.","Tons of clothes are thrown away next week."], correct:1},
+  {q:"People sell fast fashion everywhere.", opts:["Fast fashion sells everywhere.","Fast fashion is sold everywhere.","Fast fashion was sold everywhere."], correct:1},
+  {q:"Someone stole my bike yesterday.", opts:["My bike stole yesterday.","My bike was stolen yesterday.","My bike is stolen yesterday."], correct:1},
+  {q:"Are they going to protect this forest?", opts:["Is this forest going to be protected?","Is this forest going to protect?","Was this forest protected?"], correct:0},
+  {q:"The company recycles old T-shirts.", opts:["Old T-shirts are recycled by the company.","Old T-shirts recycle by the company.","Old T-shirts were recycle by the company."], correct:0},
+];
+
+const passageData = [
+  {text:"Every year, millions of clothes are produced around the world.", passive:true},
+  {text:"Many factories make these clothes very quickly and cheaply.", passive:false},
+  {text:"Most of this clothing is made in Asia.", passive:true},
+  {text:"People buy new clothes every season.", passive:false},
+  {text:"Unfortunately, a lot of clothing is thrown away after just a few uses.", passive:true},
+  {text:"Next year, new laws will be created to reduce waste.", passive:true},
+  {text:"Some companies plan to recycle more materials.", passive:false},
+  {text:"Are endangered ecosystems going to be protected in the future?", passive:true},
+];
+
+// ---------- render exercise 1 & 2 (multiple choice cards) ----------
+function renderMCQ(containerId, data, prefix){
+  const container = document.getElementById(containerId);
+  data.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.innerHTML = `
+      <div class="q-num">${prefix} · Item ${i+1}</div>
+      <div class="q-text">${item.q}</div>
+      <div class="opts"></div>
+      <div class="feedback"></div>
+    `;
+    const optsWrap = card.querySelector('.opts');
+    item.opts.forEach((optText, oi) => {
+      const btn = document.createElement('button');
+      btn.className = 'opt-btn';
+      btn.textContent = optText;
+      btn.addEventListener('click', () => {
+        if(card.classList.contains('answered')) return;
+        card.classList.add('answered');
+        const isRight = oi === item.correct;
+        btn.classList.add(isRight ? 'is-correct' : 'is-wrong');
+        optsWrap.children[item.correct].classList.add('is-correct');
+        const fb = card.querySelector('.feedback');
+        fb.style.display = 'block';
+        if(isRight){
+          fb.innerHTML = '<span class="stamp ok">✓ APROVADO</span> Estrutura correta.';
+          correct++;
+        } else {
+          fb.innerHTML = '<span class="stamp no">✗ REVISAR</span> Resposta certa: "' + item.opts[item.correct] + '"';
+        }
+        answered++;
+        updateProgress();
+      });
+      optsWrap.appendChild(btn);
+    });
+    container.appendChild(card);
+  });
+}
+
+renderMCQ('ex1', ex1Data, 'Exercício 01');
+renderMCQ('ex2', ex2Data, 'Exercício 02');
+
+// ---------- render exercise 3 (text identification) ----------
+const passageEl = document.getElementById('passage');
+const introP = document.createElement('p');
+introP.style.cssText = "font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;";
+introP.textContent = "Fast Fashion — Texto de leitura";
+passageEl.appendChild(introP);
+
+passageData.forEach((s, i) => {
+  const line = document.createElement('span');
+  line.className = 'sentence';
+  line.dataset.index = i;
+  line.innerHTML = `${i+1}. ${s.text} <span class="result-tag"></span>`;
+  line.addEventListener('click', () => {
+    if(passageEl.classList.contains('checked')) return;
+    line.classList.toggle('selected');
+  });
+  passageEl.appendChild(line);
+});
+
+document.getElementById('checkPassageBtn').addEventListener('click', () => {
+  if(passageEl.classList.contains('checked')) return;
+  passageEl.classList.add('checked');
+  let passageCorrect = 0;
+  const sentences = passageEl.querySelectorAll('.sentence');
+  sentences.forEach((line, i) => {
+    const isSelected = line.classList.contains('selected');
+    const isPassive = passageData[i].passive;
+    const tag = line.querySelector('.result-tag');
+    if(isSelected && isPassive){
+      line.classList.add('correct');
+      tag.textContent = '✓ PASSIVA';
+      tag.className = 'result-tag ok';
+      passageCorrect++;
+    } else if(isSelected && !isPassive){
+      line.classList.add('incorrect');
+      tag.textContent = '✗ NÃO É PASSIVA';
+      tag.className = 'result-tag no';
+    } else if(!isSelected && isPassive){
+      line.classList.add('missed');
+      tag.textContent = '✗ ERA PASSIVA';
+      tag.className = 'result-tag no';
+    } else {
+      passageCorrect++; // correctly left an active sentence unselected
+    }
+  });
+  correct += passageCorrect;
+  answered += passageData.length;
+  document.getElementById('checkPassageBtn').disabled = true;
+  const scoreEl = document.getElementById('passageScore');
+  scoreEl.style.display = 'block';
+  scoreEl.innerHTML = '<span class="stamp ' + (passageCorrect >= 6 ? 'ok' : 'no') + '">' + passageCorrect + ' / ' + passageData.length + '</span> frases identificadas corretamente.';
+  updateProgress();
+});
+
+updateProgress();
+</script>
+
+</body>
+</html>

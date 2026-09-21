@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top Town — English Games</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --grass:#4caf6d; --grass-dark:#3a8f56; --sky:#8fd3f4; --sky-light:#e8f7ff;
+    --sun:#ffcf4d; --coral:#ff7a59; --coral-dark:#e85f3d; --plum:#5b3a8e; --plum-dark:#3f2a63;
+    --ink:#1f3b2c; --white:#ffffff; --card:#fffef8; --blue:#1565c0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:'Nunito',sans-serif;
+    background: linear-gradient(180deg, var(--sky-light) 0%, var(--sky) 260px, var(--grass) 260px, var(--grass-dark) 100%);
+    min-height:100vh; color:var(--ink); padding-bottom:40px;
+  }
+  h1,h2,h3{font-family:'Baloo 2',sans-serif;}
+  .cloud{position:absolute; background:#fff; border-radius:50px; opacity:.85;}
+  .cloud:before, .cloud:after{content:''; position:absolute; background:#fff; border-radius:50%;}
+  .c1{width:70px;height:24px; top:30px; left:8%;} .c1:before{width:34px;height:34px; top:-16px; left:8px;} .c1:after{width:26px;height:26px; top:-10px; left:36px;}
+  .c2{width:90px;height:28px; top:70px; right:10%;} .c2:before{width:40px;height:40px; top:-18px; left:10px;} .c2:after{width:30px;height:30px; top:-10px; left:44px;}
+  header{ text-align:center; padding:34px 16px 10px; position:relative; }
+  header h1{ font-size:clamp(28px,6vw,46px); color:var(--white); margin:0; text-shadow: 0 3px 0 var(--plum-dark), 0 6px 14px rgba(0,0,0,.18); }
+  header p{ color:#f4fff8; font-weight:800; margin:8px 0 0; text-shadow: 0 2px 4px rgba(0,0,0,.15); }
+  .wrap{ max-width:760px; margin:0 auto; padding:0 16px; position:relative; z-index:2; }
+  .banner{ border-radius:20px; overflow:hidden; margin:22px 0; box-shadow:0 10px 0 #d8ecd6, 0 16px 30px rgba(0,0,0,.18); line-height:0; }
+  .banner img{ display:block; width:100%; height:auto; }
+  .cards{ display:flex; flex-direction:column; gap:16px; }
+  .game-link{
+    display:flex; align-items:center; gap:16px;
+    background:var(--white); border-radius:20px; padding:18px 20px;
+    text-decoration:none; color:var(--ink);
+    box-shadow:0 8px 0 #e4d9c9, 0 14px 26px rgba(0,0,0,.16);
+    transition: transform .15s ease;
+  }
+  .game-link:hover{ transform:translateY(-3px); }
+  .game-emoji{ font-size:42px; flex-shrink:0; }
+  .game-info h2{ margin:0 0 4px; font-size:20px; }
+  .game-info p{ margin:0; font-weight:700; color:#666; font-size:14px; }
+  .arrow{ margin-left:auto; font-size:24px; color:var(--plum); flex-shrink:0; }
+  footer{ text-align:center; color:#eafff0; font-size:12px; font-weight:700; margin-top:26px; opacity:.85; }
+</style>
+</head>
+<body>
+<div class="cloud c1"></div>
+<div class="cloud c2"></div>
+<header>
+  <h1>🚉 Top Town: English Games</h1>
+  <p>Choose a game to practice!</p>
+</header>
+<div class="wrap">
+  <div class="banner"><img src="town-map.png" alt="Top Town map"></div>
+  <div class="cards">
+    <a class="game-link" href="game-does-it-have.html">
+      <span class="game-emoji">🏙️</span>
+      <div class="game-info">
+        <h2>Does Top Town have...?</h2>
+        <p>Yes, it does / No, it doesn't</p>
+      </div>
+      <span class="arrow">→</span>
+    </a>
+    <a class="game-link" href="game-prepositions.html">
+      <span class="game-emoji">📍</span>
+      <div class="game-info">
+        <h2>Prepositions</h2>
+        <p>next to · in front of · between · behind</p>
+      </div>
+      <span class="arrow">→</span>
+    </a>
+    <a class="game-link" href="game-sentence-scramble.html">
+      <span class="game-emoji">🧩</span>
+      <div class="game-info">
+        <h2>Sentence Scramble</h2>
+        <p>Put the words in the right order</p>
+      </div>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+  <footer>Made for practicing English with Top Town 🌟</footer>
+</div>
+</body>
+</html>

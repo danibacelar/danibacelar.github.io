@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where Are You Going? — Grammar Trip</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FBF3E4;
+    --paper-2:#F3E6C9;
+    --card:#FFFDF8;
+    --ink:#1F3A5F;
+    --ink-soft:#5A7089;
+    --sky:#4E9FE0;
+    --sky-dark:#2F6FA8;
+    --sun:#F2B705;
+    --coral:#E8604B;
+    --leaf:#4C9F70;
+    --line:#C9AF82;
+    --shadow: 0 6px 0 rgba(31,58,95,0.12);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    min-height:100vh;
+    background:
+      radial-gradient(circle at 12% 18%, rgba(78,159,224,0.10) 0, transparent 40%),
+      radial-gradient(circle at 88% 82%, rgba(232,96,75,0.08) 0, transparent 42%),
+      var(--paper);
+    font-family:'Nunito', sans-serif;
+    color:var(--ink);
+    display:flex;
+    justify-content:center;
+    padding:28px 16px 60px;
+  }
+  .wrap{ width:100%; max-width:760px; }
+
+  /* ---------- Header ---------- */
+  header{
+    background:var(--card);
+    border-radius:22px;
+    padding:22px 26px 18px;
+    box-shadow:var(--shadow);
+    border:2px solid var(--paper-2);
+    position:relative;
+    overflow:hidden;
+    text-align:center;
+  }
+  header::before{
+    content:"";
+    position:absolute; top:-40px; right:-40px;
+    width:140px; height:140px; border-radius:50%;
+    background:var(--sun); opacity:0.18;
+  }
+  h1{
+    font-family:'Baloo 2', sans-serif;
+    font-size:clamp(24px,5vw,32px);
+    margin:0 0 4px;
+    color:var(--sky-dark);
+    letter-spacing:0.3px;
+  }
+  .subtitle{
+    font-size:14px;
+    color:var(--ink-soft);
+    font-weight:600;
+    margin:0;
+  }
+  .grammar-pill{
+    display:inline-block;
+    margin-top:10px;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Baloo 2', sans-serif;
+    font-weight:600;
+    font-size:13px;
+    padding:6px 14px;
+    border-radius:999px;
+    letter-spacing:0.4px;
+  }
+
+  /* ---------- Route / progress ---------- */
+  .route{
+    margin:22px 0 18px;
+    background:var(--card);
+    border-radius:22px;
+    padding:20px 18px 14px;
+    box-shadow:var(--shadow);
+    border:2px solid var(--paper-2);
+  }
+  .route-track{
+    position:relative;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+  }
+  .route-track::before{
+    content:"";
+    position:absolute;
+    top:26px; left:26px; right:26px;
+    height:3px;
+    background-image:linear-gradient(to right, var(--line) 60%, transparent 0%);
+    background-size:14px 3px;
+    background-repeat:repeat-x;
+    z-index:0;
+  }
+  .stop{
+    position:relative; z-index:1;
+    display:flex; flex-direction:column; align-items:center;
+    width:80px;
+    text-align:center;
+    background:none;
+    border:none;
+    padding:0;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  .stop-icon{
+    width:52px; height:52px; border-radius:50%;
+    background:var(--paper-2);
+    border:3px solid var(--paper-2);
+    display:flex; align-items:center; justify-content:center;
+    font-size:22px;
+    transition:all .25s ease;
+  }
+  .stop.active .stop-icon{
+    background:var(--sky); border-color:var(--sky-dark);
+    box-shadow:0 0 0 5px rgba(78,159,224,0.18);
+    transform:scale(1.08);
+  }
+  .stop.done .stop-icon{
+    background:var(--leaf); border-color:#3a7d57;
+  }
+  .stop-label{
+    font-family:'Baloo 2', sans-serif;
+    font-size:11.5px;
+    font-weight:600;
+    margin-top:6px;
+    color:var(--ink-soft);
+    line-height:1.2;
+  }
+  .stop.active .stop-label{ color:var(--sky-dark); }
+  .stop.done .stop-label{ color:var(--leaf); }
+  .stamp{
+    position:absolute; top:-6px; right:6px;
+    font-size:15px;
+  }
+
+  /* ---------- Main card ---------- */
+  main{
+    background:var(--card);
+    border-radius:22px;
+    padding:24px 22px 22px;
+    box-shadow:var(--shadow);
+    border:2px solid var(--paper-2);
+    min-height:320px;
+    position:relative;
+  }
+  .score-badge{
+    position:absolute; top:18px; right:20px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:14px;
+    background:var(--sun);
+    color:var(--ink);
+    padding:6px 12px;
+    border-radius:999px;
+  }
+  .menu-btn{
+    position:absolute; top:18px; left:20px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:13px;
+    background:var(--paper-2);
+    color:var(--ink);
+    border:none;
+    padding:6px 12px;
+    border-radius:999px;
+    cursor:pointer;
+  }
+  .phase-title{
+    font-family:'Baloo 2', sans-serif;
+    font-size:20px;
+    color:var(--sky-dark);
+    margin:0 0 6px;
+    padding:0 90px;
+    text-align:center;
+  }
+  .phase-desc{
+    font-size:14px;
+    color:var(--ink-soft);
+    margin:0 0 20px;
+    font-weight:600;
+    text-align:center;
+  }
+
+  /* ---------- Menu screen ---------- */
+  .menu-intro{ text-align:center; margin-bottom:18px; }
+  .menu-intro h2{ font-family:'Baloo 2', sans-serif; color:var(--sky-dark); font-size:20px; margin:0 0 4px; }
+  .menu-intro p{ color:var(--ink-soft); font-weight:600; font-size:14px; margin:0; }
+  .menu-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .menu-card{
+    position:relative;
+    text-align:left;
+    background:var(--paper);
+    border:2.5px solid var(--paper-2);
+    border-radius:16px;
+    padding:16px 14px;
+    cursor:pointer;
+    font-family:'Nunito', sans-serif;
+    transition:transform .12s, border-color .12s;
+  }
+  .menu-card:hover{ border-color:var(--sky); transform:translateY(-2px); }
+  .menu-card .m-icon{ font-size:28px; }
+  .menu-card .m-title{
+    font-family:'Baloo 2', sans-serif;
+    font-size:15px;
+    color:var(--ink);
+    margin:8px 0 4px;
+  }
+  .menu-card .m-desc{ font-size:12.5px; color:var(--ink-soft); font-weight:600; line-height:1.35; }
+  .menu-card .m-done{ position:absolute; top:12px; right:12px; font-size:16px; }
+  @media (max-width:480px){ .menu-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- Get vs Buy intro ---------- */
+  .compare-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px; }
+  .compare-box{
+    background:var(--paper);
+    border:2.5px solid var(--paper-2);
+    border-radius:16px;
+    padding:14px;
+  }
+  .compare-box.buy{ border-color:#f0c98a; }
+  .compare-box.get{ border-color:#a9d3c3; }
+  .compare-box .c-title{
+    font-family:'Baloo 2', sans-serif;
+    font-size:17px;
+    margin:0 0 6px;
+  }
+  .compare-box .c-title.buy{ color:#c07a1a; }
+  .compare-box .c-title.get{ color:#2f8a63; }
+  .compare-box p{ font-size:13.5px; margin:0 0 8px; color:var(--ink); font-weight:600; line-height:1.4; }
+  .compare-box .c-example{
+    font-size:13px;
+    font-style:italic;
+    background:var(--card);
+    border-radius:10px;
+    padding:8px 10px;
+    color:var(--ink-soft);
+  }
+  .compare-tip{
+    background:#fff8e6;
+    border:2px dashed var(--sun);
+    border-radius:14px;
+    padding:12px 14px;
+    font-size:13.5px;
+    font-weight:700;
+    color:var(--ink);
+    margin-bottom:18px;
+  }
+  @media (max-width:480px){ .compare-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- Phase 1: unscramble ---------- */
+  .build-area{
+    min-height:64px;
+    background:var(--paper);
+    border:2px dashed var(--line);
+    border-radius:14px;
+    padding:10px;
+    display:flex; flex-wrap:wrap; gap:8px;
+    align-content:flex-start;
+    margin-bottom:16px;
+  }
+  .bank-area{
+    display:flex; flex-wrap:wrap; gap:8px;
+    margin-bottom:18px;
+  }
+  .word-chip{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:600;
+    font-size:15px;
+    background:var(--sky);
+    color:#fff;
+    border:none;
+    padding:9px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    box-shadow:0 3px 0 var(--sky-dark);
+    transition:transform .1s;
+  }
+  .word-chip:active{ transform:translateY(2px); box-shadow:0 1px 0 var(--sky-dark); }
+  .build-area .word-chip{ background:var(--coral); box-shadow:0 3px 0 #b64536; }
+
+  /* ---------- Phase 2 / choices ---------- */
+  .prompt-sentence{
+    font-family:'Baloo 2', sans-serif;
+    font-size:19px;
+    background:var(--paper);
+    border-radius:14px;
+    padding:16px 18px;
+    margin-bottom:16px;
+    line-height:1.5;
+  }
+  .blank{
+    display:inline-block;
+    min-width:90px;
+    border-bottom:3px solid var(--coral);
+    text-align:center;
+  }
+  .choices{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+  .choice-btn{
+    font-family:'Nunito', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    background:var(--card);
+    border:2.5px solid var(--sky);
+    color:var(--sky-dark);
+    padding:10px 16px;
+    border-radius:12px;
+    cursor:pointer;
+  }
+  .choice-btn.correct{ background:var(--leaf); border-color:#3a7d57; color:#fff; }
+  .choice-btn.wrong{ background:var(--coral); border-color:#b64536; color:#fff; }
+  .choice-btn:disabled{ cursor:default; opacity:0.9; }
+
+  /* ---------- Phase 3: select box ---------- */
+  .select-row{
+    font-family:'Baloo 2', sans-serif;
+    font-size:16px;
+    background:var(--paper);
+    border-radius:14px;
+    padding:16px 18px;
+    margin-bottom:16px;
+    line-height:1.6;
+    text-align:center;
+  }
+  select.purpose-select{
+    font-family:'Nunito', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    color:var(--sky-dark);
+    background:var(--card);
+    border:2.5px solid var(--sky);
+    border-radius:10px;
+    padding:8px 10px;
+    margin-top:8px;
+    max-width:100%;
+  }
+  select.purpose-select.correct{ border-color:#3a7d57; background:#e9f7ee; color:#2f6a45; }
+  select.purpose-select.wrong{ border-color:#b64536; background:#fdeceb; color:#a3392a; }
+
+  /* ---------- Phase 4: free write ---------- */
+  .prompt-block{ margin-bottom:16px; }
+  .prompt-block label{
+    display:block;
+    font-family:'Baloo 2', sans-serif;
+    font-size:15px;
+    margin-bottom:6px;
+  }
+  .prompt-block input[type=text]{
+    width:100%;
+    font-family:'Nunito', sans-serif;
+    font-size:15px;
+    padding:10px 12px;
+    border-radius:10px;
+    border:2px solid var(--paper-2);
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .prompt-block input[type=text]:focus{ outline:none; border-color:var(--sky); }
+  .mini-blank-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-family:'Baloo 2', sans-serif; font-size:15px; }
+  .mini-blank-row input{ flex:1; min-width:120px; }
+
+  /* ---------- Feedback / footer controls ---------- */
+  .feedback{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:600;
+    font-size:14px;
+    min-height:22px;
+    margin:14px 0 6px;
+    text-align:center;
+  }
+  .feedback.good{ color:var(--leaf); }
+  .feedback.bad{ color:var(--coral); }
+  .controls{ display:flex; gap:10px; margin-top:8px; flex-wrap:wrap; justify-content:center; }
+  .btn{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    border:none;
+    padding:11px 20px;
+    border-radius:12px;
+    cursor:pointer;
+    color:#fff;
+  }
+  .btn-primary{ background:var(--sky-dark); box-shadow:0 3px 0 #1f5680; }
+  .btn-primary:active{ transform:translateY(2px); box-shadow:0 1px 0 #1f5680; }
+  .btn-secondary{ background:var(--ink-soft); box-shadow:0 3px 0 #37475a; }
+  .btn-secondary:active{ transform:translateY(2px); box-shadow:0 1px 0 #37475a; }
+  .btn:disabled{ opacity:0.45; cursor:not-allowed; }
+
+  .item-count{
+    font-size:12.5px; color:var(--ink-soft); font-weight:700; margin-bottom:6px; text-align:center;
+  }
+
+  /* ---------- End screen ---------- */
+  .end-screen{ text-align:center; padding:10px 6px; }
+  .end-screen .stamp-row{ font-size:30px; margin:14px 0; letter-spacing:6px; }
+  .end-screen h2{ font-family:'Baloo 2', sans-serif; color:var(--sky-dark); font-size:24px; margin-bottom:6px;}
+  .end-screen p{ color:var(--ink-soft); font-weight:600; }
+
+  @media (max-width:480px){
+    .stop{ width:60px; }
+    .stop-label{ font-size:10px; }
+    .phase-title{ padding:0 0; margin-top:32px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>✈️ Where Are You Going?</h1>
+    <p class="subtitle">Jogo de prática — I'm going to the ___ to ___ (Be going to + Infinitive of Purpose)</p>
+    <span class="grammar-pill">Choose any stop, any order!</span>
+  </header>
+
+  <div class="route">
+    <div class="route-track" id="routeTrack"></div>
+  </div>
+
+  <main>
+    <div class="menu-btn" id="menuBtn">🏠 Menu</div>
+    <div class="score-badge" id="scoreBadge">⭐ 0</div>
+    <div id="gameArea"></div>
+  </main>
+
+</div>
+
+<script>
+/* ===================== DATA ===================== */
+const stops = [
+  { icon:"🧳", label:"Unscramble", title:"Unscramble the Sentence", desc:"Put the scrambled words in the right order." },
+  { icon:"📖", label:"Fill In", title:"Fill in the Gap", desc:"Choose to buy or to get (and more!) to complete each sentence." },
+  { icon:"🧩", label:"Choose It", title:"Choose the Purpose", desc:"Pick the correct ending from a drop-down list." },
+  { icon:"🏡", label:"Your Trip", title:"Your Own Trip", desc:"Write your own sentences — no wrong answers!" }
+];
+
+const phase1Items = [
+  { words:["I'm","going","to","the","store","to","buy","some","bread"] },
+  { words:["I'm","going","to","the","sports","center","to","play","basketball"] },
+  { words:["I'm","going","to","the","town","to","meet","my","friends"] },
+  { words:["I'm","going","to","the","supermarket","to","buy","some","milk"] },
+  { words:["I'm","going","to","my","friend's","house","to","play","computer","games"] },
+  { words:["I'm","going","to","the","park","to","ride","my","bike"] }
+];
+
+const phase2Items = [
+  { pre:"I'm going to the supermarket", post:"some apples.", answer:"to buy", options:["to buy","to watch","to help"] },
+  { pre:"I'm going to the sports center", post:"swimming.", answer:"to go", options:["to go","to read","to buy"] },
+  { pre:"I'm going to my friend's house", post:"TV.", answer:"to watch", options:["to watch","to buy","to read"] },
+  { pre:"I'm going to the library", post:"a book.", answer:"to read", options:["to read","to help","to go"] },
+  { pre:"I'm going to the supermarket", post:"a drink.", answer:"to buy", options:["to buy","to watch","to read"] },
+  { pre:"I'm going to my grandma's", post:"in the kitchen.", answer:"to help", options:["to help","to buy","to go"] },
+  { pre:"Harry: I'm going to the supermarket", post:"some apples.", answer:"to buy", options:["to buy","to listen to","to play"] },
+  { pre:"Olivia: I'm going to a friend's house", post:"music.", answer:"to listen to", options:["to listen to","to buy","to get"] },
+  { pre:"Sue: I'm going to the library", post:"a book.", answer:"to get", options:["to get","to play","to buy"] },
+  { pre:"Jeff: I'm going to the park", post:"tennis.", answer:"to play", options:["to play","to get","to listen to"] }
+];
+
+const phase3Pairs = [
+  { place:"the library", purpose:"to get a book" },
+  { place:"the park", purpose:"to ride my bike" },
+  { place:"the sports center", purpose:"to go swimming" },
+  { place:"my friend's house", purpose:"to play computer games" },
+  { place:"the supermarket", purpose:"to buy some bread" },
+  { place:"the town", purpose:"to meet my friends" },
+  { place:"my grandma's", purpose:"to help in the kitchen" },
+  { place:"the market", purpose:"to get some food" }
+];
+
+/* ===================== STATE ===================== */
+let currentPhase = -1; // -1 = menu
+let score = 0;
+let completed = [false,false,false,false];
+
+let p1index = 0, p1built = [], p1bank = [];
+let p2index = 0;
+let p3index = 0;
+
+/* ===================== HELPERS ===================== */
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+function updateScore(){
+  document.getElementById('scoreBadge').textContent = "⭐ " + score;
+}
+function renderRoute(){
+  const track = document.getElementById('routeTrack');
+  track.innerHTML = "";
+  stops.forEach((s,i)=>{
+    const div = document.createElement('button');
+    div.className = "stop" + (i===currentPhase ? " active" : "") + (completed[i] ? " done" : "");
+    div.innerHTML = `<div class="stop-icon">${s.icon}${completed[i] ? '<span class="stamp">✅</span>' : ''}</div><div class="stop-label">${s.label}</div>`;
+    div.onclick = ()=> goToPhase(i);
+    track.appendChild(div);
+  });
+}
+document.getElementById('menuBtn').onclick = showMenu;
+
+/* ===================== MENU ===================== */
+function showMenu(){
+  currentPhase = -1;
+  renderRoute();
+  const area = document.getElementById('gameArea');
+  area.innerHTML = `
+    <div class="menu-intro">
+      <h2>What do you want to practice?</h2>
+      <p>Pick any stop — play them in any order, as many times as you like!</p>
+    </div>
+    <div class="menu-grid" id="menuGrid"></div>
+  `;
+  const grid = document.getElementById('menuGrid');
+  stops.forEach((s,i)=>{
+    const card = document.createElement('div');
+    card.className = "menu-card";
+    card.innerHTML = `${completed[i] ? '<span class="m-done">✅</span>' : ''}<div class="m-icon">${s.icon}</div><div class="m-title">${s.title}</div><div class="m-desc">${s.desc}</div>`;
+    card.onclick = ()=> goToPhase(i);
+    grid.appendChild(card);
+  });
+}
+
+/* ===================== PHASE ROUTER ===================== */
+function goToPhase(idx){
+  currentPhase = idx;
+  renderRoute();
+  if(idx===0) startPhase1();
+  else if(idx===1) showGetBuyIntro();
+  else if(idx===2) startPhase3();
+  else if(idx===3) startPhase4();
+}
+
+function backToMenuButton(){
+  return '<div class="controls"><button class="btn btn-secondary" id="toMenuBtn">🏠 Back to Menu</button></div>';
+}
+function wireMenuButton(){
+  const b = document.getElementById('toMenuBtn');
+  if(b) b.onclick = showMenu;
+}
+
+/* ===================== PHASE 1: UNSCRAMBLE ===================== */
+function startPhase1(){
+  p1index = 0;
+  loadPhase1Item();
+}
+function loadPhase1Item(){
+  const item = phase1Items[p1index];
+  p1built = [];
+  p1bank = shuffle(item.words.map((w,i)=>({word:w,id:i})));
+  renderPhase1();
+}
+function renderPhase1(){
+  const area = document.getElementById('gameArea');
+  area.innerHTML = `
+    <div class="phase-title">🧳 Unscramble the Sentence</div>
+    <div class="phase-desc">Tap the words in the right order to build the sentence.</div>
+    <div class="item-count">Sentence ${p1index+1} of ${phase1Items.length}</div>
+    <div class="build-area" id="buildArea"></div>
+    <div class="bank-area" id="bankArea"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="controls">
+      <button class="btn btn-secondary" id="resetBtn">↺ Reset</button>
+      <button class="btn btn-primary" id="checkBtn">Check ✓</button>
+    </div>
+    ${backToMenuButton()}
+  `;
+  refreshPhase1Columns();
+  document.getElementById('resetBtn').onclick = ()=> loadPhase1Item();
+  document.getElementById('checkBtn').onclick = checkPhase1;
+  wireMenuButton();
+}
+function refreshPhase1Columns(){
+  const buildArea = document.getElementById('buildArea');
+  const bankArea = document.getElementById('bankArea');
+  buildArea.innerHTML = "";
+  bankArea.innerHTML = "";
+  p1built.forEach(tok=>{
+    const btn = document.createElement('button');
+    btn.className = "word-chip";
+    btn.textContent = tok.word;
+    btn.onclick = ()=>{
+      p1built = p1built.filter(t=>t!==tok);
+      p1bank.push(tok);
+      refreshPhase1Columns();
+    };
+    buildArea.appendChild(btn);
+  });
+  p1bank.forEach(tok=>{
+    const btn = document.createElement('button');
+    btn.className = "word-chip";
+    btn.textContent = tok.word;
+    btn.onclick = ()=>{
+      p1bank = p1bank.filter(t=>t!==tok);
+      p1built.push(tok);
+      refreshPhase1Columns();
+    };
+    bankArea.appendChild(btn);
+  });
+}
+function checkPhase1(){
+  const item = phase1Items[p1index];
+  const built = p1built.map(t=>t.word);
+  const target = item.words;
+  const correct = built.length===target.length && built.every((w,i)=>w===target[i]);
+  const fb = document.getElementById('feedback');
+  if(correct){
+    score++;
+    updateScore();
+    fb.className = "feedback good";
+    fb.textContent = "Correct! 🎉 " + target.join(' ') + ".";
+  } else {
+    fb.className = "feedback bad";
+    fb.textContent = "Not quite. Correct order: " + target.join(' ') + ".";
+  }
+  document.getElementById('checkBtn').disabled = true;
+  const controls = document.querySelector('.controls');
+  const nextBtn = document.createElement('button');
+  nextBtn.className = "btn btn-primary";
+  nextBtn.textContent = (p1index < phase1Items.length-1) ? "Next ➜" : "Finish ✓";
+  nextBtn.onclick = ()=>{
+    if(p1index < phase1Items.length-1){
+      p1index++;
+      loadPhase1Item();
+    } else {
+      completed[0] = true;
+      showPhaseComplete(0);
+    }
+  };
+  controls.appendChild(nextBtn);
+}
+
+/* ===================== GET vs BUY INTRO ===================== */
+function showGetBuyIntro(){
+  const area = document.getElementById('gameArea');
+  area.innerHTML = `
+    <div class="phase-title">📖 Before You Start</div>
+    <div class="phase-desc">"to buy" vs. "to get" — what's the difference?</div>
+    <div class="compare-grid">
+      <div class="compare-box buy">
+        <div class="c-title buy">💰 to buy</div>
+        <p><b>Buy</b> is specific: it means you are paying money for something. Use it when you want to highlight the payment.</p>
+        <div class="c-example">"I'm going to the supermarket to buy some bread."<br><span style="opacity:.8">(destaca que você está pagando pelo pão)</span></div>
+      </div>
+      <div class="compare-box get">
+        <div class="c-title get">🎯 to get</div>
+        <p><b>Get</b> is a more general word: it means to obtain, receive, or fetch something. It works whether you're paying or not — the focus is just on ending up with the thing.</p>
+        <div class="c-example">"I'm going to the library to get a book."<br><span style="opacity:.8">(você pega emprestado, não paga)</span></div>
+      </div>
+    </div>
+    <div class="compare-tip">💡 Tip: <b>get</b> is more general and works in almost any situation — even when money IS involved, like "I'm going to the market to get some food." <b>Buy</b> is more specific: use it only when you want to emphasize that you're paying for something.</div>
+    <div class="controls">
+      <button class="btn btn-primary" id="startP2Btn">Start Practice ▶</button>
+    </div>
+    ${backToMenuButton()}
+  `;
+  document.getElementById('startP2Btn').onclick = startPhase2;
+  wireMenuButton();
+}
+
+/* ===================== PHASE 2: FILL THE GAP ===================== */
+function startPhase2(){
+  p2index = 0;
+  loadPhase2Item();
+}
+function loadPhase2Item(){
+  const item = phase2Items[p2index];
+  const options = shuffle(item.options);
+  const area = document.getElementById('gameArea');
+  area.innerHTML = `
+    <div class="phase-title">📖 Fill in the Gap</div>
+    <div class="phase-desc">Choose the correct infinitive of purpose.</div>
+    <div class="item-count">Sentence ${p2index+1} of ${phase2Items.length}</div>
+    <div class="prompt-sentence">${item.pre} <span class="blank">___</span> ${item.post}</div>
+    <div class="choices" id="choicesArea"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="controls" id="controls"></div>
+    ${backToMenuButton()}
+  `;
+  const choicesArea = document.getElementById('choicesArea');
+  options.forEach(opt=>{
+    const btn = document.createElement('button');
+    btn.className = "choice-btn";
+    btn.textContent = opt;
+    btn.onclick = ()=> checkPhase2(opt, item.answer);
+    choicesArea.appendChild(btn);
+  });
+  wireMenuButton();
+}
+function checkPhase2(chosen, answer){
+  const buttons = document.querySelectorAll('.choice-btn');
+  const fb = document.getElementById('feedback');
+  buttons.forEach(b=>{
+    b.disabled = true;
+    if(b.textContent===answer) b.classList.add('correct');
+    if(b.textContent===chosen && chosen!==answer) b.classList.add('wrong');
+  });
+  if(chosen===answer){
+    score++;
+    updateScore();
+    fb.className = "feedback good";
+    fb.textContent = "Correct! 🎉";
+  } else {
+    fb.className = "feedback bad";
+    fb.textContent = "Close! The right answer is \"" + answer + "\".";
+  }
+  const controls = document.getElementById('controls');
+  const nextBtn = document.createElement('button');
+  nextBtn.className = "btn btn-primary";
+  nextBtn.textContent = (p2index < phase2Items.length-1) ? "Next ➜" : "Finish ✓";
+  nextBtn.onclick = ()=>{
+    if(p2index < phase2Items.length-1){
+      p2index++;
+      loadPhase2Item();
+    } else {
+      completed[1] = true;
+      showPhaseComplete(1);
+    }
+  };
+  controls.appendChild(nextBtn);
+}
+
+/* ===================== PHASE 3: SELECT BOX ===================== */
+function startPhase3(){
+  p3index = 0;
+  loadPhase3Item();
+}
+function loadPhase3Item(){
+  const item = phase3Pairs[p3index];
+  const distractors = shuffle(phase3Pairs.filter(p=>p.purpose!==item.purpose).map(p=>p.purpose)).slice(0,2);
+  const options = shuffle([item.purpose, ...distractors]);
+  const area = document.getElementById('gameArea');
+  area.innerHTML = `
+    <div class="phase-title">🧩 Choose the Purpose</div>
+    <div class="phase-desc">Use the drop-down list to complete the sentence.</div>
+    <div class="item-count">Sentence ${p3index+1} of ${phase3Pairs.length}</div>
+    <div class="select-row">
+      I'm going to ${item.place}
+      <br>
+      <select class="purpose-select" id="purposeSelect">
+        <option value="" disabled selected>Choose...</option>
+        ${options.map(o=>`<option value="${o}">${o}</option>`).join('')}
+      </select>
+      .
+    </div>
+    <div class="feedback" id="feedback"></div>
+    <div class="controls" id="controls">
+      <button class="btn btn-primary" id="checkP3Btn">Check ✓</button>
+    </div>
+    ${backToMenuButton()}
+  `;
+  document.getElementById('checkP3Btn').onclick = ()=> checkPhase3(item);
+  wireMenuButton();
+}
+function checkPhase3(item){
+  const select = document.getElementById('purposeSelect');
+  const chosen = select.value;
+  const fb = document.getElementById('feedback');
+  if(!chosen){
+    fb.className = "feedback bad";
+    fb.textContent = "Choose an option first!";
+    return;
+  }
+  select.disabled = true;
+  document.getElementById('checkP3Btn').disabled = true;
+  if(chosen===item.purpose){
+    select.classList.add('correct');
+    score++;
+    updateScore();
+    fb.className = "feedback good";
+    fb.textContent = "Correct! 🎉 I'm going to " + item.place + " " + item.purpose + ".";
+  } else {
+    select.classList.add('wrong');
+    fb.className = "feedback bad";
+    fb.textContent = "Close! The right answer is \"" + item.purpose + "\".";
+  }
+  const controls = document.getElementById('controls');
+  const nextBtn = document.createElement('button');
+  nextBtn.className = "btn btn-primary";
+  nextBtn.textContent = (p3index < phase3Pairs.length-1) ? "Next ➜" : "Finish ✓";
+  nextBtn.onclick = ()=>{
+    if(p3index < phase3Pairs.length-1){
+      p3index++;
+      loadPhase3Item();
+    } else {
+      completed[2] = true;
+      showPhaseComplete(2);
+    }
+  };
+  controls.appendChild(nextBtn);
+}
+
+/* ===================== PHASE 4: FREE WRITE ===================== */
+function startPhase4(){
+  const area = document.getElementById('gameArea');
+  area.innerHTML = `
+    <div class="phase-title">🏡 Your Own Trip</div>
+    <div class="phase-desc">Use your own ideas. There's no wrong answer here — show your teacher when you're done!</div>
+
+    <div class="prompt-block">
+      <label>I'm going to the supermarket to...</label>
+      <input type="text" id="p4a" placeholder="buy some candy">
+    </div>
+    <div class="prompt-block">
+      <label>I'm going to the park to...</label>
+      <input type="text" id="p4b" placeholder="play soccer">
+    </div>
+    <div class="prompt-block">
+      <label>I'm going to my friend's house to...</label>
+      <input type="text" id="p4c" placeholder="watch a movie">
+    </div>
+    <div class="prompt-block">
+      <label>Where are you really going today?</label>
+      <div class="mini-blank-row">
+        I'm going to
+        <input type="text" id="p4d1" placeholder="the mall">
+        to
+        <input type="text" id="p4d2" placeholder="get a snack">
+        .
+      </div>
+    </div>
+
+    <div class="feedback" id="feedback"></div>
+    <div class="controls" id="controls">
+      <button class="btn btn-primary" id="finishBtn">Finish Trip 🏁</button>
+    </div>
+    ${backToMenuButton()}
+  `;
+  document.getElementById('finishBtn').onclick = finishPhase4;
+  wireMenuButton();
+}
+function finishPhase4(){
+  const a = document.getElementById('p4a').value.trim();
+  const b = document.getElementById('p4b').value.trim();
+  const c = document.getElementById('p4c').value.trim();
+  const d1 = document.getElementById('p4d1').value.trim();
+  const d2 = document.getElementById('p4d2').value.trim();
+
+  const lines = [];
+  if(a) lines.push("I'm going to the supermarket to " + a + ".");
+  if(b) lines.push("I'm going to the park to " + b + ".");
+  if(c) lines.push("I'm going to my friend's house to " + c + ".");
+  if(d1 && d2) lines.push("I'm going to " + d1 + " to " + d2 + ".");
+
+  completed[3] = true;
+  renderRoute();
+
+  const area = document.getElementById('gameArea');
+  area.innerHTML = `
+    <div class="end-screen">
+      <div class="stamp-row">🏡</div>
+      <h2>Great job!</h2>
+      <div class="prompt-sentence" style="text-align:left; font-family:'Nunito',sans-serif; font-size:15px;">
+        ${lines.length ? lines.map(l=>"📝 "+l).join('<br>') : "No sentences written yet."}
+      </div>
+      <div class="controls">
+        <button class="btn btn-secondary" id="toMenuBtn">🏠 Back to Menu</button>
+      </div>
+    </div>
+  `;
+  wireMenuButton();
+}
+
+/* ===================== PHASE COMPLETE (1,2,3) ===================== */
+function showPhaseComplete(idx){
+  renderRoute();
+  const area = document.getElementById('gameArea');
+  area.innerHTML = `
+    <div class="end-screen">
+      <div class="stamp-row">${stops[idx].icon}✅</div>
+      <h2>Great job!</h2>
+      <p>Your total score so far: ⭐ ${score}</p>
+      <div class="controls" style="justify-content:center;">
+        <button class="btn btn-secondary" id="replayBtn">↺ Play Again</button>
+        <button class="btn btn-primary" id="toMenuBtn">🏠 Back to Menu</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('replayBtn').onclick = ()=> goToPhase(idx);
+  wireMenuButton();
+}
+
+/* ===================== INIT ===================== */
+updateScore();
+showMenu();
+</script>
+</body>
+</html>

@@ -152,9 +152,12 @@ abaixo continua valendo antes de trocar de vez.
 **🔴 Bloqueia a troca de domínio:**
 1. ~~Catálogo completo de jogos~~ — **feito** (ver seção abaixo).
 2. **Banco de dados de verdade** (Supabase ou similar) — contas ainda só
-   valem no navegador onde foram criadas.
-3. **Pagamento real via Pix** (Mercado Pago ou outro) — hoje só simula.
-4. Mover sessão "1 aparelho por login" para **Cloudflare KV** (hoje é
+   valem no navegador onde foram criadas. **Em andamento** — Dani vai
+   criar o projeto Supabase.
+3. **Servir os jogos de forma protegida** (ver seção "Proteção de
+   acesso aos jogos" abaixo) — depende do item 2.
+4. **Pagamento real via Pix** (Mercado Pago ou outro) — hoje só simula.
+5. Mover sessão "1 aparelho por login" para **Cloudflare KV** (hoje é
    memória do processo, não aguenta produção real com múltiplas
    instâncias).
 
@@ -189,6 +192,59 @@ placeholder ("Prévia do jogo em breve") em vez de quebrar. Se a Dani
 mandar screenshots dos jogos que faltam, é só adicionar o arquivo em
 `public/assets/games/` e preencher o campo `thumbnail` do jogo
 correspondente.
+
+## Proteção de acesso aos jogos — em andamento
+
+A Dani levantou um problema real: hoje, o link de cada jogo
+(`mrsdani.com.br/algum-nome/`) é público — quem tiver o link acessa
+direto, sem pagar. O botão "Comprar" só decide **quando mostrar** o
+link, não impede repassar ele depois. Decidimos resolver isso servindo
+os jogos **de dentro do nosso próprio site**, com verificação a cada
+acesso (não só na hora da compra) — só funciona de verdade depois que
+tivermos sessão validada no servidor (por isso depende do Supabase).
+
+**Descoberta importante sobre onde os jogos vivem:** os 23 jogos que
+não são Growing Plants/Spelling Bee nunca estiveram neste repositório
+— cada um é um **repositório próprio no GitHub** da Dani (ela tem um
+repo por jogo, ela pede pro Claude construir e sobe manualmente pelo
+GitHub). Foram identificados com `list_repos` e todos são públicos.
+
+**Já feito nesta sessão:**
+- Os 23 repositórios foram clonados e o `index.html` de cada um (todos
+  são HTML autocontido, sem pasta de assets separada) foi copiado para
+  `webapp/game-content/<slug>/index.html`, usando o mesmo `slug` de
+  `data/games.ts`. **De propósito, essa pasta fica FORA de `public/`**
+  — qualquer coisa em `public/` é servida sem nenhuma verificação, o
+  que anularia a proteção. `game-content/` só devia ser lido por uma
+  rota do servidor que confere a sessão antes de entregar o arquivo.
+- `data/games.ts` **ainda aponta pro link externo antigo**
+  (`gameUrl: "https://mrsdani.com.br/..."`) — não mudei isso ainda de
+  propósito, pra não quebrar o "Jogar agora" antes de existir a rota
+  protegida que vai substituir esse link.
+
+**Falta fazer (próximos passos, nesta ordem):**
+1. Configurar o Supabase (a Dani vai criar o projeto e mandar a URL +
+   anon key).
+2. Trocar a sessão de família de `localStorage` puro para algo
+   verificável pelo servidor (ex: cookie de sessão + tabela no
+   Supabase), já que a proteção por request exige que o **servidor**
+   saiba quem está pedindo, não só o navegador.
+3. Criar uma rota protegida (ex: `webapp/src/app/api/jogar/[slug]/
+   route.ts`) que: confere se a sessão é válida e se aquele
+   filho comprou aquele jogo (ou é grátis) → só então lê e devolve o
+   HTML de `game-content/<slug>/index.html`; caso contrário, nega.
+4. Trocar `gameUrl` em `data/games.ts` para apontar pra essa rota nova
+   em vez do link externo antigo.
+5. (Opcional, depois) unificar Growing Plants e Spelling Bee (hoje em
+   `games/` na raiz do repo) para dentro de `webapp/game-content/`
+   também, pelo mesmo padrão.
+
+Growing Plants e Spelling Bee (os 2 que já viviam neste repositório
+antes) **ainda não foram movidos** para `game-content/` — continuam
+em `games/growing-plants/` e `games/spelling-bee/` na raiz do repo,
+fora do webapp. Isso é seguro por enquanto porque Growing Plants é
+grátis mesmo, mas Spelling Bee custa crédito e tecnicamente tem o
+mesmo problema de link solto — considerar unificar no passo 5 acima.
 
 ## Próximos passos possíveis (itens que não bloqueiam o catálogo)
 

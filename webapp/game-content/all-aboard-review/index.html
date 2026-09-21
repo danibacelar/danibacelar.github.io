@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Aboard! English Review — Super Minds 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#152342;
+    --navy-2:#1e3357;
+    --cream:#f7eedb;
+    --cream-2:#efe3c6;
+    --brass:#c99a3f;
+    --brass-dark:#a97e2c;
+    --red:#c0392b;
+    --green:#3b6e52;
+    --green-dark:#2a4f3b;
+    --ink:#152342;
+    --radius:14px;
+    --shadow: 0 10px 24px rgba(21,35,66,0.18);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 20% 10%, rgba(201,154,63,0.10), transparent 40%),
+      radial-gradient(circle at 85% 85%, rgba(59,110,82,0.14), transparent 45%),
+      var(--navy);
+    color:var(--ink);
+    font-family:'Quicksand', sans-serif;
+    min-height:100vh;
+    padding:24px 14px 60px;
+  }
+  .wrap{max-width:900px;margin:0 auto;}
+
+  /* ---------- Split-flap header ---------- */
+  .board{
+    background:var(--navy-2);
+    border:3px solid var(--brass);
+    border-radius:var(--radius);
+    padding:18px 20px;
+    box-shadow:var(--shadow);
+    margin-bottom:22px;
+  }
+  .board-title{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--cream);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:clamp(18px,4vw,26px);
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .board-title .dot{color:var(--brass);}
+  .board-sub{
+    color:var(--cream-2);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:1px;
+    margin-top:6px;
+    opacity:0.85;
+  }
+
+  /* ---------- Route map (home screen) ---------- */
+  .route{
+    position:relative;
+    padding:10px 6px 6px;
+  }
+  .route-line{
+    position:absolute;
+    left:26px; top:0; bottom:0;
+    width:4px;
+    background:repeating-linear-gradient(180deg, var(--brass) 0 10px, transparent 10px 18px);
+    border-radius:4px;
+  }
+  .stop{
+    position:relative;
+    display:flex;
+    align-items:stretch;
+    gap:16px;
+    margin-bottom:14px;
+    cursor:pointer;
+    background:none;
+    border:none;
+    width:100%;
+    text-align:left;
+    padding:0;
+    font:inherit;
+    color:inherit;
+  }
+  .stop-node{
+    flex:0 0 56px;
+    height:56px;
+    border-radius:50%;
+    background:var(--cream);
+    border:3px solid var(--brass);
+    display:flex;align-items:center;justify-content:center;
+    font-size:22px;
+    z-index:1;
+    box-shadow:var(--shadow);
+    transition:transform .15s ease;
+  }
+  .stop.done .stop-node{background:var(--green);border-color:var(--green-dark);color:#fff;}
+  .stop:hover .stop-node{transform:scale(1.06);}
+  .ticket{
+    flex:1;
+    background:var(--cream);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    border:2px dashed var(--brass-dark);
+    position:relative;
+  }
+  .ticket::before, .ticket::after{
+    content:"";
+    position:absolute;
+    width:16px;height:16px;
+    background:var(--navy);
+    border-radius:50%;
+    top:50%;
+    transform:translateY(-50%);
+  }
+  .ticket::before{left:-10px;}
+  .ticket::after{right:-10px;}
+  .ticket-name{font-weight:700;font-size:16px;color:var(--navy);}
+  .ticket-desc{font-size:12.5px;color:#5b5240;margin-top:2px;}
+  .ticket-status{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    font-weight:600;
+    padding:4px 10px;
+    border-radius:20px;
+    background:var(--brass);
+    color:#fff;
+    white-space:nowrap;
+  }
+  .stop.done .ticket-status{background:var(--green);}
+
+  /* ---------- Section header (conductor's note) ---------- */
+  .card{
+    background:var(--cream);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:20px 22px;
+    margin-bottom:18px;
+  }
+  .backbtn{
+    display:inline-flex;align-items:center;gap:6px;
+    background:none;border:none;
+    color:var(--cream-2);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    cursor:pointer;
+    margin-bottom:14px;
+    padding:0;
+    letter-spacing:1px;
+  }
+  .backbtn:hover{color:#fff;}
+  .note{
+    background:var(--cream);
+    border-left:6px solid var(--brass);
+    border-radius:8px;
+    padding:16px 18px;
+    margin-bottom:20px;
+    box-shadow:var(--shadow);
+  }
+  .note-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:1.5px;
+    color:var(--brass-dark);
+    text-transform:uppercase;
+    font-weight:700;
+    margin-bottom:8px;
+  }
+  .note p{margin:6px 0;line-height:1.5;font-size:14.5px;}
+  .note .ex{color:var(--green-dark);font-style:italic;}
+  .section-title{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--cream);
+    font-size:20px;
+    font-weight:700;
+    letter-spacing:1px;
+    margin:0 0 4px;
+  }
+  .section-sub{color:var(--cream-2);font-size:13px;margin-bottom:0;}
+  .part-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--cream-2);
+    letter-spacing:1px;
+    margin:18px 0 10px;
+  }
+
+  /* ---------- Question card ---------- */
+  .q-card{
+    background:var(--cream);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:16px 18px;
+    margin-bottom:14px;
+    border:2px solid transparent;
+    transition:border-color .2s ease;
+  }
+  .q-card.correct{border-color:var(--green);}
+  .q-card.incorrect{border-color:var(--red);}
+  .q-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--brass-dark);
+    font-weight:700;
+    margin-bottom:6px;
+    letter-spacing:1px;
+  }
+  .q-text{font-size:15.5px;font-weight:600;margin-bottom:12px;line-height:1.4;}
+  .q-text .blank{color:var(--red);font-weight:700;}
+  .options{display:flex;flex-wrap:wrap;gap:8px;}
+  .opt{
+    background:#fff;
+    border:2px solid var(--navy-2);
+    color:var(--navy);
+    font-family:'Quicksand',sans-serif;
+    font-weight:700;
+    font-size:14px;
+    padding:9px 16px;
+    border-radius:22px;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .opt:hover:not(:disabled){background:var(--navy-2);color:#fff;}
+  .opt:disabled{cursor:default;}
+  .opt.right{background:var(--green);border-color:var(--green-dark);color:#fff;}
+  .opt.wrong{background:var(--red);border-color:#8f2419;color:#fff;}
+  .feedback{
+    margin-top:10px;
+    font-size:13.5px;
+    font-weight:700;
+    font-family:'IBM Plex Mono', monospace;
+    display:none;
+  }
+  .feedback.show{display:block;}
+  .feedback.ok{color:var(--green-dark);}
+  .feedback.bad{color:var(--red);}
+
+  /* ---------- Matching game ---------- */
+  .match-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;}
+  @media (max-width:560px){.match-grid{grid-template-columns:1fr;}}
+  .match-col-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;color:var(--cream-2);letter-spacing:1px;margin-bottom:8px;
+  }
+  .chip{
+    background:#fff;
+    border:2px solid var(--navy-2);
+    border-radius:10px;
+    padding:10px 12px;
+    margin-bottom:8px;
+    cursor:pointer;
+    font-weight:600;
+    font-size:14px;
+    transition:all .15s ease;
+  }
+  .chip.emoji-chip{
+    font-size:28px;
+    text-align:center;
+    padding:8px 12px;
+    line-height:1.2;
+  }
+  .chip.selected{background:var(--brass);border-color:var(--brass-dark);color:#fff;}
+  .chip.matched{background:var(--green);border-color:var(--green-dark);color:#fff;cursor:default;opacity:0.85;}
+  .chip.shake{animation:shake .35s;}
+  @keyframes shake{
+    0%,100%{transform:translateX(0);}
+    25%{transform:translateX(-6px);}
+    75%{transform:translateX(6px);}
+  }
+
+  /* ---------- Unscramble ---------- */
+  .scramble-bank{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;min-height:44px;}
+  .scramble-answer{
+    display:flex;flex-wrap:wrap;gap:8px;
+    min-height:46px;
+    padding:10px;
+    background:#fff;
+    border:2px dashed var(--navy-2);
+    border-radius:10px;
+    margin-bottom:8px;
+  }
+  .word-chip{
+    background:var(--navy-2);color:#fff;
+    padding:8px 14px;border-radius:18px;
+    font-weight:700;font-size:14px;cursor:pointer;
+    border:none;
+  }
+  .word-chip:disabled{opacity:0.35;cursor:default;}
+  .undo-btn{
+    font-family:'IBM Plex Mono', monospace;font-size:12px;
+    background:none;border:1px solid var(--navy-2);color:var(--navy);
+    padding:5px 10px;border-radius:14px;cursor:pointer;margin-bottom:8px;
+  }
+
+  /* ---------- Paragraph fill-in ---------- */
+  .blank-select{
+    background:#fff url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='7'><path d='M0 0 L5 7 L10 0 Z' fill='%231e3357'/></svg>") no-repeat right 10px center;
+    border:2px solid var(--navy-2);
+    color:var(--navy);
+    font-family:'Quicksand',sans-serif;
+    font-weight:700;
+    font-size:14px;
+    padding:6px 30px 6px 12px;
+    border-radius:10px;
+    cursor:pointer;
+    margin:0 4px 8px;
+    vertical-align:middle;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+    transition:all .15s ease;
+  }
+  .blank-select:hover:not(:disabled){border-color:var(--brass);}
+  .blank-select:disabled{cursor:default;opacity:1;}
+  .blank-select.right{background-color:var(--green);border-color:var(--green-dark);color:#fff;}
+  .blank-select.wrong{background-color:var(--red);border-color:#8f2419;color:#fff;}
+  .blank-hint{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--red);
+    font-weight:700;
+    margin-right:4px;
+  }
+
+  /* ---------- Reading ---------- */
+  .passage{
+    background:#fff;
+    border-radius:10px;
+    padding:16px 18px;
+    line-height:1.65;
+    font-size:15px;
+    margin-bottom:18px;
+    border:1px solid var(--cream-2);
+  }
+  .passage strong{color:var(--green-dark);}
+  textarea{
+    width:100%;min-height:80px;
+    border-radius:10px;border:2px solid var(--navy-2);
+    padding:10px 12px;font-family:'Quicksand',sans-serif;font-size:14px;
+    resize:vertical;
+  }
+
+  /* ---------- Buttons / nav ---------- */
+  .row{display:flex;justify-content:space-between;align-items:center;margin-top:16px;flex-wrap:wrap;gap:10px;}
+  .btn{
+    font-family:'IBM Plex Mono', monospace;
+    background:var(--brass);
+    color:#fff;
+    border:none;
+    padding:11px 22px;
+    border-radius:24px;
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:1px;
+    cursor:pointer;
+    box-shadow:var(--shadow);
+    transition:transform .12s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+  .btn.ghost{background:none;border:2px solid var(--cream);color:var(--cream);box-shadow:none;}
+  .score-pill{
+    font-family:'IBM Plex Mono', monospace;
+    background:var(--navy-2);
+    color:var(--brass);
+    padding:8px 16px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:700;
+    border:1px solid var(--brass);
+  }
+
+  /* ---------- Final screen ---------- */
+  .final{
+    text-align:center;
+    background:var(--cream);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:40px 24px;
+  }
+  .final .stamp{
+    font-size:56px;
+    margin-bottom:6px;
+  }
+  .final h2{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--navy);
+    letter-spacing:1px;
+  }
+  .final .big-score{
+    font-size:42px;
+    font-weight:800;
+    color:var(--green-dark);
+    margin:10px 0;
+  }
+
+  .hidden{display:none !important;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="board">
+    <div class="board-title"><span>🚂</span> ALL ABOARD<span class="dot">·</span>ENGLISH REVIEW</div>
+    <div class="board-sub" id="boardSub">DESTINO: DIA DA PROVA · UNITS 2 E 4 · SUPER MINDS 4</div>
+  </div>
+
+  <!-- HOME SCREEN -->
+  <div id="home"></div>
+
+  <!-- SECTION SCREEN -->
+  <div id="sectionScreen" class="hidden"></div>
+
+  <!-- FINAL SCREEN -->
+  <div id="finalScreen" class="hidden"></div>
+
+</div>
+
+<script>
+/* =====================================================
+   DATA
+===================================================== */
+const sections = [
+  {
+    id:'vocab2', icon:'⛰️', name:'Vocabulário do Campo', desc:'Palavras da Unit 2 · Jogo de combinar',
+    type:'emojiMatch',
+    explanation:`
+      <p><b>Como jogar:</b> Clique em uma palavra e depois no emoji que combina com ela. Se acertar, os dois ficam verdes! Se errar, tente de novo.</p>
+    `,
+    pairs:[
+      ['mountain','🏔️'],
+      ['forest','🌲'],
+      ['village','🏘️'],
+      ['lake','🏞️'],
+      ['island','🏝️'],
+      ['field','🌾'],
+      ['river','🛶'],
+      ['path','👣'],
+    ]
+  },
+  {
+    id:'vocab4', icon:'🚉', name:'Vocabulário da Estação', desc:'Palavras da Unit 4 · Jogo de combinar',
+    type:'emojiMatch',
+    explanation:`
+      <p><b>Como jogar:</b> Clique em uma palavra e depois no emoji que combina com ela. Se acertar, os dois ficam verdes! Se errar, tente de novo.</p>
+    `,
+    pairs:[
+      ['station','🚉'],
+      ['platform','🚏'],
+      ['escalator',`<svg viewBox="0 0 64 64" width="34" height="34" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;"><path d="M8 56 L8 44 L20 44 L20 32 L32 32 L32 20 L44 20 L44 8" fill="none" stroke="#1e3357" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M38 6 L46 8 L44 16" fill="none" stroke="#c99a3f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>`],
+      ['ticket office','🎫'],
+      ['train driver','🧑\u200d✈️'],
+      ['stairs','🪜'],
+      ['suitcase','🧳'],
+      ['a cup of coffee','☕'],
+      ['a cup of tea','🍵'],
+    ]
+  },
+  {
+    id:'could', icon:'🚲', name:"Estação Could / Couldn't", desc:'Habilidades no passado',
+    type:'couldSection',
+    explanation:`
+      <p>Use <b>could</b> / <b>couldn't</b> para falar sobre habilidades que alguém tinha ou não tinha no passado.</p>
+      <p class="ex">When she was a girl, she couldn't swim, but she could ride a bike.</p>
+      <p><b>Perguntas de Sim/Não:</b> Could you / he / she / we / they make pancakes?</p>
+      <p class="ex">Yes, I could. &nbsp;/&nbsp; No, I couldn't.</p>
+    `,
+    unscramble:[
+      {words:["She","couldn't","swim","when","she","was","five."], answer:"She couldn't swim when she was five."},
+      {words:["He","could","ride","a","bike","when","he","was","six."], answer:"He could ride a bike when he was six."},
+      {words:["The","baby","couldn't","talk","yet."], answer:"The baby couldn't talk yet."},
+      {words:["They","could","run","very","fast."], answer:"They could run very fast."},
+    ],
+    paragraph:{
+      text:"Max was a small puppy. When he was one month old, he __0__ walk very well. He __1__ eat solid food, so he only drank milk. But he __2__ sleep for many hours! Now Max is one year old. He __3__ run very fast, and he __4__ play with a ball. He __5__ climb a tree — dogs don't climb trees!",
+      blanks:[
+        {options:["could","couldn't"], answer:"couldn't"},
+        {options:["could","couldn't"], answer:"couldn't"},
+        {options:["could","couldn't"], answer:"could"},
+        {options:["could","couldn't"], answer:"could"},
+        {options:["could","couldn't"], answer:"could"},
+        {options:["could","couldn't"], answer:"couldn't"},
+      ]
+    }
+  },
+  {
+    id:'connectors', icon:'🌉', name:'Cruzamento dos Conectores', desc:'and, but, so, because',
+    type:'connSection',
+    explanation:`
+      <p><b>And, but, so</b> e <b>because</b> são conectores. Use-os para juntar duas partes de uma frase.</p>
+      <p>Use <b>and</b> para adicionar uma ideia, e <b>but</b> quando a segunda ideia é diferente da primeira (use vírgula antes de <i>but</i>).</p>
+      <p class="ex">We had a picnic in the field, but we didn't swim in the lake.</p>
+      <p>Use <b>because</b> e <b>so</b> para falar sobre motivos. Use vírgula antes de <i>so</i>.</p>
+      <p class="ex">I was tired, so I went home. &nbsp;/&nbsp; I went home because I was tired.</p>
+    `,
+    items:[
+      {q:"We got off the train ___ we walked to the village.", opts:["so","and","but"], answer:"and"},
+      {q:"We walked by the river, ___ we didn't swim in it.", opts:["but","because","and"], answer:"but"},
+      {q:"We wanted to cross the river, ___ we walked over the bridge.", opts:["but","and","so"], answer:"so"},
+      {q:"We went back to the station early ___ it started to rain.", opts:["because","and","so"], answer:"because"},
+      {q:"The train driver was friendly, ___ he showed us the platform.", opts:["but","and","because"], answer:"and"},
+      {q:"There were no seats on the platform, ___ we waited on the stairs.", opts:["so","but","because"], answer:"so"},
+    ],
+    paragraph:{
+      text:"Ben went to the train station __0__ he bought a ticket. He wanted a window seat, __1__ all the window seats were taken. He was happy __2__ he found a seat near the door. He was hungry, __3__ he bought a sandwich. The train was late, __4__ Ben read his book while he waited.",
+      blanks:[
+        {options:["and","but","so","because"], answer:"and"},
+        {options:["and","but","so","because"], answer:"but"},
+        {options:["and","but","so","because"], answer:"because"},
+        {options:["and","but","so","because"], answer:"so"},
+        {options:["and","but","so","because"], answer:"so"},
+      ]
+    }
+  },
+  {
+    id:'prepositions', icon:'🕒', name:'Plataforma das Preposições', desc:'at, in, on',
+    type:'prepSection',
+    explanation:`
+      <p><b>At, in</b> e <b>on</b> são preposições de tempo.</p>
+      <p>Use <b>at</b> com uma hora exata e com a palavra <i>night</i>: <span class="ex">The train leaves at six o'clock. / I can't sleep at night.</span></p>
+      <p>Use <b>in</b> com meses, estações do ano, anos, e com <i>the morning</i> e <i>the afternoon</i>: <span class="ex">My birthday is in July. / I was born in 2015.</span></p>
+      <p>Use <b>on</b> com dias da semana, e com morning/afternoon/evening/night quando o dia vem antes: <span class="ex">We've got a test on Wednesday.</span></p>
+    `,
+    items:[
+      {q:"Her birthday is ___ July.", opts:["at","in","on"], answer:"in"},
+      {q:"The film starts ___ six o'clock.", opts:["at","in","on"], answer:"at"},
+      {q:"We go to the park ___ Sunday.", opts:["at","in","on"], answer:"on"},
+      {q:"Cats like to sleep ___ night.", opts:["at","in","on"], answer:"at"},
+      {q:"It's very hot ___ summer.", opts:["at","in","on"], answer:"in"},
+      {q:"The bus leaves ___ Monday morning.", opts:["at","in","on"], answer:"on"},
+    ],
+    paragraph:{
+      text:"Anna wakes up early __0__ the morning. She goes to school __1__ eight o'clock. She has a Math test __2__ Friday. She plays in the field __3__ the afternoon. She goes to bed __4__ nine o'clock.",
+      blanks:[
+        {options:["at","in","on"], answer:"in"},
+        {options:["at","in","on"], answer:"at"},
+        {options:["at","in","on"], answer:"on"},
+        {options:["at","in","on"], answer:"in"},
+        {options:["at","in","on"], answer:"at"},
+      ]
+    }
+  },
+  {
+    id:'tenses', icon:'🍃', name:'Terminal dos Tempos Verbais', desc:'Passado contínuo e simples',
+    type:'mixed',
+    explanation:`
+      <p>Use o <b>past continuous</b> e o <b>simple past</b> juntos para falar de uma ação que interrompe outra no passado.</p>
+      <p class="ex">I was doing my homework when my computer broke.</p>
+      <p>Você também pode começar pela ação do simple past (nesse caso, use vírgula):</p>
+      <p class="ex">When my computer broke, I was doing my homework.</p>
+    `,
+    fillBlanks:[
+      {q:"I ___ for the bus when I saw my friend.", opts:["was waiting","waited"], answer:"was waiting"},
+      {q:"When my brother came home, I ___ my homework.", opts:["was doing","did"], answer:"was doing"},
+      {q:"We were playing outside when it ___ to rain.", opts:["was beginning","began"], answer:"began"},
+      {q:"My sister ___ soccer when she fell.", opts:["was playing","played"], answer:"was playing"},
+    ],
+    unscramble:[
+      {words:["We","were","walking","when","it","began","to","rain."], answer:"We were walking when it began to rain."},
+      {words:["The","driver","was","drinking","tea","when","the","train","arrived."], answer:"The driver was drinking tea when the train arrived."},
+      {words:["I","was","waiting","when","I","saw","my","friend."], answer:"I was waiting when I saw my friend."},
+    ]
+  },
+  {
+    id:'reading', icon:'📖', name:'Estação da Leitura', desc:'Interpretação de texto e opinião',
+    type:'reading',
+    explanation:`<p><b>Como jogar:</b> Leia a história com atenção. Depois, responda às perguntas. Você pode ler o texto quantas vezes quiser!</p>`,
+    passage:`Last Saturday, my family went on a trip to the countryside. We got up early and walked to the <strong>station</strong>. Dad bought the tickets at the <strong>ticket office</strong>, and we waited on the <strong>platform</strong> with our <strong>suitcase</strong>. While we were waiting, Mom had a <strong>cup of tea</strong> and I had a <strong>cup of coffee</strong> — well, coffee milk, at least!<br><br>
+    The <strong>train driver</strong> was very friendly, and the train left the station at nine o'clock. We traveled past <strong>fields</strong> and a <strong>forest</strong>, and then we saw a beautiful <strong>lake</strong> with a small <strong>island</strong> in the middle. Later, we got off at a little <strong>village</strong> near the <strong>mountains</strong>. We walked along a <strong>path</strong> by the <strong>river</strong> and had a picnic.<br><br>
+    It was a wonderful day, but we were very tired when we got home!`,
+    mc:[
+      {q:"How did the family travel to the countryside?", opts:["By car","By train","By bike"], answer:"By train"},
+      {q:"What did Dad buy at the ticket office?", opts:["Coffee","Suitcases","Tickets"], answer:"Tickets"},
+      {q:"What did the family see in the middle of the lake?", opts:["A village","An island","A forest"], answer:"An island"},
+      {q:"Where did the family have their picnic?", opts:["On the platform","By the river","At the station"], answer:"By the river"},
+      {q:"How did the family feel at the end of the day?", opts:["Bored","Tired","Hungry"], answer:"Tired"},
+    ],
+    opinion:"Would you like to take a trip like this? Why or why not? Write 2-3 sentences in English."
+  },
+];
+
+/* =====================================================
+   STATE
+===================================================== */
+let sectionScore = {};   // sectionId -> {correct, total}
+sections.forEach(s => sectionScore[s.id] = {correct:0, total:0, done:false});
+
+let currentSectionIndex = null;
+
+/* =====================================================
+   HOME SCREEN
+===================================================== */
+function renderHome(){
+  document.getElementById('sectionScreen').classList.add('hidden');
+  document.getElementById('finalScreen').classList.add('hidden');
+  const home = document.getElementById('home');
+  home.classList.remove('hidden');
+
+  let doneCount = sections.filter(s => sectionScore[s.id].done).length;
+
+  let html = `<div class="card" style="padding:16px 20px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+      <div style="font-weight:700;color:var(--navy);">Escolha uma parada na linha do trem para começar a revisão.</div>
+      <div class="score-pill" style="background:var(--brass);color:#fff;border:none;">${doneCount} / ${sections.length} PARADAS CONCLUÍDAS</div>
+    </div>
+  </div>
+  <div class="route"><div class="route-line"></div>`;
+
+  sections.forEach((s, i) => {
+    const done = sectionScore[s.id].done;
+    const scoreTxt = done ? `${sectionScore[s.id].correct}/${sectionScore[s.id].total} ✓` : 'Começar →';
+    html += `
+      <button class="stop ${done?'done':''}" onclick="openSection(${i})">
+        <div class="stop-node">${done ? '✓' : s.icon}</div>
+        <div class="ticket">
+          <div>
+            <div class="ticket-name">${i+1}. ${s.name}</div>
+            <div class="ticket-desc">${s.desc}</div>
+          </div>
+          <div class="ticket-status">${scoreTxt}</div>
+        </div>
+      </button>`;
+  });
+  html += `</div>`;
+
+  if(doneCount === sections.length){
+    html += `<div style="text-align:center;margin-top:10px;">
+      <button class="btn" onclick="renderFinal()">🏁 VER RESULTADO FINAL</button>
+    </div>`;
+  }
+
+  home.innerHTML = html;
+}
+
+/* =====================================================
+   SECTION ROUTER
+===================================================== */
+function openSection(index){
+  currentSectionIndex = index;
+  document.getElementById('home').classList.add('hidden');
+  document.getElementById('finalScreen').classList.add('hidden');
+  const el = document.getElementById('sectionScreen');
+  el.classList.remove('hidden');
+
+  const s = sections[index];
+  sectionScore[s.id] = {correct:0, total:0, done:false};
+
+  let inner = `
+    <button class="backbtn" onclick="renderHome()">← VOLTAR AO MAPA</button>
+    <div class="section-title">${s.icon} ${s.name}</div>
+    <div class="section-sub">${s.desc}</div>
+    <div class="note"><div class="note-label">Nota do Maquinista</div>${s.explanation}</div>
+    <div id="qArea"></div>
+    <div class="row">
+      <span id="sectionScorePill" class="score-pill">Pontos: 0</span>
+      <button class="btn" id="finishBtn" onclick="finishSection()" disabled>TERMINAR PARADA →</button>
+    </div>
+  `;
+  el.innerHTML = inner;
+
+  if(s.type === 'emojiMatch') renderEmojiMatch(s);
+  else if(s.type === 'mc') renderMC(s.items, 'qArea');
+  else if(s.type === 'couldSection') renderCouldSection(s);
+  else if(s.type === 'connSection') renderConnSection(s);
+  else if(s.type === 'prepSection') renderPrepSection(s);
+  else if(s.type === 'mixed') renderTenses(s);
+  else if(s.type === 'reading') renderReading(s);
+}
+
+function updateScorePill(){
+  const s = sections[currentSectionIndex];
+  document.getElementById('sectionScorePill').textContent =
+    `Pontos: ${sectionScore[s.id].correct} / ${sectionScore[s.id].total}`;
+}
+
+function markSectionReady(){
+  document.getElementById('finishBtn').disabled = false;
+}
+
+function finishSection(){
+  const s = sections[currentSectionIndex];
+  sectionScore[s.id].done = true;
+  renderHome();
+}
+
+/* =====================================================
+   MULTIPLE CHOICE (generic, reused by connectors/prepositions/tenses/reading)
+===================================================== */
+function renderMC(items, containerId, onAllDone){
+  const s = sections[currentSectionIndex];
+  const container = document.getElementById(containerId);
+  let html = '';
+  items.forEach((item, i) => {
+    sectionScore[s.id].total++;
+    html += `
+      <div class="q-card" id="${containerId}-q${i}">
+        <div class="q-num">PERGUNTA ${i+1}</div>
+        <div class="q-text">${item.q}</div>
+        <div class="options" id="${containerId}-opts${i}">
+          ${item.opts.map(o => `<button class="opt" onclick="answerMC('${containerId}',${i},'${escapeQ(o)}')">${o}</button>`).join('')}
+        </div>
+        <div class="feedback" id="${containerId}-fb${i}"></div>
+      </div>`;
+  });
+  container.innerHTML += html;
+  updateScorePill();
+  window['__items_'+containerId] = items;
+  window['__answered_'+containerId] = 0;
+  window['__ondone_'+containerId] = onAllDone;
+}
+
+function escapeQ(str){ return str.replace(/'/g,"\\'"); }
+
+function answerMC(containerId, i, chosen){
+  const s = sections[currentSectionIndex];
+  const items = window['__items_'+containerId];
+  const item = items[i];
+  const optsDiv = document.getElementById(`${containerId}-opts${i}`);
+  const buttons = optsDiv.querySelectorAll('.opt');
+  const fb = document.getElementById(`${containerId}-fb${i}`);
+  const card = document.getElementById(`${containerId}-q${i}`);
+  const isCorrect = chosen === item.answer;
+
+  buttons.forEach(b => {
+    b.disabled = true;
+    if(b.textContent === item.answer) b.classList.add('right');
+    else if(b.textContent === chosen) b.classList.add('wrong');
+  });
+
+  fb.classList.add('show');
+  if(isCorrect){
+    fb.textContent = '✓ Isso mesmo!';
+    fb.classList.add('ok');
+    card.classList.add('correct');
+    sectionScore[s.id].correct++;
+  } else {
+    fb.textContent = `✗ Quase! A resposta certa é: "${item.answer}"`;
+    fb.classList.add('bad');
+    card.classList.add('incorrect');
+  }
+  updateScorePill();
+
+  window['__answered_'+containerId]++;
+  if(window['__answered_'+containerId] === items.length){
+    markSectionReady();
+    if(window['__ondone_'+containerId]) window['__ondone_'+containerId]();
+  }
+}
+
+/* =====================================================
+   EMOJI MATCHING GAME (Units 2 & 4 vocabulary)
+===================================================== */
+function renderEmojiMatch(s){
+  const container = document.getElementById('qArea');
+  const words = s.pairs.map((p,i) => ({text:p[0], id:'w'+i, pairId:i}));
+  const emojis = shuffle(s.pairs.map((p,i) => ({text:p[1], id:'d'+i, pairId:i})));
+
+  sectionScore[s.id].total = s.pairs.length;
+
+  let html = `<div class="match-grid">
+    <div>
+      <div class="match-col-label">PALAVRAS</div>
+      ${words.map(w => `<div class="chip" id="${w.id}" data-pair="${w.pairId}" data-side="word" onclick="matchClick('${w.id}')">${w.text}</div>`).join('')}
+    </div>
+    <div>
+      <div class="match-col-label">IMAGENS</div>
+      ${emojis.map(d => `<div class="chip emoji-chip" id="${d.id}" data-pair="${d.pairId}" data-side="def" onclick="matchClick('${d.id}')">${d.text}</div>`).join('')}
+    </div>
+  </div>`;
+  container.innerHTML = html;
+  updateScorePill();
+
+  window.__matchSelected = null;
+  window.__matchedCount = 0;
+  window.__matchTotal = s.pairs.length;
+}
+
+function matchClick(id){
+  const s = sections[currentSectionIndex];
+  const el = document.getElementById(id);
+  if(el.classList.contains('matched')) return;
+
+  if(!window.__matchSelected){
+    window.__matchSelected = id;
+    el.classList.add('selected');
+    return;
+  }
+
+  if(window.__matchSelected === id){
+    el.classList.remove('selected');
+    window.__matchSelected = null;
+    return;
+  }
+
+  const firstEl = document.getElementById(window.__matchSelected);
+  const firstSide = firstEl.dataset.side;
+  const secondSide = el.dataset.side;
+
+  if(firstSide === secondSide){
+    firstEl.classList.remove('selected');
+    window.__matchSelected = id;
+    el.classList.add('selected');
+    return;
+  }
+
+  const match = firstEl.dataset.pair === el.dataset.pair;
+  if(match){
+    firstEl.classList.remove('selected');
+    el.classList.remove('selected');
+    firstEl.classList.add('matched');
+    el.classList.add('matched');
+    sectionScore[s.id].correct++;
+    window.__matchedCount++;
+    updateScorePill();
+    window.__matchSelected = null;
+    if(window.__matchedCount === window.__matchTotal){
+      markSectionReady();
+    }
+  } else {
+    firstEl.classList.add('shake');
+    el.classList.add('shake');
+    setTimeout(() => {
+      firstEl.classList.remove('selected','shake');
+      el.classList.remove('shake');
+      window.__matchSelected = null;
+    }, 400);
+  }
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+/* =====================================================
+   COULD / COULDN'T (unscramble + paragraph)
+===================================================== */
+function renderCouldSection(s){
+  const container = document.getElementById('qArea');
+  container.innerHTML = `<div class="part-label">PARTE 1 · DESEMBARALHE AS FRASES</div>`;
+  renderUnscramble(s.unscramble, 'qArea', () => {
+    document.getElementById('qArea').innerHTML += `<div class="part-label">PARTE 2 · COMPLETE A HISTÓRIA COM COULD OU COULDN'T</div>`;
+    renderParagraphFill('qArea', s.paragraph);
+  });
+}
+
+/* =====================================================
+   CONNECTORS (multiple choice + paragraph)
+===================================================== */
+function renderConnSection(s){
+  const container = document.getElementById('qArea');
+  container.innerHTML = `<div class="part-label">PARTE 1 · ESCOLHA O CONECTOR CERTO</div>`;
+  renderMC(s.items, 'qArea', () => {
+    document.getElementById('qArea').innerHTML += `<div class="part-label">PARTE 2 · COMPLETE A HISTÓRIA COM AND, BUT, SO OU BECAUSE</div>`;
+    renderParagraphFill('qArea', s.paragraph);
+  });
+}
+
+/* =====================================================
+   PREPOSITIONS (multiple choice + paragraph)
+===================================================== */
+function renderPrepSection(s){
+  const container = document.getElementById('qArea');
+  container.innerHTML = `<div class="part-label">PARTE 1 · ESCOLHA A PREPOSIÇÃO CERTA</div>`;
+  renderMC(s.items, 'qArea', () => {
+    document.getElementById('qArea').innerHTML += `<div class="part-label">PARTE 2 · COMPLETE A HISTÓRIA COM AT, IN OU ON</div>`;
+    renderParagraphFill('qArea', s.paragraph);
+  });
+}
+
+/* =====================================================
+   PARAGRAPH FILL-IN (generic, used by could + prepositions)
+===================================================== */
+function renderParagraphFill(containerId, data){
+  const s = sections[currentSectionIndex];
+  const container = document.getElementById(containerId);
+  sectionScore[s.id].total += data.blanks.length;
+
+  let html = `<div class="q-card" id="para-card">
+      <div class="q-num">HISTÓRIA</div>
+      <div class="q-text" id="para-text" style="line-height:2.2;font-weight:500;"></div>
+      <div class="feedback" id="para-fb"></div>
+    </div>`;
+  container.innerHTML += html;
+
+  const parts = data.text.split(/(__\d+__)/g);
+  let inner = '';
+  parts.forEach(part => {
+    const m = part.match(/^__(\d+)__$/);
+    if(m){
+      const bi = parseInt(m[1]);
+      const blank = data.blanks[bi];
+      const opts = `<option value="" selected disabled>escolher</option>` +
+        blank.options.map(o => `<option value="${o}">${o}</option>`).join('');
+      inner += `<select class="blank-select" id="para-blank${bi}" onchange="answerParaBlank(${bi}, this.value)">${opts}</select><span id="para-hint${bi}"></span>`;
+    } else {
+      inner += part;
+    }
+  });
+  document.getElementById('para-text').innerHTML = inner;
+  updateScorePill();
+
+  window.__paraBlanks = data.blanks;
+  window.__paraAnswered = 0;
+}
+
+function answerParaBlank(bi, chosen){
+  const s = sections[currentSectionIndex];
+  const blank = window.__paraBlanks[bi];
+  const select = document.getElementById(`para-blank${bi}`);
+  if(select.dataset.done) return;
+  select.dataset.done = "1";
+  select.disabled = true;
+  const isCorrect = chosen === blank.answer;
+  select.classList.add(isCorrect ? 'right' : 'wrong');
+  if(!isCorrect){
+    document.getElementById(`para-hint${bi}`).innerHTML = ` <span class="blank-hint">(certo: ${blank.answer})</span>`;
+  }
+  if(isCorrect) sectionScore[s.id].correct++;
+  updateScorePill();
+
+  window.__paraAnswered++;
+  if(window.__paraAnswered === window.__paraBlanks.length){
+    const fb = document.getElementById('para-fb');
+    fb.classList.add('show','ok');
+    fb.textContent = '✓ História completa! Muito bem!';
+    markSectionReady();
+  }
+}
+
+/* =====================================================
+   UNSCRAMBLE (used by could section and tense terminal)
+===================================================== */
+function renderUnscramble(items, containerId, onDone){
+  const s = sections[currentSectionIndex];
+  const container = document.getElementById(containerId);
+  sectionScore[s.id].total += items.length;
+
+  items.forEach((item, i) => {
+    const uid = 'un'+i;
+    const scrambled = shuffle(item.words.map((w, wi) => ({word:w, idx:wi})));
+    let html = `<div class="q-card" id="${uid}-card">
+      <div class="q-num">FRASE ${i+1}</div>
+      <div class="scramble-answer" id="${uid}-answer"></div>
+      <div class="scramble-bank" id="${uid}-bank">
+        ${scrambled.map(o => `<button class="word-chip" id="${uid}-w${o.idx}" onclick="unscrambleClick('${uid}',${i},${o.idx})">${o.word}</button>`).join('')}
+      </div>
+      <button class="undo-btn" onclick="unscrambleUndo('${uid}',${i})">↺ Desfazer última palavra</button>
+      <div class="feedback" id="${uid}-fb"></div>
+    </div>`;
+    container.innerHTML += html;
+
+    window[uid+'_target'] = item.words;
+    window[uid+'_built'] = [];
+    window[uid+'_answer'] = item.answer;
+  });
+  updateScorePill();
+  window['__unscramble_total'] = items.length;
+  window['__unscramble_done'] = 0;
+  window['__unscramble_onDone'] = onDone || null;
+}
+
+function unscrambleClick(uid, sentIdx, wordIdx){
+  const target = window[uid+'_target'];
+  const built = window[uid+'_built'];
+  const btn = document.getElementById(`${uid}-w${wordIdx}`);
+  if(btn.disabled) return;
+
+  const clickedWord = target[wordIdx];
+  const answerBox = document.getElementById(`${uid}-answer`);
+
+  if(wordIdx !== built.length){
+    btn.classList.add('shake');
+    setTimeout(() => btn.classList.remove('shake'), 350);
+    return;
+  }
+
+  built.push(clickedWord);
+  btn.disabled = true;
+  answerBox.innerHTML += `<span class="word-chip" style="background:var(--green);cursor:default;">${clickedWord}</span>`;
+
+  if(built.length === target.length){
+    checkUnscramble(uid, sentIdx);
+  }
+}
+
+function unscrambleUndo(uid, sentIdx){
+  const built = window[uid+'_built'];
+  if(built.length === 0) return;
+  built.pop();
+  document.getElementById(`${uid}-answer`).lastElementChild.remove();
+  const idxToEnable = built.length;
+  const btn = document.getElementById(`${uid}-w${idxToEnable}`);
+  if(btn) btn.disabled = false;
+}
+
+function checkUnscramble(uid, sentIdx){
+  const s = sections[currentSectionIndex];
+  const answer = window[uid+'_answer'];
+  const fb = document.getElementById(`${uid}-fb`);
+  const card = document.getElementById(`${uid}-card`);
+  fb.classList.add('show','ok');
+  fb.textContent = `✓ Muito bem! "${answer}"`;
+  card.classList.add('correct');
+  sectionScore[s.id].correct++;
+  updateScorePill();
+
+  window['__unscramble_done']++;
+  if(window['__unscramble_done'] === window['__unscramble_total']){
+    if(window['__unscramble_onDone']) window['__unscramble_onDone']();
+    else markSectionReady();
+  }
+}
+
+/* =====================================================
+   TENSE TERMINAL (fill blanks + unscramble)
+===================================================== */
+function renderTenses(s){
+  const container = document.getElementById('qArea');
+  container.innerHTML = `<div class="part-label">PARTE 1 · COMPLETE AS LACUNAS</div>`;
+  renderMC(s.fillBlanks, 'qArea', () => {
+    const container2 = document.getElementById('qArea');
+    container2.innerHTML += `<div class="part-label">PARTE 2 · DESEMBARALHE AS FRASES</div>`;
+    renderUnscramble(s.unscramble, 'qArea');
+  });
+}
+
+/* =====================================================
+   READING SECTION
+===================================================== */
+function renderReading(s){
+  const container = document.getElementById('qArea');
+  container.innerHTML = `<div class="passage">${s.passage}</div>
+    <div class="part-label">PERGUNTAS DE INTERPRETAÇÃO</div>`;
+  renderMC(s.mc, 'qArea', () => {
+    const container2 = document.getElementById('qArea');
+    container2.innerHTML += `
+      <div class="q-card">
+        <div class="q-num">SUA OPINIÃO</div>
+        <div class="q-text">${s.opinion}</div>
+        <textarea id="opinionBox" placeholder="Digite sua resposta aqui..."></textarea>
+        <div class="row" style="margin-top:10px;">
+          <button class="btn" onclick="submitOpinion()">ENVIAR RESPOSTA</button>
+        </div>
+        <div class="feedback" id="opinionFb"></div>
+      </div>`;
+  });
+}
+
+function submitOpinion(){
+  const box = document.getElementById('opinionBox');
+  const fb = document.getElementById('opinionFb');
+  if(box.value.trim().length < 3){
+    fb.classList.add('show','bad');
+    fb.textContent = 'Tente escrever uma frase completa em inglês!';
+    return;
+  }
+  fb.classList.remove('bad');
+  fb.classList.add('show','ok');
+  fb.textContent = '✓ Ótimo! Obrigado por compartilhar sua opinião!';
+  box.disabled = true;
+  markSectionReady();
+}
+
+/* =====================================================
+   FINAL SCREEN
+===================================================== */
+function renderFinal(){
+  document.getElementById('home').classList.add('hidden');
+  document.getElementById('sectionScreen').classList.add('hidden');
+  const el = document.getElementById('finalScreen');
+  el.classList.remove('hidden');
+
+  let totalCorrect = 0, totalQ = 0;
+  sections.forEach(s => {
+    totalCorrect += sectionScore[s.id].correct;
+    totalQ += sectionScore[s.id].total;
+  });
+  const pct = Math.round((totalCorrect/totalQ)*100);
+  let msg = "Muito esforço — continue praticando!";
+  let stamp = "🎫";
+  if(pct >= 90){msg = "Incrível! Você está pronto para a prova!"; stamp = "🏆";}
+  else if(pct >= 70){msg = "Muito bem! Você conhece bem esse conteúdo."; stamp = "🚂";}
+  else if(pct >= 50){msg = "Bom começo — revise de novo as partes mais difíceis."; stamp = "🧭";}
+
+  el.innerHTML = `
+    <div class="final">
+      <div class="stamp">${stamp}</div>
+      <h2>ESTAÇÃO FINAL</h2>
+      <div class="big-score">${totalCorrect} / ${totalQ}</div>
+      <div style="font-family:'IBM Plex Mono',monospace;color:var(--brass-dark);font-weight:700;">${pct}% DE ACERTOS</div>
+      <p style="margin-top:14px;font-size:15px;">${msg}</p>
+      <button class="btn" style="margin-top:16px;" onclick="restartAll()">↺ JOGAR DE NOVO</button>
+    </div>
+  `;
+}
+
+function restartAll(){
+  sections.forEach(s => sectionScore[s.id] = {correct:0, total:0, done:false});
+  renderHome();
+}
+
+/* =====================================================
+   INIT
+===================================================== */
+renderHome();
+</script>
+</body>
+</html>

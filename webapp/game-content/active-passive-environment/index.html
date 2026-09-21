@@ -1,0 +1,1634 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+
+<style>
+  :root {
+    --bg: #F5F7F1;
+    --surface: #FFFFFF;
+    --surface-2: #EAF0E4;
+    --ink: #1E2A22;
+    --ink-soft: #4C5D50;
+    --ink-faint: #7C8C7F;
+    --accent: #2B6F5C;
+    --accent-ink: #FFFFFF;
+    --accent-soft: #DCEBE2;
+    --accent-soft-ink: #1F5344;
+    --gold: #A9752A;
+    --gold-soft: #F3E6CE;
+    --good: #2E8A55;
+    --good-soft: #E1F3E5;
+    --bad: #B1502F;
+    --bad-soft: #FBE7DE;
+    --border: #DCE4D6;
+    --border-strong: #C3D0BB;
+    --shadow: 0 1px 2px rgba(30, 42, 34, 0.06), 0 8px 24px -12px rgba(30, 42, 34, 0.18);
+    --radius: 12px;
+    --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", serif;
+    --font-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", "SF Mono", Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #101B15;
+      --surface: #16241C;
+      --surface-2: #1C2E23;
+      --ink: #EAF2EA;
+      --ink-soft: #AEC2B4;
+      --ink-faint: #7E9587;
+      --accent: #74CBAC;
+      --accent-ink: #0C2018;
+      --accent-soft: #1E3A2D;
+      --accent-soft-ink: #9BDCC0;
+      --gold: #E3B063;
+      --gold-soft: #3A2F1B;
+      --good: #7BD79B;
+      --good-soft: #16321F;
+      --bad: #E39172;
+      --bad-soft: #3A2118;
+      --border: #263B2D;
+      --border-strong: #345040;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #101B15;
+    --surface: #16241C;
+    --surface-2: #1C2E23;
+    --ink: #EAF2EA;
+    --ink-soft: #AEC2B4;
+    --ink-faint: #7E9587;
+    --accent: #74CBAC;
+    --accent-ink: #0C2018;
+    --accent-soft: #1E3A2D;
+    --accent-soft-ink: #9BDCC0;
+    --gold: #E3B063;
+    --gold-soft: #3A2F1B;
+    --good: #7BD79B;
+    --good-soft: #16321F;
+    --bad: #E39172;
+    --bad-soft: #3A2118;
+    --border: #263B2D;
+    --border-strong: #345040;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 40px 20px 100px;
+  }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 24px 14px 80px; }
+  }
+
+  /* ---------- Header ---------- */
+
+  header.top {
+    margin-bottom: 32px;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin: 0 0 10px;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(28px, 5vw, 40px);
+    line-height: 1.12;
+    margin: 0 0 12px;
+    text-wrap: balance;
+    color: var(--ink);
+  }
+
+  .lede {
+    font-size: 16.5px;
+    color: var(--ink-soft);
+    max-width: 62ch;
+    margin: 0 0 22px;
+  }
+
+  .lede strong { color: var(--ink); font-weight: 600; }
+
+  .progress-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    box-shadow: var(--shadow);
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 8px;
+    background: var(--surface-2);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    border-radius: 99px;
+    transition: width 0.35s ease;
+  }
+
+  .progress-label {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+
+  .btn-reset {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    background: transparent;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 7px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .btn-reset:hover { background: var(--surface-2); color: var(--ink); }
+
+  /* ---------- Reference card ---------- */
+
+  .ref-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 24px;
+  }
+
+  .ref-card h3 {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0 0 12px;
+    color: var(--ink);
+  }
+
+  .formula-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 9px 20px;
+  }
+
+  @media (max-width: 560px) {
+    .formula-list { grid-template-columns: 1fr; }
+  }
+
+  .formula-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    font-size: 13.5px;
+    border-bottom: 1px dashed var(--border);
+    padding-bottom: 8px;
+  }
+
+  .formula-tense {
+    color: var(--ink-soft);
+    flex-shrink: 0;
+  }
+
+  .formula-shape {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--accent-soft-ink);
+    background: var(--accent-soft);
+    padding: 2px 8px;
+    border-radius: 6px;
+    text-align: right;
+  }
+
+  /* ---------- Section ---------- */
+
+  section.block {
+    margin-bottom: 40px;
+  }
+
+  .block-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+
+  .block-title-group {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .level-pill {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 99px;
+    white-space: nowrap;
+  }
+  .level-pill.warmup { background: var(--gold-soft); color: var(--gold); }
+  .level-pill.reforco { background: var(--accent-soft); color: var(--accent-soft-ink); }
+  .level-pill.medio { background: var(--gold-soft); color: var(--gold); }
+  .level-pill.desafio { background: var(--bad-soft); color: var(--bad); }
+  .level-pill.livre { background: var(--surface-2); color: var(--ink-soft); }
+
+  h2.block-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 22px;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .block-desc {
+    color: var(--ink-soft);
+    font-size: 14.5px;
+    margin: 8px 0 18px;
+    max-width: 66ch;
+  }
+
+  .section-score {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- Verb quiz (warm-up) ---------- */
+
+  .quiz-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 26px 26px 24px;
+    box-shadow: var(--shadow);
+  }
+
+  .quiz-progress {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    color: var(--ink-faint);
+    margin: 0 0 16px;
+  }
+
+  .quiz-verb-label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--ink-faint);
+    margin: 0 0 4px;
+  }
+
+  .quiz-verb {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(30px, 6vw, 42px);
+    color: var(--ink);
+    margin: 0 0 20px;
+  }
+
+  .quiz-question {
+    font-size: 15.5px;
+    color: var(--ink-soft);
+    margin: 0 0 12px;
+  }
+
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 420px;
+  }
+
+  button.quiz-option {
+    font-family: var(--font-mono);
+    font-size: 14.5px;
+    text-align: left;
+    padding: 11px 14px;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 9px;
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  button.quiz-option:hover:not(:disabled) { background: var(--surface-2); }
+  button.quiz-option:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  button.quiz-option.correct {
+    border-color: var(--good);
+    background: var(--good-soft);
+    color: var(--good);
+    font-weight: 600;
+  }
+  button.quiz-option.incorrect {
+    border-color: var(--bad);
+    background: var(--bad-soft);
+    color: var(--bad);
+  }
+  button.quiz-option:disabled { cursor: default; }
+
+  .quiz-feedback {
+    font-size: 13.5px;
+    margin: 14px 0 0;
+    min-height: 18px;
+  }
+  .quiz-feedback.correct { color: var(--good); }
+  .quiz-feedback.incorrect { color: var(--bad); }
+
+  .quiz-actions { margin-top: 18px; }
+
+  .quiz-summary { text-align: center; padding: 10px 0 6px; }
+  .quiz-summary .quiz-score {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 40px;
+    color: var(--accent);
+    margin: 6px 0 4px;
+  }
+  .quiz-summary .quiz-score-note {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin: 0 0 18px;
+  }
+
+  /* ---------- Table exercise (Part A) ---------- */
+
+  .conj-table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px 22px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    overflow-x: auto;
+  }
+
+  .chip-bank-label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--ink-faint);
+    margin: 0 0 10px;
+  }
+
+  .chip-bank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    padding: 14px;
+    background: var(--surface-2);
+    border: 1.5px dashed var(--border-strong);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    min-height: 52px;
+  }
+
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.35;
+    padding: 9px 12px;
+    background: var(--surface);
+    border: 1.5px solid var(--border-strong);
+    border-radius: 8px;
+    color: var(--ink);
+    cursor: grab;
+    user-select: none;
+    max-width: 100%;
+    transition: border-color 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+  }
+  .chip:hover { border-color: var(--accent); }
+  .chip.selected { border-color: var(--accent); background: var(--accent-soft); color: var(--accent-soft-ink); }
+  .chip.dragging { opacity: 0.4; }
+
+  table.conj {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 560px;
+  }
+  table.conj th {
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding: 0 10px 10px 0;
+    border-bottom: 1px solid var(--border-strong);
+  }
+  table.conj td {
+    padding: 12px 10px 12px 0;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  table.conj tr:last-child td { border-bottom: none; }
+  td.tense-label {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    padding-top: 16px;
+  }
+  td.slot-cell { min-width: 220px; }
+
+  .slot {
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    border: 1.5px dashed var(--border-strong);
+    border-radius: 8px;
+    padding: 7px 10px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .slot .slot-placeholder {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-style: italic;
+    color: var(--ink-faint);
+  }
+  .slot.dragover { border-color: var(--accent); background: var(--accent-soft); }
+  .slot.filled { border-style: solid; background: var(--surface); }
+  .slot.filled .chip { cursor: pointer; }
+  .slot.correct { border-color: var(--good); background: var(--good-soft); border-style: solid; }
+  .slot.incorrect { border-color: var(--bad); background: var(--bad-soft); border-style: solid; }
+
+  /* ---------- Answer inputs ---------- */
+
+  input.answer {
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    width: 100%;
+    max-width: 260px;
+    padding: 7px 10px;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--ink);
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  input.answer.wide { max-width: 100%; }
+  input.answer:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+    border-color: var(--accent);
+  }
+  input.answer.correct {
+    border-color: var(--good);
+    background: var(--good-soft);
+  }
+  input.answer.incorrect {
+    border-color: var(--bad);
+    background: var(--bad-soft);
+  }
+
+  .feedback-icon {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    margin-left: 8px;
+  }
+  .feedback-icon.correct { color: var(--good); }
+  .feedback-icon.incorrect { color: var(--bad); }
+
+  /* ---------- Sentence items (Part B/C/D) ---------- */
+
+  .item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    box-shadow: var(--shadow);
+    margin-bottom: 12px;
+  }
+
+  .item-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 9px;
+    flex-wrap: wrap;
+  }
+
+  .item-number {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-faint);
+  }
+
+  .tense-tag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--accent-soft-ink);
+    background: var(--accent-soft);
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
+
+  .direction-tag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--ink-faint);
+  }
+
+  .source-sentence {
+    font-size: 15px;
+    color: var(--ink);
+    margin: 0 0 10px;
+  }
+  .source-sentence .voice-flag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    margin-right: 6px;
+  }
+  .source-sentence b { color: var(--accent-soft-ink); font-weight: 700; }
+
+  .answer-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .answer-arrow {
+    color: var(--ink-faint);
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .item-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    gap: 10px;
+  }
+
+  .hint-toggle {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline dotted;
+    text-underline-offset: 3px;
+  }
+
+  .hint-text {
+    display: none;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    background: var(--surface-2);
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-top: 8px;
+  }
+  .hint-text.show { display: block; }
+  .hint-text code {
+    font-family: var(--font-mono);
+    color: var(--ink);
+  }
+
+  /* ---------- Buttons ---------- */
+
+  .btn-check {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--accent-ink);
+    background: var(--accent);
+    border: none;
+    border-radius: 9px;
+    padding: 10px 18px;
+    cursor: pointer;
+    transition: filter 0.15s ease;
+  }
+  .btn-check:hover { filter: brightness(1.06); }
+  .btn-check:active { filter: brightness(0.96); }
+
+  /* ---------- Challenge text ---------- */
+
+  .desafio-text {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 18px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+  .desafio-text .num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 700;
+    vertical-align: super;
+    margin-right: 1px;
+  }
+
+  /* ---------- Bonus / free writing ---------- */
+
+  .free-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+  }
+  .free-row { margin-bottom: 16px; }
+  .free-row:last-child { margin-bottom: 0; }
+  .free-row label {
+    display: block;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+  textarea.free-input {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1.5px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 9px 12px;
+    resize: vertical;
+    min-height: 44px;
+  }
+  textarea.free-input:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+    border-color: var(--accent);
+  }
+
+  /* ---------- Footer ---------- */
+
+  footer.page-footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    color: var(--ink-faint);
+    font-size: 12.5px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow">English &middot; Grammar Practice</p>
+    <h1>Active &amp; Passive: Environment</h1>
+    <p class="lede">
+      Practice transforming between the <strong>active voice</strong> and the <strong>passive voice</strong> in English using sentences about the environment.
+      The exercises get harder in each section. Type your answer and click <strong>Check</strong> — you can try as many times as you like.
+    </p>
+    <div class="progress-bar-row">
+      <span class="progress-label" id="progress-label">0 of 64 checked</span>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+      <button class="btn-reset" id="reset-all" type="button">Clear all</button>
+    </div>
+  </header>
+
+  <div class="ref-card">
+    <h3>Passive Voice Formula</h3>
+    <div class="formula-list">
+      <div class="formula-row"><span class="formula-tense">Present</span><span class="formula-shape">am / is / are + participle</span></div>
+      <div class="formula-row"><span class="formula-tense">Past</span><span class="formula-shape">was / were + participle</span></div>
+      <div class="formula-row"><span class="formula-tense">Future (will)</span><span class="formula-shape">will be + participle</span></div>
+      <div class="formula-row"><span class="formula-tense">Future (going to)</span><span class="formula-shape">am/is/are going to be + participle</span></div>
+    </div>
+  </div>
+
+  <!-- ================= WARM-UP — Verb quiz ================= -->
+  <section class="block" id="section-V">
+    <div class="block-head">
+      <div class="block-title-group">
+        <span class="level-pill warmup">Warm-up</span>
+        <h2 class="block-title">Verb Forms Quiz</h2>
+      </div>
+      <span class="section-score" data-score-for="V">0/32</span>
+    </div>
+    <p class="block-desc">One verb at a time — regular and irregular verbs mixed together, since irregular verbs are the tricky ones. Choose the correct simple past form, then the correct past participle form. You'll get feedback right away.</p>
+    <div class="quiz-card" id="quiz-card"></div>
+  </section>
+
+  <!-- ================= REINFORCEMENT — Part A: table ================= -->
+  <section class="block" id="section-A">
+    <div class="block-head">
+      <div class="block-title-group">
+        <span class="level-pill reforco">Reinforcement · Level 1</span>
+        <h2 class="block-title">Part A — Complete the Table</h2>
+      </div>
+      <span class="section-score" data-score-for="A">0/8</span>
+    </div>
+    <p class="block-desc">Every sentence below uses the verb <code style="font-family:var(--font-mono)">reduce</code>. Active subject: <em>the factory</em>. Passive subject: <em>pollution</em>. Drag each sentence into its matching tense and voice — or tap a sentence to select it, then tap the slot where it belongs.</p>
+    <div class="conj-table-wrap">
+      <p class="chip-bank-label">Sentence bank</p>
+      <div class="chip-bank" id="chip-bank"></div>
+      <table class="conj" id="table-A"></table>
+    </div>
+    <button class="btn-check" data-check-section="A">Check Part A</button>
+  </section>
+
+  <!-- ================= REINFORCEMENT — Part B: sentences (present) ================= -->
+  <section class="block" id="section-B">
+    <div class="block-head">
+      <div class="block-title-group">
+        <span class="level-pill reforco">Reinforcement · Level 1</span>
+        <h2 class="block-title">Part B — Transform the Sentences</h2>
+      </div>
+      <span class="section-score" data-score-for="B">0/8</span>
+    </div>
+    <p class="block-desc">All sentences are in the <strong>present simple</strong>. Rewrite each one in the opposite voice (active → passive or passive → active).</p>
+    <div id="list-B"></div>
+    <button class="btn-check" data-check-section="B">Check Part B</button>
+  </section>
+
+  <!-- ================= INTERMEDIATE — Part C ================= -->
+  <section class="block" id="section-C">
+    <div class="block-head">
+      <div class="block-title-group">
+        <span class="level-pill medio">Intermediate Level</span>
+        <h2 class="block-title">Part C — Mixed Verb Tenses</h2>
+      </div>
+      <span class="section-score" data-score-for="C">0/8</span>
+    </div>
+    <p class="block-desc">Now the sentences mix <strong>past, future with <em>will</em>, and future with <em>going to</em></strong>. Pay attention to the tense shown and keep it in your answer.</p>
+    <div id="list-C"></div>
+    <button class="btn-check" data-check-section="C">Check Part C</button>
+  </section>
+
+  <!-- ================= CHALLENGE — Part D ================= -->
+  <section class="block" id="section-D">
+    <div class="block-head">
+      <div class="block-title-group">
+        <span class="level-pill desafio">Challenge</span>
+        <h2 class="block-title">Part D — Read and Transform</h2>
+      </div>
+      <span class="section-score" data-score-for="D">0/8</span>
+    </div>
+    <p class="block-desc">Read the text below, written in the <strong>active voice</strong>. Then rewrite each numbered sentence in the <strong>passive voice</strong>, keeping the same tense (past, present, or future).</p>
+    <div class="desafio-text" id="desafio-text"></div>
+    <div id="list-D"></div>
+    <button class="btn-check" data-check-section="D">Check Part D</button>
+  </section>
+
+  <!-- ================= YOUR TURN (bonus, no auto-check) ================= -->
+  <section class="block" id="section-E">
+    <div class="block-head">
+      <div class="block-title-group">
+        <span class="level-pill livre">Bonus · Free Writing</span>
+        <h2 class="block-title">Your Turn!</h2>
+      </div>
+    </div>
+    <p class="block-desc">Write two original sentences about the environment in the active voice, then rewrite each one in the passive voice. This part isn't auto-graded — show it to your teacher.</p>
+    <div class="free-card">
+      <div class="free-row">
+        <label for="free-active-1">Sentence 1 — active voice</label>
+        <textarea class="free-input" id="free-active-1" rows="1" placeholder="Ex.: My school collects used batteries."></textarea>
+      </div>
+      <div class="free-row">
+        <label for="free-passive-1">Sentence 1 — passive voice</label>
+        <textarea class="free-input" id="free-passive-1" rows="1" placeholder="Ex.: Used batteries are collected by my school."></textarea>
+      </div>
+      <div class="free-row">
+        <label for="free-active-2">Sentence 2 — active voice</label>
+        <textarea class="free-input" id="free-active-2" rows="1"></textarea>
+      </div>
+      <div class="free-row">
+        <label for="free-passive-2">Sentence 2 — passive voice</label>
+        <textarea class="free-input" id="free-passive-2" rows="1"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <footer class="page-footer">
+    <span>Built to practice the active and passive voice &middot; Theme: the environment</span>
+    <span>Grade 8 &middot; Middle School</span>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var state = {}; // id -> {checked: bool, correct: bool}
+  var ALL_IDS = [];
+
+  function canon(s) {
+    return (s || "")
+      .toLowerCase()
+      .normalize("NFD").replace(/[̀-ͯ]/g, "")
+      .replace(/[^a-z0-9\s]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function isCorrect(value, accepted) {
+    var v = canon(value);
+    if (!v) return false;
+    for (var i = 0; i < accepted.length; i++) {
+      if (canon(accepted[i]) === v) return true;
+    }
+    return false;
+  }
+
+  function markInput(input, ok) {
+    input.classList.remove("correct", "incorrect");
+    input.classList.add(ok ? "correct" : "incorrect");
+    var fb = input.parentElement.querySelector(".feedback-icon");
+    if (!fb) {
+      fb = document.createElement("span");
+      fb.className = "feedback-icon";
+      input.insertAdjacentElement("afterend", fb);
+    }
+    fb.textContent = ok ? "✓ correct" : "✗ try again";
+    fb.className = "feedback-icon " + (ok ? "correct" : "incorrect");
+  }
+
+  function registerItem(id) {
+    if (!(id in state)) state[id] = { checked: false, correct: false };
+  }
+
+  function checkOne(id, input, accepted) {
+    registerItem(id);
+    var ok = isCorrect(input.value, accepted);
+    state[id].checked = true;
+    state[id].correct = ok;
+    markInput(input, ok);
+    updateGlobalProgress();
+  }
+
+  function updateSectionScore(sectionKey, ids) {
+    var el = document.querySelector('[data-score-for="' + sectionKey + '"]');
+    if (!el) return;
+    var correct = 0, checked = 0;
+    ids.forEach(function (id) {
+      if (state[id] && state[id].checked) {
+        checked++;
+        if (state[id].correct) correct++;
+      }
+    });
+    el.textContent = correct + "/" + ids.length;
+  }
+
+  function updateGlobalProgress() {
+    var checked = 0, correct = 0;
+    ALL_IDS.forEach(function (id) {
+      if (state[id] && state[id].checked) {
+        checked++;
+        if (state[id].correct) correct++;
+      }
+    });
+    var fill = document.getElementById("progress-fill");
+    var label = document.getElementById("progress-label");
+    fill.style.width = (ALL_IDS.length ? (correct / ALL_IDS.length * 100) : 0) + "%";
+    label.textContent = correct + " of " + ALL_IDS.length + " checked" + (checked > correct ? " (" + (checked - correct) + " to review)" : "");
+  }
+
+  /* ================= Warm-up: verb quiz ================= */
+
+  var VERBS = [
+    { infinitive: "recycle", regular: true, past: "recycled", pastDistractors: ["recycle", "recycling"], participle: "recycled", participleDistractors: ["recycling", "recycle"] },
+    { infinitive: "grow", regular: false, past: "grew", pastDistractors: ["growed", "grow"], participle: "grown", participleDistractors: ["grew", "growed"] },
+    { infinitive: "protect", regular: true, past: "protected", pastDistractors: ["protect", "protecting"], participle: "protected", participleDistractors: ["protecting", "protect"] },
+    { infinitive: "catch", regular: false, past: "caught", pastDistractors: ["catched", "catch"], participle: "caught", participleDistractors: ["catched", "catch"] },
+    { infinitive: "pollute", regular: true, past: "polluted", pastDistractors: ["pollute", "polluting"], participle: "polluted", participleDistractors: ["polluting", "pollute"] },
+    { infinitive: "become", regular: false, past: "became", pastDistractors: ["becomed", "become"], participle: "become", participleDistractors: ["became", "becomed"] },
+    { infinitive: "build", regular: false, past: "built", pastDistractors: ["builded", "build"], participle: "built", participleDistractors: ["builded", "building"] },
+    { infinitive: "discover", regular: true, past: "discovered", pastDistractors: ["discover", "discovering"], participle: "discovered", participleDistractors: ["discovering", "discover"] },
+    { infinitive: "throw away", regular: false, past: "threw away", pastDistractors: ["throwed away", "thrown away"], participle: "thrown away", participleDistractors: ["threw away", "throwed away"] },
+    { infinitive: "plant", regular: true, past: "planted", pastDistractors: ["plant", "planting"], participle: "planted", participleDistractors: ["planting", "plant"] },
+    { infinitive: "find", regular: false, past: "found", pastDistractors: ["finded", "find"], participle: "found", participleDistractors: ["finded", "find"] },
+    { infinitive: "destroy", regular: true, past: "destroyed", pastDistractors: ["destroy", "destroying"], participle: "destroyed", participleDistractors: ["destroying", "destroy"] },
+    { infinitive: "give away", regular: false, past: "gave away", pastDistractors: ["gived away", "give away"], participle: "given away", participleDistractors: ["gave away", "gived away"] },
+    { infinitive: "reduce", regular: true, past: "reduced", pastDistractors: ["reduce", "reducing"], participle: "reduced", participleDistractors: ["reducing", "reduce"] },
+    { infinitive: "make", regular: false, past: "made", pastDistractors: ["maked", "make"], participle: "made", participleDistractors: ["maked", "make"] },
+    { infinitive: "cut down", regular: false, past: "cut down", pastDistractors: ["cutted down", "cutting down"], participle: "cut down", participleDistractors: ["cutted down", "cutting down"] }
+  ];
+
+  var QUIZ_IDS = [];
+  VERBS.forEach(function (v, i) {
+    QUIZ_IDS.push("V" + i + "past", "V" + i + "part");
+  });
+  QUIZ_IDS.forEach(function (id) { registerItem(id); ALL_IDS.push(id); });
+
+  var quiz = { verbIndex: 0, stage: 0, locked: false }; // stage 0 = past question, 1 = participle question
+
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+    }
+    return a;
+  }
+
+  function quizScore() {
+    var correct = 0;
+    QUIZ_IDS.forEach(function (id) { if (state[id] && state[id].correct) correct++; });
+    return correct;
+  }
+
+  function renderQuiz() {
+    var card = document.getElementById("quiz-card");
+    card.innerHTML = "";
+
+    if (quiz.verbIndex >= VERBS.length) {
+      var summary = document.createElement("div");
+      summary.className = "quiz-summary";
+      var score = quizScore();
+      summary.innerHTML =
+        '<p class="quiz-verb-label">Quiz complete</p>' +
+        '<p class="quiz-score">' + score + " / " + QUIZ_IDS.length + "</p>" +
+        '<p class="quiz-score-note">verb forms correct</p>';
+      var again = document.createElement("button");
+      again.className = "btn-check";
+      again.type = "button";
+      again.textContent = "Practice again";
+      again.addEventListener("click", function () {
+        QUIZ_IDS.forEach(function (id) { state[id] = { checked: false, correct: false }; });
+        quiz.verbIndex = 0;
+        quiz.stage = 0;
+        quiz.locked = false;
+        updateSectionScore("V", QUIZ_IDS);
+        updateGlobalProgress();
+        renderQuiz();
+      });
+      summary.appendChild(again);
+      card.appendChild(summary);
+      return;
+    }
+
+    var verb = VERBS[quiz.verbIndex];
+    quiz.locked = false;
+
+    var progress = document.createElement("p");
+    progress.className = "quiz-progress";
+    progress.textContent = "Verb " + (quiz.verbIndex + 1) + " of " + VERBS.length + "  ·  " + (verb.regular ? "regular verb" : "irregular verb");
+    card.appendChild(progress);
+
+    var label = document.createElement("p");
+    label.className = "quiz-verb-label";
+    label.textContent = "Infinitive";
+    card.appendChild(label);
+
+    var verbEl = document.createElement("p");
+    verbEl.className = "quiz-verb";
+    verbEl.textContent = verb.infinitive;
+    card.appendChild(verbEl);
+
+    var isPast = quiz.stage === 0;
+    var qId = "V" + quiz.verbIndex + (isPast ? "past" : "part");
+    var correctAnswer = isPast ? verb.past : verb.participle;
+    var distractors = isPast ? verb.pastDistractors : verb.participleDistractors;
+    var options = shuffle([correctAnswer].concat(distractors));
+
+    var question = document.createElement("p");
+    question.className = "quiz-question";
+    question.textContent = isPast ? "What's the simple past form?" : "What's the past participle form?";
+    card.appendChild(question);
+
+    var optionsWrap = document.createElement("div");
+    optionsWrap.className = "quiz-options";
+
+    var feedback = document.createElement("p");
+    feedback.className = "quiz-feedback";
+
+    var actions = document.createElement("div");
+    actions.className = "quiz-actions";
+
+    options.forEach(function (opt) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "quiz-option";
+      btn.textContent = opt;
+      btn.addEventListener("click", function () {
+        if (quiz.locked) return;
+        var ok = opt === correctAnswer;
+        state[qId].checked = true;
+        if (ok) {
+          state[qId].correct = true;
+          quiz.locked = true;
+          btn.classList.add("correct");
+          Array.prototype.forEach.call(optionsWrap.children, function (b) { b.disabled = true; });
+          feedback.textContent = "Correct!";
+          feedback.className = "quiz-feedback correct";
+          var next = document.createElement("button");
+          next.type = "button";
+          next.className = "btn-check";
+          if (isPast) {
+            next.textContent = "Continue";
+            next.addEventListener("click", function () { quiz.stage = 1; renderQuiz(); });
+          } else if (quiz.verbIndex === VERBS.length - 1) {
+            next.textContent = "See your results";
+            next.addEventListener("click", function () { quiz.verbIndex++; renderQuiz(); });
+          } else {
+            next.textContent = "Next verb →";
+            next.addEventListener("click", function () { quiz.verbIndex++; quiz.stage = 0; renderQuiz(); });
+          }
+          actions.appendChild(next);
+        } else {
+          btn.classList.add("incorrect");
+          btn.disabled = true;
+          feedback.textContent = "Not quite — try another option.";
+          feedback.className = "quiz-feedback incorrect";
+        }
+        updateSectionScore("V", QUIZ_IDS);
+        updateGlobalProgress();
+      });
+      optionsWrap.appendChild(btn);
+    });
+
+    card.appendChild(optionsWrap);
+    card.appendChild(feedback);
+    card.appendChild(actions);
+  }
+
+  renderQuiz();
+
+  /* ---------------- Part A: drag/tap-to-match sentence table ---------------- */
+
+  var TABLE_A = [
+    { tense: "Present simple", activeId: "A1a", passiveId: "A1b" },
+    { tense: "Past simple", activeId: "A2a", passiveId: "A2b" },
+    { tense: "Future with will", activeId: "A3a", passiveId: "A3b" },
+    { tense: "Future with going to", activeId: "A4a", passiveId: "A4b" }
+  ];
+
+  var CHIPS_A = [
+    { id: "c1", text: "The factory reduces pollution.", slot: "A1a" },
+    { id: "c2", text: "Pollution is reduced by the factory.", slot: "A1b" },
+    { id: "c3", text: "The factory reduced pollution last year.", slot: "A2a" },
+    { id: "c4", text: "Pollution was reduced by the factory last year.", slot: "A2b" },
+    { id: "c5", text: "The factory will reduce pollution.", slot: "A3a" },
+    { id: "c6", text: "Pollution will be reduced by the factory.", slot: "A3b" },
+    { id: "c7", text: "The factory is going to reduce pollution.", slot: "A4a" },
+    { id: "c8", text: "Pollution is going to be reduced by the factory.", slot: "A4b" }
+  ];
+
+  var chipBankEl = null;
+  var selectedChip = null;
+
+  function slotPlaceholderHTML(text) {
+    return '<span class="slot-placeholder">' + text + "</span>";
+  }
+
+  function moveChipToSlot(chipId, targetSlotEl) {
+    var chipEl = document.querySelector('.chip[data-chip-id="' + chipId + '"]');
+    if (!chipEl) return;
+
+    var prevSlot = chipEl.closest(".slot");
+    if (prevSlot) {
+      prevSlot.dataset.filled = "";
+      prevSlot.classList.remove("filled", "correct", "incorrect");
+      prevSlot.innerHTML = slotPlaceholderHTML(prevSlot.dataset.placeholder);
+      state[prevSlot.id] = { checked: false, correct: false };
+    }
+
+    if (targetSlotEl.dataset.filled) {
+      var bumpedEl = document.querySelector('.chip[data-chip-id="' + targetSlotEl.dataset.filled + '"]');
+      if (bumpedEl) { bumpedEl.classList.remove("selected"); chipBankEl.appendChild(bumpedEl); }
+    }
+
+    targetSlotEl.innerHTML = "";
+    targetSlotEl.appendChild(chipEl);
+    targetSlotEl.dataset.filled = chipId;
+    targetSlotEl.classList.add("filled");
+    targetSlotEl.classList.remove("correct", "incorrect");
+    chipEl.classList.remove("selected");
+    state[targetSlotEl.id] = { checked: false, correct: false };
+    selectedChip = null;
+    updateSectionScore("A", idsA);
+    updateGlobalProgress();
+  }
+
+  function returnChipToBank(chipId) {
+    var chipEl = document.querySelector('.chip[data-chip-id="' + chipId + '"]');
+    if (!chipEl) return;
+    var prevSlot = chipEl.closest(".slot");
+    if (prevSlot) {
+      prevSlot.dataset.filled = "";
+      prevSlot.classList.remove("filled", "correct", "incorrect");
+      prevSlot.innerHTML = slotPlaceholderHTML(prevSlot.dataset.placeholder);
+      state[prevSlot.id] = { checked: false, correct: false };
+    }
+    chipEl.classList.remove("selected");
+    chipBankEl.appendChild(chipEl);
+    updateSectionScore("A", idsA);
+    updateGlobalProgress();
+  }
+
+  function shuffleChips(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+    }
+    return a;
+  }
+
+  function renderTableA() {
+    chipBankEl = document.getElementById("chip-bank");
+
+    shuffleChips(CHIPS_A).forEach(function (chipData) {
+      var chip = document.createElement("div");
+      chip.className = "chip";
+      chip.textContent = chipData.text;
+      chip.dataset.chipId = chipData.id;
+      chip.draggable = true;
+
+      chip.addEventListener("dragstart", function (e) {
+        e.dataTransfer.setData("text/plain", chipData.id);
+        chip.classList.add("dragging");
+      });
+      chip.addEventListener("dragend", function () { chip.classList.remove("dragging"); });
+
+      chip.addEventListener("click", function (e) {
+        if (chip.closest(".slot")) {
+          e.stopPropagation();
+          returnChipToBank(chipData.id);
+          return;
+        }
+        if (selectedChip === chip) {
+          chip.classList.remove("selected");
+          selectedChip = null;
+          return;
+        }
+        if (selectedChip) selectedChip.classList.remove("selected");
+        selectedChip = chip;
+        chip.classList.add("selected");
+      });
+
+      chipBankEl.appendChild(chip);
+    });
+
+    var table = document.getElementById("table-A");
+    var thead = document.createElement("tr");
+    ["Tense", "Active", "Passive"].forEach(function (h) {
+      var th = document.createElement("th");
+      th.textContent = h;
+      thead.appendChild(th);
+    });
+    table.appendChild(thead);
+
+    TABLE_A.forEach(function (row) {
+      var tr = document.createElement("tr");
+
+      var tdTense = document.createElement("td");
+      tdTense.className = "tense-label";
+      tdTense.textContent = row.tense;
+      tr.appendChild(tdTense);
+
+      [ [row.activeId, "Tap or drop the active sentence"], [row.passiveId, "Tap or drop the passive sentence"] ].forEach(function (s) {
+        var slotId = s[0], placeholder = s[1];
+        var td = document.createElement("td");
+        td.className = "slot-cell";
+        var slot = document.createElement("div");
+        slot.className = "slot";
+        slot.id = slotId;
+        slot.dataset.filled = "";
+        slot.dataset.placeholder = placeholder;
+        slot.innerHTML = slotPlaceholderHTML(placeholder);
+
+        slot.addEventListener("dragover", function (e) { e.preventDefault(); slot.classList.add("dragover"); });
+        slot.addEventListener("dragleave", function () { slot.classList.remove("dragover"); });
+        slot.addEventListener("drop", function (e) {
+          e.preventDefault();
+          slot.classList.remove("dragover");
+          var chipId = e.dataTransfer.getData("text/plain");
+          if (chipId) moveChipToSlot(chipId, slot);
+        });
+        slot.addEventListener("click", function () {
+          if (slot.dataset.filled) { returnChipToBank(slot.dataset.filled); return; }
+          if (selectedChip) moveChipToSlot(selectedChip.dataset.chipId, slot);
+        });
+
+        td.appendChild(slot);
+        tr.appendChild(td);
+        registerItem(slotId);
+        ALL_IDS.push(slotId);
+      });
+
+      table.appendChild(tr);
+    });
+  }
+
+  function checkTableA() {
+    CHIPS_A.forEach(function (chipData) {
+      var slotEl = document.getElementById(chipData.slot);
+      var ok = slotEl.dataset.filled === chipData.id;
+      state[chipData.slot].checked = true;
+      state[chipData.slot].correct = ok;
+    });
+    idsA.forEach(function (slotId) {
+      var slotEl = document.getElementById(slotId);
+      slotEl.classList.remove("correct", "incorrect");
+      slotEl.classList.add(state[slotId].correct ? "correct" : "incorrect");
+    });
+    updateSectionScore("A", idsA);
+    updateGlobalProgress();
+  }
+
+  /* ---------------- Sentence items (Part B, C, D) ---------------- */
+
+  function formatAnswer(s) {
+    var t = s.trim();
+    t = t.charAt(0).toUpperCase() + t.slice(1);
+    if (!/[.!?]$/.test(t)) t += ".";
+    return t;
+  }
+
+  function renderSentenceItems(containerId, items, sectionKey, mode) {
+    var container = document.getElementById(containerId);
+    var ids = [];
+
+    items.forEach(function (item, idx) {
+      ids.push(item.id);
+      registerItem(item.id);
+      ALL_IDS.push(item.id);
+
+      var card = document.createElement("div");
+      card.className = "item";
+
+      var head = document.createElement("div");
+      head.className = "item-head";
+      head.innerHTML =
+        '<span class="item-number">' + (idx + 1) + "</span>" +
+        '<span class="tense-tag">' + item.tense + "</span>" +
+        '<span class="direction-tag">' + item.directionLabel + "</span>";
+      card.appendChild(head);
+
+      var src = document.createElement("p");
+      src.className = "source-sentence";
+      src.innerHTML = '<span class="voice-flag">' + item.sourceLabel + "</span>" + item.sourceSentence;
+      card.appendChild(src);
+
+      var row = document.createElement("div");
+      row.className = "answer-row";
+      var arrow = document.createElement("span");
+      arrow.className = "answer-arrow";
+      arrow.textContent = "→";
+      row.appendChild(arrow);
+
+      var input = document.createElement("input");
+      input.type = "text";
+      input.className = "answer wide";
+      input.id = item.id;
+      input.placeholder = item.targetLabel;
+      input.setAttribute("aria-label", "Your answer for item " + (idx + 1));
+      input.autocomplete = "off";
+      row.appendChild(input);
+      card.appendChild(row);
+
+      var footer = document.createElement("div");
+      footer.className = "item-footer";
+      var hintBtn = document.createElement("button");
+      hintBtn.type = "button";
+      hintBtn.className = "hint-toggle";
+      hintBtn.textContent = mode === "answer" ? "Show answer" : "Hint";
+      footer.appendChild(hintBtn);
+      card.appendChild(footer);
+
+      var hintText = document.createElement("div");
+      hintText.className = "hint-text";
+      hintText.innerHTML = mode === "answer"
+        ? "Correct answer: <code>" + formatAnswer(item.accepted[0]) + "</code>"
+        : item.hint;
+      card.appendChild(hintText);
+
+      hintBtn.addEventListener("click", function () {
+        hintText.classList.toggle("show");
+      });
+
+      input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          checkOne(item.id, input, item.accepted);
+          updateSectionScore(sectionKey, ids);
+        }
+      });
+
+      container.appendChild(card);
+    });
+
+    return ids;
+  }
+
+  /* ---------------- Data: Part B ---------------- */
+
+  var ITEMS_B = [
+    {
+      id: "B1", tense: "Present", directionLabel: "active → passive",
+      sourceLabel: "ACTIVE:", sourceSentence: "People <b>recycle</b> plastic bottles every day.",
+      targetLabel: "write the sentence in the passive voice",
+      accepted: ["plastic bottles are recycled every day", "plastic bottles are recycled every day by people"],
+      hint: "Structure: <code>are + recycled</code>. The object (plastic bottles) becomes the subject."
+    },
+    {
+      id: "B2", tense: "Present", directionLabel: "active → passive",
+      sourceLabel: "ACTIVE:", sourceSentence: "Factories <b>pollute</b> rivers with chemicals.",
+      targetLabel: "write the sentence in the passive voice",
+      accepted: ["rivers are polluted with chemicals by factories", "rivers are polluted with chemicals"],
+      hint: "Structure: <code>are + polluted</code>. Don't forget “with chemicals”."
+    },
+    {
+      id: "B3", tense: "Present", directionLabel: "active → passive",
+      sourceLabel: "ACTIVE:", sourceSentence: "The city <b>collects</b> garbage twice a week.",
+      targetLabel: "write the sentence in the passive voice",
+      accepted: ["garbage is collected twice a week by the city", "garbage is collected twice a week"],
+      hint: "Structure: <code>is + collected</code>. “Garbage” is singular — use “is”."
+    },
+    {
+      id: "B4", tense: "Present", directionLabel: "active → passive",
+      sourceLabel: "ACTIVE:", sourceSentence: "Farmers <b>use</b> pesticides on crops.",
+      targetLabel: "write the sentence in the passive voice",
+      accepted: ["pesticides are used on crops by farmers", "pesticides are used on crops"],
+      hint: "Structure: <code>are + used</code>."
+    },
+    {
+      id: "B5", tense: "Present", directionLabel: "active → passive",
+      sourceLabel: "ACTIVE:", sourceSentence: "Volunteers <b>plant</b> trees in the park.",
+      targetLabel: "write the sentence in the passive voice",
+      accepted: ["trees are planted in the park by volunteers", "trees are planted in the park"],
+      hint: "Structure: <code>are + planted</code>."
+    },
+    {
+      id: "B6", tense: "Present", directionLabel: "passive → active",
+      sourceLabel: "PASSIVE:", sourceSentence: "Wind energy <b>is produced</b> by wind farms.",
+      targetLabel: "write the sentence in the active voice",
+      accepted: ["wind farms produce wind energy"],
+      hint: "The agent (“by wind farms”) becomes the subject: <code>wind farms + produce</code>."
+    },
+    {
+      id: "B7", tense: "Present", directionLabel: "passive → active",
+      sourceLabel: "PASSIVE:", sourceSentence: "Endangered animals <b>are protected</b> by the government.",
+      targetLabel: "write the sentence in the active voice",
+      accepted: ["the government protects endangered animals"],
+      hint: "Watch the conjugation: <code>the government + protects</code> (3rd person singular)."
+    },
+    {
+      id: "B8", tense: "Present", directionLabel: "passive → active",
+      sourceLabel: "PASSIVE:", sourceSentence: "Water <b>is wasted</b> by many people.",
+      targetLabel: "write the sentence in the active voice",
+      accepted: ["many people waste water"],
+      hint: "Plural subject (“many people”) → verb with no “s”: <code>waste</code>."
+    }
+  ];
+
+  /* ---------------- Data: Part C ---------------- */
+
+  var ITEMS_C = [
+    {
+      id: "C1", tense: "Past", directionLabel: "active → passive",
+      sourceLabel: "ACTIVE:", sourceSentence: "Scientists <b>discovered</b> a new solution to reduce plastic waste last year.",
+      targetLabel: "write the sentence in the passive voice",
+      accepted: ["a new solution to reduce plastic waste was discovered by scientists last year", "a new solution to reduce plastic waste was discovered last year"],
+      hint: "Structure: <code>was + discovered</code>."
+    },
+    {
+      id: "C2", tense: "Past", directionLabel: "passive → active",
+      sourceLabel: "PASSIVE:", sourceSentence: "The forest <b>was destroyed</b> by illegal loggers in 2020.",
+      targetLabel: "write the sentence in the active voice",
+      accepted: ["illegal loggers destroyed the forest in 2020"],
+      hint: "The agent becomes the subject: <code>illegal loggers + destroyed</code>."
+    },
+    {
+      id: "C3", tense: "Future (will)", directionLabel: "active → passive",
+      sourceLabel: "ACTIVE:", sourceSentence: "The government <b>will ban</b> single-use plastic bags next year.",
+      targetLabel: "write the sentence in the passive voice",
+      accepted: ["single-use plastic bags will be banned by the government next year", "single-use plastic bags will be banned next year"],
+      hint: "Structure: <code>will be + banned</code>."
+    },
+    {
+      id: "C4", tense: "Future (will)", directionLabel: "passive → active",
+      sourceLabel: "PASSIVE:", sourceSentence: "New wind farms <b>will be built</b> along the coast by the government.",
+      targetLabel: "write the sentence in the active voice",
+      accepted: ["the government will build new wind farms along the coast"],
+      hint: "Active structure: <code>will + build</code> (irregular verb: build → built for the participle)."
+    },
+    {
+      id: "C5", tense: "Future (going to)", directionLabel: "active → passive",
+      sourceLabel: "ACTIVE:", sourceSentence: "The school <b>is going to organize</b> a recycling campaign next month.",
+      targetLabel: "write the sentence in the passive voice",
+      accepted: ["a recycling campaign is going to be organized by the school next month", "a recycling campaign is going to be organized next month"],
+      hint: "Structure: <code>is going to be + organized</code>."
+    },
+    {
+      id: "C6", tense: "Future (going to)", directionLabel: "passive → active",
+      sourceLabel: "PASSIVE:", sourceSentence: "The old factory <b>is going to be replaced</b> by a solar power plant.",
+      targetLabel: "write the sentence in the active voice",
+      accepted: ["a solar power plant is going to replace the old factory"],
+      hint: "Active structure: <code>is going to + replace</code>."
+    },
+    {
+      id: "C7", tense: "Past", directionLabel: "active → passive",
+      sourceLabel: "ACTIVE:", sourceSentence: "Volunteers <b>cleaned</b> the beach last weekend.",
+      targetLabel: "write the sentence in the passive voice",
+      accepted: ["the beach was cleaned by volunteers last weekend", "the beach was cleaned last weekend"],
+      hint: "Structure: <code>was + cleaned</code>."
+    },
+    {
+      id: "C8", tense: "Future (will)", directionLabel: "active → passive",
+      sourceLabel: "ACTIVE:", sourceSentence: "Climate change <b>will affect</b> millions of people if we don't act now.",
+      targetLabel: "write the sentence in the passive voice",
+      accepted: ["millions of people will be affected by climate change if we don't act now", "millions of people will be affected by climate change if we do not act now"],
+      hint: "Structure: <code>will be + affected</code>. The part “if we don't act now” doesn't change."
+    }
+  ];
+
+  /* ---------------- Data: Part D (text) ---------------- */
+
+  var DESAFIO_PARAGRAPH =
+    '<span class="num">1</span>Factories release harmful gases into the air every day. ' +
+    '<span class="num">2</span>People throw away tons of plastic every year. ' +
+    '<span class="num">3</span>Deforestation destroyed thousands of hectares of the Amazon last year. ' +
+    '<span class="num">4</span>A group of scientists discovered a new way to recycle batteries in 2023. ' +
+    '<span class="num">5</span>Governments will reduce carbon emissions in the next decade. ' +
+    '<span class="num">6</span>Renewable energy will replace fossil fuels in many countries. ' +
+    '<span class="num">7</span>The city is going to plant 10,000 new trees next year. ' +
+    '<span class="num">8</span>Volunteers are going to clean the river next weekend.';
+
+  var ITEMS_D = [
+    {
+      id: "D1", tense: "Present", directionLabel: "sentence 1",
+      sourceLabel: "1 · ACTIVE:", sourceSentence: "Factories release harmful gases into the air every day.",
+      targetLabel: "rewrite in the passive voice",
+      accepted: ["harmful gases are released into the air by factories every day", "harmful gases are released into the air every day"],
+      hint: "Structure: <code>are + released</code>."
+    },
+    {
+      id: "D2", tense: "Present", directionLabel: "sentence 2",
+      sourceLabel: "2 · ACTIVE:", sourceSentence: "People throw away tons of plastic every year.",
+      targetLabel: "rewrite in the passive voice",
+      accepted: ["tons of plastic are thrown away every year", "tons of plastic are thrown away every year by people"],
+      hint: "Irregular verb: throw → thrown. Structure: <code>are + thrown away</code>."
+    },
+    {
+      id: "D3", tense: "Past", directionLabel: "sentence 3",
+      sourceLabel: "3 · ACTIVE:", sourceSentence: "Deforestation destroyed thousands of hectares of the Amazon last year.",
+      targetLabel: "rewrite in the passive voice",
+      accepted: ["thousands of hectares of the amazon were destroyed by deforestation last year", "thousands of hectares of the amazon were destroyed last year"],
+      hint: "Plural subject (“thousands of hectares”) → <code>were + destroyed</code>."
+    },
+    {
+      id: "D4", tense: "Past", directionLabel: "sentence 4",
+      sourceLabel: "4 · ACTIVE:", sourceSentence: "A group of scientists discovered a new way to recycle batteries in 2023.",
+      targetLabel: "rewrite in the passive voice",
+      accepted: ["a new way to recycle batteries was discovered by a group of scientists in 2023", "a new way to recycle batteries was discovered in 2023"],
+      hint: "Structure: <code>was + discovered</code>."
+    },
+    {
+      id: "D5", tense: "Future (will)", directionLabel: "sentence 5",
+      sourceLabel: "5 · ACTIVE:", sourceSentence: "Governments will reduce carbon emissions in the next decade.",
+      targetLabel: "rewrite in the passive voice",
+      accepted: ["carbon emissions will be reduced by governments in the next decade", "carbon emissions will be reduced in the next decade"],
+      hint: "Structure: <code>will be + reduced</code>."
+    },
+    {
+      id: "D6", tense: "Future (will)", directionLabel: "sentence 6",
+      sourceLabel: "6 · ACTIVE:", sourceSentence: "Renewable energy will replace fossil fuels in many countries.",
+      targetLabel: "rewrite in the passive voice",
+      accepted: ["fossil fuels will be replaced by renewable energy in many countries", "fossil fuels will be replaced in many countries"],
+      hint: "Structure: <code>will be + replaced</code>."
+    },
+    {
+      id: "D7", tense: "Future (going to)", directionLabel: "sentence 7",
+      sourceLabel: "7 · ACTIVE:", sourceSentence: "The city is going to plant 10,000 new trees next year.",
+      targetLabel: "rewrite in the passive voice",
+      accepted: [
+        "10,000 new trees are going to be planted by the city next year",
+        "10000 new trees are going to be planted by the city next year",
+        "10,000 new trees are going to be planted next year",
+        "10000 new trees are going to be planted next year",
+        "ten thousand new trees are going to be planted by the city next year",
+        "ten thousand new trees are going to be planted next year"
+      ],
+      hint: "Structure: <code>are going to be + planted</code>."
+    },
+    {
+      id: "D8", tense: "Future (going to)", directionLabel: "sentence 8",
+      sourceLabel: "8 · ACTIVE:", sourceSentence: "Volunteers are going to clean the river next weekend.",
+      targetLabel: "rewrite in the passive voice",
+      accepted: ["the river is going to be cleaned by volunteers next weekend", "the river is going to be cleaned next weekend"],
+      hint: "Structure: <code>is going to be + cleaned</code>."
+    }
+  ];
+
+  /* ---------------- Render everything ---------------- */
+
+  var idsA = TABLE_A.reduce(function (a, r) { a.push(r.activeId, r.passiveId); return a; }, []);
+
+  renderTableA();
+  var idsB = renderSentenceItems("list-B", ITEMS_B, "B", "answer");
+  var idsC = renderSentenceItems("list-C", ITEMS_C, "C", "answer");
+  document.getElementById("desafio-text").innerHTML = DESAFIO_PARAGRAPH;
+  var idsD = renderSentenceItems("list-D", ITEMS_D, "D", "hint");
+
+  /* ---------------- "Check section" buttons ---------------- */
+
+  document.querySelectorAll("[data-check-section]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var key = btn.getAttribute("data-check-section");
+      if (key === "A") { checkTableA(); return; }
+      var idsMap = { B: idsB, C: idsC, D: idsD };
+      var dataMap = { B: ITEMS_B, C: ITEMS_C, D: ITEMS_D };
+      dataMap[key].forEach(function (entry) {
+        var input = document.getElementById(entry.id);
+        if (input) checkOne(entry.id, input, entry.accepted);
+      });
+      updateSectionScore(key, idsMap[key]);
+    });
+  });
+
+  /* ---------------- Reset ---------------- */
+
+  document.getElementById("reset-all").addEventListener("click", function () {
+    idsA.forEach(function (slotId) {
+      var slotEl = document.getElementById(slotId);
+      if (slotEl && slotEl.dataset.filled) returnChipToBank(slotEl.dataset.filled);
+    });
+
+    ALL_IDS.forEach(function (id) {
+      state[id] = { checked: false, correct: false };
+      var input = document.getElementById(id);
+      if (input && input.tagName === "INPUT") {
+        input.value = "";
+        input.classList.remove("correct", "incorrect");
+        var fb = input.parentElement.querySelector(".feedback-icon");
+        if (fb) fb.remove();
+      }
+    });
+    ["A", "B", "C", "D"].forEach(function (key) {
+      var idsMap = { A: idsA, B: idsB, C: idsC, D: idsD };
+      updateSectionScore(key, idsMap[key]);
+    });
+    updateSectionScore("V", QUIZ_IDS);
+    document.querySelectorAll(".hint-text.show").forEach(function (h) { h.classList.remove("show"); });
+    quiz.verbIndex = 0;
+    quiz.stage = 0;
+    quiz.locked = false;
+    renderQuiz();
+    updateGlobalProgress();
+  });
+
+  updateGlobalProgress();
+})();
+</script>

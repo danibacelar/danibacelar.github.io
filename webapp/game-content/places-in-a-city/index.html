@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Places in a City & Prepositions of Place</title>
+<style>
+  :root{
+    --purple:#6c5ce7;
+    --purple-dark:#5849c2;
+    --pink:#fd79a8;
+    --green:#00b894;
+    --red:#e17055;
+    --yellow:#fdcb6e;
+    --blue:#0984e3;
+    --bg:#f5f3ff;
+    --card:#ffffff;
+    --ink:#2d3436;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Trebuchet MS', 'Segoe UI', sans-serif;
+    background:linear-gradient(160deg,#e0d9ff 0%, #f5f3ff 40%, #ffe3ef 100%);
+    color:var(--ink);
+    min-height:100vh;
+    padding:20px;
+  }
+  #app{
+    max-width:760px;
+    margin:0 auto;
+  }
+  header{
+    text-align:center;
+    margin-bottom:18px;
+  }
+  header h1{
+    font-size:1.7rem;
+    margin:0 0 4px 0;
+    color:var(--purple-dark);
+  }
+  header p{
+    margin:0;
+    color:#636e72;
+    font-size:0.95rem;
+  }
+  #progress-wrap{
+    background:#e0d9ff;
+    border-radius:20px;
+    height:14px;
+    margin:16px 0 24px 0;
+    overflow:hidden;
+    box-shadow:inset 0 1px 3px rgba(0,0,0,0.1);
+  }
+  #progress-bar{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,var(--purple),var(--pink));
+    transition:width .4s ease;
+  }
+  .section-pill{
+    display:inline-block;
+    background:var(--purple);
+    color:white;
+    padding:4px 14px;
+    border-radius:20px;
+    font-size:0.8rem;
+    font-weight:bold;
+    margin-bottom:10px;
+    letter-spacing:0.5px;
+  }
+  .card{
+    background:var(--card);
+    border-radius:18px;
+    padding:26px 24px;
+    box-shadow:0 8px 24px rgba(108,92,231,0.12);
+    margin-bottom:16px;
+    animation:fadeIn .35s ease;
+  }
+  @keyframes fadeIn{
+    from{opacity:0; transform:translateY(8px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  h2{
+    color:var(--purple-dark);
+    margin-top:0;
+  }
+  .icon-box{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#f5f3ff;
+    border-radius:16px;
+    padding:20px;
+    margin-bottom:20px;
+    min-height:130px;
+  }
+  .emoji-icon{
+    font-size:5rem;
+    line-height:1;
+  }
+  .options-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  @media(max-width:480px){
+    .options-grid{grid-template-columns:1fr;}
+  }
+  .opt-btn{
+    background:#f5f3ff;
+    border:2px solid #dcd2ff;
+    border-radius:12px;
+    padding:14px 10px;
+    font-size:1rem;
+    font-weight:bold;
+    cursor:pointer;
+    color:var(--purple-dark);
+    text-transform:capitalize;
+    transition:all .15s ease;
+  }
+  .opt-btn:hover{
+    background:#e6dfff;
+    transform:translateY(-2px);
+  }
+  .opt-btn.correct{
+    background:var(--green);
+    border-color:var(--green);
+    color:white;
+  }
+  .opt-btn.wrong{
+    background:var(--red);
+    border-color:var(--red);
+    color:white;
+  }
+  .opt-btn:disabled{
+    cursor:default;
+    transform:none;
+  }
+  .feedback{
+    margin-top:14px;
+    font-weight:bold;
+    min-height:24px;
+  }
+  .feedback.correct-text{color:var(--green);}
+  .feedback.wrong-text{color:var(--red);}
+  .btn-primary{
+    background:linear-gradient(90deg,var(--purple),var(--pink));
+    color:white;
+    border:none;
+    padding:12px 28px;
+    border-radius:30px;
+    font-size:1rem;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:16px;
+    box-shadow:0 4px 12px rgba(108,92,231,0.3);
+  }
+  .btn-primary:disabled{
+    opacity:0.4;
+    cursor:not-allowed;
+  }
+  .btn-secondary{
+    background:white;
+    color:var(--purple-dark);
+    border:2px solid var(--purple);
+    padding:10px 22px;
+    border-radius:30px;
+    font-size:0.9rem;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
+    margin-right:8px;
+  }
+  .prep-diagram{
+    display:flex;
+    justify-content:center;
+    background:#f5f3ff;
+    border-radius:16px;
+    padding:12px;
+    margin-bottom:12px;
+  }
+  .prep-name{
+    text-align:center;
+    font-size:1.3rem;
+    font-weight:bold;
+    color:var(--purple-dark);
+    margin-bottom:4px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+  }
+  .prep-example{
+    text-align:center;
+    font-style:italic;
+    color:#636e72;
+    margin-bottom:6px;
+  }
+  .intro-box{
+    background:#fff3d6;
+    border-left:5px solid var(--yellow);
+    padding:14px 18px;
+    border-radius:10px;
+    margin-bottom:18px;
+    line-height:1.5;
+  }
+  .prep-nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:14px;
+  }
+  .prep-counter{
+    font-weight:bold;
+    color:#636e72;
+  }
+  .fill-sentence{
+    font-size:1.15rem;
+    line-height:2.4;
+    margin-bottom:6px;
+  }
+  select.blank-select{
+    font-size:1rem;
+    font-weight:bold;
+    color:var(--purple-dark);
+    border:2px solid #dcd2ff;
+    border-radius:8px;
+    padding:4px 8px;
+    background:#f5f3ff;
+    margin:0 4px;
+  }
+  select.blank-select.correct{
+    border-color:var(--green);
+    background:#e4fff2;
+  }
+  select.blank-select.wrong{
+    border-color:var(--red);
+    background:#ffe9e4;
+  }
+  .word-bank{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin:16px 0;
+    min-height:50px;
+    padding:12px;
+    background:#f5f3ff;
+    border-radius:12px;
+  }
+  .answer-area{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    min-height:56px;
+    padding:12px;
+    border:2px dashed #cbb9ff;
+    border-radius:12px;
+    margin-bottom:14px;
+  }
+  .tile{
+    background:white;
+    border:2px solid var(--purple);
+    color:var(--purple-dark);
+    padding:8px 14px;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+    user-select:none;
+    transition:transform .12s ease;
+  }
+  .tile:hover{transform:scale(1.05);}
+  .tile.used{
+    opacity:0.3;
+    cursor:not-allowed;
+  }
+  .tile.placed{
+    background:#f5f3ff;
+  }
+  #results-screen{
+    text-align:center;
+  }
+  .score-big{
+    font-size:3rem;
+    font-weight:bold;
+    color:var(--purple-dark);
+    margin:10px 0;
+  }
+  .score-row{
+    display:flex;
+    justify-content:space-between;
+    background:#f5f3ff;
+    padding:10px 16px;
+    border-radius:10px;
+    margin-bottom:8px;
+    font-weight:bold;
+  }
+  .start-screen{
+    text-align:center;
+  }
+  .start-screen ul{
+    text-align:left;
+    display:inline-block;
+    line-height:1.8;
+  }
+  footer{
+    text-align:center;
+    color:#a29bd8;
+    font-size:0.8rem;
+    margin-top:20px;
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1>🏙️ Places in a City</h1>
+    <p>Vocabulary & Prepositions of Place</p>
+  </header>
+  <div id="progress-wrap"><div id="progress-bar"></div></div>
+  <div id="content"></div>
+  <footer>Made for English practice ✨</footer>
+</div>
+
+<script>
+/* ---------------------------------------------------------
+   DATA
+--------------------------------------------------------- */
+
+const svgIcons = {
+  waterfall: `<svg viewBox="0 0 100 100" width="90" height="90">
+    <rect x="8" y="8" width="34" height="42" fill="#8d8d8d"/>
+    <rect x="12" y="16" width="8" height="8" fill="#a1a1a1"/>
+    <rect x="24" y="24" width="8" height="8" fill="#a1a1a1"/>
+    <rect x="42" y="8" width="16" height="70" fill="#4fc3f7"/>
+    <rect x="42" y="78" width="16" height="8" fill="#81d4fa"/>
+    <ellipse cx="50" cy="88" rx="26" ry="9" fill="#b3e5fc"/>
+    <rect x="0" y="50" width="8" height="30" fill="#66bb6a"/>
+    <rect x="60" y="55" width="10" height="25" fill="#66bb6a"/>
+  </svg>`,
+  lake: `<svg viewBox="0 0 100 100" width="90" height="90">
+    <rect x="0" y="55" width="100" height="45" fill="#a5d6a7"/>
+    <ellipse cx="50" cy="62" rx="42" ry="17" fill="#4fc3f7"/>
+    <circle cx="15" cy="52" r="9" fill="#66bb6a"/>
+    <rect x="12" y="52" width="6" height="14" fill="#8d6e63"/>
+    <circle cx="85" cy="48" r="11" fill="#66bb6a"/>
+    <rect x="82" y="48" width="6" height="16" fill="#8d6e63"/>
+  </svg>`,
+  river: `<svg viewBox="0 0 100 100" width="90" height="90">
+    <rect width="100" height="100" fill="#a5d6a7"/>
+    <path d="M0,18 C35,35 5,55 40,68 C72,80 55,95 100,88 L100,100 L0,100 Z" fill="#4fc3f7"/>
+    <circle cx="15" cy="15" r="7" fill="#388e3c"/>
+    <circle cx="85" cy="20" r="8" fill="#388e3c"/>
+  </svg>`,
+  market: `<svg viewBox="0 0 100 100" width="90" height="90">
+    <rect x="8" y="42" width="84" height="46" fill="#d7ccc8"/>
+    <polygon points="2,42 50,14 98,42" fill="#ef5350"/>
+    <polygon points="2,42 22,42 12,50" fill="#ffffff"/>
+    <polygon points="30,42 50,42 40,50" fill="#ffffff"/>
+    <polygon points="58,42 78,42 68,50" fill="#ffffff"/>
+    <rect x="24" y="58" width="14" height="30" fill="#8d6e63"/>
+    <rect x="62" y="58" width="14" height="30" fill="#8d6e63"/>
+    <circle cx="45" cy="55" r="5" fill="#fdd835"/>
+    <circle cx="55" cy="60" r="5" fill="#e53935"/>
+    <circle cx="48" cy="65" r="5" fill="#43a047"/>
+  </svg>`
+};
+
+const vocabList = [
+  {word:"hospital", clue:"This is where you go when you are sick or hurt.", icon:"🏥"},
+  {word:"church", clue:"People go here to pray, usually on Sundays.", icon:"⛪"},
+  {word:"library", clue:"You can borrow books here for free.", icon:"📚"},
+  {word:"hotel", clue:"Travelers sleep here when they are on a trip.", icon:"🏨"},
+  {word:"school", clue:"Children go here every day to learn and study.", icon:"🏫"},
+  {word:"supermarket", clue:"You buy fruit, vegetables, and other food here.", icon:"🛒"},
+  {word:"restaurant", clue:"You go here to eat a meal that someone else cooks for you.", icon:"🍽️"},
+  {word:"movie theater", clue:"You go here to watch a new film on a big screen.", icon:"🎬"},
+  {word:"waterfall", clue:"Water falls from a high place down into a river or lake below.", icon:"svg:waterfall"},
+  {word:"museum", clue:"You can see old paintings and historical objects here.", icon:"🏛️"},
+  {word:"mountain", clue:"A very tall, rocky piece of land that people climb.", icon:"⛰️"},
+  {word:"lake", clue:"A large area of water surrounded by land, bigger than a pond.", icon:"svg:lake"},
+  {word:"volcano", clue:"A mountain that can explode with fire, smoke, and lava.", icon:"🌋"},
+  {word:"river", clue:"A long line of water that flows across the land to the sea.", icon:"svg:river"},
+  {word:"circus", clue:"You can watch clowns, acrobats, and animals perform here.", icon:"🎪"},
+  {word:"beach", clue:"Sand, sun, and waves — a great place to swim in summer.", icon:"🏖️"},
+  {word:"bank", clue:"You keep your money here, or go to take some out.", icon:"🏦"},
+  {word:"tower", clue:"A very tall, narrow building or structure.", icon:"🗼"},
+  {word:"fair", clue:"A place with rides, games, and food, usually open for just a few days.", icon:"🎡"},
+  {word:"market", clue:"An outdoor place with stalls where people sell fruit, vegetables, and other things.", icon:"svg:market"},
+  {word:"bus station", clue:"You wait here to catch a bus.", icon:"🚌"},
+  {word:"parking lot", clue:"You leave your car here while you go shopping or to work.", icon:"🅿️"},
+  {word:"sports center", clue:"You go here to play sports or exercise.", icon:"🏟️"},
+  {word:"map", clue:"This shows you where the streets and places are.", icon:"🗺️"}
+];
+
+function prepSvg(type){
+  const road = `<rect x="0" y="60" width="200" height="6" fill="#b2bec3"/>`;
+  const vroad = `<rect x="97" y="0" width="6" height="140" fill="#b2bec3"/>`;
+  switch(type){
+    case "next to":
+      return `<svg viewBox="0 0 200 140" width="220" height="150">
+        ${road}
+        <text x="55" y="60" font-size="46">🏫</text>
+        <text x="125" y="60" font-size="34">📍</text>
+      </svg>`;
+    case "in front of":
+      return `<svg viewBox="0 0 200 140" width="220" height="150">
+        <text x="78" y="55" font-size="34" opacity="0.65">🏫</text>
+        <text x="65" y="115" font-size="42">📍</text>
+      </svg>`;
+    case "behind":
+      return `<svg viewBox="0 0 200 140" width="220" height="150">
+        <text x="80" y="60" font-size="34" opacity="0.6">📍</text>
+        <text x="60" y="120" font-size="46">🏫</text>
+      </svg>`;
+    case "between":
+      return `<svg viewBox="0 0 200 140" width="220" height="150">
+        ${road}
+        <text x="10" y="60" font-size="40">🏫</text>
+        <text x="95" y="60" font-size="30">📍</text>
+        <text x="150" y="60" font-size="40">🏦</text>
+      </svg>`;
+    case "across":
+      return `<svg viewBox="0 0 200 140" width="220" height="150">
+        ${road}
+        <text x="40" y="45" font-size="42">🏫</text>
+        <text x="130" y="110" font-size="34">📍</text>
+      </svg>`;
+    case "at the corner":
+      return `<svg viewBox="0 0 200 140" width="220" height="150">
+        ${road}${vroad}
+        <text x="108" y="55" font-size="34">📍</text>
+        <text x="20" y="30" font-size="30">🏫</text>
+      </svg>`;
+    case "above":
+      return `<svg viewBox="0 0 200 140" width="220" height="150">
+        <text x="80" y="45" font-size="36">📍</text>
+        <text x="70" y="120" font-size="46">🏫</text>
+      </svg>`;
+    case "below":
+      return `<svg viewBox="0 0 200 140" width="220" height="150">
+        <text x="70" y="55" font-size="46">🏫</text>
+        <text x="80" y="125" font-size="34">📍</text>
+      </svg>`;
+    case "near":
+      return `<svg viewBox="0 0 200 140" width="220" height="150">
+        <circle cx="70" cy="65" r="45" fill="none" stroke="#cbb9ff" stroke-width="3" stroke-dasharray="6,6"/>
+        <text x="45" y="75" font-size="42">🏫</text>
+        <text x="130" y="80" font-size="30">📍</text>
+      </svg>`;
+  }
+}
+
+const prepositions = [
+  {name:"next to", example:"The bank is next to the library.", svg:prepSvg("next to")},
+  {name:"in front of", example:"The bus stops in front of the school.", svg:prepSvg("in front of")},
+  {name:"behind", example:"The parking lot is behind the supermarket.", svg:prepSvg("behind")},
+  {name:"between", example:"The bank is between the library and the school.", svg:prepSvg("between")},
+  {name:"across from", example:"The school is across from the park.", svg:prepSvg("across")},
+  {name:"at the corner", example:"The museum is at the corner of Main Street.", svg:prepSvg("at the corner")},
+  {name:"above", example:"The clock is above the window.", svg:prepSvg("above")},
+  {name:"below", example:"The clock is below the window.", svg:prepSvg("below")},
+  {name:"near", example:"The map is near the library.", svg:prepSvg("near")}
+];
+
+function blankSvg(layout, e1, e2, e3){
+  const road = `<rect x="0" y="60" width="200" height="6" fill="#b2bec3"/>`;
+  switch(layout){
+    case "next_to":
+      return `<svg viewBox="0 0 200 140" width="200" height="140">
+        ${road}
+        <text x="45" y="60" font-size="46">${e1}</text>
+        <text x="125" y="60" font-size="42">${e2}</text>
+      </svg>`;
+    case "in_front_of":
+      return `<svg viewBox="0 0 200 140" width="200" height="140">
+        <text x="78" y="55" font-size="34" opacity="0.6">${e1}</text>
+        <text x="60" y="115" font-size="44">${e2}</text>
+      </svg>`;
+    case "between":
+      return `<svg viewBox="0 0 200 140" width="200" height="140">
+        ${road}
+        <text x="8" y="60" font-size="40">${e1}</text>
+        <text x="92" y="58" font-size="32">${e2}</text>
+        <text x="150" y="60" font-size="40">${e3}</text>
+      </svg>`;
+    case "across":
+      return `<svg viewBox="0 0 200 140" width="200" height="140">
+        ${road}
+        <text x="35" y="45" font-size="42">${e1}</text>
+        <text x="130" y="110" font-size="38">${e2}</text>
+      </svg>`;
+    case "above":
+      return `<svg viewBox="0 0 200 140" width="200" height="140">
+        <text x="78" y="45" font-size="38">${e1}</text>
+        <text x="65" y="120" font-size="46">${e2}</text>
+      </svg>`;
+    case "below":
+      return `<svg viewBox="0 0 200 140" width="200" height="140">
+        <text x="65" y="55" font-size="46">${e1}</text>
+        <text x="78" y="125" font-size="38">${e2}</text>
+      </svg>`;
+    case "near":
+      return `<svg viewBox="0 0 200 140" width="200" height="140">
+        <circle cx="70" cy="65" r="45" fill="none" stroke="#cbb9ff" stroke-width="3" stroke-dasharray="6,6"/>
+        <text x="45" y="78" font-size="40">${e1}</text>
+        <text x="135" y="80" font-size="34">${e2}</text>
+      </svg>`;
+  }
+}
+
+const fillBlanks = [
+  {sentence:"It's ___ from the park, close to the bank.", answer:"across", options:["across","behind","between","near"], scene:blankSvg("across","🌳","🏢")},
+  {sentence:"___ the sports center there's a door.", answer:"Below", options:["Below","Above","Next to","Behind"], scene:blankSvg("below","🏟️","🚪")},
+  {sentence:"The library's ___ it, on the third floor.", answer:"above", options:["above","below","between","near"], scene:blankSvg("above","📚","🏢")},
+  {sentence:"The school is ___ from the park.", answer:"across", options:["across","next to","above","below"], scene:blankSvg("across","🌳","🏫")},
+  {sentence:"The clock is ___ the window.", answer:"above", options:["above","below","between","near"], scene:blankSvg("above","🕐","🪟")},
+  {sentence:"The map is close to the ___.", answer:"library", options:["library","bank","market","school"], scene:blankSvg("near","📚","🗺️")},
+  {sentence:"The clock is ___ the window.", answer:"below", options:["below","above","next to","behind"], scene:blankSvg("below","🪟","🕐")},
+  {sentence:"The bank is ___ the library and the school.", answer:"between", options:["between","near","across","above"], scene:blankSvg("between","📚","🏦","🏫")},
+  {sentence:"The hospital is ___ the church.", answer:"next to", options:["next to","between","above","below"], scene:blankSvg("next_to","🏥","⛪")},
+  {sentence:"The museum is ___ the park.", answer:"in front of", options:["in front of","behind","near","between"], scene:blankSvg("in_front_of","🌳","🏛️")}
+];
+
+const unscrambleList = [
+  {words:["The","library","is","across","from","the","park."], key:"library1"},
+  {words:["The","clock","is","above","the","window."], key:"clock1"},
+  {words:["The","bank","is","next","to","the","school."], key:"bank1"},
+  {words:["The","map","is","near","the","bus","station."], key:"map1"},
+  {words:["The","museum","is","behind","the","church."], key:"museum1"},
+  {words:["The","supermarket","is","between","the","hotel","and","the","restaurant."], key:"super1"}
+];
+
+/* ---------------------------------------------------------
+   STATE
+--------------------------------------------------------- */
+let state = {
+  screen: "start",
+  vocabOrder: [],
+  vocabIndex: 0,
+  vocabScore: 0,
+  prepIndex: 0,
+  fillOrder: [],
+  fillIndex: 0,
+  fillScore: 0,
+  unscrambleOrder: [],
+  unscrambleIndex: 0,
+  unscrambleScore: 0
+};
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+/* ---------------------------------------------------------
+   PROGRESS BAR
+--------------------------------------------------------- */
+function totalSteps(){
+  return vocabList.length + prepositions.length + fillBlanks.length + unscrambleList.length;
+}
+function currentStep(){
+  let s = 0;
+  if(state.screen==="vocab") s = state.vocabIndex;
+  else if(state.screen==="prep") s = vocabList.length + state.prepIndex;
+  else if(state.screen==="fill") s = vocabList.length + prepositions.length + state.fillIndex;
+  else if(state.screen==="unscramble") s = vocabList.length + prepositions.length + fillBlanks.length + state.unscrambleIndex;
+  else if(state.screen==="results") s = totalSteps();
+  return s;
+}
+function updateProgress(){
+  const pct = Math.round((currentStep()/totalSteps())*100);
+  document.getElementById("progress-bar").style.width = pct + "%";
+}
+
+/* ---------------------------------------------------------
+   RENDER: START
+--------------------------------------------------------- */
+function renderStart(){
+  const c = document.getElementById("content");
+  c.innerHTML = `
+    <div class="card start-screen">
+      <h2>👋 Ready to practice?</h2>
+      <p>This quiz has 4 parts:</p>
+      <ul>
+        <li>🖼️ Identify places in the city (pictures)</li>
+        <li>📖 Learn prepositions of place</li>
+        <li>✍️ Complete the sentences</li>
+        <li>🔀 Unscramble the sentences</li>
+      </ul>
+      <br>
+      <button class="btn-primary" onclick="startVocab()">Start Quiz 🚀</button>
+    </div>
+  `;
+  updateProgress();
+}
+
+/* ---------------------------------------------------------
+   SECTION 1: VOCAB
+--------------------------------------------------------- */
+function startVocab(){
+  state.screen = "vocab";
+  state.vocabOrder = shuffle(vocabList);
+  state.vocabIndex = 0;
+  state.vocabScore = 0;
+  renderVocabQuestion();
+}
+
+function renderVocabQuestion(){
+  const c = document.getElementById("content");
+  const item = state.vocabOrder[state.vocabIndex];
+  const otherWords = shuffle(vocabList.filter(v=>v.word!==item.word)).slice(0,3).map(v=>v.word);
+  const options = shuffle([item.word, ...otherWords]);
+
+  const iconHtml = item.icon.startsWith("svg:")
+    ? svgIcons[item.icon.replace("svg:","")]
+    : `<span class="emoji-icon">${item.icon}</span>`;
+
+  c.innerHTML = `
+    <div class="card">
+      <span class="section-pill">PART 1 · VOCABULARY (${state.vocabIndex+1}/${vocabList.length})</span>
+      <h2>What is this place?</h2>
+      <div class="icon-box">${iconHtml}</div>
+      <div class="options-grid" id="vocab-options">
+        ${options.map(w=>`<button class="opt-btn" onclick="checkVocab(this,'${w.replace(/'/g,"\\'")}','${item.word.replace(/'/g,"\\'")}')">${w}</button>`).join("")}
+      </div>
+      <div class="feedback" id="vocab-feedback"></div>
+      <button class="btn-primary" id="vocab-next" style="display:none" onclick="nextVocab()">Continue →</button>
+    </div>
+  `;
+  updateProgress();
+}
+
+function checkVocab(btn, chosen, correct){
+  const buttons = document.querySelectorAll("#vocab-options .opt-btn");
+  buttons.forEach(b=>b.disabled = true);
+  const fb = document.getElementById("vocab-feedback");
+  if(chosen === correct){
+    btn.classList.add("correct");
+    fb.textContent = "✅ Correct! Great job!";
+    fb.className = "feedback correct-text";
+    state.vocabScore++;
+  } else {
+    btn.classList.add("wrong");
+    buttons.forEach(b=>{ if(b.textContent===correct) b.classList.add("correct"); });
+    fb.textContent = `❌ Not quite. It's "${correct}".`;
+    fb.className = "feedback wrong-text";
+  }
+  document.getElementById("vocab-next").style.display = "inline-block";
+}
+
+function nextVocab(){
+  state.vocabIndex++;
+  if(state.vocabIndex >= vocabList.length){
+    startPrep();
+  } else {
+    renderVocabQuestion();
+  }
+}
+
+/* ---------------------------------------------------------
+   SECTION 2: PREPOSITIONS EXPLANATION
+--------------------------------------------------------- */
+function startPrep(){
+  state.screen = "prep";
+  state.prepIndex = 0;
+  renderPrepIntro();
+}
+
+function renderPrepIntro(){
+  const c = document.getElementById("content");
+  c.innerHTML = `
+    <div class="card">
+      <span class="section-pill">PART 2 · GRAMMAR</span>
+      <h2>Prepositions of Place</h2>
+      <div class="intro-box">
+        We use <strong>prepositions of place</strong> to say <strong>where</strong> something or someone is,
+        or how two places are positioned in relation to each other.<br><br>
+        Example: <em>"The bank is <strong>next to</strong> the library."</em> tells us the exact position of the bank.
+      </div>
+      <p>Tap "Next" to go through each preposition with an example. 👇</p>
+      <button class="btn-primary" onclick="renderPrepCard()">Start →</button>
+    </div>
+  `;
+  updateProgress();
+}
+
+function renderPrepCard(){
+  state.screen = "prep";
+  const c = document.getElementById("content");
+  const p = prepositions[state.prepIndex];
+  c.innerHTML = `
+    <div class="card">
+      <span class="section-pill">PART 2 · GRAMMAR (${state.prepIndex+1}/${prepositions.length})</span>
+      <div class="prep-name">${p.name}</div>
+      <div class="prep-diagram">${p.svg}</div>
+      <div class="prep-example">"${p.example}"</div>
+      <div class="prep-nav">
+        <button class="btn-secondary" ${state.prepIndex===0?"disabled":""} onclick="prevPrep()">← Back</button>
+        <span class="prep-counter">${state.prepIndex+1} / ${prepositions.length}</span>
+        <button class="btn-primary" onclick="nextPrep()">${state.prepIndex===prepositions.length-1 ? "Continue to Part 3 →" : "Next →"}</button>
+      </div>
+    </div>
+  `;
+  updateProgress();
+}
+
+function prevPrep(){
+  state.prepIndex--;
+  renderPrepCard();
+}
+function nextPrep(){
+  state.prepIndex++;
+  if(state.prepIndex >= prepositions.length){
+    startFill();
+  } else {
+    renderPrepCard();
+  }
+}
+
+/* ---------------------------------------------------------
+   SECTION 3: FILL IN THE BLANKS
+--------------------------------------------------------- */
+function startFill(){
+  state.screen = "fill";
+  state.fillOrder = shuffle(fillBlanks);
+  state.fillIndex = 0;
+  state.fillScore = 0;
+  renderFillQuestion();
+}
+
+function renderFillQuestion(){
+  const c = document.getElementById("content");
+  const item = state.fillOrder[state.fillIndex];
+  const options = shuffle(item.options);
+  const sentenceHtml = item.sentence.replace(
+    "___",
+    `<select class="blank-select" id="fill-select">
+      <option value="">-- choose --</option>
+      ${options.map(o=>`<option value="${o}">${o}</option>`).join("")}
+    </select>`
+  );
+  c.innerHTML = `
+    <div class="card">
+      <span class="section-pill">PART 3 · COMPLETE THE SENTENCE (${state.fillIndex+1}/${fillBlanks.length})</span>
+      <h2>Look at the picture and complete the sentence</h2>
+      <div class="icon-box">${item.scene}</div>
+      <div class="fill-sentence">${sentenceHtml}</div>
+      <div class="feedback" id="fill-feedback"></div>
+      <button class="btn-primary" id="fill-check" onclick="checkFill('${item.answer.replace(/'/g,"\\'")}')">Check</button>
+      <button class="btn-primary" id="fill-next" style="display:none" onclick="nextFill()">Continue →</button>
+    </div>
+  `;
+  updateProgress();
+}
+
+function checkFill(correct){
+  const sel = document.getElementById("fill-select");
+  const fb = document.getElementById("fill-feedback");
+  if(!sel.value){
+    fb.textContent = "Please choose an answer first.";
+    fb.className = "feedback wrong-text";
+    return;
+  }
+  document.getElementById("fill-check").style.display = "none";
+  document.getElementById("fill-next").style.display = "inline-block";
+  sel.disabled = true;
+  if(sel.value.toLowerCase() === correct.toLowerCase()){
+    sel.classList.add("correct");
+    fb.textContent = "✅ Correct!";
+    fb.className = "feedback correct-text";
+    state.fillScore++;
+  } else {
+    sel.classList.add("wrong");
+    fb.textContent = `❌ Not quite. The answer is "${correct}".`;
+    fb.className = "feedback wrong-text";
+  }
+}
+
+function nextFill(){
+  state.fillIndex++;
+  if(state.fillIndex >= fillBlanks.length){
+    startUnscramble();
+  } else {
+    renderFillQuestion();
+  }
+}
+
+/* ---------------------------------------------------------
+   SECTION 4: UNSCRAMBLE
+--------------------------------------------------------- */
+function startUnscramble(){
+  state.screen = "unscramble";
+  state.unscrambleOrder = shuffle(unscrambleList);
+  state.unscrambleIndex = 0;
+  state.unscrambleScore = 0;
+  renderUnscrambleQuestion();
+}
+
+let currentTiles = [];
+let placedIndexes = [];
+
+function renderUnscrambleQuestion(){
+  const c = document.getElementById("content");
+  const item = state.unscrambleOrder[state.unscrambleIndex];
+  currentTiles = shuffle(item.words.map((w,i)=>({word:w, id:i})));
+  placedIndexes = [];
+
+  c.innerHTML = `
+    <div class="card">
+      <span class="section-pill">PART 4 · UNSCRAMBLE (${state.unscrambleIndex+1}/${unscrambleList.length})</span>
+      <h2>Put the words in order</h2>
+      <div class="answer-area" id="answer-area"></div>
+      <div class="word-bank" id="word-bank"></div>
+      <button class="btn-secondary" onclick="resetUnscramble()">↺ Reset</button>
+      <button class="btn-primary" id="unscramble-check" onclick="checkUnscramble()">Check</button>
+      <button class="btn-primary" id="unscramble-next" style="display:none" onclick="nextUnscramble()">Continue →</button>
+      <div class="feedback" id="unscramble-feedback"></div>
+    </div>
+  `;
+  renderTiles();
+  updateProgress();
+}
+
+function renderTiles(){
+  const bank = document.getElementById("word-bank");
+  const area = document.getElementById("answer-area");
+  bank.innerHTML = currentTiles.map(t =>
+    `<span class="tile ${placedIndexes.includes(t.id)?'used':''}" onclick="placeTile(${t.id})">${t.word}</span>`
+  ).join("");
+  area.innerHTML = placedIndexes.map(id => {
+    const t = currentTiles.find(x=>x.id===id);
+    return `<span class="tile placed" onclick="removeTile(${id})">${t.word}</span>`;
+  }).join("");
+}
+
+function placeTile(id){
+  if(placedIndexes.includes(id)) return;
+  placedIndexes.push(id);
+  renderTiles();
+}
+function removeTile(id){
+  placedIndexes = placedIndexes.filter(x=>x!==id);
+  renderTiles();
+}
+function resetUnscramble(){
+  placedIndexes = [];
+  renderTiles();
+  document.getElementById("unscramble-feedback").textContent = "";
+}
+
+function checkUnscramble(){
+  const item = state.unscrambleOrder[state.unscrambleIndex];
+  const built = placedIndexes.map(id => currentTiles.find(t=>t.id===id).word).join(" ");
+  const correct = item.words.join(" ");
+  const fb = document.getElementById("unscramble-feedback");
+  document.getElementById("unscramble-check").style.display = "none";
+  document.getElementById("unscramble-next").style.display = "inline-block";
+
+  if(built === correct){
+    fb.textContent = "✅ Perfect sentence!";
+    fb.className = "feedback correct-text";
+    state.unscrambleScore++;
+  } else {
+    fb.textContent = `❌ Not quite. Correct order: "${correct}"`;
+    fb.className = "feedback wrong-text";
+  }
+}
+
+function nextUnscramble(){
+  state.unscrambleIndex++;
+  if(state.unscrambleIndex >= unscrambleList.length){
+    renderResults();
+  } else {
+    renderUnscrambleQuestion();
+  }
+}
+
+/* ---------------------------------------------------------
+   RESULTS
+--------------------------------------------------------- */
+function renderResults(){
+  state.screen = "results";
+  const c = document.getElementById("content");
+  const total = vocabList.length + fillBlanks.length + unscrambleList.length;
+  const scored = state.vocabScore + state.fillScore + state.unscrambleScore;
+  const pct = Math.round((scored/total)*100);
+
+  let message = "Keep practicing! 💪";
+  if(pct >= 90) message = "Amazing work! 🌟";
+  else if(pct >= 70) message = "Great job! 🎉";
+  else if(pct >= 50) message = "Good effort! Keep going! 👍";
+
+  c.innerHTML = `
+    <div class="card" id="results-screen">
+      <h2>🏁 Quiz Complete!</h2>
+      <div class="score-big">${pct}%</div>
+      <p>${message}</p>
+      <div class="score-row"><span>🖼️ Vocabulary</span><span>${state.vocabScore} / ${vocabList.length}</span></div>
+      <div class="score-row"><span>✍️ Complete the sentence</span><span>${state.fillScore} / ${fillBlanks.length}</span></div>
+      <div class="score-row"><span>🔀 Unscramble</span><span>${state.unscrambleScore} / ${unscrambleList.length}</span></div>
+      <br>
+      <button class="btn-primary" onclick="restartQuiz()">Try Again ↺</button>
+    </div>
+  `;
+  updateProgress();
+}
+
+function restartQuiz(){
+  state = {
+    screen: "start",
+    vocabOrder: [], vocabIndex: 0, vocabScore: 0,
+    prepIndex: 0,
+    fillOrder: [], fillIndex: 0, fillScore: 0,
+    unscrambleOrder: [], unscrambleIndex: 0, unscrambleScore: 0
+  };
+  renderStart();
+}
+
+/* ---------------------------------------------------------
+   INIT
+--------------------------------------------------------- */
+renderStart();
+</script>
+</body>
+</html>

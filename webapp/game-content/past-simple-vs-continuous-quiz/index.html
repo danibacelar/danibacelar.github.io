@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Past Simple vs Past Continuous — Quiz de Revisão</title>
+<style>
+  :root{
+    --simple: #2563eb;
+    --simple-bg: #dbeafe;
+    --cont: #d97706;
+    --cont-bg: #fef3c7;
+    --correct: #16a34a;
+    --correct-bg: #dcfce7;
+    --wrong: #dc2626;
+    --wrong-bg: #fee2e2;
+    --ink: #1e293b;
+    --muted: #64748b;
+    --card: #ffffff;
+    --bg: #f1f5f9;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    background: linear-gradient(160deg,#eef2ff,#f8fafc 40%);
+    color: var(--ink);
+    padding-bottom: 60px;
+  }
+  header{
+    text-align:center;
+    padding: 28px 16px 18px;
+  }
+  header h1{
+    margin:0 0 6px;
+    font-size: 1.6rem;
+    color:#312e81;
+  }
+  header p{
+    margin:0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  nav.tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    padding: 0 12px 18px;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+  nav.tabs button{
+    border:none;
+    background: #e2e8f0;
+    color:#334155;
+    padding:9px 14px;
+    border-radius:999px;
+    font-size:0.85rem;
+    font-weight:600;
+    cursor:pointer;
+    transition: all .2s;
+  }
+  nav.tabs button.active{
+    background: #4f46e5;
+    color:#fff;
+    box-shadow: 0 3px 10px rgba(79,70,229,.35);
+  }
+  main{
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+  .section{
+    display:none;
+    animation: fadeIn .35s ease;
+  }
+  .section.active{ display:block; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+  .card{
+    background: var(--card);
+    border-radius:16px;
+    padding: 20px 22px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 14px rgba(15,23,42,0.06);
+  }
+  .card h2{
+    margin-top:0;
+    font-size:1.15rem;
+    color:#312e81;
+  }
+  .rule-box{
+    border-radius:12px;
+    padding:14px 16px;
+    margin: 12px 0;
+    font-size:0.95rem;
+    line-height:1.55;
+  }
+  .rule-box.simple{ background: var(--simple-bg); border-left:5px solid var(--simple); }
+  .rule-box.cont{ background: var(--cont-bg); border-left:5px solid var(--cont); }
+  .rule-box strong.tag-simple{ color: var(--simple); }
+  .rule-box strong.tag-cont{ color: var(--cont); }
+  .example{
+    font-style: italic;
+    color:#334155;
+    margin: 4px 0;
+  }
+  .example .simple-word{ color: var(--simple); font-weight:700; font-style:normal; }
+  .example .cont-word{ color: var(--cont); font-weight:700; font-style:normal; }
+
+  .golden-rule{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-top:14px;
+  }
+  .golden-rule .col{
+    flex:1 1 220px;
+    border-radius:12px;
+    padding:14px;
+    text-align:center;
+  }
+  .golden-rule .col.when{ background: var(--simple-bg); border:2px solid var(--simple); }
+  .golden-rule .col.while{ background: var(--cont-bg); border:2px solid var(--cont); }
+  .golden-rule .col h3{ margin:2px 0 6px; }
+  .golden-rule .col.when h3{ color: var(--simple); }
+  .golden-rule .col.while h3{ color: var(--cont); }
+
+  .was-were-table{
+    width:100%;
+    border-collapse: collapse;
+    margin-top:10px;
+    font-size:0.95rem;
+  }
+  .was-were-table th, .was-were-table td{
+    border:1px solid #e2e8f0;
+    padding:8px 10px;
+    text-align:center;
+  }
+  .was-were-table th{ background:#eef2ff; }
+  .was-were-table td.was-cell{ color: var(--simple); font-weight:700; }
+  .was-were-table td.were-cell{ color: var(--cont); font-weight:700; }
+
+  .progress-wrap{
+    background:#e2e8f0;
+    border-radius: 999px;
+    height:10px;
+    overflow:hidden;
+    margin: 10px 0 4px;
+  }
+  .progress-bar{
+    height:100%;
+    width:0%;
+    background: linear-gradient(90deg,#4f46e5,#818cf8);
+    transition: width .3s;
+  }
+  .progress-label{ font-size:0.8rem; color:var(--muted); text-align:right; }
+
+  .exercise-item{
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    border-radius:12px;
+    padding:14px 16px;
+    margin-bottom:12px;
+  }
+  .exercise-item .sentence{
+    font-size:1rem;
+    line-height:1.7;
+  }
+  .exercise-item input[type="text"]{
+    border:2px solid #cbd5e1;
+    border-radius:8px;
+    padding:5px 8px;
+    font-size:0.95rem;
+    width:150px;
+    margin: 0 2px;
+  }
+  .exercise-item input[type="text"]:focus{ outline:none; border-color:#4f46e5; }
+  .hint{
+    color:var(--muted);
+    font-size:0.8rem;
+    font-style:italic;
+  }
+  .feedback{
+    margin-top:8px;
+    font-size:0.9rem;
+    font-weight:600;
+    border-radius:8px;
+    padding:6px 10px;
+    display:none;
+  }
+  .feedback.show{ display:block; }
+  .feedback.correct{ background: var(--correct-bg); color: var(--correct); }
+  .feedback.wrong{ background: var(--wrong-bg); color: var(--wrong); }
+
+  .choice-row{
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+    flex-wrap:wrap;
+  }
+  .choice-btn{
+    border:2px solid #cbd5e1;
+    background:#fff;
+    padding:7px 16px;
+    border-radius:8px;
+    font-size:0.9rem;
+    font-weight:600;
+    cursor:pointer;
+    color:#334155;
+    transition: all .15s;
+  }
+  .choice-btn:hover{ border-color:#4f46e5; }
+  .choice-btn.selected-correct{ background: var(--correct-bg); border-color: var(--correct); color: var(--correct); }
+  .choice-btn.selected-wrong{ background: var(--wrong-bg); border-color: var(--wrong); color: var(--wrong); }
+  .choice-btn.reveal-correct{ border-color: var(--correct); color: var(--correct); }
+  .choice-btn[disabled]{ cursor:default; }
+
+  .btn-primary{
+    background:#4f46e5;
+    color:#fff;
+    border:none;
+    padding:10px 20px;
+    border-radius:10px;
+    font-size:0.95rem;
+    font-weight:700;
+    cursor:pointer;
+    margin-top: 6px;
+  }
+  .btn-primary:hover{ background:#4338ca; }
+  .btn-secondary{
+    background:#e2e8f0;
+    color:#334155;
+    border:none;
+    padding:10px 20px;
+    border-radius:10px;
+    font-size:0.95rem;
+    font-weight:700;
+    cursor:pointer;
+    margin-top:6px;
+    margin-left:8px;
+  }
+  .check-all-wrap{ text-align:center; margin-top:6px; }
+
+  .score-summary{
+    text-align:center;
+    padding: 10px 0 4px;
+  }
+  .score-summary .big-score{
+    font-size:2.4rem;
+    font-weight:800;
+    color:#4f46e5;
+  }
+  .score-summary .msg{
+    font-size:1rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .section-score{
+    font-size:0.85rem;
+    color:var(--muted);
+    margin: 4px 0 0;
+  }
+  footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:0.8rem;
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>⏳ Past Simple vs Past Continuous</h1>
+  <p>Revisão para a prova — WHEN, WHILE, WAS e WERE</p>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-target="teoria" class="active">1. Teoria</button>
+  <button data-target="wasWere">2. Was / Were</button>
+  <button data-target="ex1">3. Complete o verbo</button>
+  <button data-target="ex2">4. When ou While</button>
+  <button data-target="ex3">5. Revisão rápida</button>
+  <button data-target="resultado">6. Resultado</button>
+</nav>
+
+<main>
+
+  <!-- ================= SECTION 1: TEORIA ================= -->
+  <section class="section active" id="teoria">
+    <div class="card">
+      <h2>Past Simple</h2>
+      <div class="rule-box simple">
+        Usamos o <strong class="tag-simple">Past Simple</strong> para uma ação que <strong>aconteceu e terminou</strong> no passado — geralmente uma ação curta, ou que <strong>interrompe</strong> outra ação em andamento.
+      </div>
+      <p class="example">My parents <span class="simple-word">called</span> me yesterday.</p>
+      <p class="example">I <span class="simple-word">woke up</span> early this morning.</p>
+      <p class="hint">Verbos regulares: + -ed (called, played, arrived). Verbos irregulares mudam de forma (break → broke, wake → woke).</p>
+    </div>
+
+    <div class="card">
+      <h2>Past Continuous</h2>
+      <div class="rule-box cont">
+        Usamos o <strong class="tag-cont">Past Continuous</strong> (was/were + verbo -ing) para uma ação que <strong>já estava em andamento</strong> em um momento do passado — a "ação de fundo".
+      </div>
+      <p class="example">I <span class="cont-word">was studying</span> when you called me.</p>
+      <p class="example">We <span class="cont-word">were living</span> in my hometown three years ago.</p>
+    </div>
+
+    <div class="card">
+      <h2>As duas juntas: a regra de ouro</h2>
+      <p>Quando as duas ações aparecem na mesma frase, a ação mais longa (em andamento) fica no <strong class="tag-cont">Past Continuous</strong>, e a ação curta que a interrompe fica no <strong class="tag-simple">Past Simple</strong>.</p>
+      <div class="golden-rule">
+        <div class="col when">
+          <h3>WHEN</h3>
+          <p>+ Past Simple</p>
+          <p class="example">When my dad <span class="simple-word">arrived</span> home, we <span class="cont-word">were having</span> dinner.</p>
+        </div>
+        <div class="col while">
+          <h3>WHILE</h3>
+          <p>+ Past Continuous</p>
+          <p class="example">My mom <span class="cont-word">was cooking</span> <strong>while</strong> I <span class="cont-word">was watching</span> TV.</p>
+        </div>
+      </div>
+      <p class="hint" style="margin-top:12px;">Dica rápida: WHILE liga duas ações que estavam acontecendo ao mesmo tempo (as duas no continuous). WHEN geralmente introduz a ação curta que interrompe a outra (past simple).</p>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 2: WAS / WERE ================= -->
+  <section class="section" id="wasWere">
+    <div class="card">
+      <h2>Quando usar WAS e quando usar WERE?</h2>
+      <p>O verbo <em>to be</em> no passado muda de acordo com o sujeito. Essa é a base do Past Continuous (was/were + -ing):</p>
+      <table class="was-were-table">
+        <tr><th>Sujeito</th><th>Forma</th></tr>
+        <tr><td>I</td><td class="was-cell">was</td></tr>
+        <tr><td>He / She / It</td><td class="was-cell">was</td></tr>
+        <tr><td>You</td><td class="were-cell">were</td></tr>
+        <tr><td>We</td><td class="were-cell">were</td></tr>
+        <tr><td>They</td><td class="were-cell">were</td></tr>
+      </table>
+      <p class="hint" style="margin-top:10px;">Truque: se der pra trocar o sujeito por "he/she/it" (singular), use <strong class="tag-simple">was</strong>. Se der pra trocar por "we/you/they" (plural), use <strong class="tag-cont">were</strong>.</p>
+    </div>
+
+    <div class="card">
+      <h2>Prática 1 — Escolha WAS ou WERE</h2>
+      <div id="wwChoiceContainer"></div>
+      <div class="check-all-wrap">
+        <button class="btn-primary" onclick="checkSection('wwChoice')">Corrigir</button>
+      </div>
+      <p class="section-score" id="wwChoiceScore"></p>
+    </div>
+
+    <div class="card">
+      <h2>Prática 2 — Complete com WAS ou WERE</h2>
+      <div id="wwFillContainer"></div>
+      <div class="check-all-wrap">
+        <button class="btn-primary" onclick="checkSection('wwFill')">Corrigir</button>
+      </div>
+      <p class="section-score" id="wwFillScore"></p>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 3: EXERCISE 1 (fill verb) ================= -->
+  <section class="section" id="ex1">
+    <div class="card">
+      <h2>Complete o verbo na forma correta</h2>
+      <p class="hint">Use Past Simple ou Past Continuous. O verbo no infinitivo está entre parênteses.</p>
+      <div id="ex1Container"></div>
+      <div class="check-all-wrap">
+        <button class="btn-primary" onclick="checkSection('ex1')">Corrigir tudo</button>
+      </div>
+      <p class="section-score" id="ex1Score"></p>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 4: EXERCISE 2 (when/while) ================= -->
+  <section class="section" id="ex2">
+    <div class="card">
+      <h2>WHEN ou WHILE?</h2>
+      <p class="hint">Escolha o conectivo correto para cada frase.</p>
+      <div id="ex2Container"></div>
+      <div class="check-all-wrap">
+        <button class="btn-primary" onclick="checkSection('ex2')">Corrigir tudo</button>
+      </div>
+      <p class="section-score" id="ex2Score"></p>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 5: EXERCISE 3 (multiple choice review) ================= -->
+  <section class="section" id="ex3">
+    <div class="card">
+      <h2>Revisão rápida — escolha a forma certa</h2>
+      <p class="hint">Últimos 10 segundos de prova! Marque a opção correta.</p>
+      <div id="ex3Container"></div>
+      <div class="check-all-wrap">
+        <button class="btn-primary" onclick="checkSection('ex3')">Corrigir tudo</button>
+      </div>
+      <p class="section-score" id="ex3Score"></p>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 6: RESULTADO ================= -->
+  <section class="section" id="resultado">
+    <div class="card score-summary">
+      <h2>Seu resultado geral</h2>
+      <div class="progress-wrap"><div class="progress-bar" id="totalBar"></div></div>
+      <div class="big-score" id="totalScoreText">0 / 0</div>
+      <div class="msg" id="totalMsg">Complete os exercícios para ver sua pontuação!</div>
+      <button class="btn-secondary" onclick="resetAll()">Recomeçar tudo</button>
+    </div>
+  </section>
+
+</main>
+
+<footer>Feito para revisão de Past Simple x Past Continuous 📚</footer>
+
+<script>
+/* ---------------- NAVIGATION ---------------- */
+const tabButtons = document.querySelectorAll('nav.tabs button');
+tabButtons.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    tabButtons.forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.target).classList.add('active');
+    if(btn.dataset.target === 'resultado'){ updateTotalScore(); }
+  });
+});
+
+/* ---------------- DATA ---------------- */
+
+// Was/Were choice practice (subject -> was/were)
+const wwChoiceData = [
+  {subject:"I", answer:"was"},
+  {subject:"She", answer:"was"},
+  {subject:"We", answer:"were"},
+  {subject:"They", answer:"were"},
+  {subject:"He", answer:"was"},
+  {subject:"You", answer:"were"},
+  {subject:"It", answer:"was"},
+  {subject:"My mom", answer:"was"},
+  {subject:"The students", answer:"were"},
+  {subject:"My friends", answer:"were"}
+];
+
+// Was/Were fill in context sentences
+const wwFillData = [
+  {before:"She ", after:" riding her bike when she broke her leg.", answer:"was"},
+  {before:"My mom ", after:" cooking dinner while I was watching TV.", answer:"was"},
+  {before:"They ", after:" playing soccer while I was doing exercise.", answer:"were"},
+  {before:"It ", after:" raining when I got up this morning.", answer:"was"},
+  {before:"We ", after:" having dinner when my dad arrived home.", answer:"were"},
+  {before:"My sister ", after:" cleaning her shoes while I was doing my homework.", answer:"was"},
+  {before:"The students ", after:" running in the yard when the bell rang.", answer:"were"},
+  {before:"I ", after:" sleeping on the sofa when I had a bad dream.", answer:"was"},
+  {before:"They ", after:" calling to a dog while they were playing.", answer:"were"},
+  {before:"You ", after:" talking with your brother while your friend was shouting.", answer:"were"}
+];
+
+// Exercise 1: fill in the correct verb form (based on the 20 original sentences)
+const ex1Data = [
+  {parts:["She ", "(ride)", " her bike when she ", "(break)", " her leg."], answers:["was riding","broke"]},
+  {parts:["My mom ", "(cook)", " the dinner while I ", "(watch)", " TV."], answers:["was cooking","was watching"]},
+  {parts:["They ", "(play)", " soccer while I ", "(do)", " exercise."], answers:["were playing","was doing"]},
+  {parts:["It ", "(rain)", ", when I ", "(get)", " up this morning."], answers:["was raining","got"]},
+  {parts:["When my dad ", "(arrive)", " home, we ", "(have)", " dinner."], answers:["arrived","were having"]},
+  {parts:["I ", "(do)", " my homework while my sister ", "(clean)", " her shoes."], answers:["was doing","was cleaning"]},
+  {parts:["The students ", "(run)", " in the yard, when the bell ", "(ring)", "."], answers:["were running","rang"]},
+  {parts:["I ", "(have)", " a bad dream, while I ", "(sleep)", " on the sofa."], answers:["had","was sleeping"]},
+  {parts:["She ", "(swim)", ", when the shark ", "(attack)", " her."], answers:["was swimming","attacked"]},
+  {parts:["They ", "(call)", " to a dog while they ", "(play)", "."], answers:["were calling","were playing"]},
+  {parts:["I ", "(see)", " lots of fish, while I ", "(swim)", "."], answers:["saw","was swimming"]},
+  {parts:["She ", "(walk)", " to the mall, when she ", "(meet)", " her friend."], answers:["was walking","met"]},
+  {parts:["My sister ", "(sing)", ", while my brother ", "(play)", " videogames."], answers:["was singing","was playing"]},
+  {parts:["My mom ", "(clean)", " while my dad ", "(sleep)", "."], answers:["was cleaning","was sleeping"]},
+  {parts:["It ", "(rain)", " when the dog ", "(open)", " the door."], answers:["was raining","opened"]},
+  {parts:["I ", "(see)", " Andrea while she ", "(take)", " piano class."], answers:["saw","was taking"]},
+  {parts:["When my friend ", "(arrive)", ", I ", "(bake)", " a cake."], answers:["arrived","was baking"]},
+  {parts:["You ", "(talk)", " with your brother while your friend ", "(shout)", "."], answers:["were talking","was shouting"]},
+  {parts:["When the dog ", "(escape)", ", my mom ", "(sleep)", "."], answers:["escaped","was sleeping"]},
+  {parts:["Mary ", "(read)", " a book when she ", "(decide)", " going to the party."], answers:["was reading","decided"]}
+];
+
+// Exercise 2: when or while
+const ex2Data = [
+  {before:"She was riding her bike ", after:" she broke her leg.", answer:"when"},
+  {before:"My mom was cooking dinner ", after:" I was watching TV.", answer:"while"},
+  {before:"It was raining ", after:" I got up this morning.", answer:"when"},
+  {before:"I was doing homework ", after:" my sister was cleaning her shoes.", answer:"while"},
+  {before:"The students were running in the yard ", after:" the bell rang.", answer:"when"},
+  {before:"She was swimming ", after:" the shark attacked her.", answer:"when"},
+  {before:"They were calling to a dog ", after:" they were playing.", answer:"while"},
+  {before:"She was walking to the mall ", after:" she met her friend.", answer:"when"},
+  {before:"My sister was singing ", after:" my brother was playing videogames.", answer:"while"},
+  {before:"I saw Andrea ", after:" she was taking piano class.", answer:"while"}
+];
+
+// Exercise 3: quick multiple choice review
+const ex3Data = [
+  {sentence:"When my friend arrived, I ___ a cake.", options:["baked","was baking"], answer:"was baking"},
+  {sentence:"You ___ with your brother while your friend was shouting.", options:["were talking","talked"], answer:"were talking"},
+  {sentence:"When the dog escaped, my mom ___.", options:["was sleeping","slept"], answer:"was sleeping"},
+  {sentence:"Mary was reading a book when she ___ going to the party.", options:["decided","was deciding"], answer:"decided"},
+  {sentence:"I ___ lots of fish while I was swimming.", options:["saw","was seeing"], answer:"saw"},
+  {sentence:"She ___ to the mall when she met her friend.", options:["was walking","walked"], answer:"was walking"},
+  {sentence:"My mom ___ while my dad was sleeping.", options:["was cleaning","cleaned"], answer:"was cleaning"},
+  {sentence:"It was raining when the dog ___ the door.", options:["opened","was opening"], answer:"opened"},
+  {sentence:"I had a bad dream while I ___ on the sofa.", options:["slept","was sleeping"], answer:"was sleeping"},
+  {sentence:"The students were running in the yard when the bell ___.", options:["rang","was ringing"], answer:"rang"}
+];
+
+/* ---------------- STATE ---------------- */
+const sectionState = {
+  wwChoice: {total: wwChoiceData.length, correct: 0, checked:false},
+  wwFill: {total: wwFillData.length, correct: 0, checked:false},
+  ex1: {total: ex1Data.length, correct: 0, checked:false},
+  ex2: {total: ex2Data.length, correct: 0, checked:false},
+  ex3: {total: ex3Data.length, correct: 0, checked:false}
+};
+
+/* ---------------- RENDER: WAS/WERE CHOICE ---------------- */
+const wwChoiceContainer = document.getElementById('wwChoiceContainer');
+wwChoiceData.forEach((item, i)=>{
+  const div = document.createElement('div');
+  div.className = 'exercise-item';
+  div.innerHTML = `
+    <div class="sentence"><strong>${item.subject}</strong> ___ ...</div>
+    <div class="choice-row" id="wwChoice-row-${i}">
+      <button class="choice-btn" data-value="was" onclick="selectChoice('wwChoice', ${i}, 'was', this)">was</button>
+      <button class="choice-btn" data-value="were" onclick="selectChoice('wwChoice', ${i}, 'were', this)">were</button>
+    </div>
+    <div class="feedback" id="wwChoice-fb-${i}"></div>
+  `;
+  wwChoiceContainer.appendChild(div);
+});
+
+/* ---------------- RENDER: WAS/WERE FILL ---------------- */
+const wwFillContainer = document.getElementById('wwFillContainer');
+wwFillData.forEach((item, i)=>{
+  const div = document.createElement('div');
+  div.className = 'exercise-item';
+  div.innerHTML = `
+    <div class="sentence">${item.before}<input type="text" id="wwFill-input-${i}" placeholder="was/were"> ${item.after}</div>
+    <div class="feedback" id="wwFill-fb-${i}"></div>
+  `;
+  wwFillContainer.appendChild(div);
+});
+
+/* ---------------- RENDER: EX1 ---------------- */
+const ex1Container = document.getElementById('ex1Container');
+ex1Data.forEach((item, i)=>{
+  const div = document.createElement('div');
+  div.className = 'exercise-item';
+  div.innerHTML = `
+    <div class="sentence">${i+1}. ${item.parts[0]}<input type="text" id="ex1-input-${i}-0" placeholder="verbo 1"> ${item.parts[1]}${item.parts[2]}<input type="text" id="ex1-input-${i}-1" placeholder="verbo 2"> ${item.parts[3]}${item.parts[4]}</div>
+    <div class="feedback" id="ex1-fb-${i}"></div>
+  `;
+  ex1Container.appendChild(div);
+});
+
+/* ---------------- RENDER: EX2 ---------------- */
+const ex2Container = document.getElementById('ex2Container');
+ex2Data.forEach((item, i)=>{
+  const div = document.createElement('div');
+  div.className = 'exercise-item';
+  div.innerHTML = `
+    <div class="sentence">${i+1}. ${item.before}___${item.after}</div>
+    <div class="choice-row" id="ex2-row-${i}">
+      <button class="choice-btn" data-value="when" onclick="selectChoice('ex2', ${i}, 'when', this)">when</button>
+      <button class="choice-btn" data-value="while" onclick="selectChoice('ex2', ${i}, 'while', this)">while</button>
+    </div>
+    <div class="feedback" id="ex2-fb-${i}"></div>
+  `;
+  ex2Container.appendChild(div);
+});
+
+/* ---------------- RENDER: EX3 ---------------- */
+const ex3Container = document.getElementById('ex3Container');
+ex3Data.forEach((item, i)=>{
+  const div = document.createElement('div');
+  div.className = 'exercise-item';
+  const optsHtml = item.options.map(opt=>`<button class="choice-btn" data-value="${opt}" onclick="selectChoice('ex3', ${i}, '${opt}', this)">${opt}</button>`).join('');
+  div.innerHTML = `
+    <div class="sentence">${i+1}. ${item.sentence}</div>
+    <div class="choice-row" id="ex3-row-${i}">${optsHtml}</div>
+    <div class="feedback" id="ex3-fb-${i}"></div>
+  `;
+  ex3Container.appendChild(div);
+});
+
+/* ---------------- CHOICE SELECTION (for choice-based exercises) ---------------- */
+const userChoices = { wwChoice: {}, ex2: {}, ex3: {} };
+
+function selectChoice(section, index, value, btnEl){
+  userChoices[section][index] = value;
+  const row = btnEl.parentElement;
+  [...row.children].forEach(b=>{
+    b.classList.remove('selected-correct','selected-wrong');
+  });
+  btnEl.classList.add('selected-correct'); // temporary highlight, real check happens on "Corrigir"
+  btnEl.style.borderColor = '#4f46e5';
+}
+
+/* ---------------- CHECK LOGIC ---------------- */
+function normalize(str){
+  return str.trim().toLowerCase().replace(/\s+/g,' ');
+}
+
+function checkSection(section){
+  let correctCount = 0;
+  let total = 0;
+
+  if(section === 'wwChoice'){
+    total = wwChoiceData.length;
+    wwChoiceData.forEach((item,i)=>{
+      const row = document.getElementById(`wwChoice-row-${i}`);
+      const fb = document.getElementById(`wwChoice-fb-${i}`);
+      const chosen = userChoices.wwChoice[i];
+      const isCorrect = chosen === item.answer;
+      if(isCorrect) correctCount++;
+      [...row.children].forEach(b=>{
+        b.disabled = true;
+        b.classList.remove('selected-correct','selected-wrong');
+        if(b.dataset.value === item.answer) b.classList.add('reveal-correct');
+        if(b.dataset.value === chosen && !isCorrect) b.classList.add('selected-wrong');
+        if(b.dataset.value === chosen && isCorrect) b.classList.add('selected-correct');
+      });
+      fb.classList.add('show', isCorrect ? 'correct' : 'wrong');
+      fb.textContent = isCorrect ? '✅ Certo!' : `❌ Resposta certa: "${item.answer}"`;
+    });
+  }
+
+  if(section === 'wwFill'){
+    total = wwFillData.length;
+    wwFillData.forEach((item,i)=>{
+      const input = document.getElementById(`wwFill-input-${i}`);
+      const fb = document.getElementById(`wwFill-fb-${i}`);
+      const val = normalize(input.value);
+      const isCorrect = val === item.answer;
+      if(isCorrect) correctCount++;
+      input.style.borderColor = isCorrect ? 'var(--correct)' : 'var(--wrong)';
+      input.disabled = true;
+      fb.classList.add('show', isCorrect ? 'correct' : 'wrong');
+      fb.textContent = isCorrect ? '✅ Certo!' : `❌ Resposta certa: "${item.answer}"`;
+    });
+  }
+
+  if(section === 'ex1'){
+    total = ex1Data.length;
+    ex1Data.forEach((item,i)=>{
+      const in0 = document.getElementById(`ex1-input-${i}-0`);
+      const in1 = document.getElementById(`ex1-input-${i}-1`);
+      const fb = document.getElementById(`ex1-fb-${i}`);
+      const v0 = normalize(in0.value);
+      const v1 = normalize(in1.value);
+      const c0 = v0 === item.answers[0];
+      const c1 = v1 === item.answers[1];
+      const isCorrect = c0 && c1;
+      if(isCorrect) correctCount++;
+      in0.style.borderColor = c0 ? 'var(--correct)' : 'var(--wrong)';
+      in1.style.borderColor = c1 ? 'var(--correct)' : 'var(--wrong)';
+      in0.disabled = true; in1.disabled = true;
+      fb.classList.add('show', isCorrect ? 'correct' : 'wrong');
+      fb.textContent = isCorrect ? '✅ Certo!' : `❌ Respostas certas: "${item.answers[0]}" / "${item.answers[1]}"`;
+    });
+  }
+
+  if(section === 'ex2'){
+    total = ex2Data.length;
+    ex2Data.forEach((item,i)=>{
+      const row = document.getElementById(`ex2-row-${i}`);
+      const fb = document.getElementById(`ex2-fb-${i}`);
+      const chosen = userChoices.ex2[i];
+      const isCorrect = chosen === item.answer;
+      if(isCorrect) correctCount++;
+      [...row.children].forEach(b=>{
+        b.disabled = true;
+        b.classList.remove('selected-correct','selected-wrong');
+        if(b.dataset.value === item.answer) b.classList.add('reveal-correct');
+        if(b.dataset.value === chosen && !isCorrect) b.classList.add('selected-wrong');
+        if(b.dataset.value === chosen && isCorrect) b.classList.add('selected-correct');
+      });
+      fb.classList.add('show', isCorrect ? 'correct' : 'wrong');
+      fb.textContent = isCorrect ? '✅ Certo!' : `❌ Resposta certa: "${item.answer}"`;
+    });
+  }
+
+  if(section === 'ex3'){
+    total = ex3Data.length;
+    ex3Data.forEach((item,i)=>{
+      const row = document.getElementById(`ex3-row-${i}`);
+      const fb = document.getElementById(`ex3-fb-${i}`);
+      const chosen = userChoices.ex3[i];
+      const isCorrect = chosen === item.answer;
+      if(isCorrect) correctCount++;
+      [...row.children].forEach(b=>{
+        b.disabled = true;
+        b.classList.remove('selected-correct','selected-wrong');
+        if(b.dataset.value === item.answer) b.classList.add('reveal-correct');
+        if(b.dataset.value === chosen && !isCorrect) b.classList.add('selected-wrong');
+        if(b.dataset.value === chosen && isCorrect) b.classList.add('selected-correct');
+      });
+      fb.classList.add('show', isCorrect ? 'correct' : 'wrong');
+      fb.textContent = isCorrect ? '✅ Certo!' : `❌ Resposta certa: "${item.answer}"`;
+    });
+  }
+
+  sectionState[section].correct = correctCount;
+  sectionState[section].total = total;
+  sectionState[section].checked = true;
+
+  const scoreLabelMap = {
+    wwChoice: 'wwChoiceScore',
+    wwFill: 'wwFillScore',
+    ex1: 'ex1Score',
+    ex2: 'ex2Score',
+    ex3: 'ex3Score'
+  };
+  document.getElementById(scoreLabelMap[section]).textContent = `Pontuação: ${correctCount} / ${total}`;
+}
+
+/* ---------------- TOTAL SCORE ---------------- */
+function updateTotalScore(){
+  let totalCorrect = 0, totalAll = 0, anyChecked = false;
+  Object.values(sectionState).forEach(s=>{
+    totalCorrect += s.correct;
+    totalAll += s.total;
+    if(s.checked) anyChecked = true;
+  });
+  const bar = document.getElementById('totalBar');
+  const text = document.getElementById('totalScoreText');
+  const msg = document.getElementById('totalMsg');
+  const pct = totalAll > 0 ? Math.round((totalCorrect/totalAll)*100) : 0;
+  bar.style.width = pct + '%';
+  text.textContent = `${totalCorrect} / ${totalAll}`;
+  if(!anyChecked){
+    msg.textContent = 'Complete os exercícios para ver sua pontuação!';
+  } else if(pct >= 90){
+    msg.textContent = '🌟 Excelente! Você domina Past Simple e Past Continuous!';
+  } else if(pct >= 70){
+    msg.textContent = '👍 Muito bom! Só revisar alguns pontinhos antes da prova.';
+  } else if(pct >= 50){
+    msg.textContent = '📖 Bom começo — vale revisar a teoria de novo antes da prova.';
+  } else {
+    msg.textContent = '💪 Vamos praticar mais um pouco — revise a Teoria e o Was/Were!';
+  }
+}
+
+/* ---------------- RESET ---------------- */
+function resetAll(){
+  location.reload();
+}
+</script>
+
+</body>
+</html>

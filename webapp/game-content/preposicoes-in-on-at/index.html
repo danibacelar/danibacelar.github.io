@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preposições — IN, ON, AT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#10163A;
+    --bg-card:#1B2350;
+    --bg-card-2:#232B6B;
+    --text:#F4F1EA;
+    --text-muted:#9AA3D6;
+    --at:#F2B705;
+    --in:#06D6A0;
+    --on:#EF476F;
+    --at-dim:#4a3f14;
+    --in-dim:#0d3d33;
+    --on-dim:#4a1a26;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 15% 0%, #1c2464 0%, transparent 45%),
+      radial-gradient(circle at 85% 10%, #241a55 0%, transparent 40%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Nunito', sans-serif;
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  h1,h2,h3,.display{font-family:'Fredoka', sans-serif;}
+
+  /* ---------- HEADER ---------- */
+  header{
+    text-align:center;
+    padding:36px 16px 20px;
+    position:relative;
+  }
+  .eyebrow{
+    letter-spacing:3px;
+    text-transform:uppercase;
+    font-size:12px;
+    color:var(--text-muted);
+    font-weight:700;
+  }
+  header h1{
+    font-size:clamp(28px,6vw,44px);
+    margin:8px 0 4px;
+    background:linear-gradient(90deg,var(--at),var(--in),var(--on));
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  header p{
+    color:var(--text-muted);
+    max-width:520px;
+    margin:0 auto;
+    font-size:15px;
+  }
+  .portal-row{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    margin-top:22px;
+    flex-wrap:wrap;
+  }
+  .portal-badge{
+    width:64px;height:64px;
+    border-radius:50%;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    font-family:'Fredoka',sans-serif;
+    font-weight:700;
+    font-size:13px;
+    border:2px solid;
+    animation:float 3.4s ease-in-out infinite;
+  }
+  .portal-badge span{font-size:18px;line-height:1;}
+  .portal-badge.at{border-color:var(--at); color:var(--at); box-shadow:0 0 22px -6px var(--at); animation-delay:0s;}
+  .portal-badge.in{border-color:var(--in); color:var(--in); box-shadow:0 0 22px -6px var(--in); animation-delay:.4s;}
+  .portal-badge.on{border-color:var(--on); color:var(--on); box-shadow:0 0 22px -6px var(--on); animation-delay:.8s;}
+  @keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-8px);}
+  }
+
+  /* ---------- CHEAT SHEET TOGGLE ---------- */
+  .cheat-toggle-wrap{text-align:center;margin:22px 0;}
+  .cheat-toggle{
+    background:var(--bg-card-2);
+    border:1px solid #333d80;
+    color:var(--text);
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    padding:10px 22px;
+    border-radius:999px;
+    cursor:pointer;
+    font-size:14px;
+    transition:.2s;
+  }
+  .cheat-toggle:hover{background:#2c3680;}
+
+  .cheat-sheet{
+    max-width:980px;
+    margin:0 auto 10px;
+    padding:0 16px;
+    display:none;
+    gap:16px;
+    grid-template-columns:repeat(3,1fr);
+  }
+  .cheat-sheet.open{display:grid;}
+  @media(max-width:800px){.cheat-sheet{grid-template-columns:1fr;}}
+  .rule-card{
+    background:var(--bg-card);
+    border-radius:var(--radius);
+    padding:18px 18px 20px;
+    border-top:4px solid;
+  }
+  .rule-card.at{border-color:var(--at);}
+  .rule-card.in{border-color:var(--in);}
+  .rule-card.on{border-color:var(--on);}
+  .rule-card h3{margin:0 0 10px;font-size:20px;display:flex;align-items:center;gap:8px;}
+  .rule-card.at h3{color:var(--at);}
+  .rule-card.in h3{color:var(--in);}
+  .rule-card.on h3{color:var(--on);}
+  .rule-card .group{margin-bottom:10px;}
+  .rule-card .group-title{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);font-weight:700;margin-bottom:4px;}
+  .rule-card ul{margin:0;padding-left:18px;font-size:14px;line-height:1.6;}
+
+  /* ---------- TABS ---------- */
+  .tabs{
+    max-width:900px;
+    margin:10px auto 24px;
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    padding:0 16px;
+  }
+  .tab{
+    background:var(--bg-card);
+    border:1px solid #2b3470;
+    color:var(--text-muted);
+    padding:10px 18px;
+    border-radius:12px;
+    cursor:pointer;
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    font-size:14px;
+    transition:.2s;
+  }
+  .tab .tag{
+    display:block;
+    font-size:10px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    opacity:.7;
+  }
+  .tab.active{
+    color:var(--bg);
+    background:linear-gradient(120deg,var(--at),var(--on));
+    border-color:transparent;
+  }
+  .tab:hover:not(.active){background:#232b63;color:var(--text);}
+
+  /* ---------- GAME CONTAINER ---------- */
+  main{max-width:720px;margin:0 auto;padding:0 16px;}
+  .game{display:none;}
+  .game.active{display:block;}
+
+  .progress-wrap{
+    display:flex;align-items:center;gap:12px;margin-bottom:18px;
+  }
+  .progress-bar{
+    flex:1;height:10px;background:var(--bg-card);border-radius:999px;overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;background:linear-gradient(90deg,var(--at),var(--in),var(--on));
+    width:0%;transition:width .3s ease;
+  }
+  .progress-label{font-size:13px;color:var(--text-muted);font-weight:700;white-space:nowrap;}
+
+  .question-card{
+    background:var(--bg-card);
+    border-radius:var(--radius);
+    padding:28px 24px;
+    min-height:180px;
+  }
+  .category-tag{
+    display:inline-block;
+    background:var(--bg-card-2);
+    color:var(--text-muted);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    font-weight:700;
+    padding:4px 12px;
+    border-radius:999px;
+    margin-bottom:14px;
+  }
+  .category-question{
+    font-size:clamp(19px,3.6vw,24px);
+    font-weight:700;
+    font-family:'Fredoka',sans-serif;
+    line-height:1.5;
+    margin-bottom:8px;
+  }
+  .category-question b{
+    color:var(--at);
+  }
+  .examples-line{
+    color:var(--text-muted);
+    font-size:14px;
+    margin-bottom:20px;
+  }
+  .examples-line em{font-style:italic;}
+  .category-choices{
+    display:flex;
+    gap:12px;
+    margin:0;
+  }
+  .category-choices .prep-btn{
+    font-size:16px;
+    padding:10px 22px;
+  }
+  .sentence{
+    font-size:clamp(18px,3.4vw,22px);
+    line-height:1.9;
+    font-weight:600;
+  }
+  .blank-group{
+    display:inline-flex;
+    gap:6px;
+    vertical-align:middle;
+    margin:0 4px;
+  }
+  .prep-btn{
+    font-family:'Fredoka',sans-serif;
+    font-weight:700;
+    font-size:14px;
+    padding:6px 14px;
+    border-radius:999px;
+    border:2px solid;
+    background:transparent;
+    cursor:pointer;
+    transition:.15s;
+  }
+  .prep-btn.at{color:var(--at);border-color:var(--at);}
+  .prep-btn.in{color:var(--in);border-color:var(--in);}
+  .prep-btn.on{color:var(--on);border-color:var(--on);}
+  .prep-btn:hover:not(:disabled){transform:translateY(-2px);}
+  .prep-btn:disabled{cursor:default;opacity:.55;}
+  .prep-btn.chosen-correct{background:var(--in);color:#0a1a16;opacity:1;border-color:var(--in);}
+  .prep-btn.chosen-wrong{background:var(--on);color:#2a0d13;opacity:1;border-color:var(--on);}
+  .prep-btn.reveal-correct{background:var(--in);color:#0a1a16;opacity:1;}
+
+  .feedback{
+    margin-top:16px;
+    font-size:14px;
+    font-weight:700;
+    min-height:20px;
+  }
+  .feedback.ok{color:var(--in);}
+  .feedback.no{color:var(--on);}
+
+  .controls{
+    display:flex;justify-content:space-between;align-items:center;margin-top:22px;gap:10px;
+  }
+  .next-btn{
+    background:linear-gradient(120deg,var(--at),var(--on));
+    color:var(--bg);
+    border:none;
+    font-family:'Fredoka',sans-serif;
+    font-weight:700;
+    padding:12px 26px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:15px;
+    opacity:.4;
+    pointer-events:none;
+    transition:.2s;
+  }
+  .next-btn.ready{opacity:1;pointer-events:auto;}
+  .next-btn:hover.ready{transform:translateY(-2px);}
+  .score-mini{font-size:13px;color:var(--text-muted);font-weight:700;}
+
+  /* ---------- RESULT SCREEN ---------- */
+  .result{
+    text-align:center;
+    background:var(--bg-card);
+    border-radius:var(--radius);
+    padding:40px 24px;
+  }
+  .result .big-score{
+    font-family:'Fredoka',sans-serif;
+    font-size:52px;
+    font-weight:700;
+    background:linear-gradient(90deg,var(--at),var(--in),var(--on));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .result p{color:var(--text-muted);}
+  .retry-btn{
+    margin-top:14px;
+    background:var(--bg-card-2);
+    border:1px solid #333d80;
+    color:var(--text);
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    padding:10px 22px;
+    border-radius:999px;
+    cursor:pointer;
+  }
+  .retry-btn:hover{background:#2c3680;}
+
+  footer{
+    text-align:center;
+    color:var(--text-muted);
+    font-size:12px;
+    margin-top:50px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Preposições</h1>
+  <p>Descubra quando usar <b style="color:var(--at)">AT</b>, <b style="color:var(--in)">IN</b> ou <b style="color:var(--on)">ON</b>.</p>
+  <div class="portal-row">
+    <div class="portal-badge at"><span>📍</span>AT</div>
+    <div class="portal-badge in"><span>📦</span>IN</div>
+    <div class="portal-badge on"><span>📅</span>ON</div>
+  </div>
+</header>
+
+<div class="cheat-toggle-wrap">
+  <button class="cheat-toggle" id="cheatToggle">📖 Ver regras rápidas</button>
+</div>
+
+<div class="cheat-sheet" id="cheatSheet">
+  <div class="rule-card at">
+    <h3>📍 AT — o ponto exato</h3>
+    <div class="group">
+      <div class="group-title">Horas</div>
+      <ul><li>at 6 o'clock</li><li>at 9:30</li><li>at 13:00</li></ul>
+    </div>
+    <div class="group">
+      <div class="group-title">Refeições / pausas</div>
+      <ul><li>at breakfast time</li><li>at lunchtime</li><li>at break time</li></ul>
+    </div>
+    <div class="group">
+      <div class="group-title">Outras expressões</div>
+      <ul><li>at night</li><li>at the weekend</li><li>at Christmas / Easter</li></ul>
+    </div>
+  </div>
+  <div class="rule-card in">
+    <h3>📦 IN — dentro de um período</h3>
+    <div class="group">
+      <div class="group-title">Partes do dia</div>
+      <ul><li>in the morning/afternoon/evening</li></ul>
+    </div>
+    <div class="group">
+      <div class="group-title">Meses e estações</div>
+      <ul><li>in January</li><li>in (the) spring/summer</li></ul>
+    </div>
+    <div class="group">
+      <div class="group-title">Anos, séculos, décadas</div>
+      <ul><li>in 2016</li><li>in the 21st century</li><li>in the 80s</li></ul>
+    </div>
+    <div class="group">
+      <div class="group-title">Outras expressões</div>
+      <ul><li>in the past / in the future</li><li>in the last few years</li></ul>
+    </div>
+  </div>
+  <div class="rule-card on">
+    <h3>📅 ON — em cima do dia</h3>
+    <div class="group">
+      <div class="group-title">Dias</div>
+      <ul><li>on Monday/Tuesday</li><li>on my birthday</li></ul>
+    </div>
+    <div class="group">
+      <div class="group-title">Datas</div>
+      <ul><li>on 30 July</li><li>on the second of August</li></ul>
+    </div>
+    <div class="group">
+      <div class="group-title">Feriados nomeados</div>
+      <ul><li>on New Year's Day</li><li>on Christmas Day</li></ul>
+    </div>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" data-game="g1">🕵️ Jogo 1<span class="tag">Aprenda a regra</span></button>
+  <button class="tab" data-game="g2">🟢 Jogo 2<span class="tag">Fácil</span></button>
+  <button class="tab" data-game="g3">🟡 Jogo 3<span class="tag">Médio</span></button>
+  <button class="tab" data-game="g4">🔴 Jogo 4<span class="tag">Difícil</span></button>
+</div>
+
+<main>
+  <div class="game active" id="game-g1"></div>
+  <div class="game" id="game-g2"></div>
+  <div class="game" id="game-g3"></div>
+  <div class="game" id="game-g4"></div>
+</main>
+
+<footer>Feito com carinho para o seu progresso em inglês ✨</footer>
+
+<script>
+/* ---------------- DATA ---------------- */
+
+const G1 = [
+  {q:"dias da semana", examples:"Monday, Tuesday, Wednesday...", ans:"on"},
+  {q:"horas exatas", examples:"6 o'clock, 9:30, 13:00", ans:"at"},
+  {q:"refeições e pausas", examples:"breakfast time, lunchtime, dinner time, break time", ans:"at"},
+  {q:"partes do dia", examples:"the morning, the afternoon, the evening", ans:"in"},
+  {q:"meses", examples:"January, July, December", ans:"in"},
+  {q:"estações do ano", examples:"spring, summer, autumn, winter", ans:"in"},
+  {q:"anos", examples:"2016, 1998, 2024", ans:"in"},
+  {q:"séculos", examples:"the 19th century, the 21st century", ans:"in"},
+  {q:"décadas", examples:"the 80s, the 1990s", ans:"in"},
+  {q:"datas específicas", examples:"30 July, the 2nd of August", ans:"on"},
+  {q:"aniversários", examples:"my birthday, her birthday", ans:"on"},
+  {q:"feriados com nome próprio", examples:"New Year's Day, Christmas Day", ans:"on"},
+  {q:"noite", examples:"night", ans:"at"},
+  {q:"fim de semana", examples:"the weekend, weekends", ans:"at"},
+  {q:"Natal e Páscoa (período festivo)", examples:"Christmas, Easter", ans:"at"},
+  {q:"passado e futuro em geral", examples:"the past, the future", ans:"in"},
+  {q:"últimos períodos de tempo", examples:"the last few years/months/weeks", ans:"in"},
+];
+
+const G2 = [
+  {text:"We go to church {} Sundays.", ans:["on"]},
+  {text:"I usually wake up {} 7 o'clock.", ans:["at"]},
+  {text:"She was born {} May.", ans:["in"]},
+  {text:"Let's meet {} Friday afternoon.", ans:["on"]},
+  {text:"He likes to read {} night.", ans:["at"]},
+  {text:"My class starts {} 8:15.", ans:["at"]},
+  {text:"They go camping every year {} summer.", ans:["in"]},
+  {text:"I'll see you {} the weekend.", ans:["at"]},
+  {text:"Her birthday party is {} 20 April.", ans:["on"]},
+  {text:"We always eat turkey {} Christmas.", ans:["at"]},
+  {text:"He plays football {} the afternoon.", ans:["in"]},
+  {text:"My sister was born {} 2015.", ans:["in"]},
+];
+
+const G3 = [
+  {text:"She has a piano lesson {} 4 o'clock {} Wednesday.", ans:["at","on"]},
+  {text:"My uncle moved to Brazil {} the 1990s.", ans:["in"]},
+  {text:"We always have a big lunch {} Sunday.", ans:["on"]},
+  {text:"I don't like waking up early {} the morning.", ans:["in"]},
+  {text:"My grandmother was born {} the 20th century.", ans:["in"]},
+  {text:"Let's have a picnic {} my birthday.", ans:["on"]},
+  {text:"Our English test is {} 10 March.", ans:["on"]},
+  {text:"I usually do my homework {} dinner time.", ans:["at"]},
+  {text:"My parents got married {} 1998.", ans:["in"]},
+  {text:"There's a big festival in my town {} June.", ans:["in"]},
+  {text:"We watch movies together {} the weekend.", ans:["at"]},
+  {text:"She calls her mom {} 9 o'clock every night.", ans:["at"]},
+];
+
+const G4 = [
+  {text:"{} the last few months, my English has really improved.", ans:["in"]},
+  {text:"My grandmother was born {} the 20th century, {} 1945.", ans:["in","in"]},
+  {text:"We're planning to travel {} Christmas this year.", ans:["at"]},
+  {text:"He has a doctor's appointment {} 10 o'clock {} Monday morning.", ans:["at","on"]},
+  {text:"{} the future, I want to study abroad.", ans:["in"]},
+  {text:"My favorite season to travel is {} spring, especially {} March.", ans:["in","in"]},
+  {text:"She always feels sleepy {} the afternoon.", ans:["in"]},
+  {text:"Their wedding is going to be {} the 25th of December, {} Christmas Day.", ans:["on","on"]},
+  {text:"We meet every year {} the first Saturday of July.", ans:["on"]},
+  {text:"I often have to work late {} the weekends.", ans:["at"]},
+];
+
+const GAMES = {
+  g1:{data:G1, type:'category'},
+  g2:{data:G2, type:'blank'},
+  g3:{data:G3, type:'blank'},
+  g4:{data:G4, type:'blank'},
+};
+
+const state = {};
+Object.keys(GAMES).forEach(id=>{
+  state[id] = {idx:0, correct:0, totalBlanks:0, order: shuffled(GAMES[id].data.length)};
+});
+
+function shuffled(n){
+  const arr = [...Array(n).keys()];
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
+/* ---------------- RENDER ---------------- */
+
+function renderGame(id){
+  const container = document.getElementById('game-'+id);
+  const cfg = GAMES[id];
+  const st = state[id];
+
+  if(st.idx >= cfg.data.length){
+    renderResult(id);
+    return;
+  }
+
+  const qIndex = st.order[st.idx];
+  const q = cfg.data[qIndex];
+  const pct = Math.round((st.idx / cfg.data.length) * 100);
+
+  let bodyHtml = '';
+
+  if(cfg.type === 'category'){
+    bodyHtml = `
+      <div class="category-question">Para <b>${escapeHtml(q.q)}</b>, qual preposição usamos?</div>
+      <div class="examples-line">Ex: <em>${escapeHtml(q.examples)}</em></div>
+      <span class="blank-group category-choices" data-blank="0" data-answer="${q.ans}">
+        <button class="prep-btn at" data-choice="at">AT</button>
+        <button class="prep-btn in" data-choice="in">IN</button>
+        <button class="prep-btn on" data-choice="on">ON</button>
+      </span>
+      <div class="feedback" id="feedback-${id}"></div>
+    `;
+  } else {
+    const parts = q.text.split('{}');
+    let sentenceHtml = '';
+    parts.forEach((part, i) => {
+      sentenceHtml += escapeHtml(part);
+      if(i < parts.length - 1){
+        sentenceHtml += `<span class="blank-group" data-blank="${i}" data-answer="${q.ans[i]}">
+          <button class="prep-btn at" data-choice="at">AT</button>
+          <button class="prep-btn in" data-choice="in">IN</button>
+          <button class="prep-btn on" data-choice="on">ON</button>
+        </span>`;
+      }
+    });
+    bodyHtml = `
+      <div class="sentence">${sentenceHtml}</div>
+      <div class="feedback" id="feedback-${id}"></div>
+    `;
+  }
+
+  container.innerHTML = `
+    <div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="progress-label">${st.idx+1} / ${cfg.data.length}</div>
+    </div>
+    <div class="question-card">
+      ${bodyHtml}
+    </div>
+    <div class="controls">
+      <div class="score-mini">✅ ${st.correct} / ${st.totalBlanks} acertos</div>
+      <button class="next-btn" id="next-${id}">Próxima →</button>
+    </div>
+  `;
+
+  const blankGroups = container.querySelectorAll('.blank-group');
+  blankGroups.forEach(group => {
+    const correctAns = group.dataset.answer;
+    group.querySelectorAll('.prep-btn').forEach(btn => {
+      btn.addEventListener('click', () => handleChoice(id, group, btn, correctAns));
+    });
+  });
+
+  const nextBtn = document.getElementById('next-'+id);
+  nextBtn.addEventListener('click', () => {
+    st.idx += 1;
+    renderGame(id);
+  });
+}
+
+function handleChoice(id, group, btn, correctAns){
+  const already = group.querySelector('.chosen-correct, .chosen-wrong');
+  if(already) return;
+
+  const st = state[id];
+  const choice = btn.dataset.choice;
+  st.totalBlanks += 1;
+
+  group.querySelectorAll('.prep-btn').forEach(b => b.disabled = true);
+
+  if(choice === correctAns){
+    btn.classList.add('chosen-correct');
+    st.correct += 1;
+  } else {
+    btn.classList.add('chosen-wrong');
+    group.querySelector(`[data-choice="${correctAns}"]`).classList.add('reveal-correct');
+  }
+
+  updateScoreLine(id);
+  checkAllAnswered(id);
+}
+
+function updateScoreLine(id){
+  const el = document.querySelector(`#game-${id} .score-mini`);
+  if(el) el.textContent = `✅ ${state[id].correct} / ${state[id].totalBlanks} acertos`;
+}
+
+function checkAllAnswered(id){
+  const container = document.getElementById('game-'+id);
+  const groups = container.querySelectorAll('.blank-group');
+  const allDone = [...groups].every(g => g.querySelector('.chosen-correct, .chosen-wrong'));
+  const feedback = document.getElementById('feedback-'+id);
+  const nextBtn = document.getElementById('next-'+id);
+
+  if(allDone){
+    const anyWrong = [...groups].some(g => g.querySelector('.chosen-wrong'));
+    if(anyWrong){
+      feedback.textContent = "Quase! A resposta certa está destacada em verde. 💪";
+      feedback.className = "feedback no";
+    } else {
+      feedback.textContent = "Perfeito! Você acertou essa frase! 🎉";
+      feedback.className = "feedback ok";
+    }
+    nextBtn.classList.add('ready');
+  }
+}
+
+function renderResult(id){
+  const container = document.getElementById('game-'+id);
+  const st = state[id];
+  const pct = st.totalBlanks ? Math.round((st.correct/st.totalBlanks)*100) : 0;
+
+  let msg = "Continue praticando, você vai dominar isso! 🚀";
+  if(pct >= 90) msg = "Uau, mandou muito bem! 🏆";
+  else if(pct >= 70) msg = "Muito bem! Só faltam alguns detalhes. ⭐";
+
+  container.innerHTML = `
+    <div class="result">
+      <div class="big-score">${pct}%</div>
+      <p>${st.correct} de ${st.totalBlanks} respostas corretas</p>
+      <p>${msg}</p>
+      <button class="retry-btn" id="retry-${id}">🔁 Jogar de novo</button>
+    </div>
+  `;
+  document.getElementById('retry-'+id).addEventListener('click', () => {
+    state[id] = {idx:0, correct:0, totalBlanks:0, order: shuffled(GAMES[id].data.length)};
+    renderGame(id);
+  });
+}
+
+function escapeHtml(str){
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ---------------- TABS ---------------- */
+
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.game').forEach(g => g.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('game-'+tab.dataset.game).classList.add('active');
+  });
+});
+
+document.getElementById('cheatToggle').addEventListener('click', () => {
+  document.getElementById('cheatSheet').classList.toggle('open');
+});
+
+/* ---------------- INIT ---------------- */
+Object.keys(GAMES).forEach(id => renderGame(id));
+</script>
+
+</body>
+</html>

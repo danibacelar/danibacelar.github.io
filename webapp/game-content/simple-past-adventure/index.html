@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Past Adventure</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #1a0533, #2d0b6b, #0d1b6b); min-height: 100vh; color: #fff; }
+  #app { max-width: 760px; margin: 0 auto; padding: 16px; }
+  .header { text-align: center; padding: 18px 0 10px; }
+  .header h1 { font-size: 1.7rem; background: linear-gradient(90deg, #f9c74f, #f3722c, #f94144); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .header p { color: #c9b8ff; font-size: .9rem; margin-top: 4px; }
+  .tabs { display: flex; gap: 5px; margin: 14px 0 10px; flex-wrap: wrap; }
+  .tab { flex: 1; min-width: 80px; padding: 8px 4px; border: none; border-radius: 12px; font-size: .72rem; font-weight: 700; cursor: pointer; transition: .2s; background: rgba(255,255,255,.12); color: #c9b8ff; }
+  .tab.active { background: linear-gradient(135deg, #7b2ff7, #f72fbd); color: #fff; box-shadow: 0 4px 14px rgba(123,47,247,.5); }
+  .tab.done { background: rgba(72,199,142,.25); color: #72efdd; }
+  .card { background: rgba(255,255,255,.07); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.15); border-radius: 20px; padding: 22px; margin-bottom: 14px; }
+  .card h2 { font-size: 1.05rem; margin-bottom: 4px; color: #f9c74f; }
+  .card .subtitle { font-size: .82rem; color: #a9a0cc; margin-bottom: 14px; }
+  .progress-wrap { margin-bottom: 14px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: .78rem; color: #c9b8ff; margin-bottom: 4px; }
+  .progress-bar { height: 8px; background: rgba(255,255,255,.15); border-radius: 99px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #7b2ff7, #f72fbd); border-radius: 99px; transition: width .4s; }
+  .score-badge { display: inline-block; background: rgba(249,199,79,.15); border: 1px solid #f9c74f; color: #f9c74f; border-radius: 99px; padding: 3px 12px; font-size: .8rem; font-weight: 700; }
+  .question-box { text-align: center; margin-bottom: 18px; }
+  .question-box .verb { font-size: 2rem; font-weight: 900; background: linear-gradient(90deg, #72efdd, #4cc9f0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .question-box .hint { font-size: .85rem; color: #a9a0cc; margin-top: 4px; }
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .opt-btn { padding: 13px 8px; border: 2px solid rgba(255,255,255,.2); border-radius: 14px; background: rgba(255,255,255,.06); color: #fff; font-size: 1rem; font-weight: 700; cursor: pointer; transition: .2s; }
+  .opt-btn:hover:not(:disabled) { background: rgba(123,47,247,.3); border-color: #7b2ff7; transform: scale(1.03); }
+  .opt-btn.correct { background: rgba(72,199,142,.25); border-color: #48c78e; color: #72efdd; }
+  .opt-btn.wrong { background: rgba(249,65,68,.2); border-color: #f94144; color: #ff8587; }
+  .opt-btn:disabled { cursor: default; }
+  .feedback { text-align: center; margin-top: 14px; font-size: 1rem; font-weight: 700; min-height: 28px; }
+  .feedback.ok { color: #72efdd; }
+  .feedback.fail { color: #ff8587; }
+  .next-btn { display: block; width: 100%; margin-top: 14px; padding: 13px; border: none; border-radius: 14px; background: linear-gradient(135deg, #7b2ff7, #f72fbd); color: #fff; font-size: 1rem; font-weight: 700; cursor: pointer; transition: .2s; }
+  .next-btn:hover { opacity: .88; transform: scale(1.02); }
+  .word-bank { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; min-height: 44px; }
+  .word-btn { padding: 9px 14px; border: 2px solid rgba(123,47,247,.6); border-radius: 99px; background: rgba(123,47,247,.18); color: #e0d4ff; font-size: .95rem; font-weight: 600; cursor: pointer; transition: .2s; }
+  .word-btn:hover:not(:disabled) { background: rgba(123,47,247,.4); transform: scale(1.05); }
+  .word-btn:disabled { opacity: .3; cursor: default; }
+  .sentence-box { min-height: 52px; background: rgba(255,255,255,.06); border: 2px dashed rgba(255,255,255,.2); border-radius: 14px; padding: 10px 14px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }
+  .sentence-box .placed { padding: 7px 12px; background: rgba(76,201,240,.18); border: 1.5px solid #4cc9f0; border-radius: 99px; color: #4cc9f0; font-size: .95rem; font-weight: 600; cursor: pointer; }
+  .sentence-box .placed:hover { background: rgba(249,65,68,.2); border-color: #f94144; color: #ff8587; }
+  .clear-btn { padding: 8px 18px; border: 1.5px solid rgba(255,255,255,.25); border-radius: 99px; background: transparent; color: #c9b8ff; font-size: .85rem; cursor: pointer; transition: .2s; }
+  .clear-btn:hover { background: rgba(255,255,255,.1); }
+  .neg-sentence { text-align: center; font-size: 1.05rem; font-weight: 700; color: #f9c74f; margin-bottom: 16px; background: rgba(249,199,79,.08); border-radius: 12px; padding: 12px; }
+  .neg-opts { display: flex; flex-direction: column; gap: 9px; }
+  .neg-opt { padding: 12px 14px; border: 2px solid rgba(255,255,255,.15); border-radius: 13px; background: rgba(255,255,255,.05); color: #e0d4ff; font-size: .92rem; font-weight: 600; cursor: pointer; transition: .2s; text-align: left; }
+  .neg-opt:hover:not(:disabled) { background: rgba(123,47,247,.25); border-color: #7b2ff7; }
+  .neg-opt.correct { background: rgba(72,199,142,.2); border-color: #48c78e; color: #72efdd; }
+  .neg-opt.wrong { background: rgba(249,65,68,.15); border-color: #f94144; color: #ff8587; }
+  /* Reading module */
+  .reading-text { background: rgba(255,255,255,.06); border-left: 4px solid #7b2ff7; border-radius: 0 14px 14px 0; padding: 16px; margin-bottom: 18px; line-height: 1.7; font-size: .95rem; color: #e0d4ff; }
+  .reading-text strong { color: #f9c74f; }
+  .reading-q { font-size: 1rem; font-weight: 700; color: #72efdd; margin-bottom: 12px; text-align: center; }
+  /* Result */
+  .result-card { text-align: center; padding: 28px 20px; }
+  .result-card .big-score { font-size: 3.5rem; font-weight: 900; background: linear-gradient(90deg, #f9c74f, #f3722c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .result-card .msg { font-size: 1.1rem; margin: 10px 0 20px; color: #e0d4ff; }
+  .stars { font-size: 2rem; margin-bottom: 10px; }
+  .final { text-align: center; padding: 30px 20px; }
+  .final h2 { font-size: 2rem; background: linear-gradient(90deg, #f9c74f, #f72fbd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
+  .final .total { font-size: 3rem; font-weight: 900; color: #72efdd; }
+  .final .sub { color: #c9b8ff; margin-bottom: 20px; }
+  .trophy { font-size: 4rem; margin-bottom: 10px; }
+  .restart-btn { padding: 13px 30px; border: none; border-radius: 14px; background: linear-gradient(135deg, #f9c74f, #f3722c); color: #1a0533; font-size: 1rem; font-weight: 800; cursor: pointer; transition: .2s; }
+  .restart-btn:hover { transform: scale(1.05); }
+  @media(max-width:480px) { .options { grid-template-columns: 1fr; } .header h1 { font-size: 1.3rem; } }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="header">
+    <h1>✨ Simple Past Adventure ✨</h1>
+    <p>Regular Verbs – Learn & Play!</p>
+  </div>
+  <div id="root"></div>
+</div>
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+const M1_VERBS = [
+  {base:'walk',past:'walked',distractors:['walkked','walken','walks']},
+  {base:'talk',past:'talked',distractors:['talkked','talking','talken']},
+  {base:'watch',past:'watched',distractors:['watchhed','watchen','watchd']},
+  {base:'clean',past:'cleaned',distractors:['cleanned','cleant','cleanied']},
+  {base:'open',past:'opened',distractors:['openned','opent','opene']},
+  {base:'start',past:'started',distractors:['startted','startt','startied']},
+  {base:'finish',past:'finished',distractors:['finisht','finishied','finishe']},
+  {base:'help',past:'helped',distractors:['helpped','helpt','helpen']},
+  {base:'visit',past:'visited',distractors:['visitted','visiten','visity']},
+  {base:'work',past:'worked',distractors:['workked','workt','worken']},
+  {base:'live',past:'lived',distractors:['liveed','livd','liven']},
+  {base:'love',past:'loved',distractors:['loveed','lovd','loven']},
+  {base:'dance',past:'danced',distractors:['danceed','dancied','danct']},
+  {base:'smile',past:'smiled',distractors:['smileed','smilied','smilet']},
+  {base:'use',past:'used',distractors:['useed','uset','usied']},
+  {base:'practice',past:'practiced',distractors:['practiceed','practict','practiceied']},
+  {base:'move',past:'moved',distractors:['moveed','movd','movet']},
+  {base:'hope',past:'hoped',distractors:['hopeed','hopt','hopied']},
+  {base:'try',past:'tried',distractors:['tryed','tryied','tryd']},
+  {base:'cry',past:'cried',distractors:['cryed','cryied','cryd']},
+  {base:'study',past:'studied',distractors:['studyed','studyied','studyd']},
+  {base:'carry',past:'carried',distractors:['carryed','carryied','carryd']},
+  {base:'worry',past:'worried',distractors:['worryed','worryied','worryd']},
+  {base:'stay',past:'stayed',distractors:['stayied','staied','stayd']},
+  {base:'play',past:'played',distractors:['playied','plaied','playd']},
+  {base:'enjoy',past:'enjoyed',distractors:['enjoyied','enjoied','enjoyd']},
+  {base:'stop',past:'stopped',distractors:['stoped','stopted','stopied']},
+  {base:'plan',past:'planned',distractors:['planed','planied','plant']},
+  {base:'drop',past:'dropped',distractors:['droped','dropied','dropt']},
+  {base:'prefer',past:'preferred',distractors:['prefered','preferied','prefert']},
+  {base:'train',past:'trained',distractors:['trainned','traint','trainied']},
+  {base:'rehearse',past:'rehearsed',distractors:['rehearseed','rehearst','rehearsied']},
+  {base:'focus',past:'focused',distractors:['focussed','focusted','focusied']},
+  {base:'identify',past:'identified',distractors:['identifyed','identifyied','identifed']},
+  {base:'affect',past:'affected',distractors:['affectted','affectt','affectied']},
+];
+
+const M2_SENTENCES = [
+  {words:['She','walked','to','school','yesterday'], answer:'She walked to school yesterday'},
+  {words:['They','played','soccer','last','weekend'], answer:'They played soccer last weekend'},
+  {words:['I','studied','English','last','night'], answer:'I studied English last night'},
+  {words:['He','stopped','the','car','quickly'], answer:'He stopped the car quickly'},
+  {words:['We','cleaned','the','house','together'], answer:'We cleaned the house together'},
+  {words:['She','danced','at','the','party'], answer:'She danced at the party'},
+  {words:['I','tried','a','new','recipe'], answer:'I tried a new recipe'},
+  {words:['He','visited','his','grandmother','yesterday'], answer:'He visited his grandmother yesterday'},
+  {words:['They','stayed','home','last','Friday'], answer:'They stayed home last Friday'},
+  {words:['She','practiced','every','day'], answer:'She practiced every day'},
+  {words:['He','trained','for','the','race','last','month'], answer:'He trained for the race last month'},
+  {words:['We','rehearsed','the','play','together'], answer:'We rehearsed the play together'},
+];
+
+const M3_NEG = [
+  {affirm:'She walked to school.',correct:"She didn't walk to school.",distractors:["She didn't walked to school.","She not walked to school.","She don't walk to school."]},
+  {affirm:'They played soccer.',correct:"They didn't play soccer.",distractors:["They didn't played soccer.","They not played soccer.","They don't play soccer."]},
+  {affirm:'I studied English.',correct:"I didn't study English.",distractors:["I didn't studied English.","I not studied English.","I don't study English."]},
+  {affirm:'He stopped the car.',correct:"He didn't stop the car.",distractors:["He didn't stopped the car.","He not stopped the car.","He don't stop the car."]},
+  {affirm:'We cleaned the house.',correct:"We didn't clean the house.",distractors:["We didn't cleaned the house.","We not cleaned the house.","We don't clean the house."]},
+  {affirm:'She danced at the party.',correct:"She didn't dance at the party.",distractors:["She didn't danced at the party.","She not danced at the party.","She don't dance at the party."]},
+  {affirm:'I tried a new recipe.',correct:"I didn't try a new recipe.",distractors:["I didn't tried a new recipe.","I not tried a new recipe.","I don't try a new recipe."]},
+  {affirm:'He visited his grandmother.',correct:"He didn't visit his grandmother.",distractors:["He didn't visited his grandmother.","He not visited his grandmother.","He don't visit his grandmother."]},
+  {affirm:'They stayed home.',correct:"They didn't stay home.",distractors:["They didn't stayed home.","They not stayed home.","They don't stay home."]},
+  {affirm:'She practiced every day.',correct:"She didn't practice every day.",distractors:["She didn't practiced every day.","She not practiced every day.","She don't practice every day."]},
+  {affirm:'He trained for the race.',correct:"He didn't train for the race.",distractors:["He didn't trained for the race.","He not trained for the race.","He don't train for the race."]},
+  {affirm:'We rehearsed the play.',correct:"We didn't rehearse the play.",distractors:["We didn't rehearsed the play.","We not rehearsed the play.","We don't rehearse the play."]},
+];
+
+const M4_NEG = [
+  {words:["didn't","She","walk","to","school"], answer:"She didn't walk to school"},
+  {words:["didn't","They","play","soccer"], answer:"They didn't play soccer"},
+  {words:["didn't","I","study","English","last","night"], answer:"I didn't study English last night"},
+  {words:["didn't","He","stop","the","car"], answer:"He didn't stop the car"},
+  {words:["didn't","We","clean","the","house"], answer:"We didn't clean the house"},
+  {words:["didn't","She","dance","at","the","party"], answer:"She didn't dance at the party"},
+  {words:["didn't","I","try","a","new","recipe"], answer:"I didn't try a new recipe"},
+  {words:["didn't","He","visit","his","grandmother"], answer:"He didn't visit his grandmother"},
+  {words:["didn't","They","stay","home"], answer:"They didn't stay home"},
+  {words:["didn't","She","practice","every","day"], answer:"She didn't practice every day"},
+  {words:["didn't","He","train","for","the","race"], answer:"He didn't train for the race"},
+  {words:["didn't","We","rehearse","the","play"], answer:"We didn't rehearse the play"},
+];
+
+// MODULE 5 – Reading Comprehension
+const READING_TEXT = `
+Once upon a time, a little rabbit <strong>wanted</strong> to run in a big race. Every day, she <strong>walked</strong> to the park and <strong>practiced</strong> running. She <strong>trained</strong> hard and never <strong>stopped</strong>. Her friend, a turtle, <strong>watched</strong> her and <strong>smiled</strong>. On the day of the race, the rabbit <strong>stayed</strong> focused and <strong>finished</strong> first. Everyone <strong>clapped</strong> and <strong>cheered</strong>!
+`;
+
+const M5_QUESTIONS = [
+  {
+    q: "Did the rabbit walk to the park?",
+    correct: "Yes, she did. She walked to the park every day.",
+    distractors:[
+      "No, she didn't. She stayed home.",
+      "Yes, she did. She walked to school.",
+      "No, she didn't. She ran to the park."
+    ]
+  },
+  {
+    q: "Did the rabbit practice running?",
+    correct: "Yes, she did. She practiced running every day.",
+    distractors:[
+      "No, she didn't. She practiced swimming.",
+      "Yes, she did. But she only practiced once.",
+      "No, she didn't. The turtle practiced for her."
+    ]
+  },
+  {
+    q: "Did the rabbit stop training?",
+    correct: "No, she didn't. She trained hard and never stopped.",
+    distractors:[
+      "Yes, she did. She stopped after one day.",
+      "No, she didn't. She stopped and went home.",
+      "Yes, she did. She stopped to eat."
+    ]
+  },
+  {
+    q: "Did the turtle watch the rabbit?",
+    correct: "Yes, he did. The turtle watched her and smiled.",
+    distractors:[
+      "No, he didn't. The turtle stayed home.",
+      "Yes, he did. But he didn't smile.",
+      "No, he didn't. The turtle ran with her."
+    ]
+  },
+  {
+    q: "Did the rabbit finish the race?",
+    correct: "Yes, she did. She stayed focused and finished first.",
+    distractors:[
+      "No, she didn't. She stopped before the end.",
+      "Yes, she did. But she finished last.",
+      "No, she didn't. The turtle finished first."
+    ]
+  },
+  {
+    q: "Did everyone clap at the end?",
+    correct: "Yes, they did. Everyone clapped and cheered.",
+    distractors:[
+      "No, they didn't. No one watched the race.",
+      "Yes, they did. But only the turtle clapped.",
+      "No, they didn't. Everyone stayed quiet."
+    ]
+  },
+];
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+
+let state = {
+  screen: 'game',
+  module: 0,
+  scores: [0,0,0,0,0],
+  done: [false,false,false,false,false],
+  qIndex: 0,
+  answered: false,
+  chosen: null,
+  moduleResult: false,
+  placed: [],
+  available: [],
+  scrambled: [],
+  usFeedback: '',
+  usCorrect: false,
+  usChecked: false,
+};
+
+function shuffle(arr){ return [...arr].sort(()=>Math.random()-.5); }
+
+function initModule(m){
+  state.module=m; state.qIndex=0; state.answered=false; state.chosen=null;
+  state.moduleResult=false; state.placed=[]; state.usFeedback='';
+  state.usCorrect=false; state.usChecked=false;
+  if(m===1||m===3) initUnscramble(m);
+}
+
+function initUnscramble(m){
+  const list = m===1 ? M2_SENTENCES : M4_NEG;
+  const item = list[state.qIndex];
+  state.scrambled = shuffle(item.words);
+  state.available = [...state.scrambled];
+  state.placed=[]; state.usFeedback=''; state.usCorrect=false; state.usChecked=false;
+}
+
+// ─── RENDER ──────────────────────────────────────────────────────────────────
+
+function render(){
+  const root = document.getElementById('root');
+  root.innerHTML='';
+  if(state.screen==='final'){ root.appendChild(renderFinal()); return; }
+  root.appendChild(renderTabs());
+  if(state.moduleResult){ root.appendChild(renderModuleResult()); return; }
+  if(state.module===0) root.appendChild(renderM1());
+  if(state.module===1) root.appendChild(renderUnscramble(1,M2_SENTENCES));
+  if(state.module===2) root.appendChild(renderM3());
+  if(state.module===3) root.appendChild(renderUnscramble(3,M4_NEG));
+  if(state.module===4) root.appendChild(renderM5());
+}
+
+function renderTabs(){
+  const wrap=el('div','tabs');
+  const labels=['1 – Verb Quiz','2 – Unscramble','3 – Negative','4 – Neg. Unscr.','5 – Reading'];
+  labels.forEach((l,i)=>{
+    const t=el('button','tab'+(i===state.module?' active':state.done[i]?' done':''),l);
+    t.onclick=()=>{ initModule(i); render(); };
+    wrap.appendChild(t);
+  });
+  return wrap;
+}
+
+// MODULE 1 – Verb Quiz
+function renderM1(){
+  const items=M1_VERBS;
+  const item=items[state.qIndex];
+  const opts=shuffle([item.past,...item.distractors]);
+  const card=el('div','card');
+  card.appendChild(elText('h2','🔤 Module 1 – Verb Quiz'));
+  card.appendChild(elText('p','subtitle','Choose the correct Simple Past form!'));
+  card.appendChild(renderProgress(state.qIndex,items.length,state.scores[0]));
+  const qbox=el('div','question-box');
+  qbox.appendChild(elText('div','verb',item.base));
+  qbox.appendChild(elText('div','hint','→ What is the Simple Past?'));
+  card.appendChild(qbox);
+  const grid=el('div','options');
+  opts.forEach(o=>{
+    const b=el('button','opt-btn',o);
+    if(state.answered){ b.disabled=true; if(o===item.past) b.classList.add('correct'); else if(o===state.chosen) b.classList.add('wrong'); }
+    b.onclick=()=>{ if(state.answered) return; state.answered=true; state.chosen=o; if(o===item.past) state.scores[0]++; render(); };
+    grid.appendChild(b);
+  });
+  card.appendChild(grid);
+  const fb=el('div','feedback'+(state.answered?(state.chosen===item.past?' ok':' fail'):''));
+  if(state.answered) fb.textContent=state.chosen===item.past?'🎉 Great job! Correct!':'❌ Oops! The correct answer is: '+item.past;
+  card.appendChild(fb);
+  if(state.answered){
+    const nb=el('button','next-btn',state.qIndex<items.length-1?'Next Question →':'See Results 🏆');
+    nb.onclick=()=>{ if(state.qIndex<items.length-1){ state.qIndex++; state.answered=false; state.chosen=null; render(); } else { state.moduleResult=true; state.done[0]=true; render(); } };
+    card.appendChild(nb);
+  }
+  return card;
+}
+
+// MODULE 2 & 4 – Unscramble
+function renderUnscramble(m,list){
+  const item=list[state.qIndex];
+  const mi=m===1?1:3;
+  const title=m===1?'🔀 Module 2 – Unscramble the Sentence':'🔀 Module 4 – Negative Unscramble';
+  const subtitle=m===1?'Click the words in the correct order!':'Build the negative sentence!';
+  const card=el('div','card');
+  card.appendChild(elText('h2',title));
+  card.appendChild(elText('p','subtitle',subtitle));
+  card.appendChild(renderProgress(state.qIndex,list.length,state.scores[mi]));
+  const sbox=el('div','sentence-box');
+  if(state.placed.length===0) sbox.appendChild(elText('span','',''));
+  state.placed.forEach((w,i)=>{
+    const s=el('span','placed',w);
+    s.onclick=()=>{ if(state.usChecked) return; state.placed.splice(i,1); const copy=[]; state.scrambled.forEach(sw=>{ const inP=state.placed.filter(p=>p===sw).length; if(inP+(state.available.filter(a=>a===sw).length)<state.scrambled.filter(x=>x===sw).length) copy.push(sw); }); state.available=[...state.available,...copy]; render(); };
+    sbox.appendChild(s);
+  });
+  card.appendChild(sbox);
+  const bank=el('div','word-bank');
+  const usedCount={};
+  state.placed.forEach(w=>usedCount[w]=(usedCount[w]||0)+1);
+  const availCount={};
+  state.scrambled.forEach(w=>{ const tot=state.scrambled.filter(x=>x===w).length; availCount[w]=tot-(usedCount[w]||0); });
+  const shown={};
+  state.scrambled.forEach(w=>{ const avail=availCount[w]||0; const s=shown[w]||0; if(s<avail){ shown[w]=s+1; const b=el('button','word-btn',w); if(state.usChecked) b.disabled=true; b.onclick=()=>{ if(state.usChecked) return; state.placed.push(w); const idx=state.available.indexOf(w); if(idx>-1) state.available.splice(idx,1); render(); }; bank.appendChild(b); } });
+  card.appendChild(bank);
+  const ctrl=el('div','');
+  ctrl.style.cssText='display:flex;gap:10px;margin-bottom:10px';
+  if(!state.usChecked){
+    const clr=el('button','clear-btn','🔄 Clear');
+    clr.onclick=()=>{ initUnscramble(m); render(); };
+    ctrl.appendChild(clr);
+    if(state.placed.length===item.words.length){
+      const chk=el('button','next-btn','✅ Check!');
+      chk.style.cssText='flex:1;margin-top:0';
+      chk.onclick=()=>{ state.usChecked=true; const built=state.placed.join(' '); if(built===item.answer){ state.usCorrect=true; state.scores[mi]++; state.usFeedback='🎉 Perfect! Well done!'; } else { state.usCorrect=false; state.usFeedback='❌ Correct: "'+item.answer+'"'; } render(); };
+      ctrl.appendChild(chk);
+    }
+  }
+  card.appendChild(ctrl);
+  if(state.usFeedback){ const fb=el('div','feedback'+(state.usCorrect?' ok':' fail'),state.usFeedback); card.appendChild(fb); }
+  if(state.usChecked){
+    const nb=el('button','next-btn',state.qIndex<list.length-1?'Next Sentence →':'See Results 🏆');
+    nb.onclick=()=>{ if(state.qIndex<list.length-1){ state.qIndex++; initUnscramble(m); render(); } else { state.moduleResult=true; state.done[mi]=true; render(); } };
+    card.appendChild(nb);
+  }
+  return card;
+}
+
+// MODULE 3 – Negative Quiz
+function renderM3(){
+  const items=M3_NEG;
+  const item=items[state.qIndex];
+  const opts=shuffle([item.correct,...item.distractors]);
+  const card=el('div','card');
+  card.appendChild(elText('h2','❌ Module 3 – Negative Form'));
+  card.appendChild(elText('p','subtitle','Choose the correct negative sentence!'));
+  card.appendChild(renderProgress(state.qIndex,items.length,state.scores[2]));
+  card.appendChild(elText('div','neg-sentence','✏️ '+item.affirm));
+  const optWrap=el('div','neg-opts');
+  opts.forEach(o=>{
+    const b=el('button','neg-opt',o);
+    if(state.answered){ b.disabled=true; if(o===item.correct) b.classList.add('correct'); else if(o===state.chosen) b.classList.add('wrong'); }
+    b.onclick=()=>{ if(state.answered) return; state.answered=true; state.chosen=o; if(o===item.correct) state.scores[2]++; render(); };
+    optWrap.appendChild(b);
+  });
+  card.appendChild(optWrap);
+  const fb=el('div','feedback'+(state.answered?(state.chosen===item.correct?' ok':' fail'):''));
+  if(state.answered){
+    const ok=state.chosen===item.correct;
+    fb.textContent=ok?'🎉 Correct! Remember: didn\'t + base verb!':'❌ The answer is: "'+item.correct+'"';
+    if(!ok){ const tip=el('div',''); tip.style.cssText='font-size:.8rem;color:#c9b8ff;margin-top:6px'; tip.textContent='💡 Tip: Use didn\'t + verb in BASE form (no -ed!)'; fb.appendChild(tip); }
+  }
+  card.appendChild(fb);
+  if(state.answered){
+    const nb=el('button','next-btn',state.qIndex<items.length-1?'Next Question →':'See Results 🏆');
+    nb.onclick=()=>{ if(state.qIndex<items.length-1){ state.qIndex++; state.answered=false; state.chosen=null; render(); } else { state.moduleResult=true; state.done[2]=true; render(); } };
+    card.appendChild(nb);
+  }
+  return card;
+}
+
+// MODULE 5 – Reading Comprehension
+function renderM5(){
+  const items=M5_QUESTIONS;
+  const item=items[state.qIndex];
+  const opts=shuffle([item.correct,...item.distractors]);
+  const card=el('div','card');
+  card.appendChild(elText('h2','📖 Module 5 – Reading Comprehension'));
+  card.appendChild(elText('p','subtitle','Read the text and answer the questions in Simple Past!'));
+
+  // always show text
+  const txtBox=el('div','reading-text');
+  txtBox.innerHTML=READING_TEXT;
+  card.appendChild(txtBox);
+
+  card.appendChild(renderProgress(state.qIndex,items.length,state.scores[4]));
+
+  const qDiv=el('div','reading-q','❓ '+item.q);
+  card.appendChild(qDiv);
+
+  const optWrap=el('div','neg-opts');
+  opts.forEach(o=>{
+    const b=el('button','neg-opt',o);
+    if(state.answered){ b.disabled=true; if(o===item.correct) b.classList.add('correct'); else if(o===state.chosen) b.classList.add('wrong'); }
+    b.onclick=()=>{ if(state.answered) return; state.answered=true; state.chosen=o; if(o===item.correct) state.scores[4]++; render(); };
+    optWrap.appendChild(b);
+  });
+  card.appendChild(optWrap);
+
+  const fb=el('div','feedback'+(state.answered?(state.chosen===item.correct?' ok':' fail'):''));
+  if(state.answered) fb.textContent=state.chosen===item.correct?'🎉 Excellent! You read it carefully! 📖':'❌ Not quite! The answer is: "'+item.correct+'"';
+  card.appendChild(fb);
+
+  if(state.answered){
+    const nb=el('button','next-btn',state.qIndex<items.length-1?'Next Question →':'See Final Score 🏆');
+    nb.onclick=()=>{ if(state.qIndex<items.length-1){ state.qIndex++; state.answered=false; state.chosen=null; render(); } else { state.moduleResult=true; state.done[4]=true; render(); } };
+    card.appendChild(nb);
+  }
+  return card;
+}
+
+// MODULE RESULT
+function renderModuleResult(){
+  const m=state.module;
+  const totals=[M1_VERBS.length,M2_SENTENCES.length,M3_NEG.length,M4_NEG.length,M5_QUESTIONS.length];
+  const sc=state.scores[m], tot=totals[m];
+  const pct=sc/tot;
+  const stars=pct===1?'⭐⭐⭐':pct>=.7?'⭐⭐':pct>=.4?'⭐':'💪';
+  const msg=pct===1?'Perfect score! You\'re a grammar star! 🌟':pct>=.7?'Great job! You\'re doing amazing! 🎉':pct>=.4?'Good effort! Keep practicing! 💪':'Don\'t give up! You\'ll get it! 🌈';
+  const titles=['Verb Quiz','Unscramble','Negative Form','Neg. Unscramble','Reading'];
+  const card=el('div','card');
+  const r=el('div','result-card');
+  r.appendChild(elText('div','stars',stars));
+  r.appendChild(elText('h2','','Module '+(m+1)+' – '+titles[m]));
+  r.appendChild(elText('div','big-score',sc+' / '+tot));
+  r.appendChild(elText('p','msg',msg));
+  if(m<4){
+    const nb=el('button','next-btn','Next Module →');
+    nb.onclick=()=>{ initModule(m+1); render(); };
+    r.appendChild(nb);
+  } else {
+    const nb=el('button','next-btn','🏆 See Final Score!');
+    nb.onclick=()=>{ state.screen='final'; render(); };
+    r.appendChild(nb);
+  }
+  card.appendChild(r);
+  return card;
+}
+
+// FINAL SCREEN
+function renderFinal(){
+  const total=state.scores.reduce((a,b)=>a+b,0);
+  const max=M1_VERBS.length+M2_SENTENCES.length+M3_NEG.length+M4_NEG.length+M5_QUESTIONS.length;
+  const pct=total/max;
+  const trophy=pct===1?'🏆':pct>=.7?'🥇':pct>=.4?'🥈':'🥉';
+  const msg=pct===1?'PERFECT! You mastered Simple Past! 🌟':pct>=.7?'Amazing work! Keep it up! 🎉':pct>=.4?'Good job! A bit more practice and you\'ll nail it! 💪':'Great effort! Practice makes perfect! 🌈';
+  const card=el('div','card');
+  const f=el('div','final');
+  f.appendChild(elText('div','trophy',trophy));
+  f.appendChild(elText('h2','','🎊 You Finished! 🎊'));
+  f.appendChild(elText('div','total',total+' / '+max));
+  f.appendChild(elText('p','sub','Total Score'));
+  f.appendChild(elText('p','msg',msg));
+  const bd=el('div','');
+  bd.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0';
+  const mnames=['Verb Quiz','Unscramble','Negative','Neg. Unscr.','Reading'];
+  const mtots=[M1_VERBS.length,M2_SENTENCES.length,M3_NEG.length,M4_NEG.length,M5_QUESTIONS.length];
+  state.scores.forEach((s,i)=>{ const b=el('div',''); b.style.cssText='background:rgba(255,255,255,.07);border-radius:12px;padding:10px;text-align:center'; b.innerHTML='<div style="font-size:.75rem;color:#a9a0cc">'+mnames[i]+'</div><div style="font-size:1.3rem;font-weight:900;color:#f9c74f">'+s+'/'+mtots[i]+'</div>'; bd.appendChild(b); });
+  f.appendChild(bd);
+  const rb=el('button','restart-btn','🔄 Play Again!');
+  rb.onclick=()=>{ state={screen:'game',module:0,scores:[0,0,0,0,0],done:[false,false,false,false,false],qIndex:0,answered:false,chosen:null,moduleResult:false,placed:[],available:[],scrambled:[],usFeedback:'',usCorrect:false,usChecked:false}; render(); };
+  f.appendChild(rb);
+  card.appendChild(f);
+  return card;
+}
+
+function renderProgress(cur,tot,score){
+  const w=el('div','progress-wrap');
+  const lbl=el('div','progress-label');
+  lbl.innerHTML='<span>Question '+(cur+1)+' of '+tot+'</span><span class="score-badge">✅ '+score+' correct</span>';
+  const bar=el('div','progress-bar');
+  const fill=el('div','progress-fill');
+  fill.style.width=(cur/tot*100)+'%';
+  bar.appendChild(fill); w.appendChild(lbl); w.appendChild(bar);
+  return w;
+}
+
+function el(tag,cls,txt){ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!==undefined) e.textContent=txt; return e; }
+function elText(tag,cls,txt){ return el(tag,cls,txt); }
+
+initModule(0);
+render();
+</script>
+</body>
+</html>

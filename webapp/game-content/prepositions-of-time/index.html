@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prepositions of Time: IN, ON, AT</title>
+<style>
+  :root{
+    --at: #e8664c;
+    --in: #2f9e8f;
+    --on: #4a7fd6;
+    --bg: #fbf7ef;
+    --card: #ffffff;
+    --ink: #2b2b2b;
+    --muted: #6b6b6b;
+    --correct: #2f9e58;
+    --wrong: #d64545;
+    --border: #e4ddcd;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height:1.5;
+    padding-bottom: 60px;
+  }
+  header{
+    background: linear-gradient(135deg,#2f9e8f,#4a7fd6 55%,#e8664c);
+    color:#fff;
+    padding: 36px 20px 30px;
+    text-align:center;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  }
+  header h1{
+    margin:0 0 8px;
+    font-size: clamp(24px,5vw,34px);
+  }
+  header p{
+    margin:0;
+    font-size:16px;
+    opacity:0.95;
+  }
+  .wrap{
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 24px 16px;
+  }
+  .card{
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 22px 22px 24px;
+    margin-bottom: 26px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  }
+  .card h2{
+    margin-top:0;
+    font-size: 22px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .badge{
+    display:inline-block;
+    font-size:13px;
+    font-weight:bold;
+    color:#fff;
+    padding:3px 10px;
+    border-radius:999px;
+  }
+  .badge.at{background:var(--at);}
+  .badge.in{background:var(--in);}
+  .badge.on{background:var(--on);}
+
+  /* Language Focus */
+  .rules{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap:12px;
+    margin: 18px 0;
+  }
+  @media(min-width:600px){
+    .rules{grid-template-columns: repeat(3,1fr);}
+  }
+  .rule-box{
+    border-radius: 12px;
+    padding: 14px 14px 12px;
+    color:#fff;
+  }
+  .rule-box.at{background:var(--at);}
+  .rule-box.in{background:var(--in);}
+  .rule-box.on{background:var(--on);}
+  .rule-box h3{margin:0 0 6px;font-size:19px;}
+  .rule-box p{margin:0 0 6px;font-size:14px;}
+  .rule-box ul{margin:6px 0 0; padding-left:18px; font-size:14px;}
+
+  .poem{
+    background:#fff7e6;
+    border-left: 5px solid #e8b23a;
+    border-radius: 8px;
+    padding: 16px 18px;
+    font-style: italic;
+    margin-top: 16px;
+    white-space: pre-line;
+  }
+  .poem .hi-at{color:var(--at); font-style:normal; font-weight:bold;}
+  .poem .hi-in{color:var(--in); font-style:normal; font-weight:bold;}
+  .poem .hi-on{color:var(--on); font-style:normal; font-weight:bold;}
+
+  .trick{
+    background:#eef7f3;
+    border-radius:10px;
+    padding:12px 16px;
+    margin-top:14px;
+    font-size:14px;
+  }
+
+  /* Exercises */
+  .q{
+    margin-bottom: 20px;
+    padding-bottom: 18px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .q:last-child{border-bottom:none; margin-bottom:0; padding-bottom:0;}
+  .q-text{
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  .q-num{
+    display:inline-block;
+    background:#2b2b2b;
+    color:#fff;
+    width:24px;height:24px;
+    border-radius:50%;
+    text-align:center;
+    line-height:24px;
+    font-size:13px;
+    margin-right:8px;
+  }
+  .options{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .opt-btn{
+    border: 2px solid var(--border);
+    background:#fff;
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size:15px;
+    cursor:pointer;
+    font-weight:bold;
+    color: var(--ink);
+    transition: all 0.15s ease;
+  }
+  .opt-btn:hover{
+    border-color:#999;
+    transform: translateY(-1px);
+  }
+  .opt-btn.selected-correct{
+    background: var(--correct);
+    border-color: var(--correct);
+    color:#fff;
+  }
+  .opt-btn.selected-wrong{
+    background: var(--wrong);
+    border-color: var(--wrong);
+    color:#fff;
+  }
+  .opt-btn.reveal-correct{
+    border-color: var(--correct);
+    color: var(--correct);
+  }
+  .opt-btn.locked{
+    cursor:default;
+  }
+  .feedback{
+    margin-top:8px;
+    font-size:14px;
+    font-weight:bold;
+    min-height:18px;
+  }
+  .feedback.correct{color:var(--correct);}
+  .feedback.wrong{color:var(--wrong);}
+
+  /* Unscramble */
+  .scramble-pool, .scramble-answer{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    min-height: 46px;
+    padding:8px;
+    border-radius:10px;
+    margin-bottom:10px;
+  }
+  .scramble-pool{
+    background:#f3f0e6;
+    border:2px dashed var(--border);
+  }
+  .scramble-answer{
+    background:#fff;
+    border:2px solid var(--border);
+  }
+  .word-tile{
+    background:#fff;
+    border:2px solid #ccc;
+    border-radius:8px;
+    padding:6px 12px;
+    font-size:15px;
+    cursor:pointer;
+    user-select:none;
+    font-weight:bold;
+  }
+  .word-tile:hover{border-color:#888;}
+  .scramble-buttons{
+    display:flex;
+    gap:10px;
+  }
+  .mini-btn{
+    border:none;
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-size:13px;
+    cursor:pointer;
+    font-weight:bold;
+    color:#fff;
+  }
+  .mini-btn.check{background:#4a7fd6;}
+  .mini-btn.reset{background:#999;}
+
+  /* Dialogue */
+  .dialogue-row{
+    display:flex;
+    margin-bottom:16px;
+  }
+  .dialogue-row.left{ justify-content:flex-start; }
+  .dialogue-row.right{ justify-content:flex-end; }
+  .bubble{
+    max-width: 85%;
+    padding: 12px 16px;
+    border-radius: 16px;
+    position:relative;
+  }
+  .dialogue-row.left .bubble{
+    background:#eef3fb;
+    border-bottom-left-radius:4px;
+  }
+  .dialogue-row.right .bubble{
+    background:#fdeee8;
+    border-bottom-right-radius:4px;
+  }
+  .speaker-name{
+    font-size:12px;
+    font-weight:bold;
+    color:var(--muted);
+    margin-bottom:4px;
+    display:block;
+  }
+  .bubble .options{ margin-top:8px; }
+  .bubble .opt-btn{ padding:6px 14px; font-size:14px; }
+
+  /* Score bar */
+  .scorebar{
+    position: sticky;
+    top:0;
+    z-index:10;
+    background:#2b2b2b;
+    color:#fff;
+    text-align:center;
+    padding:10px;
+    font-size:15px;
+    font-weight:bold;
+  }
+  #finalMsg{
+    display:none;
+    text-align:center;
+    font-size:20px;
+    font-weight:bold;
+    padding:20px;
+  }
+  footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+    margin-top:10px;
+  }
+  .checkAllBtn{
+    display:block;
+    margin: 10px auto 0;
+    background: var(--on);
+    color:#fff;
+    border:none;
+    padding: 12px 26px;
+    border-radius: 999px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+  }
+  .checkAllBtn:hover{opacity:0.9;}
+</style>
+</head>
+<body>
+
+<div class="scorebar">Score: <span id="scoreDisplay">0</span> / <span id="scoreTotal">0</span></div>
+
+<header>
+  <h1>⏰ IN, ON, AT — Prepositions of Time</h1>
+  <p>Learn the rules, then practice!</p>
+</header>
+
+<div class="wrap">
+
+  <!-- LANGUAGE FOCUS -->
+  <div class="card">
+    <h2>📘 Language Focus</h2>
+    <p>We use different prepositions to talk about time. Look at the rules below:</p>
+
+    <div class="rules">
+      <div class="rule-box at">
+        <h3>AT</h3>
+        <p>Exact clock times &amp; a few special expressions</p>
+        <ul>
+          <li>at 9 o'clock</li>
+          <li>at night</li>
+          <li>at lunchtime</li>
+          <li>at the weekend</li>
+        </ul>
+      </div>
+      <div class="rule-box in">
+        <h3>IN</h3>
+        <p>Longer periods: months, years, seasons, parts of the day</p>
+        <ul>
+          <li>in August</li>
+          <li>in winter</li>
+          <li>in 2024</li>
+          <li>in the morning</li>
+        </ul>
+      </div>
+      <div class="rule-box on">
+        <h3>ON</h3>
+        <p>Days and dates</p>
+        <ul>
+          <li>on Sunday</li>
+          <li>on Monday morning</li>
+          <li>on my birthday</li>
+          <li>on July 5th</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="trick">
+      💡 <strong>Memory trick:</strong> AT = one exact point on the clock ⏱️ · IN = a long period, like being "inside" a box of time 📦 · ON = a specific day, like a date "on" the calendar 📅
+    </div>
+
+    <p style="margin-top:18px;"><strong>Now look at the poem from your book — can you spot the pattern?</strong></p>
+    <div class="poem">In winter <span class="hi-at">at</span> nine <span class="hi-at">at</span> night,
+I'm <span class="hi-in">in</span> bed because it's too dark.
+<span class="hi-in">In</span> August <span class="hi-at">at</span> nine <span class="hi-at">at</span> night,
+I'm still playing <span class="hi-in">in</span> the park!
+<span class="hi-on">On</span> Sunday <span class="hi-at">at</span> eight <span class="hi-in">in</span> the morning,
+I go out for a long run.
+<span class="hi-on">On</span> Monday <span class="hi-at">at</span> six <span class="hi-in">in</span> the evening,
+I meet up with friends for some fun.</div>
+  </div>
+
+  <!-- PART A -->
+  <div class="card" id="partA">
+    <h2>✏️ Part A — Choose the Correct Preposition</h2>
+    <p style="color:var(--muted);font-size:14px;">Choose <strong>in</strong>, <strong>on</strong>, or <strong>at</strong>.</p>
+    <div id="partA-questions"></div>
+  </div>
+
+  <!-- PART B -->
+  <div class="card" id="partB">
+    <h2>📖 Part B — Sentences from the Poem</h2>
+    <p style="color:var(--muted);font-size:14px;">These sentences come from your book. Complete them!</p>
+    <div id="partB-questions"></div>
+  </div>
+
+  <!-- PART C -->
+  <div class="card" id="partC">
+    <h2>🧠 Part C — Mixed Challenge</h2>
+    <p style="color:var(--muted);font-size:14px;">Trickier sentences — think carefully!</p>
+    <div id="partC-questions"></div>
+  </div>
+
+  <!-- PART D: Find the mistake -->
+  <div class="card" id="partD">
+    <h2>🔍 Part D — Arrume o Erro (Find &amp; Fix the Mistake)</h2>
+    <p style="color:var(--muted);font-size:14px;">Each sentence has the WRONG preposition. Click the correct one!</p>
+    <div id="partD-questions"></div>
+  </div>
+
+  <!-- PART E: Unscramble -->
+  <div class="card" id="partE">
+    <h2>🧩 Part E — Desembaralhe a Frase</h2>
+    <p style="color:var(--muted);font-size:14px;">Click the words below, in order, to build the correct sentence.</p>
+    <div id="partE-questions"></div>
+  </div>
+
+  <!-- PART F: Dialogue -->
+  <div class="card" id="partF">
+    <h2>💬 Part F — Complete the Dialogue</h2>
+    <p style="color:var(--muted);font-size:14px;">Ana and Ben are planning their weekend. Complete their conversation with <strong>in</strong>, <strong>on</strong>, or <strong>at</strong>.</p>
+    <div id="partF-questions"></div>
+  </div>
+
+  <button class="checkAllBtn" onclick="checkAll()">✅ Check All Answers</button>
+  <div id="finalMsg"></div>
+
+  <footer>Made for practicing prepositions of time — good luck! 🍀</footer>
+</div>
+
+<script>
+/* ---------- DATA ---------- */
+
+const partA = [
+  {text:"I usually have breakfast ___ 7 o'clock.", answer:"at"},
+  {text:"My birthday is ___ March.", answer:"in"},
+  {text:"We don't have school ___ Saturdays.", answer:"on"},
+  {text:"She always does her homework ___ the evening.", answer:"in"},
+  {text:"The party starts ___ 6 pm.", answer:"at"},
+  {text:"I visit my grandma ___ Sundays.", answer:"on"},
+];
+
+const partB = [
+  {text:"___ winter, it's dark by nine at night.", answer:"in"},
+  {text:"___ August, I'm still playing in the park at nine at night.", answer:"in"},
+  {text:"___ Sunday, I go out for a long run at eight in the morning.", answer:"on"},
+  {text:"I go for a run ___ eight in the morning.", answer:"at"},
+  {text:"___ Monday, I meet up with friends at six in the evening.", answer:"on"},
+  {text:"I meet my friends ___ the evening.", answer:"in"},
+];
+
+const partC = [
+  {text:"My English class is ___ Tuesday afternoon.", answer:"on"},
+  {text:"I was born ___ 2012.", answer:"in"},
+  {text:"We always eat a big lunch ___ Christmas Day.", answer:"on"},
+  {text:"I never study ___ night — I get too tired.", answer:"at"},
+  {text:"___ the weekend, I like to sleep late.", answer:"at"},
+  {text:"Her exam is ___ Friday morning.", answer:"on"},
+];
+
+// Part D: sentence shown WITH the wrong word already inserted (in italics),
+// student must pick the correct replacement.
+const partD = [
+  {text:"I wake up <em>on</em> seven o'clock every day.", wrong:"on", answer:"at"},
+  {text:"We go to the beach <em>at</em> summer.", wrong:"at", answer:"in"},
+  {text:"My cousin's birthday is <em>in</em> July 10th.", wrong:"in", answer:"on"},
+  {text:"They always watch TV <em>on</em> the evening.", wrong:"on", answer:"in"},
+];
+
+// Part E: words array (already includes the correct preposition), answer = correct order string
+const partE = [
+  {words:["at","We","eat","dinner","seven"], answer:"We eat dinner at seven"},
+  {words:["Monday","school","have","We","on"], answer:"We have school on Monday"},
+  {words:["winter","cold","is","In","it"], answer:"In winter it is cold"},
+  {words:["morning","jogs","the","She","in"], answer:"She jogs in the morning"},
+];
+
+const partF = [
+  {speaker:"Ana", side:"left", before:"Hey Ben! Are you doing anything ", after:"Saturday?", answer:"on"},
+  {speaker:"Ben", side:"right", before:"Not really! I usually just relax ", after:"the morning.", answer:"in"},
+  {speaker:"Ana", side:"left", before:"Great! Let's meet ", after:"10 o'clock, then.", answer:"at"},
+  {speaker:"Ben", side:"right", before:"Sounds good. Should we watch a movie ", after:"night instead?", answer:"at"},
+  {speaker:"Ana", side:"left", before:"Sure! My favorite movie starts ", after:"7 pm.", answer:"at"},
+  {speaker:"Ben", side:"right", before:"Perfect — and don't forget, we also have that party ", after:"Ana's birthday!", answer:"on"},
+];
+
+/* ---------- STATE ---------- */
+let totalQuestions = partA.length + partB.length + partC.length + partD.length + partE.length + partF.length;
+let answeredCorrect = new Set();
+
+document.getElementById('scoreTotal').textContent = totalQuestions;
+
+function updateScore(){
+  document.getElementById('scoreDisplay').textContent = answeredCorrect.size;
+}
+
+/* ---------- RENDER MC-STYLE (Parts A, B, C) ---------- */
+function renderMC(containerId, data, prefix){
+  const container = document.getElementById(containerId);
+  data.forEach((item, idx) => {
+    const qid = prefix + idx;
+    const qDiv = document.createElement('div');
+    qDiv.className = 'q';
+    const opts = ["in","on","at"];
+    qDiv.innerHTML = `
+      <div class="q-text"><span class="q-num">${idx+1}</span>${item.text}</div>
+      <div class="options" id="opts-${qid}">
+        ${opts.map(o => `<button class="opt-btn" data-opt="${o}" onclick="selectOpt('${qid}','${o}','${item.answer}', this)">${o}</button>`).join('')}
+      </div>
+      <div class="feedback" id="fb-${qid}"></div>
+    `;
+    container.appendChild(qDiv);
+  });
+}
+
+function selectOpt(qid, chosen, correctAnswer, btnEl){
+  const optsDiv = document.getElementById('opts-' + qid);
+  if(optsDiv.classList.contains('locked')) return;
+  optsDiv.classList.add('locked');
+  const buttons = optsDiv.querySelectorAll('.opt-btn');
+  buttons.forEach(b => b.classList.add('locked'));
+
+  const fb = document.getElementById('fb-' + qid);
+  if(chosen === correctAnswer){
+    btnEl.classList.add('selected-correct');
+    fb.textContent = "✅ Correct!";
+    fb.className = "feedback correct";
+    answeredCorrect.add(qid);
+  } else {
+    btnEl.classList.add('selected-wrong');
+    buttons.forEach(b => {
+      if(b.dataset.opt === correctAnswer) b.classList.add('reveal-correct');
+    });
+    fb.textContent = "❌ Not quite. The correct answer is: " + correctAnswer;
+    fb.className = "feedback wrong";
+    answeredCorrect.delete(qid);
+  }
+  updateScore();
+}
+
+/* ---------- RENDER Part D (find the mistake) ---------- */
+function renderD(){
+  const container = document.getElementById('partD-questions');
+  partD.forEach((item, idx) => {
+    const qid = 'd' + idx;
+    const qDiv = document.createElement('div');
+    qDiv.className = 'q';
+    const opts = ["in","on","at"];
+    qDiv.innerHTML = `
+      <div class="q-text"><span class="q-num">${idx+1}</span>${item.text}</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:6px;">Which preposition should replace <em>${item.wrong}</em>?</div>
+      <div class="options" id="opts-${qid}">
+        ${opts.map(o => `<button class="opt-btn" data-opt="${o}" onclick="selectOpt('${qid}','${o}','${item.answer}', this)">${o}</button>`).join('')}
+      </div>
+      <div class="feedback" id="fb-${qid}"></div>
+    `;
+    container.appendChild(qDiv);
+  });
+}
+
+/* ---------- RENDER Part F (dialogue) ---------- */
+function renderF(){
+  const container = document.getElementById('partF-questions');
+  const opts = ["in","on","at"];
+  partF.forEach((item, idx) => {
+    const qid = 'f' + idx;
+    const row = document.createElement('div');
+    row.className = 'dialogue-row ' + item.side;
+    row.innerHTML = `
+      <div class="bubble">
+        <span class="speaker-name">${item.speaker}</span>
+        ${item.before}<strong>___</strong> ${item.after}
+        <div class="options" id="opts-${qid}">
+          ${opts.map(o => `<button class="opt-btn" data-opt="${o}" onclick="selectOpt('${qid}','${o}','${item.answer}', this)">${o}</button>`).join('')}
+        </div>
+        <div class="feedback" id="fb-${qid}"></div>
+      </div>
+    `;
+    container.appendChild(row);
+  });
+}
+
+/* ---------- RENDER Part E (unscramble) ---------- */
+const scrambleState = {};
+
+function shuffle(arr){
+  const a = [...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function renderE(){
+  const container = document.getElementById('partE-questions');
+  partE.forEach((item, idx) => {
+    const qid = 'e' + idx;
+    scrambleState[qid] = { pool: shuffle(item.words), answer: [] , correct: item.answer, checked:false};
+    const qDiv = document.createElement('div');
+    qDiv.className = 'q';
+    qDiv.innerHTML = `
+      <div class="q-text"><span class="q-num">${idx+1}</span>Build the sentence:</div>
+      <div class="scramble-answer" id="answer-${qid}"></div>
+      <div class="scramble-pool" id="pool-${qid}"></div>
+      <div class="scramble-buttons">
+        <button class="mini-btn check" onclick="checkScramble('${qid}')">Check</button>
+        <button class="mini-btn reset" onclick="resetScramble('${qid}')">Reset</button>
+      </div>
+      <div class="feedback" id="fb-${qid}"></div>
+    `;
+    container.appendChild(qDiv);
+    drawScramble(qid);
+  });
+}
+
+function drawScramble(qid){
+  const state = scrambleState[qid];
+  const poolDiv = document.getElementById('pool-' + qid);
+  const answerDiv = document.getElementById('answer-' + qid);
+  poolDiv.innerHTML = '';
+  answerDiv.innerHTML = '';
+  state.pool.forEach((word, i) => {
+    const tile = document.createElement('div');
+    tile.className = 'word-tile';
+    tile.textContent = word;
+    tile.onclick = () => {
+      if(state.checked) return;
+      state.answer.push(word);
+      state.pool.splice(i,1);
+      drawScramble(qid);
+    };
+    poolDiv.appendChild(tile);
+  });
+  state.answer.forEach((word, i) => {
+    const tile = document.createElement('div');
+    tile.className = 'word-tile';
+    tile.textContent = word;
+    tile.onclick = () => {
+      if(state.checked) return;
+      state.pool.push(word);
+      state.answer.splice(i,1);
+      drawScramble(qid);
+    };
+    answerDiv.appendChild(tile);
+  });
+}
+
+function checkScramble(qid){
+  const state = scrambleState[qid];
+  const fb = document.getElementById('fb-' + qid);
+  const built = state.answer.join(' ');
+  state.checked = true;
+  if(built.toLowerCase() === state.correct.toLowerCase()){
+    fb.textContent = "✅ Correct!";
+    fb.className = "feedback correct";
+    answeredCorrect.add(qid);
+  } else {
+    fb.textContent = "❌ Not quite. Correct sentence: \"" + state.correct + "\"";
+    fb.className = "feedback wrong";
+    answeredCorrect.delete(qid);
+  }
+  updateScore();
+}
+
+function resetScramble(qid){
+  const original = scrambleState[qid].correct.split(' ').concat(); // not exact original words list but fine
+  // rebuild from combined pool+answer
+  const allWords = scrambleState[qid].pool.concat(scrambleState[qid].answer);
+  scrambleState[qid].pool = shuffle(allWords);
+  scrambleState[qid].answer = [];
+  scrambleState[qid].checked = false;
+  document.getElementById('fb-' + qid).textContent = '';
+  drawScramble(qid);
+}
+
+/* ---------- CHECK ALL ---------- */
+function checkAll(){
+  // Trigger check on unfinished scrambles
+  Object.keys(scrambleState).forEach(qid => {
+    if(!scrambleState[qid].checked && scrambleState[qid].answer.length > 0){
+      checkScramble(qid);
+    }
+  });
+  const finalMsg = document.getElementById('finalMsg');
+  finalMsg.style.display = 'block';
+  const score = answeredCorrect.size;
+  let msg = "";
+  if(score === totalQuestions){
+    msg = "🏆 Perfect score! " + score + "/" + totalQuestions + " — You've mastered in/on/at!";
+  } else if(score >= totalQuestions * 0.7){
+    msg = "🌟 Great job! " + score + "/" + totalQuestions + " — Almost there!";
+  } else {
+    msg = "💪 Keep practicing! " + score + "/" + totalQuestions + " — Review the rules above and try again.";
+  }
+  finalMsg.textContent = msg;
+  finalMsg.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+/* ---------- INIT ---------- */
+renderMC('partA-questions', partA, 'a');
+renderMC('partB-questions', partB, 'b');
+renderMC('partC-questions', partC, 'c');
+renderD();
+renderE();
+renderF();
+updateScore();
+</script>
+
+</body>
+</html>

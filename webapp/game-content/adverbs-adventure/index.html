@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adverbs Adventure!</title>
+<style>
+  :root {
+    --pink:#FF6B9D;--yellow:#FFD93D;--green:#6BCB77;--blue:#4D96FF;
+    --purple:#C77DFF;--orange:#FF9A3C;--red:#FF5757;--teal:#00C4CC;
+    --bg:#FFF9F0;--card-radius:12px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:12px;}
+
+  /* HEADER */
+  #header{width:100%;max-width:700px;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  #title{font-size:1.5rem;font-weight:900;color:var(--purple);text-shadow:2px 2px 0 #e0b8ff;}
+  #score-box{background:var(--yellow);border-radius:20px;padding:6px 16px;font-size:1.1rem;font-weight:800;color:#333;box-shadow:0 3px 0 #e6c200;}
+
+  /* PROGRESS BAR */
+  #progress-wrap{width:100%;max-width:700px;background:#e0d6f0;border-radius:20px;height:16px;margin-bottom:10px;overflow:hidden;}
+  #progress-bar{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--purple),var(--pink));transition:width .5s ease;}
+
+  /* GRAMMAR TIP */
+  #tip-box{width:100%;max-width:700px;background:#FFF0F8;border:3px solid var(--pink);border-radius:var(--card-radius);padding:10px 14px;margin-bottom:12px;font-size:.95rem;color:#555;line-height:1.5;}
+  #tip-box strong{color:var(--purple);}
+
+  /* SENTENCE AREA */
+  #sentence-label{font-size:.85rem;color:#888;margin-bottom:4px;align-self:flex-start;max-width:700px;width:100%;}
+  #drop-zone{width:100%;max-width:700px;min-height:64px;background:#fff;border:3px dashed #ccc;border-radius:var(--card-radius);display:flex;flex-wrap:wrap;gap:8px;padding:10px;margin-bottom:10px;align-items:center;transition:border-color .3s;}
+  #drop-zone.active-drop{border-color:var(--green);}
+
+  /* FEEDBACK */
+  #feedback{font-size:1.1rem;font-weight:700;min-height:28px;margin-bottom:8px;color:var(--green);text-align:center;}
+  #feedback.wrong{color:var(--red);}
+
+  /* WORD BANK */
+  #bank-label{font-size:.85rem;color:#888;margin-bottom:4px;align-self:flex-start;max-width:700px;width:100%;}
+  #word-bank{width:100%;max-width:700px;min-height:70px;display:flex;flex-wrap:wrap;gap:10px;padding:10px;background:#f0ecff;border-radius:var(--card-radius);justify-content:center;margin-bottom:12px;}
+
+  /* WORD CARDS */
+  .word-card{
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:10px 16px;border-radius:10px;font-size:1.05rem;font-weight:800;
+    cursor:pointer;user-select:none;border:3px solid rgba(0,0,0,.15);
+    box-shadow:0 4px 0 rgba(0,0,0,.18);transition:transform .1s,box-shadow .1s;
+    color:#fff;min-width:44px;text-align:center;
+  }
+  .word-card:active{transform:scale(.95);box-shadow:0 1px 0 rgba(0,0,0,.18);}
+  .word-card.placed{box-shadow:0 2px 0 rgba(0,0,0,.2);}
+
+  /* COLOR PALETTE for cards (cycles) */
+  .cc0{background:var(--pink);}
+  .cc1{background:var(--blue);}
+  .cc2{background:var(--green);color:#fff;}
+  .cc3{background:var(--orange);}
+  .cc4{background:var(--purple);}
+  .cc5{background:var(--teal);}
+  .cc6{background:var(--red);}
+  .cc7{background:#FF85A1;}
+
+  /* SHAKE */
+  @keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-8px);}40%{transform:translateX(8px);}60%{transform:translateX(-6px);}80%{transform:translateX(6px);}}
+  .shake{animation:shake .4s ease;}
+
+  /* CHECK BUTTON */
+  #check-btn{background:var(--green);color:#fff;border:none;border-radius:14px;padding:12px 36px;font-size:1.1rem;font-weight:900;cursor:pointer;box-shadow:0 5px 0 #3da84a;transition:transform .1s,box-shadow .1s;margin-bottom:12px;}
+  #check-btn:active{transform:translateY(3px);box-shadow:0 2px 0 #3da84a;}
+  #check-btn:disabled{background:#ccc;box-shadow:0 5px 0 #aaa;cursor:not-allowed;}
+
+  /* CONFETTI */
+  #confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;}
+
+  /* END SCREEN */
+  #end-screen{display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;max-width:500px;width:100%;}
+  #end-screen h1{font-size:2.2rem;color:var(--purple);margin-bottom:10px;}
+  #end-screen .star-row{font-size:2.5rem;margin-bottom:16px;}
+  #end-screen p{font-size:1.2rem;color:#555;margin-bottom:20px;}
+  #end-score{font-size:3rem;font-weight:900;color:var(--pink);}
+  #restart-btn{background:var(--purple);color:#fff;border:none;border-radius:14px;padding:14px 40px;font-size:1.1rem;font-weight:900;cursor:pointer;box-shadow:0 5px 0 #9a55d4;margin-top:16px;}
+
+  #game-area{width:100%;max-width:700px;display:flex;flex-direction:column;align-items:center;}
+</style>
+</head>
+<body>
+
+<div id="header">
+  <div id="title">🌟 Adverbs Adventure!</div>
+  <div id="score-box">Score: <span id="score">0</span> / 20</div>
+</div>
+
+<div id="progress-wrap"><div id="progress-bar" style="width:0%"></div></div>
+
+<div id="game-area">
+  <div id="tip-box">
+    💡 <strong>Grammar Tip:</strong> Put words in order: <strong>Subject + adverb + verb + rest</strong>.<br>
+    With <strong>HE / SHE / IT</strong> — add <strong>-s</strong> or <strong>-es</strong> to the verb! (cook → cook<strong>s</strong>, do → do<strong>es</strong>)
+  </div>
+
+  <div id="sentence-label">👇 Build the sentence:</div>
+  <div id="drop-zone"></div>
+  <div id="feedback"></div>
+
+  <button id="check-btn" onclick="checkAnswer()">✅ Check!</button>
+
+  <div id="bank-label">🃏 Click a word to place it:</div>
+  <div id="word-bank"></div>
+</div>
+
+<div id="end-screen">
+  <div class="star-row">🌟🌟🌟</div>
+  <h1>Amazing job!</h1>
+  <p>You finished all 20 sentences!</p>
+  <div id="end-score"></div>
+  <p id="end-msg" style="margin-top:10px;font-weight:700;color:var(--purple);"></p>
+  <button id="restart-btn" onclick="restartGame()">🔄 Play Again!</button>
+</div>
+
+<canvas id="confetti-canvas"></canvas>
+
+<script>
+const SENTENCES = [
+  ["I","always","do","the","dishes"],
+  ["I","usually","cook","dinner"],
+  ["I","sometimes","sweep","the","floor"],
+  ["I","never","do","the","shopping"],
+  ["She","always","feeds","the","dog"],
+  ["She","usually","does","the","dishes"],
+  ["She","sometimes","cooks","dinner"],
+  ["She","never","sweeps","the","floor"],
+  ["He","always","takes","the","dog","for","a","walk"],
+  ["He","usually","cleans","up"],
+  ["He","sometimes","dries","the","dishes"],
+  ["He","never","does","the","shopping"],
+  ["We","always","cook","dinner","together"],
+  ["We","usually","clean","up","on","Saturdays"],
+  ["We","sometimes","do","the","dishes"],
+  ["We","never","feed","the","dog","at","night"],
+  ["They","always","do","the","shopping"],
+  ["They","usually","take","the","dog","for","a","walk"],
+  ["They","sometimes","sweep","the","floor"],
+  ["They","never","dry","the","dishes"],
+];
+
+const COLORS = ["cc0","cc1","cc2","cc3","cc4","cc5","cc6","cc7"];
+
+let order, current, score, placed, bankWords, colorMap;
+
+function shuffle(a){
+  const b=[...a];
+  for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}
+  return b;
+}
+
+function init(){
+  order = shuffle([...Array(20).keys()]);
+  current = 0; score = 0;
+  document.getElementById('end-screen').style.display='none';
+  document.getElementById('game-area').style.display='flex';
+  document.getElementById('score').textContent=0;
+  updateProgress();
+  loadSentence();
+}
+
+function loadSentence(){
+  if(current>=20){endGame();return;}
+  const words = SENTENCES[order[current]];
+  placed = [];
+  // assign consistent color per word (index in original)
+  colorMap = {};
+  const shuffled = shuffle(words.map((w,i)=>({w,i})));
+  bankWords = shuffled.map(({w,i})=>({w,i,id:i}));
+
+  renderDropZone();
+  renderBank();
+  document.getElementById('feedback').textContent='';
+  document.getElementById('feedback').className='';
+  document.getElementById('check-btn').disabled=false;
+  updateProgress();
+}
+
+function getColor(id){
+  if(colorMap[id]===undefined) colorMap[id]=COLORS[id%COLORS.length];
+  return colorMap[id];
+}
+
+function makeCard(word, id, inBank){
+  const d=document.createElement('div');
+  d.className='word-card '+getColor(id)+(inBank?'':' placed');
+  d.textContent=word;
+  d.dataset.id=id;
+  d.dataset.word=word;
+  if(inBank){
+    d.onclick=()=>moveToPlaced(id,word);
+  } else {
+    d.onclick=()=>moveToBank(id,word);
+  }
+  return d;
+}
+
+function renderDropZone(){
+  const dz=document.getElementById('drop-zone');
+  dz.innerHTML='';
+  if(placed.length===0){
+    const ph=document.createElement('span');
+    ph.style.color='#bbb';ph.style.fontSize='.9rem';
+    ph.textContent='Click words below to build the sentence...';
+    dz.appendChild(ph);
+  } else {
+    placed.forEach(({w,id})=>dz.appendChild(makeCard(w,id,false)));
+  }
+}
+
+function renderBank(){
+  const wb=document.getElementById('word-bank');
+  wb.innerHTML='';
+  bankWords.forEach(({w,id})=>wb.appendChild(makeCard(w,id,true)));
+}
+
+function moveToPlaced(id,word){
+  bankWords=bankWords.filter(b=>b.id!==id);
+  placed.push({w:word,id});
+  renderDropZone();
+  renderBank();
+}
+
+function moveToBank(id,word){
+  placed=placed.filter(p=>p.id!==id);
+  bankWords.push({w:word,id});
+  renderDropZone();
+  renderBank();
+}
+
+function checkAnswer(){
+  const correct=SENTENCES[order[current]];
+  if(placed.length!==correct.length){
+    showFeedback(false,"Place all the words first! 😊");
+    return;
+  }
+  const attempt=placed.map(p=>p.w);
+  const ok=attempt.every((w,i)=>w===correct[i]);
+  if(ok){
+    score++;
+    document.getElementById('score').textContent=score;
+    showFeedback(true,"⭐ Great job!");
+    launchConfetti();
+    document.getElementById('check-btn').disabled=true;
+    setTimeout(()=>{current++;loadSentence();},2000);
+  } else {
+    showFeedback(false,"🔄 Try again!");
+    shakeDropZone();
+    setTimeout(()=>{
+      placed=[];
+      bankWords=SENTENCES[order[current]].map((w,i)=>({w,i,id:i}));
+      bankWords=shuffle(bankWords);
+      renderDropZone();
+      renderBank();
+    },600);
+  }
+}
+
+function showFeedback(good,msg){
+  const fb=document.getElementById('feedback');
+  fb.textContent=msg;
+  fb.className=good?'':'wrong';
+}
+
+function shakeDropZone(){
+  const dz=document.getElementById('drop-zone');
+  dz.classList.add('shake');
+  dz.addEventListener('animationend',()=>dz.classList.remove('shake'),{once:true});
+}
+
+function updateProgress(){
+  const pct=(current/20)*100;
+  document.getElementById('progress-bar').style.width=pct+'%';
+}
+
+function endGame(){
+  document.getElementById('game-area').style.display='none';
+  const es=document.getElementById('end-screen');
+  es.style.display='flex';
+  document.getElementById('end-score').textContent=score+' / 20';
+  let msg='';
+  if(score===20) msg="Perfect score! You're a superstar! 🌟";
+  else if(score>=15) msg="Excellent work! Keep it up! 💪";
+  else if(score>=10) msg="Good job! Practice makes perfect! 😊";
+  else msg="Keep practicing — you're getting there! 🚀";
+  document.getElementById('end-msg').textContent=msg;
+  launchConfetti(4000);
+}
+
+function restartGame(){init();}
+
+/* ── CONFETTI ── */
+const canvas=document.getElementById('confetti-canvas');
+const ctx=canvas.getContext('2d');
+let pieces=[], animId=null;
+const CONF_COLORS=['#FF6B9D','#FFD93D','#6BCB77','#4D96FF','#C77DFF','#FF9A3C'];
+
+function launchConfetti(dur=1800){
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  pieces=[];
+  for(let i=0;i<120;i++){
+    pieces.push({
+      x:Math.random()*canvas.width,y:Math.random()*canvas.height-canvas.height,
+      w:Math.random()*12+6,h:Math.random()*6+4,
+      color:CONF_COLORS[Math.floor(Math.random()*CONF_COLORS.length)],
+      speed:Math.random()*4+2,angle:Math.random()*360,
+      spin:Math.random()*6-3,drift:Math.random()*2-1
+    });
+  }
+  if(animId) cancelAnimationFrame(animId);
+  const end=Date.now()+dur;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p=>{
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.angle*Math.PI/180);
+      ctx.fillStyle=p.color;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();
+      p.y+=p.speed;p.x+=p.drift;p.angle+=p.spin;
+    });
+    pieces=pieces.filter(p=>p.y<canvas.height+20);
+    if(Date.now()<end||pieces.length>0) animId=requestAnimationFrame(draw);
+    else ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+  draw();
+}
+
+init();
+</script>
+</body>
+</html>

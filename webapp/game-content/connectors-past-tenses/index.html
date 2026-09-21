@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão de Inglês — Connectors &amp; Past Tenses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F7F3EA;
+    --paper-2:#EFE9DA;
+    --card:#FFFFFF;
+    --ink:#23262B;
+    --ink-soft:#5B5A54;
+    --line:#DFD8C6;
+
+    --and:#3B6E8F;
+    --and-bg:#E4EEF3;
+    --but:#B5473B;
+    --but-bg:#F6E4E1;
+    --so:#B5651D;
+    --so-bg:#F6E9DA;
+    --because:#6B5296;
+    --because-bg:#EBE4F3;
+
+    --good:#3F8F5C;
+    --good-bg:#E3F1E7;
+    --bad:#C1443A;
+    --bad-bg:#F7E4E2;
+
+    --radius:14px;
+    --shadow: 0 2px 0 rgba(35,38,43,0.06), 0 10px 24px -14px rgba(35,38,43,0.25);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces',Georgia,serif;
+    margin:0 0 .4em 0;
+    letter-spacing:-0.01em;
+  }
+  .mono{ font-family:'IBM Plex Mono',monospace; }
+
+  a{color:inherit;}
+
+  /* ---------- layout shell ---------- */
+  .app{ max-width:900px; margin:0 auto; padding:0 18px 80px; }
+
+  header.top{
+    padding:28px 18px 0;
+    max-width:900px;
+    margin:0 auto;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--so);}
+  header.top h1{
+    font-size:clamp(28px,5vw,40px);
+    font-weight:700;
+    margin-top:6px;
+    line-height:1.05;
+  }
+  header.top h1 em{
+    font-style:italic;
+    font-weight:500;
+    color:var(--ink-soft);
+  }
+  header.top p.sub{
+    color:var(--ink-soft);
+    font-size:15.5px;
+    max-width:56ch;
+    margin:8px 0 22px;
+  }
+
+  /* progress dots */
+  .progress-row{
+    display:flex; align-items:center; gap:10px; margin-bottom:18px; flex-wrap:wrap;
+  }
+  .progress-track{
+    flex:1; min-width:120px;
+    height:6px;background:var(--line);border-radius:99px;overflow:hidden;
+  }
+  .progress-fill{
+    height:100%; background:linear-gradient(90deg,var(--so),var(--and));
+    width:0%; transition:width .4s ease;
+  }
+  .progress-label{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink-soft); white-space:nowrap;}
+
+  /* nav tabs */
+  nav.tabs{
+    display:flex; gap:8px; overflow-x:auto; padding:2px 0 14px;
+    -ms-overflow-style:none; scrollbar-width:none;
+  }
+  nav.tabs::-webkit-scrollbar{display:none;}
+  nav.tabs button{
+    flex:0 0 auto;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    padding:9px 13px;
+    border-radius:99px;
+    border:1px solid var(--line);
+    background:var(--card);
+    color:var(--ink-soft);
+    cursor:pointer;
+    display:flex; align-items:center; gap:7px;
+    transition:all .15s ease;
+    white-space:nowrap;
+  }
+  nav.tabs button .num{
+    width:16px;height:16px;border-radius:50%;
+    background:var(--line); color:var(--card);
+    font-size:9.5px; display:flex; align-items:center; justify-content:center;
+    flex:0 0 auto;
+  }
+  nav.tabs button.done .num{ background:var(--good); color:#fff; }
+  nav.tabs button.active{
+    background:var(--ink); color:var(--paper); border-color:var(--ink);
+  }
+  nav.tabs button.active .num{ background:var(--paper); color:var(--ink); }
+  nav.tabs button:hover:not(.active){ border-color:var(--ink-soft); }
+
+  /* section card */
+  section.panel{ display:none; }
+  section.panel.active{ display:block; animation:fade .3s ease; }
+  @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:24px;
+    margin-bottom:16px;
+    box-shadow:var(--shadow);
+  }
+  .card h2{ font-size:22px; }
+  .card .meta{
+    font-family:'IBM Plex Mono',monospace; font-size:11.5px;
+    color:var(--ink-soft); text-transform:uppercase; letter-spacing:.08em;
+    margin-bottom:4px;
+  }
+  .card p{ line-height:1.6; color:var(--ink); }
+  .card p.pt{ color:var(--ink-soft); font-size:14.5px; }
+
+  /* connector stamp */
+  .stamp{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:12.5px;
+    padding:4px 11px 5px;
+    border-radius:99px;
+    border:1.5px dashed currentColor;
+    transform:rotate(-1.2deg);
+  }
+  .stamp .sym{ font-size:13px; }
+  .stamp.and{ color:var(--and); background:var(--and-bg); }
+  .stamp.but{ color:var(--but); background:var(--but-bg); }
+  .stamp.so{ color:var(--so); background:var(--so-bg); }
+  .stamp.because{ color:var(--because); background:var(--because-bg); }
+
+  .rule-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:16px 0; }
+  @media(max-width:600px){ .rule-grid{ grid-template-columns:1fr; } }
+  .rule-box{
+    border:1px solid var(--line); border-radius:12px; padding:14px 16px;
+    background:var(--paper);
+  }
+  .rule-box .stamp{ margin-bottom:8px; }
+  .rule-box .ex{ font-style:italic; color:var(--ink-soft); font-size:14.5px; margin-top:6px; line-height:1.5;}
+  .rule-box .ex b{ font-style:normal; color:var(--ink); }
+
+  .versus{
+    display:grid; grid-template-columns:1fr auto 1fr; gap:14px; align-items:stretch; margin:18px 0;
+  }
+  @media(max-width:600px){ .versus{ grid-template-columns:1fr; } .versus .vs-mid{ display:none; } }
+  .versus .vs-mid{ display:flex; align-items:center; justify-content:center; color:var(--ink-soft); font-family:'IBM Plex Mono',monospace; font-size:12px; }
+  .vbox{ border-radius:12px; padding:16px; }
+  .vbox.and-v{ background:var(--and-bg); border:1px solid var(--and); }
+  .vbox.so-v{ background:var(--so-bg); border:1px solid var(--so); }
+  .vbox h3{ font-size:16px; margin-bottom:8px; }
+  .vbox .diagram{ font-family:'IBM Plex Mono',monospace; font-size:13px; margin:10px 0; line-height:1.8; }
+  .vbox .sample{ font-size:14px; line-height:1.55; margin-top:8px; }
+  .vbox .sample .wrong{ text-decoration:line-through; opacity:.55; }
+
+  /* quiz items */
+  .q{
+    border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin-bottom:12px;
+    background:var(--paper);
+  }
+  .q .qtext{ font-size:16px; margin-bottom:12px; line-height:1.55; }
+  .q .qtext .blank{
+    display:inline-block; min-width:70px; border-bottom:2px solid var(--ink-soft);
+    text-align:center; margin:0 2px;
+  }
+  .q .qnum{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--ink-soft); margin-bottom:6px; display:block; }
+  .opts{ display:flex; flex-wrap:wrap; gap:8px; }
+  .opt-btn{
+    font-family:'Inter',sans-serif; font-size:14.5px; font-weight:600;
+    padding:9px 15px; border-radius:9px; border:1.5px solid var(--line);
+    background:#fff; cursor:pointer; transition:all .12s ease; color:var(--ink);
+  }
+  .opt-btn:hover{ border-color:var(--ink); }
+  .opt-btn.selected{ border-color:var(--ink); background:var(--paper-2); }
+  .opt-btn.correct{ background:var(--good-bg); border-color:var(--good); color:#245c39; }
+  .opt-btn.incorrect{ background:var(--bad-bg); border-color:var(--bad); color:#8a2f27; }
+  .opt-btn[disabled]{ cursor:default; }
+  .explain{
+    margin-top:10px; padding:10px 13px; border-radius:9px; font-size:13.8px; line-height:1.5; display:none;
+  }
+  .explain.show{ display:block; animation:fade .25s ease; }
+  .explain.good-x{ background:var(--good-bg); color:#245c39; }
+  .explain.bad-x{ background:var(--bad-bg); color:#8a2f27; }
+
+  /* unscramble */
+  .unscramble-answer{
+    min-height:52px; border:2px dashed var(--line); border-radius:10px; padding:10px;
+    display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:12px; background:var(--paper);
+  }
+  .unscramble-answer:empty::before{ content:"Clique nas partes abaixo, na ordem certa →"; color:var(--ink-soft); font-size:13.5px; font-family:'IBM Plex Mono',monospace;}
+  .chunk-btn{
+    font-family:'IBM Plex Mono',monospace; font-size:13.5px; font-weight:500;
+    padding:8px 13px; border-radius:8px; border:1.5px solid var(--ink); background:#fff;
+    cursor:pointer; transition:all .12s ease;
+  }
+  .chunk-btn:hover{ background:var(--paper-2); }
+  .chunk-btn.used{ opacity:.3; pointer-events:none; }
+  .chunk-pool{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+  .placed-chunk{
+    font-family:'IBM Plex Mono',monospace; font-size:13.5px; font-weight:600;
+    padding:8px 13px; border-radius:8px; background:var(--ink); color:var(--paper); cursor:pointer;
+  }
+  .row-actions{ display:flex; gap:10px; flex-wrap:wrap; }
+
+  /* buttons */
+  .btn{
+    font-family:'Inter',sans-serif; font-weight:700; font-size:14px;
+    padding:11px 20px; border-radius:9px; border:none; cursor:pointer;
+    background:var(--ink); color:var(--paper); transition:transform .1s ease, opacity .15s ease;
+  }
+  .btn:hover{ opacity:.88; }
+  .btn:active{ transform:scale(.98); }
+  .btn.ghost{ background:transparent; color:var(--ink); border:1.5px solid var(--line); }
+  .btn.ghost:hover{ border-color:var(--ink); }
+  .btn[disabled]{ opacity:.4; cursor:default; }
+
+  .footer-nav{
+    display:flex; justify-content:space-between; align-items:center; margin-top:22px; gap:10px;
+  }
+
+  .score-banner{
+    display:none; align-items:center; gap:12px; padding:14px 18px; border-radius:12px;
+    background:var(--paper-2); border:1px solid var(--line); margin-bottom:16px;
+    font-family:'IBM Plex Mono',monospace; font-size:14px;
+  }
+  .score-banner.show{ display:flex; }
+  .score-banner .big{ font-size:22px; font-weight:600; }
+
+  .reading-text{
+    background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:18px 20px;
+    line-height:1.75; font-size:15.5px; margin-bottom:18px;
+  }
+  .reading-text h3{ font-size:17px; margin-bottom:10px; }
+
+  .final-score-screen{ text-align:center; padding:30px 10px; }
+  .final-score-screen .num{ font-family:'Fraunces',serif; font-size:64px; font-weight:600; line-height:1; }
+  .final-score-screen .num span{ font-size:28px; color:var(--ink-soft); }
+  .medal{ font-size:44px; margin-bottom:6px; }
+
+  .reset-link{
+    display:block; text-align:center; margin-top:26px; font-family:'IBM Plex Mono',monospace;
+    font-size:12px; color:var(--ink-soft); text-decoration:underline; cursor:pointer; background:none; border:none;
+  }
+
+  footer.site{
+    text-align:center; color:var(--ink-soft); font-family:'IBM Plex Mono',monospace; font-size:11.5px;
+    padding:30px 18px 10px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="eyebrow"><span class="dot"></span> STUDY REVIEW · PROVA À VISTA</div>
+  <h1>Connectors <em>&amp;</em> Past Tenses</h1>
+  <p class="sub">Revisão completa para a prova: regras, exercícios, frases pra desembaralhar e interpretação de texto. Vá passando pelas abas abaixo — seu progresso fica salvo automaticamente.</p>
+
+  <div class="progress-row">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <nav class="tabs" id="tabs"></nav>
+</header>
+
+<div class="app">
+
+  <!-- SECTION 1: RULES -->
+  <section class="panel" data-section="0">
+    <div class="card">
+      <div class="meta">Seção 1 · Cola rápida</div>
+      <h2>As regras, resumidas</h2>
+      <p class="pt">Antes de treinar, revise a lógica de cada conector. Preste atenção nas cores — elas se repetem em toda a revisão.</p>
+
+      <div class="rule-grid">
+        <div class="rule-box">
+          <span class="stamp and"><span class="sym">＋</span>AND</span>
+          <p>Junta <b>duas ideias parecidas</b> ou duas ações que acontecem juntas. Não indica causa nem consequência.</p>
+          <div class="ex">We had picnics in the fields <b>and</b> we walked through the forest.</div>
+        </div>
+        <div class="rule-box">
+          <span class="stamp but"><span class="sym">⇄</span>BUT</span>
+          <p>Conecta <b>duas ideias diferentes ou opostas</b>. Use vírgula antes de "but".</p>
+          <div class="ex">I liked having picnics<b>,</b> <b>but</b> I didn't like walking through the forest.</div>
+        </div>
+        <div class="rule-box">
+          <span class="stamp so"><span class="sym">→</span>SO</span>
+          <p>Mostra o <b>resultado / consequência</b> de uma ação. Use vírgula antes de "so".</p>
+          <div class="ex">I was tired<b>,</b> <b>so</b> I went home.</div>
+        </div>
+        <div class="rule-box">
+          <span class="stamp because"><span class="sym">∵</span>BECAUSE</span>
+          <p>Mostra o <b>motivo / razão</b> de uma ação (o porquê).</p>
+          <div class="ex">I went home <b>because</b> I was tired.</div>
+        </div>
+      </div>
+
+      <p class="pt" style="margin-top:4px;">Repare: <span class="mono">so</span> e <span class="mono">because</span> falam da mesma relação de causa/efeito — só que em ordem invertida. "Because" aponta pra <b>trás</b> (o motivo), "so" aponta pra <b>frente</b> (o resultado).</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">Seção 1 · Cola rápida</div>
+      <h2>Past Simple + Past Continuous</h2>
+      <p class="pt">Usamos os dois tempos juntos quando uma ação (mais longa) estava acontecendo e outra ação (mais curta) a interrompeu.</p>
+
+      <div class="rule-grid">
+        <div class="rule-box">
+          <h3 style="font-family:'IBM Plex Mono',monospace;font-size:14px;margin-bottom:6px;">Ordem 1 — sem vírgula</h3>
+          <p><b>Past continuous</b> + when + <b>past simple</b></p>
+          <div class="ex">I <b>was doing</b> my homework <b>when</b> my computer <b>broke</b>.</div>
+        </div>
+        <div class="rule-box">
+          <h3 style="font-family:'IBM Plex Mono',monospace;font-size:14px;margin-bottom:6px;">Ordem 2 — com vírgula</h3>
+          <p>When + <b>past simple</b>, <b>past continuous</b></p>
+          <div class="ex"><b>When</b> my computer <b>broke</b>, I <b>was doing</b> my homework.</div>
+        </div>
+      </div>
+      <p class="pt">Dica: a ação <b>mais longa</b> (que estava "em andamento") vai no <b>past continuous</b> (was/were + verbo-ing). A ação <b>curta</b>, que interrompe, vai no <b>past simple</b>.</p>
+    </div>
+
+    <div class="footer-nav">
+      <span></span>
+      <button class="btn" onclick="goTo(1)">Próxima seção →</button>
+    </div>
+  </section>
+
+  <!-- SECTION 2: AND vs SO -->
+  <section class="panel" data-section="1">
+    <div class="card">
+      <div class="meta">Seção 2 · Foco no problema</div>
+      <h2>AND vs SO</h2>
+      <p class="pt">Essa é a confusão mais comum. Compare os dois lado a lado antes de praticar.</p>
+
+      <div class="versus">
+        <div class="vbox and-v">
+          <h3><span class="stamp and"><span class="sym">＋</span>AND</span></h3>
+          <div class="diagram">Idea A  ＋  Idea B<br>(sem relação de causa)</div>
+          <div class="sample">We played football <b>and</b> we watched a movie.<br><span style="color:var(--ink-soft);font-size:13px;">→ duas ações soltas, uma não causa a outra</span></div>
+        </div>
+        <div class="vs-mid">vs</div>
+        <div class="vbox so-v">
+          <h3><span class="stamp so"><span class="sym">→</span>SO</span></h3>
+          <div class="diagram">Cause  →  Effect<br>(consequência)</div>
+          <div class="sample">I was tired, <b>so</b> I went home.<br><span style="color:var(--ink-soft);font-size:13px;">→ "tired" é a causa; "went home" é o resultado</span></div>
+        </div>
+      </div>
+
+      <p class="pt"><b style="color:var(--ink);">Teste rápido:</b> pergunte "a segunda parte é <i>consequência</i> da primeira?" Se sim → <span class="mono" style="color:var(--so);">so</span>. Se as duas partes só estão acontecendo juntas, sem uma causar a outra → <span class="mono" style="color:var(--and);">and</span>.</p>
+    </div>
+
+    <div class="card">
+      <div class="meta">Exercício</div>
+      <h2>Escolha AND ou SO</h2>
+      <div id="andSoQuiz"></div>
+    </div>
+
+    <div class="footer-nav">
+      <button class="btn ghost" onclick="goTo(0)">← Voltar</button>
+      <button class="btn" onclick="goTo(2)">Próxima seção →</button>
+    </div>
+  </section>
+
+  <!-- SECTION 3: CONNECTORS MC -->
+  <section class="panel" data-section="2">
+    <div class="card">
+      <div class="meta">Seção 3 · Prática geral</div>
+      <h2>Connectors — múltipla escolha</h2>
+      <p class="pt">Agora com and, but, so e because misturados, igual na prova.</p>
+      <div id="connectorsMCQuiz"></div>
+    </div>
+    <div class="footer-nav">
+      <button class="btn ghost" onclick="goTo(1)">← Voltar</button>
+      <button class="btn" onclick="goTo(3)">Próxima seção →</button>
+    </div>
+  </section>
+
+  <!-- SECTION 4: UNSCRAMBLE CONNECTORS -->
+  <section class="panel" data-section="3">
+    <div class="card">
+      <div class="meta">Seção 4 · Desembaralhar</div>
+      <h2>Monte a frase certa</h2>
+      <p class="pt">Clique nas partes na ordem correta para montar a frase.</p>
+      <div id="unscramble1"></div>
+    </div>
+    <div class="footer-nav">
+      <button class="btn ghost" onclick="goTo(2)">← Voltar</button>
+      <button class="btn" onclick="goTo(4)">Próxima seção →</button>
+    </div>
+  </section>
+
+  <!-- SECTION 5: FILL BLANK TENSES -->
+  <section class="panel" data-section="4">
+    <div class="card">
+      <div class="meta">Seção 5 · Prática geral</div>
+      <h2>Past Simple ou Past Continuous?</h2>
+      <p class="pt">Escolha a forma correta do verbo entre parênteses.</p>
+      <div id="fillBlankQuiz"></div>
+    </div>
+    <div class="footer-nav">
+      <button class="btn ghost" onclick="goTo(3)">← Voltar</button>
+      <button class="btn" onclick="goTo(5)">Próxima seção →</button>
+    </div>
+  </section>
+
+  <!-- SECTION 6: UNSCRAMBLE TENSES -->
+  <section class="panel" data-section="5">
+    <div class="card">
+      <div class="meta">Seção 6 · Desembaralhar</div>
+      <h2>Monte a frase certa</h2>
+      <p class="pt">Repare na vírgula — ela muda de lugar dependendo da ordem da frase.</p>
+      <div id="unscramble2"></div>
+    </div>
+    <div class="footer-nav">
+      <button class="btn ghost" onclick="goTo(4)">← Voltar</button>
+      <button class="btn" onclick="goTo(6)">Próxima seção →</button>
+    </div>
+  </section>
+
+  <!-- SECTION 7: READING -->
+  <section class="panel" data-section="6">
+    <div class="card">
+      <div class="meta">Seção 7 · Interpretação de texto</div>
+      <h2>🐶 Max's Big Adventure</h2>
+      <p class="pt">Leia a historinha com atenção nos conectores e nos tempos verbais em destaque.</p>
+      <div class="reading-text" id="readingText1"></div>
+      <div id="readingQuiz1"></div>
+    </div>
+    <div class="footer-nav">
+      <button class="btn ghost" onclick="goTo(5)">← Voltar</button>
+      <button class="btn" onclick="goTo(7)">Ir para a prova final →</button>
+    </div>
+  </section>
+
+  <!-- SECTION 8: FINAL EXAM -->
+  <section class="panel" data-section="7">
+    <div class="card">
+      <div class="meta">Seção 8 · Simulado</div>
+      <h2>Prova final</h2>
+      <p class="pt">10 questões misturando tudo. É a última checagem antes da prova de verdade.</p>
+      <div class="score-banner" id="finalBanner"></div>
+      <div id="finalQuiz"></div>
+      <div id="finalResultScreen" class="final-score-screen" style="display:none;"></div>
+    </div>
+    <div class="footer-nav">
+      <button class="btn ghost" onclick="goTo(6)">← Voltar</button>
+      <span></span>
+    </div>
+  </section>
+
+  <button class="reset-link" onclick="resetProgress()">Reiniciar todo o progresso</button>
+</div>
+
+<footer class="site">feito para revisão de connectors &amp; past tenses · bons estudos</footer>
+
+<script>
+/* ============ DATA ============ */
+
+const SECTION_NAMES = [
+  "Regras","AND vs SO","Connectors MC","Desembaralhar 1","Past Tenses","Desembaralhar 2","Leitura","Prova Final"
+];
+
+const andSoData = [
+  { pre:"I was hungry,", suf:"I made a sandwich.", answer:"so", explain:"\"Hungry\" é a causa, \"made a sandwich\" é a consequência → SO." },
+  { pre:"We played football", suf:"we watched a movie together.", answer:"and", explain:"Duas ações que só aconteceram juntas, uma não causou a outra → AND." },
+  { pre:"It started to rain,", suf:"we went inside.", answer:"so", explain:"A chuva (causa) fez com que eles entrassem (consequência) → SO." },
+  { pre:"She likes reading", suf:"she likes writing stories.", answer:"and", explain:"Duas coisas que ela gosta, sem relação de causa → AND." },
+  { pre:"He missed the bus,", suf:"he walked to school.", answer:"so", explain:"Perder o ônibus é a causa de ele ter ido andando → SO." },
+  { pre:"They walked to the park", suf:"they had a picnic.", answer:"and", explain:"Duas ações que aconteceram em sequência, sem uma causar a outra → AND." },
+  { pre:"The music was too loud,", suf:"I turned it down.", answer:"so", explain:"O volume alto (causa) fez ele abaixar o som (consequência) → SO." },
+  { pre:"I did my homework", suf:"I watched TV.", answer:"and", explain:"Duas atividades separadas, sem relação de causa e efeito → AND." },
+];
+
+const connectorsMCData = [
+  { text:"We went to the beach ___ we swam in the sea.", options:["but","and","because"], answer:1, explain:"Duas ações que aconteceram juntas, sem contraste → AND." },
+  { text:"I wanted to go out, ___ it was raining.", options:["but","so","and"], answer:0, explain:"Ideia contrária (queria sair x estava chovendo) → BUT." },
+  { text:"She was late ___ she missed the bus.", options:["because","so","and"], answer:0, explain:"\"Because\" dá o motivo de ela estar atrasada." },
+  { text:"He studied hard, ___ he passed the exam.", options:["but","so","because"], answer:1, explain:"Estudar muito é a causa de ele ter passado → SO." },
+  { text:"We wanted to swim, ___ the pool was closed.", options:["and","because","but"], answer:2, explain:"Contraste entre o que queriam e o que aconteceu → BUT." },
+  { text:"I love pizza ___ I love pasta.", options:["and","but","so"], answer:0, explain:"Duas preferências parecidas, sem causa/efeito → AND." },
+  { text:"The film was boring, ___ we left early.", options:["because","so","and"], answer:1, explain:"O filme chato é a causa de eles terem saído → SO." },
+  { text:"She was tired ___ she had worked all day.", options:["because","so","but"], answer:0, explain:"\"Because\" explica o motivo do cansaço." },
+  { text:"We planned a picnic, ___ it started to rain.", options:["but","and","because"], answer:0, explain:"Contraste entre o plano e o que aconteceu → BUT." },
+  { text:"He was hungry, ___ he had breakfast.", options:["because","and","so"], answer:2, explain:"Fome é a causa de ele ter tomado café da manhã → SO." },
+];
+
+const unscramble1Data = [
+  { chunks:["We went to the village","and","we climbed the mountain."] },
+  { chunks:["I was tired,","so","I went home."] },
+  { chunks:["I wanted to go swimming,","but","the pool was closed."] },
+  { chunks:["She stayed at home","because","she was sick."] },
+  { chunks:["We had a picnic","and","we played games."] },
+  { chunks:["He missed the bus,","so","he walked to school."] },
+];
+
+const fillBlankData = [
+  { pre:"I", verb:"wait", suf:"for the train when I saw my friend.", options:["waited","was waiting","wait"], answer:1 },
+  { pre:"When my brother came home, I", verb:"do", suf:"my homework.", options:["was doing","did","do"], answer:0 },
+  { pre:"We were playing football when it", verb:"begin", suf:"to snow.", options:["was beginning","began","begins"], answer:1 },
+  { pre:"Mom was living in Ankara when she", verb:"meet", suf:"Dad.", options:["was meeting","meets","met"], answer:2 },
+  { pre:"My brother", verb:"play", suf:"basketball when he broke his leg.", options:["played","was playing","plays"], answer:1 },
+  { pre:"My sister was doing her homework when she", verb:"fall", suf:"asleep.", options:["was falling","fell","falls"], answer:1 },
+  { pre:"I", verb:"walk", suf:"to school when it started to rain.", options:["walked","was walking","walk"], answer:1 },
+  { pre:"She", verb:"watch", suf:"TV when the phone rang.", options:["watched","was watching","watches"], answer:1 },
+  { pre:"They", verb:"study", suf:"when the lights went out.", options:["studied","were studying","study"], answer:1 },
+  { pre:"He", verb:"live", suf:"in Brazil when he learned English.", options:["was living","lived","lives"], answer:0 },
+];
+
+const unscramble2Data = [
+  { chunks:["I was doing my homework","when","my computer broke."] },
+  { chunks:["When my computer broke,","I was doing my homework."] },
+  { chunks:["We were playing in the garden","when","it started to rain."] },
+  { chunks:["When the teacher arrived,","the students were talking."] },
+  { chunks:["I was walking home","when","I saw a cat in the tree."] },
+  { chunks:["While she was cooking dinner,","the phone rang."] },
+];
+
+const readingTexts = [
+  {
+    title:"Max's Big Adventure",
+    text:"Last weekend, my dog Max was sleeping in the yard when he heard a strange noise. He jumped up and ran to the fence, but he couldn't see anything. Max started barking, so I ran outside to check. It was just a little squirrel! Max wagged his tail because he thought he was a hero. We gave him a treat, and he fell asleep again five minutes later. 🐾",
+    questions:[
+      { q:"What was Max doing when he heard the noise?", options:["Eating dinner","Sleeping in the yard","Playing with a ball","Barking at the door"], answer:1 },
+      { q:"What did Max find at the fence?", options:["A cat","A squirrel","A bird","Another dog"], answer:1 },
+      { q:"\"Max started barking, so I ran outside.\" What does \"so\" show here?", options:["Two ideas together","A reason before the action","A result","A contrast"], answer:2 },
+      { q:"Why did Max wag his tail?", options:["He was hungry","He thought he was a hero","He wanted to sleep","He was scared"], answer:1 },
+      { q:"What did Max do five minutes after the treat?", options:["Ran away","Fell asleep","Started barking again","Ate dinner"], answer:1 },
+    ]
+  }
+];
+
+const finalExamData = [
+  { text:"We had a picnic ___ we played games.", options:["so","and","because"], answer:1, explain:"Duas ações sem causa/efeito → AND." },
+  { text:"I was hungry, ___ I made lunch.", options:["and","so","but"], answer:1, explain:"Fome (causa) → almoço (consequência) → SO." },
+  { text:"I wanted to swim, ___ the pool was closed.", options:["but","and","so"], answer:0, explain:"Contraste entre o desejo e a realidade → BUT." },
+  { text:"She stayed home ___ she was sick.", options:["because","so","and"], answer:0, explain:"Explica o motivo de ela ter ficado em casa → BECAUSE." },
+  { text:"I ___ (read) a book when the lights went out.", options:["read","was reading","am reading"], answer:1, explain:"Ação em andamento interrompida → past continuous." },
+  { text:"When the alarm rang, everyone ___ (sleep).", options:["slept","was sleeping","sleeps"], answer:1, explain:"Estavam dormindo quando o alarme (ação curta) tocou." },
+  { text:"We ___ (walk) home when it started to rain.", options:["walked","was walking","were walking"], answer:2, explain:"\"We\" pede \"were\" + verbo-ing." },
+  { text:"Which sentence uses the comma correctly?", options:["I was tired so I went home.","I was tired, so I went home.","I was tired so, I went home."], answer:1, explain:"Vírgula vem antes de \"so\"." },
+  { text:"If two actions happen with no cause-effect relationship, which connector fits?", options:["so","because","and"], answer:2, explain:"Sem relação de causa/efeito → AND." },
+  { text:"Which connector introduces a reason for an action?", options:["and","because","but"], answer:1, explain:"\"Because\" apresenta o motivo." },
+];
+
+/* ============ STATE ============ */
+const STORAGE_KEY = "englishReviewProgress_v2";
+let state = loadState();
+
+function freshState(){
+  return { current:0, completed:[false,false,false,false,false,false,false,false] };
+}
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      const parsed = JSON.parse(raw);
+      // safety check: if the saved shape doesn't match the current app, start fresh
+      if(parsed && Array.isArray(parsed.completed) && parsed.completed.length === SECTION_NAMES.length && typeof parsed.current === 'number'){
+        return parsed;
+      }
+    }
+  }catch(e){}
+  return freshState();
+}
+function saveState(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+}
+function resetProgress(){
+  if(!confirm("Isso vai apagar todo o progresso salvo. Continuar?")) return;
+  try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
+  location.reload();
+}
+
+/* ============ NAV ============ */
+function buildTabs(){
+  const nav = document.getElementById('tabs');
+  nav.innerHTML = "";
+  SECTION_NAMES.forEach((name,i)=>{
+    const b = document.createElement('button');
+    b.innerHTML = `<span class="num">${i+1}</span>${name}`;
+    b.onclick = ()=>goTo(i);
+    b.dataset.idx = i;
+    nav.appendChild(b);
+  });
+  refreshTabs();
+}
+function refreshTabs(){
+  document.querySelectorAll('nav.tabs button').forEach(b=>{
+    const i = +b.dataset.idx;
+    b.classList.toggle('active', i===state.current);
+    b.classList.toggle('done', !!state.completed[i]);
+  });
+  document.querySelectorAll('section.panel').forEach(s=>{
+    s.classList.toggle('active', +s.dataset.section === state.current);
+  });
+  const doneCount = state.completed.filter(Boolean).length;
+  document.getElementById('progressFill').style.width = (doneCount/8*100)+"%";
+}
+function goTo(i){
+  state.current = i;
+  saveState();
+  refreshTabs();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function markDone(sectionIdx){
+  state.completed[sectionIdx] = true;
+  saveState();
+  refreshTabs();
+}
+
+/* ============ GENERIC MC RENDERER ============ */
+// items: [{text/prompt html, options:[...], answer:index, explain}]
+function renderMC(containerId, items, sectionIdx, opts){
+  opts = opts || {};
+  const container = document.getElementById(containerId);
+  container.innerHTML = "";
+  const results = new Array(items.length).fill(null);
+
+  items.forEach((item, qi)=>{
+    const qDiv = document.createElement('div');
+    qDiv.className = 'q';
+    const promptHTML = opts.getPrompt ? opts.getPrompt(item) : item.text;
+    qDiv.innerHTML = `<span class="qnum">Questão ${qi+1}</span><div class="qtext">${promptHTML}</div><div class="opts"></div><div class="explain"></div>`;
+    const optsDiv = qDiv.querySelector('.opts');
+    const explainDiv = qDiv.querySelector('.explain');
+
+    item.options.forEach((optText, oi)=>{
+      const b = document.createElement('button');
+      b.className = 'opt-btn';
+      b.textContent = optText;
+      b.onclick = ()=>{
+        if(results[qi] !== null) return;
+        const isCorrect = oi === item.answer;
+        results[qi] = isCorrect;
+        Array.from(optsDiv.children).forEach((c,ci)=>{
+          c.disabled = true;
+          if(ci === item.answer) c.classList.add('correct');
+          if(ci === oi && !isCorrect) c.classList.add('incorrect');
+        });
+        explainDiv.classList.add('show');
+        explainDiv.classList.add(isCorrect ? 'good-x':'bad-x');
+        explainDiv.textContent = (isCorrect ? "✓ Certo! " : "✗ Quase — ") + (item.explain || "");
+        checkAllDone();
+      };
+      optsDiv.appendChild(b);
+    });
+    container.appendChild(qDiv);
+  });
+
+  function checkAllDone(){
+    if(results.every(r=>r!==null)){
+      markDone(sectionIdx);
+      if(opts.onComplete) opts.onComplete(results);
+    }
+  }
+}
+
+/* ============ UNSCRAMBLE RENDERER ============ */
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+function renderUnscramble(containerId, data, sectionIdx){
+  const container = document.getElementById(containerId);
+  container.innerHTML = "";
+  const doneFlags = new Array(data.length).fill(false);
+
+  data.forEach((item, qi)=>{
+    const correct = item.chunks;
+    const shuffled = shuffle(correct.map((c,i)=>({text:c, idx:i})));
+
+    const wrap = document.createElement('div');
+    wrap.className = 'q';
+    wrap.innerHTML = `<span class="qnum">Frase ${qi+1}</span>
+      <div class="unscramble-answer" id="${containerId}-ans-${qi}"></div>
+      <div class="chunk-pool" id="${containerId}-pool-${qi}"></div>
+      <div class="row-actions">
+        <button class="btn ghost" id="${containerId}-clear-${qi}">Limpar</button>
+        <button class="btn" id="${containerId}-check-${qi}">Verificar</button>
+      </div>
+      <div class="explain" id="${containerId}-explain-${qi}"></div>`;
+    container.appendChild(wrap);
+
+    const ansDiv = wrap.querySelector(`#${CSS.escape(containerId)}-ans-${qi}`);
+    const poolDiv = wrap.querySelector(`#${CSS.escape(containerId)}-pool-${qi}`);
+    const explainDiv = wrap.querySelector(`#${CSS.escape(containerId)}-explain-${qi}`);
+    let placedOrder = [];
+
+    function renderPool(){
+      poolDiv.innerHTML = "";
+      shuffled.forEach((chunk, ci)=>{
+        const b = document.createElement('button');
+        b.className = 'chunk-btn';
+        b.textContent = chunk.text;
+        if(placedOrder.includes(ci)) b.classList.add('used');
+        b.onclick = ()=>{
+          if(placedOrder.includes(ci)) return;
+          placedOrder.push(ci);
+          renderAns();
+          renderPool();
+        };
+        poolDiv.appendChild(b);
+      });
+    }
+    function renderAns(){
+      ansDiv.innerHTML = "";
+      placedOrder.forEach((ci)=>{
+        const b = document.createElement('span');
+        b.className = 'placed-chunk';
+        b.textContent = shuffled[ci].text;
+        b.title = "Clique para remover";
+        b.onclick = ()=>{
+          placedOrder = placedOrder.filter(x=>x!==ci);
+          renderAns();
+          renderPool();
+        };
+        ansDiv.appendChild(b);
+      });
+    }
+    wrap.querySelector(`#${CSS.escape(containerId)}-clear-${qi}`).onclick = ()=>{
+      placedOrder = [];
+      renderAns(); renderPool();
+      explainDiv.classList.remove('show','good-x','bad-x');
+    };
+    wrap.querySelector(`#${CSS.escape(containerId)}-check-${qi}`).onclick = ()=>{
+      if(placedOrder.length !== correct.length){
+        explainDiv.textContent = "Coloque todas as partes antes de verificar.";
+        explainDiv.className = 'explain show bad-x';
+        return;
+      }
+      const attemptOrderIdx = placedOrder.map(ci=>shuffled[ci].idx);
+      const isRight = attemptOrderIdx.every((v,i)=>v===i);
+      explainDiv.className = 'explain show ' + (isRight ? 'good-x':'bad-x');
+      explainDiv.textContent = isRight
+        ? "✓ Certo! " + correct.join(' ')
+        : "✗ Ainda não — frase correta: " + correct.join(' ');
+      if(isRight && !doneFlags[qi]){
+        doneFlags[qi] = true;
+        if(doneFlags.every(Boolean)) markDone(sectionIdx);
+      }
+    };
+
+    renderAns();
+    renderPool();
+  });
+}
+
+/* ============ BUILD SECTIONS ============ */
+function buildAndSo(){
+  const items = andSoData.map(d=>({
+    text: `${d.pre} ___ ${d.suf}`,
+    options:["and","so"],
+    answer: d.answer==="and" ? 0 : 1,
+    explain: d.explain
+  }));
+  renderMC('andSoQuiz', items, 1);
+}
+function buildConnectorsMC(){
+  renderMC('connectorsMCQuiz', connectorsMCData, 2);
+}
+function buildUnscramble1(){
+  renderUnscramble('unscramble1', unscramble1Data, 3);
+}
+function buildFillBlank(){
+  const items = fillBlankData.map(d=>({
+    text: `${d.pre} <span class="mono" style="color:var(--ink-soft);">(${d.verb})</span> ___ ${d.suf}`,
+    options:d.options,
+    answer:d.answer,
+    explain:"Verbo correto: \"" + d.options[d.answer] + "\""
+  }));
+  renderMC('fillBlankQuiz', items, 4);
+}
+function buildUnscramble2(){
+  renderUnscramble('unscramble2', unscramble2Data, 5);
+}
+function buildReading(){
+  document.getElementById('readingText1').innerHTML = `<p>${readingTexts[0].text}</p>`;
+  const items1 = readingTexts[0].questions.map(q=>({text:q.q, options:q.options, answer:q.answer, explain:"Releia a historinha para confirmar o trecho."}));
+  renderMC('readingQuiz1', items1, 6, { onComplete:()=>{ markDone(6); } });
+}
+function buildFinal(){
+  const banner = document.getElementById('finalBanner');
+  let score = 0;
+  renderMC('finalQuiz', finalExamData, 7, {
+    onComplete:(results)=>{
+      score = results.filter(Boolean).length;
+      showFinalResult(score, finalExamData.length);
+    }
+  });
+}
+function showFinalResult(score, total){
+  const screen = document.getElementById('finalResultScreen');
+  const pct = Math.round(score/total*100);
+  let medal = "📘", msg = "Vale a pena revisar mais um pouco antes da prova.";
+  if(pct >= 90){ medal="🏆"; msg="Excelente! Você está muito bem preparado."; }
+  else if(pct >= 70){ medal="⭐"; msg="Muito bom! Só reforce os pontos que errou."; }
+  else if(pct >= 50){ medal="📗"; msg="No caminho certo — revise os erros com calma."; }
+
+  screen.style.display = 'block';
+  screen.innerHTML = `
+    <div class="medal">${medal}</div>
+    <div class="num">${score}<span>/${total}</span></div>
+    <p style="color:var(--ink-soft);max-width:40ch;margin:10px auto 0;">${msg}</p>
+  `;
+}
+
+/* ============ INIT ============ */
+function init(){
+  buildTabs();
+  buildAndSo();
+  buildConnectorsMC();
+  buildUnscramble1();
+  buildFillBlank();
+  buildUnscramble2();
+  buildReading();
+  buildFinal();
+  refreshTabs();
+}
+init();
+</script>
+</body>
+</html>

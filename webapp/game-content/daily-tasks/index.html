@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Tasks Games</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #fff8f0; min-height: 100vh; }
+
+  .nav { display: flex; justify-content: center; gap: 8px; padding: 14px 12px; background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb); flex-wrap: wrap; }
+  .nav-btn { padding: 8px 16px; border: none; border-radius: 30px; font-size: 13px; font-weight: 700; cursor: pointer; background: white; color: #333; box-shadow: 0 3px 8px rgba(0,0,0,0.15); transition: all .2s; }
+  .nav-btn.active, .nav-btn:hover { background: #333; color: white; transform: translateY(-2px); }
+
+  .screen { display: none; padding: 24px 16px; max-width: 660px; margin: 0 auto; }
+  .screen.active { display: block; }
+
+  .home-title { text-align: center; padding: 30px 20px; }
+  .home-title h1 { font-size: 2rem; color: #e84393; margin-bottom: 8px; }
+  .home-title p { color: #666; font-size: 1.05rem; margin-bottom: 28px; }
+  .game-cards { display: flex; flex-direction: column; gap: 12px; }
+  .game-card { border-radius: 18px; padding: 18px 22px; cursor: pointer; color: white; font-size: 1rem; font-weight: 700; box-shadow: 0 4px 14px rgba(0,0,0,0.12); transition: transform .2s; }
+  .game-card:hover { transform: translateY(-3px); }
+  .game-card .card-num { font-size: 1.6rem; }
+  .game-card .card-desc { font-size: .82rem; font-weight: 400; margin-top: 3px; opacity: .9; }
+  .gc1 { background: linear-gradient(135deg, #667eea, #764ba2); }
+  .gc2 { background: linear-gradient(135deg, #f7971e, #ffd200); }
+  .gc3 { background: linear-gradient(135deg, #56ab2f, #a8e063); }
+  .gc4 { background: linear-gradient(135deg, #f953c6, #b91d73); }
+  .gc5 { background: linear-gradient(135deg, #0f9b8e, #000000); }
+
+  .score-bar { display: flex; justify-content: space-between; align-items: center; background: white; border-radius: 14px; padding: 12px 18px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  .score-bar h2 { font-size: 1rem; color: #555; }
+  .score-badge { background: #f7971e; color: white; border-radius: 20px; padding: 5px 14px; font-weight: 700; font-size: 1rem; }
+
+  .card { background: white; border-radius: 20px; padding: 24px 22px; box-shadow: 0 4px 18px rgba(0,0,0,.09); }
+  .card h3 { font-size: 1rem; color: #888; margin-bottom: 14px; text-align:center; }
+
+  .chore-emoji { font-size: 5rem; margin: 10px 0 20px; text-align:center; line-height:1; }
+  .chore-emoji svg { width: 90px; height: 90px; }
+  .chore-label { font-size: 1.1rem; color: #555; margin-bottom: 18px; text-align:center; }
+
+  input[type=text] { width: 100%; padding: 13px 18px; border: 2px solid #ddd; border-radius: 12px; font-size: 1rem; outline: none; transition: border .2s; }
+  input[type=text]:focus { border-color: #667eea; }
+
+  .feedback { margin: 14px 0; padding: 12px 18px; border-radius: 12px; font-weight: 700; font-size: 1rem; display: none; }
+  .feedback.correct { background: #d4edda; color: #155724; display: block; }
+  .feedback.wrong { background: #f8d7da; color: #721c24; display: block; }
+
+  .btn-row { display: flex; gap: 10px; margin-top: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn { padding: 11px 24px; border: none; border-radius: 30px; font-size: .92rem; font-weight: 700; cursor: pointer; transition: all .2s; }
+  .btn-check { background: #667eea; color: white; }
+  .btn-check:hover { background: #5a6fd6; }
+  .btn-next { background: #56ab2f; color: white; }
+  .btn-next:hover { background: #4a9427; }
+  .btn-retry { background: #f7971e; color: white; }
+  .btn-retry:hover { background: #e08a10; }
+  .btn-home { background: #e84393; color: white; }
+  .btn-home:hover { background: #d13582; }
+
+  .tiles-area { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 14px 0 6px; min-height: 46px; }
+  .answer-area { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 6px 0 14px; min-height: 46px; border: 2px dashed #ccc; border-radius: 12px; padding: 10px; background: #f9f9f9; }
+  .tile { padding: 8px 16px; background: #667eea; color: white; border-radius: 10px; cursor: pointer; font-size: .92rem; font-weight: 600; user-select: none; transition: transform .15s; }
+  .tile:hover { transform: scale(1.07); }
+  .tile.answer-tile { background: #56ab2f; }
+
+  .progress { font-size: .85rem; color: #aaa; margin-bottom: 10px; text-align:center; }
+  .sentence { font-size: 1.15rem; color: #333; margin: 14px 0; line-height: 1.9; }
+  .blank { display: inline-block; min-width: 110px; border-bottom: 3px solid #667eea; color: #667eea; font-weight: 700; }
+
+  /* GAME 4 */
+  .dialogue { background: #f9f4ff; border-radius: 16px; padding: 20px; margin-bottom: 18px; }
+  .bubble { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; }
+  .bubble.right { flex-direction: row-reverse; }
+  .avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+  .av-a { background: #ffd6e7; }
+  .av-b { background: #d6eaff; }
+  .bubble-text { background: white; border-radius: 14px; padding: 10px 14px; font-size: .97rem; line-height: 1.7; box-shadow: 0 2px 6px rgba(0,0,0,.07); max-width: 85%; }
+  .bubble.right .bubble-text { background: #e8f4ff; }
+  .g4-blank { display: inline-block; border-bottom: 2.5px solid #b91d73; min-width: 90px; color: #b91d73; font-weight: 700; cursor: pointer; padding: 0 4px; }
+  .word-bank { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+  .bank-word { padding: 7px 15px; background: #f953c6; color: white; border-radius: 10px; cursor: pointer; font-size: .9rem; font-weight: 600; transition: transform .15s, opacity .2s; }
+  .bank-word:hover { transform: scale(1.06); }
+  .bank-word.used { opacity: .3; pointer-events: none; }
+  .bank-label { font-size: .82rem; color: #aaa; margin-bottom: 6px; }
+  .g4-select { border: 2px solid #f953c6; border-radius: 8px; padding: 3px 6px; font-size: .93rem; font-weight: 600; color: #b91d73; background: white; cursor: pointer; outline: none; max-width: 200px; }
+  .g4-select:focus { border-color: #b91d73; }
+  .g4-select.correct { border-color: #56ab2f; color: #155724; background: #d4edda; }
+  .g4-select.wrong { border-color: #e84393; color: #721c24; background: #f8d7da; }
+
+  /* GAME 5 */
+  .reading-text { background: #f0fff4; border-radius: 16px; padding: 20px; font-size: .97rem; line-height: 1.9; color: #333; margin-bottom: 20px; border-left: 5px solid #56ab2f; }
+  .reading-text h4 { color: #56ab2f; margin-bottom: 10px; font-size: 1.05rem; }
+  .tf-question { font-size: 1.05rem; color: #333; margin-bottom: 16px; font-weight: 600; text-align:center; }
+  .tf-btns { display: flex; gap: 16px; justify-content: center; margin-bottom: 6px; }
+  .tf-btn { padding: 13px 36px; border: none; border-radius: 14px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all .2s; }
+  .tf-true { background: #56ab2f; color: white; }
+  .tf-true:hover { background: #4a9427; }
+  .tf-false { background: #e84393; color: white; }
+  .tf-false:hover { background: #d13582; }
+  .tf-btn:disabled { opacity: .5; cursor: default; }
+
+  .finish { text-align: center; padding: 20px 0; }
+  .finish .big { font-size: 3.5rem; }
+  .finish h2 { font-size: 1.5rem; margin: 10px 0 6px; color: #333; }
+  .finish p { color: #666; margin-bottom: 20px; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <button class="nav-btn active" onclick="showScreen('home')">🏠 Home</button>
+  <button class="nav-btn" onclick="startGame(1)">🔀 Game 1</button>
+  <button class="nav-btn" onclick="startGame(2)">🖼️ Game 2</button>
+  <button class="nav-btn" onclick="startGame(3)">✏️ Game 3</button>
+  <button class="nav-btn" onclick="startGame(4)">💬 Game 4</button>
+  <button class="nav-btn" onclick="startGame(5)">📖 Game 5</button>
+</div>
+
+<!-- HOME -->
+<div id="home" class="screen active">
+  <div class="home-title">
+    <h1>🏠 Daily Tasks</h1>
+    <p>Learn vocabulary with 5 fun games!</p>
+    <div class="game-cards">
+      <div class="game-card gc1" onclick="startGame(1)"><div class="card-num">🔀 Game 1</div><strong>Unscramble the Words</strong><div class="card-desc">Tap the tiles to build the correct phrase!</div></div>
+      <div class="game-card gc2" onclick="startGame(2)"><div class="card-num">🖼️ Game 2</div><strong>Picture Identification</strong><div class="card-desc">Look at the picture and type the chore!</div></div>
+      <div class="game-card gc3" onclick="startGame(3)"><div class="card-num">✏️ Game 3</div><strong>Complete the Sentence</strong><div class="card-desc">Fill in the blank with the right word!</div></div>
+      <div class="game-card gc4" onclick="startGame(4)"><div class="card-num">💬 Game 4</div><strong>Dialogue – Fill in the Blanks</strong><div class="card-desc">Complete the conversation between two kids!</div></div>
+      <div class="game-card gc5" onclick="startGame(5)"><div class="card-num">📖 Game 5</div><strong>Reading Comprehension</strong><div class="card-desc">Read the text and answer True or False!</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- GAME 1 — Unscramble -->
+<div id="game1" class="screen">
+  <div class="score-bar"><h2>🔀 Unscramble</h2><div class="score-badge" id="g1score">Score: 0/0</div></div>
+  <div class="card">
+    <div class="progress" id="g1prog"></div>
+    <h3>Tap the words in the correct order:</h3>
+    <div class="chore-emoji" id="g1emoji"></div>
+    <div class="tiles-area" id="g1tiles"></div>
+    <p style="color:#aaa;font-size:.8rem;margin-bottom:4px;text-align:center">Your answer:</p>
+    <div class="answer-area" id="g1answer"></div>
+    <div class="feedback" id="g1fb"></div>
+    <div class="btn-row">
+      <button class="btn btn-check" id="g1check" onclick="checkG1()">✅ Check</button>
+      <button class="btn btn-retry" id="g1retry" onclick="retryG1()" style="display:none">🔄 Try Again</button>
+      <button class="btn btn-next" id="g1next" onclick="nextG1()" style="display:none">▶️ Next</button>
+    </div>
+  </div>
+</div>
+
+<!-- GAME 2 — Picture ID -->
+<div id="game2" class="screen">
+  <div class="score-bar"><h2>🖼️ Picture ID</h2><div class="score-badge" id="g2score">Score: 0/0</div></div>
+  <div class="card">
+    <div class="progress" id="g2prog"></div>
+    <div class="chore-emoji" id="g2emoji"></div>
+    <div class="chore-label" id="g2hint"></div>
+    <input type="text" id="g2input" placeholder="Type the chore here..." onkeydown="if(event.key==='Enter') checkG2()">
+    <div class="feedback" id="g2fb"></div>
+    <div class="btn-row">
+      <button class="btn btn-check" id="g2check" onclick="checkG2()">✅ Check</button>
+      <button class="btn btn-retry" id="g2retry" onclick="retryG2()" style="display:none">🔄 Try Again</button>
+      <button class="btn btn-next" id="g2next" onclick="nextG2()" style="display:none">▶️ Next</button>
+    </div>
+  </div>
+</div>
+
+<!-- GAME 3 — Fill the Blank -->
+<div id="game3" class="screen">
+  <div class="score-bar"><h2>✏️ Fill the Blank</h2><div class="score-badge" id="g3score">Score: 0/0</div></div>
+  <div class="card">
+    <div class="progress" id="g3prog"></div>
+    <h3>Complete the sentence:</h3>
+    <div class="sentence" id="g3sentence"></div>
+    <input type="text" id="g3input" placeholder="Type the missing word(s)..." onkeydown="if(event.key==='Enter') checkG3()">
+    <div class="feedback" id="g3fb"></div>
+    <div class="btn-row">
+      <button class="btn btn-check" id="g3check" onclick="checkG3()">✅ Check</button>
+      <button class="btn btn-retry" id="g3retry" onclick="retryG3()" style="display:none">🔄 Try Again</button>
+      <button class="btn btn-next" id="g3next" onclick="nextG3()" style="display:none">▶️ Next</button>
+    </div>
+  </div>
+</div>
+
+<!-- GAME 4 — Dialogue -->
+<div id="game4" class="screen">
+  <div class="score-bar"><h2>💬 Dialogue</h2><div class="score-badge" id="g4score">Score: 0/8</div></div>
+  <div class="card">
+    <h3>Choose the correct word from each dropdown!</h3>
+    <div class="dialogue" id="g4dialogue"></div>
+    <div id="g4bank"></div>
+    <div class="feedback" id="g4fb"></div>
+    <div class="btn-row">
+      <button class="btn btn-check" onclick="checkG4()">✅ Check All</button>
+      <button class="btn btn-retry" onclick="resetG4()">🔄 Reset</button>
+      <button class="btn btn-next" id="g4next" onclick="showFinish(4,null,null)" style="display:none">▶️ Finish</button>
+    </div>
+  </div>
+</div>
+
+<!-- GAME 5 — Reading Comprehension -->
+<div id="game5" class="screen">
+  <div class="score-bar"><h2>📖 Reading</h2><div class="score-badge" id="g5score">Score: 0/0</div></div>
+  <div class="card">
+    <div class="reading-text">
+      <h4>📄 A Busy Saturday</h4>
+      Every Saturday, Emma and her brother Tom help their mom at home. In the morning, Emma likes to cook breakfast for the family. She makes eggs and toast. Then, Tom uses a broom to sweep the kitchen floor. After breakfast, they do the dishes together and then dry the dishes with a big towel.<br><br>
+      Later, their mom asks Emma to do the shopping at the supermarket. She buys milk, bread and fruit. When Emma comes back, Tom is busy trying to clean up the living room. In the afternoon, they both take the dog for a walk in the park. Before dinner, Tom remembers to feed the dog. What a busy Saturday!
+    </div>
+    <div class="progress" id="g5prog"></div>
+    <div class="tf-question" id="g5q"></div>
+    <div class="tf-btns">
+      <button class="tf-btn tf-true" id="g5true" onclick="answerG5(true)">👍 True</button>
+      <button class="tf-btn tf-false" id="g5false" onclick="answerG5(false)">👎 False</button>
+    </div>
+    <div class="feedback" id="g5fb"></div>
+    <div class="btn-row">
+      <button class="btn btn-retry" id="g5retry" onclick="retryG5()" style="display:none">🔄 Try Again</button>
+      <button class="btn btn-next" id="g5next" onclick="nextG5()" style="display:none">▶️ Next</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== DATA ===== */
+const vocab = [
+  { word: "sweep",                   emoji: "🧹", hint: "Use a broom to clean the floor" },
+  { word: "do the dishes",           emoji: "🍽️", hint: "Wash plates and cups after eating" },
+  { word: "do the shopping",         emoji: "🛒", hint: "Buy food and things at the store" },
+  { word: "clean up",                emoji: "🧴", hint: "Tidy and wipe surfaces" },
+  { word: "cook",                    emoji: "🍳", hint: "Prepare food using heat" },
+  { word: "dry the dishes",          emoji: "DRY", hint: "Use a towel to dry plates after washing" },
+  { word: "take the dog for a walk", emoji: "🐕", hint: "Go outside with your pet" },
+  { word: "feed the dog",            emoji: "🦴", hint: "Give food to your pet" },
+];
+
+const sentences = [
+  { answer: "sweep",                   text: "I need to ___ the floor because it is very dirty." },
+  { answer: "do the dishes",           text: "After dinner, it's my turn to ___." },
+  { answer: "do the shopping",         text: "Can you ___ today? We need milk and bread." },
+  { answer: "clean up",                text: "Please ___ your room before your friends arrive." },
+  { answer: "cook",                    text: "I love to ___ pasta on Sundays." },
+  { answer: "dry the dishes",          text: "After washing, don't forget to ___." },
+  { answer: "take the dog for a walk", text: "Every morning I ___ around the park." },
+  { answer: "feed the dog",            text: "The dog is hungry! I need to ___ right now." },
+];
+
+/* dialogue: each blank has {id, answer} */
+const dialogue = [
+  { speaker:"a", name:"Lily", text:["Hey Tom! We need to help at home today. Can you ", {id:0,answer:"sweep"}, " the floor?"] },
+  { speaker:"b", name:"Tom",  text:["Sure! And can you ", {id:1,answer:"cook"}, " lunch for us later?"] },
+  { speaker:"a", name:"Lily", text:["Of course! But first I need to ", {id:2,answer:"do the shopping"}, ". We don't have any food!"] },
+  { speaker:"b", name:"Tom",  text:["Good idea. I'll ", {id:3,answer:"do the dishes"}, " from breakfast while you're out."] },
+  { speaker:"a", name:"Lily", text:["Great! When I get back, let's ", {id:4,answer:"clean up"}, " the living room together."] },
+  { speaker:"b", name:"Tom",  text:["OK! Oh, don't forget — we also need to ", {id:5,answer:"dry the dishes"}, " after washing them."] },
+  { speaker:"a", name:"Lily", text:["Right! And later, can you ", {id:6,answer:"take the dog for a walk"}, "?"] },
+  { speaker:"b", name:"Tom",  text:["Yes! But before we go, I need to ", {id:7,answer:"feed the dog"}, ". She's hungry!"] },
+];
+
+const tfQuestions = [
+  { q: "Emma cooks breakfast for the family on Saturdays.", answer: true },
+  { q: "Tom sweeps the living room in the morning.", answer: false, explain: "Tom sweeps the kitchen floor." },
+  { q: "Emma and Tom do the dishes together.", answer: true },
+  { q: "Tom goes to the supermarket to do the shopping.", answer: false, explain: "Emma does the shopping." },
+  { q: "Emma buys milk, bread and fruit at the supermarket.", answer: true },
+  { q: "They take the dog for a walk in the afternoon.", answer: true },
+  { q: "Emma remembers to feed the dog before dinner.", answer: false, explain: "Tom remembers to feed the dog." },
+  { q: "Tom cleans up the living room while Emma is at the supermarket.", answer: true },
+];
+
+/* ===== SVG ===== */
+const DRY_SVG = `<svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="38" cy="58" rx="26" ry="6" fill="#ddd" stroke="#bbb" stroke-width="1.5"/>
+  <ellipse cx="38" cy="54" rx="26" ry="6" fill="#f0f0f0" stroke="#ccc" stroke-width="1.5"/>
+  <ellipse cx="38" cy="50" rx="26" ry="6" fill="#fff" stroke="#ccc" stroke-width="1.5"/>
+  <ellipse cx="38" cy="50" rx="16" ry="3.5" fill="#e8f4ff" stroke="#bcd" stroke-width="1"/>
+  <rect x="52" y="28" width="22" height="36" rx="4" fill="#ff8fab" stroke="#e05c7a" stroke-width="1.5"/>
+  <line x1="52" y1="38" x2="74" y2="38" stroke="#e05c7a" stroke-width="1.2"/>
+  <line x1="52" y1="46" x2="74" y2="46" stroke="#e05c7a" stroke-width="1.2"/>
+  <line x1="52" y1="54" x2="74" y2="54" stroke="#e05c7a" stroke-width="1.2"/>
+  <ellipse cx="63" cy="66" rx="10" ry="5" fill="#fdd9b5" stroke="#e0a87a" stroke-width="1.2"/>
+  <ellipse cx="22" cy="40" rx="2" ry="3" fill="#6ec6f5"/>
+  <ellipse cx="30" cy="34" rx="1.5" ry="2.5" fill="#6ec6f5"/>
+  <ellipse cx="16" cy="35" rx="1.5" ry="2.5" fill="#6ec6f5"/>
+</svg>`;
+
+function getEmoji(item) { return item.emoji==='DRY' ? DRY_SVG : item.emoji; }
+function normalize(s) { return s.trim().toLowerCase().replace(/\s+/g,' '); }
+function shuffle(arr) { const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+/* ===== GAME 1 ===== */
+let g1idx=0,g1score=0,g1total=0,g1order=[],g1answered=false,g1tilesArr=[],g1answerArr=[];
+function startG1(){g1order=shuffle([...vocab]);g1idx=0;g1score=0;g1total=0;g1answered=false;loadG1();}
+function loadG1(){
+  const q=g1order[g1idx];
+  document.getElementById('g1prog').textContent=`Question ${g1idx+1} of ${g1order.length}`;
+  document.getElementById('g1emoji').innerHTML=getEmoji(q);
+  document.getElementById('g1fb').className='feedback';
+  document.getElementById('g1check').style.display='';
+  document.getElementById('g1retry').style.display='none';
+  document.getElementById('g1next').style.display='none';
+  g1answered=false; g1tilesArr=shuffle(q.word.split(' ')); g1answerArr=[]; renderG1();
+}
+function renderG1(){
+  const ta=document.getElementById('g1tiles'),aa=document.getElementById('g1answer');
+  ta.innerHTML='';aa.innerHTML='';
+  g1tilesArr.forEach((w,i)=>{const d=document.createElement('div');d.className='tile';d.textContent=w;d.onclick=()=>{g1answerArr.push(g1tilesArr.splice(i,1)[0]);renderG1();};ta.appendChild(d);});
+  g1answerArr.forEach((w,i)=>{const d=document.createElement('div');d.className='tile answer-tile';d.textContent=w;d.onclick=()=>{g1tilesArr.push(g1answerArr.splice(i,1)[0]);renderG1();};aa.appendChild(d);});
+}
+function checkG1(){
+  if(g1answered)return;
+  const ans=normalize(g1order[g1idx].word),given=normalize(g1answerArr.join(' '));
+  g1total++;g1answered=true;document.getElementById('g1check').style.display='none';
+  const fb=document.getElementById('g1fb');
+  if(given===ans){g1score++;fb.textContent='✅ Correct! Excellent!';fb.className='feedback correct';document.getElementById('g1next').style.display='';}
+  else{fb.textContent=`❌ The answer is: "${g1order[g1idx].word}"`;fb.className='feedback wrong';document.getElementById('g1retry').style.display='';document.getElementById('g1next').style.display='';}
+  document.getElementById('g1score').textContent=`Score: ${g1score}/${g1total}`;
+}
+function retryG1(){g1total=Math.max(0,g1total-1);g1answered=false;g1tilesArr=shuffle(g1order[g1idx].word.split(' '));g1answerArr=[];document.getElementById('g1fb').className='feedback';document.getElementById('g1check').style.display='';document.getElementById('g1retry').style.display='none';document.getElementById('g1next').style.display='none';renderG1();}
+function nextG1(){g1idx++;if(g1idx>=g1order.length){showFinish(1,g1score,g1order.length);return;}loadG1();}
+
+/* ===== GAME 2 ===== */
+let g2idx=0,g2score=0,g2total=0,g2order=[],g2answered=false;
+function startG2(){g2order=shuffle([...vocab]);g2idx=0;g2score=0;g2total=0;g2answered=false;loadG2();}
+function loadG2(){
+  const q=g2order[g2idx];
+  document.getElementById('g2prog').textContent=`Question ${g2idx+1} of ${g2order.length}`;
+  document.getElementById('g2emoji').innerHTML=getEmoji(q);
+  document.getElementById('g2hint').textContent=`Hint: ${q.hint}`;
+  document.getElementById('g2input').value='';document.getElementById('g2input').disabled=false;
+  document.getElementById('g2fb').className='feedback';
+  document.getElementById('g2check').style.display='';document.getElementById('g2retry').style.display='none';document.getElementById('g2next').style.display='none';
+  g2answered=false;document.getElementById('g2input').focus();
+}
+function checkG2(){
+  if(g2answered)return;
+  const val=normalize(document.getElementById('g2input').value),ans=normalize(g2order[g2idx].word);
+  g2total++;g2answered=true;document.getElementById('g2input').disabled=true;document.getElementById('g2check').style.display='none';
+  const fb=document.getElementById('g2fb');
+  if(val===ans){g2score++;fb.textContent='✅ Correct! Well done!';fb.className='feedback correct';document.getElementById('g2next').style.display='';}
+  else{fb.textContent=`❌ Not quite! The answer is: "${g2order[g2idx].word}"`;fb.className='feedback wrong';document.getElementById('g2retry').style.display='';document.getElementById('g2next').style.display='';}
+  document.getElementById('g2score').textContent=`Score: ${g2score}/${g2total}`;
+}
+function retryG2(){g2total=Math.max(0,g2total-1);g2answered=false;document.getElementById('g2input').disabled=false;document.getElementById('g2input').value='';document.getElementById('g2fb').className='feedback';document.getElementById('g2check').style.display='';document.getElementById('g2retry').style.display='none';document.getElementById('g2next').style.display='none';document.getElementById('g2input').focus();}
+function nextG2(){g2idx++;if(g2idx>=g2order.length){showFinish(2,g2score,g2order.length);return;}loadG2();}
+
+/* ===== GAME 3 ===== */
+let g3idx=0,g3score=0,g3total=0,g3order=[],g3answered=false;
+function startG3(){g3order=shuffle([...sentences]);g3idx=0;g3score=0;g3total=0;g3answered=false;loadG3();}
+function loadG3(){
+  const q=g3order[g3idx];
+  document.getElementById('g3prog').textContent=`Question ${g3idx+1} of ${g3order.length}`;
+  document.getElementById('g3sentence').innerHTML=q.text.replace('___','<span class="blank">___</span>');
+  document.getElementById('g3input').value='';document.getElementById('g3input').disabled=false;
+  document.getElementById('g3fb').className='feedback';
+  document.getElementById('g3check').style.display='';document.getElementById('g3retry').style.display='none';document.getElementById('g3next').style.display='none';
+  g3answered=false;document.getElementById('g3input').focus();
+}
+function checkG3(){
+  if(g3answered)return;
+  const val=normalize(document.getElementById('g3input').value),ans=normalize(g3order[g3idx].answer);
+  g3total++;g3answered=true;document.getElementById('g3input').disabled=true;document.getElementById('g3check').style.display='none';
+  const fb=document.getElementById('g3fb');
+  if(val===ans){g3score++;fb.textContent='✅ Correct! Great job!';fb.className='feedback correct';document.getElementById('g3next').style.display='';}
+  else{fb.textContent=`❌ The answer is: "${g3order[g3idx].answer}"`;fb.className='feedback wrong';document.getElementById('g3retry').style.display='';document.getElementById('g3next').style.display='';}
+  document.getElementById('g3score').textContent=`Score: ${g3score}/${g3total}`;
+}
+function retryG3(){g3total=Math.max(0,g3total-1);g3answered=false;document.getElementById('g3input').disabled=false;document.getElementById('g3input').value='';document.getElementById('g3fb').className='feedback';document.getElementById('g3check').style.display='';document.getElementById('g3retry').style.display='none';document.getElementById('g3next').style.display='none';document.getElementById('g3input').focus();}
+function nextG3(){g3idx++;if(g3idx>=g3order.length){showFinish(3,g3score,g3order.length);return;}loadG3();}
+
+/* ===== GAME 4 ===== */
+let g4selected=null, g4filled={}, g4checked=false;
+
+function startG4(){g4selected=null;g4filled={};g4checked=false;renderG4();document.getElementById('g4score').textContent='Score: 0/8';document.getElementById('g4fb').className='feedback';document.getElementById('g4next').style.display='none';}
+
+function renderG4(){
+  const dlg=document.getElementById('g4dialogue');
+  dlg.innerHTML='';
+      dialogue.forEach(line=>{
+    const bub=document.createElement('div');
+    bub.className=`bubble ${line.speaker==='b'?'right':''}`;
+    const av=document.createElement('div');
+    av.className=`avatar ${line.speaker==='a'?'av-a':'av-b'}`;
+    av.textContent=line.speaker==='a'?'👧':'👦';
+    const bt=document.createElement('div');
+    bt.className='bubble-text';
+    bt.innerHTML=`<strong>${line.name}:</strong> `;
+    line.text.forEach(part=>{
+      if(typeof part==='string'){
+        bt.appendChild(document.createTextNode(part));
+      } else {
+        const sel=document.createElement('select');
+        sel.className='g4-select';
+        sel.disabled=g4checked;
+        const def=document.createElement('option');
+        def.value='';def.textContent='choose...';
+        sel.appendChild(def);
+        vocab.forEach(v=>{
+          const opt=document.createElement('option');
+          opt.value=v.word;opt.textContent=v.word;
+          if(g4filled[part.id]===v.word)opt.selected=true;
+          sel.appendChild(opt);
+        });
+        if(g4checked){
+          const correct=normalize(g4filled[part.id]||'')===normalize(part.answer);
+          sel.classList.add(correct?'correct':'wrong');
+        }
+        sel.onchange=()=>{g4filled[part.id]=sel.value;};
+        bt.appendChild(sel);
+      }
+    });
+    bub.appendChild(av);bub.appendChild(bt);dlg.appendChild(bub);
+  });
+
+  document.getElementById('g4bank').innerHTML='';
+}
+
+
+
+function checkG4(){
+  g4checked=true;
+  let correct=0;
+  dialogue.forEach(line=>{line.text.forEach(part=>{if(typeof part==='object'){if(normalize(g4filled[part.id]||'')===normalize(part.answer))correct++;}});});
+  document.getElementById('g4score').textContent=`Score: ${correct}/8`;
+  const fb=document.getElementById('g4fb');
+  if(correct===8){fb.textContent='🏆 Perfect! All blanks correct!';fb.className='feedback correct';}
+  else{fb.textContent=`You got ${correct}/8 correct. Wrong answers are highlighted in red.`;fb.className='feedback wrong';}
+  document.getElementById('g4next').style.display='';
+  renderG4();
+}
+
+function resetG4(){g4selected=null;g4filled={};g4checked=false;document.getElementById('g4fb').className='feedback';document.getElementById('g4next').style.display='none';document.getElementById('g4score').textContent='Score: 0/8';renderG4();}
+
+/* ===== GAME 5 ===== */
+let g5idx=0,g5score=0,g5total=0,g5answered=false;
+function startG5(){g5idx=0;g5score=0;g5total=0;g5answered=false;loadG5();}
+function loadG5(){
+  const q=tfQuestions[g5idx];
+  document.getElementById('g5prog').textContent=`Question ${g5idx+1} of ${tfQuestions.length}`;
+  document.getElementById('g5q').textContent=q.q;
+  document.getElementById('g5fb').className='feedback';
+  document.getElementById('g5true').disabled=false;document.getElementById('g5false').disabled=false;
+  document.getElementById('g5retry').style.display='none';document.getElementById('g5next').style.display='none';
+  g5answered=false;
+}
+function answerG5(ans){
+  if(g5answered)return;
+  g5answered=true;g5total++;
+  const q=tfQuestions[g5idx];
+  document.getElementById('g5true').disabled=true;document.getElementById('g5false').disabled=true;
+  const fb=document.getElementById('g5fb');
+  if(ans===q.answer){
+    g5score++;fb.textContent='✅ Correct!';fb.className='feedback correct';
+    document.getElementById('g5next').style.display='';
+  } else {
+    const explain=q.explain?` ${q.explain}`:'';
+    fb.textContent=`❌ ${ans?'False':'True'} is correct.${explain}`;
+    fb.className='feedback wrong';
+    document.getElementById('g5retry').style.display='';document.getElementById('g5next').style.display='';
+  }
+  document.getElementById('g5score').textContent=`Score: ${g5score}/${g5total}`;
+}
+function retryG5(){
+  g5total=Math.max(0,g5total-1);g5answered=false;
+  document.getElementById('g5fb').className='feedback';
+  document.getElementById('g5true').disabled=false;document.getElementById('g5false').disabled=false;
+  document.getElementById('g5retry').style.display='none';document.getElementById('g5next').style.display='none';
+}
+function nextG5(){g5idx++;if(g5idx>=tfQuestions.length){showFinish(5,g5score,tfQuestions.length);return;}loadG5();}
+
+/* ===== FINISH ===== */
+function showFinish(game,score,total){
+  if(game===4){
+    document.getElementById('game4').innerHTML=`<div class="card finish"><div class="big">🏆</div><h2>Dialogue complete!</h2><p>Great conversation practice!</p><div class="btn-row"><button class="btn btn-retry" onclick="startGame(4)">🔄 Play Again</button><button class="btn btn-home" onclick="showScreen('home')">🏠 Home</button></div></div>`;
+    return;
+  }
+  const pct=Math.round((score/total)*100);
+  const emoji=pct>=80?'🏆':pct>=50?'😊':'💪';
+  const msg=pct>=80?'Amazing work!':pct>=50?'Good job!':'Keep practicing!';
+  document.getElementById(`game${game}`).innerHTML=`<div class="card finish"><div class="big">${emoji}</div><h2>${msg}</h2><p>You scored <strong>${score} out of ${total}</strong> (${pct}%)</p><div class="btn-row"><button class="btn btn-retry" onclick="startGame(${game})">🔄 Play Again</button><button class="btn btn-home" onclick="showScreen('home')">🏠 Home</button></div></div>`;
+}
+
+/* ===== NAV ===== */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const ids=['home','game1','game2','game3','game4','game5'];
+  document.querySelectorAll('.nav-btn').forEach((b,i)=>b.classList.toggle('active',ids[i]===id));
+}
+function startGame(n){
+  showScreen('game'+n);
+  if(n===1)startG1();
+  else if(n===2)startG2();
+  else if(n===3)startG3();
+  else if(n===4)startG4();
+  else startG5();
+}
+</script>
+</body>
+</html>

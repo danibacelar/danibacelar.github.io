@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O Caso da Voz Oculta — Ativa vs. Passiva</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Literata:ital,opsz,wght@0,18..144,400;0,18..144,500;0,18..144,600;0,18..144,700;1,18..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#ECE0BC;
+  --paper-dark:#DFCE9C;
+  --card:#FBF6E8;
+  --ink:#26313E;
+  --ink-soft:#4A5567;
+  --stamp:#A63A2C;
+  --stamp-dark:#7E2B21;
+  --gold:#B4841F;
+  --correct:#3E6B4F;
+  --correct-bg:#E1EBE0;
+  --wrong:#A63A2C;
+  --wrong-bg:#F3E3DE;
+  --string:#8E271C;
+  --shadow: 0 6px 18px rgba(38,49,62,0.18);
+  --radius: 3px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:
+    radial-gradient(ellipse at top left, rgba(255,255,255,0.15), transparent 55%),
+    var(--paper);
+  background-image:
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.015) 0px, rgba(0,0,0,0.015) 1px, transparent 1px, transparent 3px),
+    var(--paper);
+  color:var(--ink);
+  font-family:'Literata', serif;
+  line-height:1.6;
+  padding:0 0 80px;
+}
+a{color:var(--stamp);}
+.wrap{max-width:820px;margin:0 auto;padding:0 20px;}
+
+/* ---------- Score badge ---------- */
+.score-badge{
+  position:fixed;
+  top:16px; right:16px;
+  background:var(--ink);
+  color:var(--paper);
+  font-family:'Inter',sans-serif;
+  font-weight:600;
+  font-size:13px;
+  padding:9px 14px;
+  border-radius:20px;
+  box-shadow:var(--shadow);
+  z-index:50;
+  letter-spacing:.02em;
+}
+@media (max-width:600px){
+  .score-badge{position:static; display:inline-block; margin:14px 20px 0;}
+}
+
+/* ---------- Header / case file cover ---------- */
+.cover{
+  max-width:820px;
+  margin:34px auto 40px;
+  padding:36px 30px 30px;
+  background:var(--card);
+  border:1px solid rgba(38,49,62,0.15);
+  box-shadow:var(--shadow);
+  position:relative;
+}
+.stamp{
+  font-family:'Special Elite', monospace;
+  color:var(--stamp);
+  border:3px solid var(--stamp);
+  display:inline-block;
+  padding:5px 14px;
+  transform:rotate(-4deg);
+  font-size:13px;
+  letter-spacing:.12em;
+  border-radius:2px;
+}
+.cover h1{
+  font-family:'Special Elite', monospace;
+  font-size:clamp(28px,5vw,42px);
+  margin:18px 0 6px;
+  color:var(--ink);
+  line-height:1.15;
+}
+.cover .subtitle{
+  font-family:'Inter',sans-serif;
+  font-size:15px;
+  color:var(--ink-soft);
+  max-width:520px;
+}
+.case-meta{
+  margin-top:22px;
+  padding-top:16px;
+  border-top:1px dashed rgba(38,49,62,0.3);
+  font-family:'Inter',sans-serif;
+  font-size:12.5px;
+  color:var(--ink-soft);
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px 22px;
+}
+.case-meta b{color:var(--ink);}
+
+/* ---------- Dossier cards / sections ---------- */
+.dossier-card{
+  max-width:820px;
+  margin:0 auto 26px;
+  background:var(--card);
+  border:1px solid rgba(38,49,62,0.15);
+  box-shadow:var(--shadow);
+  padding:30px 30px 34px;
+  position:relative;
+}
+.evidence-tag{
+  font-family:'Inter',sans-serif;
+  font-weight:700;
+  font-size:11px;
+  letter-spacing:.14em;
+  color:var(--gold);
+  text-transform:uppercase;
+  border:1px solid var(--gold);
+  display:inline-block;
+  padding:3px 10px;
+  border-radius:20px;
+  margin-bottom:12px;
+}
+.dossier-card h2{
+  font-family:'Special Elite', monospace;
+  font-size:24px;
+  margin:0 0 4px;
+  color:var(--ink);
+}
+.dossier-card .lead{
+  font-family:'Inter',sans-serif;
+  font-size:14px;
+  color:var(--ink-soft);
+  margin-bottom:22px;
+}
+
+/* ---------- Explanation section ---------- */
+.rule-block{
+  background:var(--paper);
+  border-left:4px solid var(--gold);
+  padding:16px 18px;
+  margin:16px 0;
+  border-radius:0 4px 4px 0;
+}
+.rule-block h3{
+  font-family:'Inter',sans-serif;
+  font-size:14px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--stamp);
+  margin:0 0 8px;
+}
+.rule-block p, .rule-block li{font-size:15.5px;}
+.rule-block ul{margin:6px 0 0; padding-left:20px;}
+.example{
+  font-family:'Inter',sans-serif;
+  font-size:13.5px;
+  background:var(--card);
+  border:1px solid rgba(38,49,62,0.15);
+  border-radius:4px;
+  padding:8px 12px;
+  margin-top:6px;
+  display:block;
+}
+.example b{color:var(--stamp);}
+
+table.forms{
+  width:100%;
+  border-collapse:collapse;
+  font-family:'Inter',sans-serif;
+  font-size:13.5px;
+  margin-top:10px;
+}
+table.forms th, table.forms td{
+  border:1px solid rgba(38,49,62,0.2);
+  padding:8px 10px;
+  text-align:left;
+}
+table.forms th{background:var(--paper-dark); font-weight:600;}
+table.forms code{color:var(--stamp); font-weight:600;}
+
+.clue-box{
+  background:#FFF6DE;
+  border:1px dashed var(--gold);
+  padding:14px 16px;
+  margin-top:16px;
+  font-family:'Inter',sans-serif;
+  font-size:14px;
+  border-radius:4px;
+}
+.clue-box b{color:var(--gold);}
+
+/* ---------- Questions ---------- */
+.q{
+  margin:22px 0 28px;
+  padding-top:18px;
+  border-top:1px solid rgba(38,49,62,0.12);
+}
+.q:first-of-type{border-top:none;}
+.q-num{
+  font-family:'Special Elite', monospace;
+  color:var(--stamp);
+  font-size:13px;
+  margin-bottom:4px;
+  display:block;
+}
+.q-text{font-size:16.5px; margin:0 0 12px;}
+.q-text .en{font-style:italic;}
+
+.options{display:flex; flex-direction:column; gap:8px;}
+.option{
+  font-family:'Inter',sans-serif;
+  font-size:14.5px;
+  text-align:left;
+  background:var(--paper);
+  border:1px solid rgba(38,49,62,0.25);
+  border-radius:4px;
+  padding:10px 14px;
+  cursor:pointer;
+  transition:background .15s, border-color .15s, transform .1s;
+}
+.option:hover:not(.disabled){background:var(--paper-dark); transform:translateX(2px);}
+.option.disabled{cursor:default;}
+.option.correct{
+  background:var(--correct-bg);
+  border-color:var(--correct);
+  color:var(--correct);
+  font-weight:600;
+}
+.option.wrong{
+  background:var(--wrong-bg);
+  border-color:var(--wrong);
+  color:var(--wrong);
+  font-weight:600;
+  text-decoration:line-through;
+  text-decoration-thickness: 1.5px;
+}
+
+.feedback{
+  margin-top:10px;
+  font-family:'Inter',sans-serif;
+  font-size:13.5px;
+  background:var(--card);
+  border-left:3px solid var(--gold);
+  padding:10px 14px;
+  border-radius:0 4px 4px 0;
+}
+.feedback b{color:var(--ink);}
+
+/* ---------- Fill-in / transformation ---------- */
+.fill-row{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-top:8px;}
+.fill-row input[type=text]{
+  flex:1;
+  min-width:220px;
+  font-family:'Inter',sans-serif;
+  font-size:14.5px;
+  padding:9px 12px;
+  border:1px solid rgba(38,49,62,0.3);
+  border-radius:4px;
+  background:#fff;
+  color:var(--ink);
+}
+.fill-row input[type=text]:focus{outline:2px solid var(--gold); outline-offset:1px;}
+.reveal-btn{
+  font-family:'Inter',sans-serif;
+  font-weight:600;
+  font-size:13px;
+  background:var(--ink);
+  color:var(--paper);
+  border:none;
+  padding:9px 16px;
+  border-radius:20px;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.reveal-btn:hover{background:var(--stamp-dark);}
+.answer-card{
+  display:none;
+  margin-top:10px;
+  background:var(--correct-bg);
+  border:1px solid var(--correct);
+  border-radius:4px;
+  padding:10px 14px;
+  font-family:'Inter',sans-serif;
+  font-size:13.5px;
+  color:#2D4A38;
+}
+.answer-card.show{display:block;}
+.answer-card b{color:var(--correct);}
+
+/* ---------- Select-based questions ---------- */
+.select-blank{
+  font-family:'Inter',sans-serif;
+  font-size:15px;
+  font-weight:600;
+  padding:6px 10px;
+  border:2px solid var(--gold);
+  border-radius:4px;
+  background:#fff;
+  color:var(--ink);
+  cursor:pointer;
+  margin:0 2px;
+}
+.select-blank:disabled{cursor:default; opacity:1;}
+.select-blank.correct{border-color:var(--correct); background:var(--correct-bg); color:var(--correct);}
+.select-blank.wrong{border-color:var(--wrong); background:var(--wrong-bg); color:var(--wrong);}
+
+/* ---------- Reading text ---------- */
+.reading{
+  background:var(--paper);
+  border:1px solid rgba(38,49,62,0.2);
+  border-radius:4px;
+  padding:18px 20px;
+  font-size:15.5px;
+  margin-bottom:20px;
+  position:relative;
+}
+.reading::before{
+  content:"TEXTO";
+  position:absolute;
+  top:-10px; left:14px;
+  background:var(--gold);
+  color:#fff;
+  font-family:'Inter',sans-serif;
+  font-size:10.5px;
+  font-weight:700;
+  letter-spacing:.1em;
+  padding:2px 10px;
+  border-radius:10px;
+}
+
+/* ---------- Footer / verdict ---------- */
+.verdict{
+  max-width:820px;
+  margin:10px auto 0;
+  background:var(--ink);
+  color:var(--paper);
+  padding:30px;
+  text-align:center;
+  box-shadow:var(--shadow);
+}
+.verdict h2{
+  font-family:'Special Elite', monospace;
+  font-size:22px;
+  margin:0 0 8px;
+}
+.verdict p{
+  font-family:'Inter',sans-serif;
+  font-size:14px;
+  color:#D8CFA9;
+  max-width:480px;
+  margin:0 auto;
+}
+#finalScoreLine{
+  font-family:'Inter',sans-serif;
+  font-size:32px;
+  font-weight:700;
+  color:var(--gold);
+  margin:14px 0;
+}
+
+footer.credits{
+  text-align:center;
+  font-family:'Inter',sans-serif;
+  font-size:12px;
+  color:var(--ink-soft);
+  margin-top:28px;
+  opacity:.7;
+}
+
+@media (max-width:600px){
+  .dossier-card, .cover, .verdict{padding:22px 18px 26px;}
+}
+</style>
+</head>
+<body>
+
+<div class="score-badge">🔍 Pistas confirmadas: <span id="scoreNow">0</span>/<span id="scoreTotal">9</span></div>
+
+<div class="cover">
+  <span class="stamp">CONFIDENCIAL</span>
+  <h1>O Caso da Voz Oculta</h1>
+  <p class="subtitle">Uma investigação sobre Voz Ativa e Voz Passiva em inglês — treino de gramática e interpretação de texto, nível vestibular.</p>
+  <div class="case-meta">
+    <span><b>Missão:</b> descobrir quando o "culpado" (o agente) aparece na frase — e quando ele se esconde.</span>
+    <span><b>Tempo estimado:</b> 40–50 min</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ================= EXPLICAÇÃO ================= -->
+<section class="dossier-card" id="evidencia-0">
+  <span class="evidence-tag">Antes de investigar</span>
+  <h2>O manual do detetive</h2>
+  <p class="lead">Leia com atenção antes de abrir os casos. Toda a investigação depende disso.</p>
+
+  <div class="rule-block">
+    <h3>O que é voz ativa e voz passiva</h3>
+    <p><b>Voz ativa:</b> o sujeito <i>pratica</i> a ação. Ele é o "culpado" — e ele aparece logo no início da frase.</p>
+    <span class="example"><b>Farmers</b> use 15,000 litres of water to grow cotton. <br>(Os fazendeiros usam a água — o sujeito faz a ação.)</span>
+    <p style="margin-top:12px;"><b>Voz passiva:</b> o sujeito <i>recebe</i> a ação. O "culpado" pode até ser mencionado (com <i>by</i>), mas o foco da frase é a vítima — ou seja, o objeto que sofreu a ação.</p>
+    <span class="example">15,000 litres of water <b>are used</b> by farmers.<br>(A água é o assunto principal da frase — quem usou é só um detalhe extra.)</span>
+  </div>
+
+  <div class="rule-block">
+    <h3>Quando usar cada uma — o teste das 3 perguntas</h3>
+    <p>Antes de montar ou traduzir uma frase, pergunte-se:</p>
+    <ul>
+      <li><b>1. Eu sei quem fez, e isso importa para a frase?</b> → use a <b>ativa</b>.</li>
+      <li><b>2. Quem fez é desconhecido, óbvio ou irrelevante?</b> → use a <b>passiva</b>.</li>
+      <li><b>3. Eu quero focar no resultado/objeto, não em quem agiu?</b> → use a <b>passiva</b>.</li>
+    </ul>
+    <p>É por isso que a passiva domina em: notícias, leis e regras, processos científicos, fatos gerais e estatísticas — textos onde o "quem fez" quase nunca é o ponto principal.</p>
+  </div>
+
+  <div class="clue-box">
+    <b>🔎 Dica de interpretação de texto:</b> quando você encontrar um verbo <code>be</code> seguido de um particípio passado (geralmente terminado em <i>-ed</i>, mas fique atento aos irregulares: <i>made, given, sent, built...</i>), pare e pergunte: <b>o sujeito da frase sofre a ação ou pratica a ação?</b> Se sofre, é passiva — e se houver "<b>by</b> + alguém/algo" logo depois, você encontrou o agente escondido. Se não houver "by", o agente foi omitido de propósito: geralmente porque é óbvio, desconhecido ou não importa para a mensagem.
+    <br><br><b>Cuidado com a pegadinha:</b> nem todo verbo em "-ed" é passiva! "They collected the rubbish" é <b>voz ativa</b> no passado simples — não tem "be" antes do verbo.
+  </div>
+</section>
+
+<!-- ================= BLOCO 1 ================= -->
+<section class="dossier-card" id="evidencia-1">
+  <span class="evidence-tag">Evidência 1</span>
+  <h2>Reconhecimento</h2>
+  <p class="lead">Identifique a voz de cada frase e o motivo da escolha do autor.</p>
+
+  <div class="q mcq">
+    <span class="q-num">Frase 01</span>
+    <p class="q-text en">"Over 100 billion new pieces of clothing are produced every year."</p>
+    <div class="options">
+      <button class="option" data-correct="false">Voz ativa — o sujeito pratica a ação.</button>
+      <button class="option" data-correct="true">Voz passiva — o foco está na quantidade produzida, não em quem produz.</button>
+      <button class="option" data-correct="false">Voz passiva — porque o verbo termina em "-ed".</button>
+    </div>
+    <div class="feedback" hidden><b>Por quê:</b> há "be" (<i>are</i>) + particípio (<i>produced</i>) e nenhum "by" aparece — o fabricante é irrelevante para a frase, o número é o que importa.</div>
+  </div>
+
+  <div class="q mcq">
+    <span class="q-num">Frase 02</span>
+    <p class="q-text en">"Alex and Andrew collected rubbish from the beach."</p>
+    <div class="options">
+      <button class="option" data-correct="true">Voz ativa — o sujeito (Alex and Andrew) pratica a ação diretamente.</button>
+      <button class="option" data-correct="false">Voz passiva — "collected" é particípio passado.</button>
+    </div>
+    <div class="feedback" hidden><b>Por quê:</b> não há verbo "be" antes de "collected" — é passado simples ativo. Quem fez é o próprio sujeito, e isso é o ponto central da frase.</div>
+  </div>
+
+  <div class="q mcq">
+    <span class="q-num">Frase 03</span>
+    <p class="q-text en">"The bottles will be scanned by the machine."</p>
+    <div class="options">
+      <button class="option" data-correct="false">Voz passiva sem agente.</button>
+      <button class="option" data-correct="true">Voz passiva com agente — "by the machine" é mantido porque é uma informação técnica relevante.</button>
+      <button class="option" data-correct="false">Voz ativa no futuro.</button>
+    </div>
+    <div class="feedback" hidden><b>Por quê:</b> a passiva também pode manter o agente com "by" quando essa informação ajuda a entender o processo — aqui, saber que é a <i>máquina</i> (e não uma pessoa) que escaneia é importante.</div>
+  </div>
+
+  <div class="q mcq">
+    <span class="q-num">Frase 04</span>
+    <p class="q-text en">"Local fishermen created bracelets from the rubbish."</p>
+    <div class="options">
+      <button class="option" data-correct="true">Voz ativa — sujeito conhecido e relevante para a história.</button>
+      <button class="option" data-correct="false">Voz passiva — "created" indica particípio.</button>
+    </div>
+    <div class="feedback" hidden><b>Por quê:</b> quando quem fez a ação é parte importante da narrativa (aqui, os pescadores são os protagonistas da história), a voz ativa é a escolha natural.</div>
+  </div>
+
+  <div class="q mcq">
+    <span class="q-num">Frase 05</span>
+    <p class="q-text en">"Water pollution won't be stopped unless we act."</p>
+    <div class="options">
+      <button class="option" data-correct="true">Voz passiva — o foco é no problema (poluição), não em quem deveria parar de poluir.</button>
+      <button class="option" data-correct="false">Voz ativa no futuro negativo.</button>
+    </div>
+    <div class="feedback" hidden><b>Por quê:</b> "be" (<i>be</i>) + particípio (<i>stopped</i>), sem agente — quem polui é impreciso e coletivo demais para nomear, então a frase foca na consequência.</div>
+  </div>
+</section>
+
+<!-- ================= BLOCO 2 ================= -->
+<section class="dossier-card" id="evidencia-2">
+  <span class="evidence-tag">Evidência 2</span>
+  <h2>O particípio passado</h2>
+  <p class="lead">Antes de montar frases na passiva, você precisa reconhecer a forma certa do particípio (V3). Escolha a alternativa correta.</p>
+
+  <div class="q mcq">
+    <span class="q-num">Verbo 01</span>
+    <p class="q-text">Past participle of <span class="en"><b>send</b></span>:</p>
+    <div class="options">
+      <button class="option" data-correct="false">sended</button>
+      <button class="option" data-correct="true">sent</button>
+      <button class="option" data-correct="false">sending</button>
+    </div>
+    <div class="feedback" hidden><b>Por quê:</b> "send" é irregular — send / sent / sent.</div>
+  </div>
+
+  <div class="q mcq">
+    <span class="q-num">Verbo 02</span>
+    <p class="q-text">Past participle of <span class="en"><b>make</b></span>:</p>
+    <div class="options">
+      <button class="option" data-correct="false">maked</button>
+      <button class="option" data-correct="false">making</button>
+      <button class="option" data-correct="true">made</button>
+    </div>
+    <div class="feedback" hidden><b>Por quê:</b> "make" é irregular — make / made / made.</div>
+  </div>
+
+  <div class="q mcq">
+    <span class="q-num">Verbo 03</span>
+    <p class="q-text">Past participle of <span class="en"><b>give</b></span>:</p>
+    <div class="options">
+      <button class="option" data-correct="false">gived</button>
+      <button class="option" data-correct="true">given</button>
+      <button class="option" data-correct="false">giving</button>
+    </div>
+    <div class="feedback" hidden><b>Por quê:</b> "give" é irregular — give / gave / given.</div>
+  </div>
+
+  <div class="q mcq">
+    <span class="q-num">Verbo 04</span>
+    <p class="q-text">Past participle of <span class="en"><b>build</b></span>:</p>
+    <div class="options">
+      <button class="option" data-correct="true">built</button>
+      <button class="option" data-correct="false">builded</button>
+      <button class="option" data-correct="false">building</button>
+    </div>
+    <div class="feedback" hidden><b>Por quê:</b> "build" é irregular — build / built / built.</div>
+  </div>
+
+  <div class="q mcq">
+    <span class="q-num">Verbo 05</span>
+    <p class="q-text">Past participle of <span class="en"><b>throw away</b></span>:</p>
+    <div class="options">
+      <button class="option" data-correct="false">throwed away</button>
+      <button class="option" data-correct="false">threw away</button>
+      <button class="option" data-correct="true">thrown away</button>
+    </div>
+    <div class="feedback" hidden><b>Por quê:</b> "throw" é irregular — throw / threw / thrown.</div>
+  </div>
+
+  <div class="q mcq">
+    <span class="q-num">Verbo 06</span>
+    <p class="q-text">Past participle of <span class="en"><b>collect</b></span>:</p>
+    <div class="options">
+      <button class="option" data-correct="true">collected</button>
+      <button class="option" data-correct="false">collect</button>
+      <button class="option" data-correct="false">collecting</button>
+    </div>
+    <div class="feedback" hidden><b>Por quê:</b> "collect" é regular — basta acrescentar "-ed".</div>
+  </div>
+
+  <div class="q mcq">
+    <span class="q-num">Verbo 07</span>
+    <p class="q-text">Past participle of <span class="en"><b>take</b></span>:</p>
+    <div class="options">
+      <button class="option" data-correct="false">taked</button>
+      <button class="option" data-correct="false">took</button>
+      <button class="option" data-correct="true">taken</button>
+    </div>
+    <div class="feedback" hidden><b>Por quê:</b> "take" é irregular — take / took / taken.</div>
+  </div>
+
+  <div class="q mcq">
+    <span class="q-num">Verbo 08</span>
+    <p class="q-text">Past participle of <span class="en"><b>break</b></span>:</p>
+    <div class="options">
+      <button class="option" data-correct="false">breaked</button>
+      <button class="option" data-correct="true">broken</button>
+      <button class="option" data-correct="false">broke</button>
+    </div>
+    <div class="feedback" hidden><b>Por quê:</b> "break" é irregular — break / broke / broken.</div>
+  </div>
+
+  <div class="q mcq">
+    <span class="q-num">Verbo 09</span>
+    <p class="q-text">Past participle of <span class="en"><b>buy</b></span>:</p>
+    <div class="options">
+      <button class="option" data-correct="false">buyed</button>
+      <button class="option" data-correct="true">bought</button>
+      <button class="option" data-correct="false">buying</button>
+    </div>
+    <div class="feedback" hidden><b>Por quê:</b> "buy" é irregular — buy / bought / bought.</div>
+  </div>
+
+  <div class="q mcq">
+    <span class="q-num">Verbo 10</span>
+    <p class="q-text">Past participle of <span class="en"><b>use</b></span>:</p>
+    <div class="options">
+      <button class="option" data-correct="true">used</button>
+      <button class="option" data-correct="false">use</button>
+      <button class="option" data-correct="false">using</button>
+    </div>
+    <div class="feedback" hidden><b>Por quê:</b> "use" é regular — basta acrescentar "-d" (o verbo já termina em "e").</div>
+  </div>
+
+  <h2 style="margin-top:36px;">Complete com a forma correta</h2>
+  <p class="lead">Agora selecione a forma passiva correta para cada frase, no tempo indicado.</p>
+
+  <div class="q select-q">
+    <span class="q-num">01 — presente simples</span>
+    <p class="q-text en">Plastic bottles
+      <select class="select-blank">
+        <option value="" selected disabled>selecione...</option>
+        <option value="a">collect</option>
+        <option value="b">collected</option>
+        <option value="c" data-correct="true">are collected</option>
+        <option value="d">are collecting</option>
+      </select>
+      by volunteers every weekend.
+    </p>
+    <div class="feedback" hidden><b>Resposta certa:</b> are collected — presente simples passivo: <i>am/is/are</i> + particípio.</div>
+  </div>
+
+  <div class="q select-q">
+    <span class="q-num">02 — passado simples</span>
+    <p class="q-text en">Last year, thousands of trees
+      <select class="select-blank">
+        <option value="" selected disabled>selecione...</option>
+        <option value="a">cut down</option>
+        <option value="b" data-correct="true">were cut down</option>
+        <option value="c">are cut down</option>
+        <option value="d">cutted down</option>
+      </select>
+      in the region.
+    </p>
+    <div class="feedback" hidden><b>Resposta certa:</b> were cut down — passado simples passivo: <i>was/were</i> + particípio (cut é irregular: cut/cut/cut).</div>
+  </div>
+
+  <div class="q select-q">
+    <span class="q-num">03 — futuro (going to)</span>
+    <p class="q-text en">New recycling machines
+      <select class="select-blank">
+        <option value="" selected disabled>selecione...</option>
+        <option value="a">install</option>
+        <option value="b">installed</option>
+        <option value="c" data-correct="true">are going to be installed</option>
+        <option value="d">are installing</option>
+      </select>
+      in the city next month.
+    </p>
+    <div class="feedback" hidden><b>Resposta certa:</b> are going to be installed — futuro com "going to" passivo: <i>am/is/are going to be</i> + particípio.</div>
+  </div>
+
+  <div class="q select-q">
+    <span class="q-num">04 — futuro (will), negativo</span>
+    <p class="q-text en">The problem
+      <select class="select-blank">
+        <option value="" selected disabled>selecione...</option>
+        <option value="a" data-correct="true">won't be solved</option>
+        <option value="b">isn't solved</option>
+        <option value="c">won't solve</option>
+        <option value="d">wasn't solved</option>
+      </select>
+      unless everyone participates.
+    </p>
+    <div class="feedback" hidden><b>Resposta certa:</b> won't be solved — futuro com "will" negativo passivo: <i>won't be</i> + particípio.</div>
+  </div>
+
+  <div class="q select-q">
+    <span class="q-num">05 — infinitivo passivo</span>
+    <p class="q-text en">Rubbish from the ocean needs
+      <select class="select-blank">
+        <option value="" selected disabled>selecione...</option>
+        <option value="a">remove</option>
+        <option value="b">removed</option>
+        <option value="c" data-correct="true">to be removed</option>
+        <option value="d">being removed</option>
+      </select>
+      as soon as possible.
+    </p>
+    <div class="feedback" hidden><b>Resposta certa:</b> to be removed — infinitivo passivo: (to) <i>be</i> + particípio.</div>
+  </div>
+</section>
+
+<!-- ================= BLOCO 3 ================= -->
+<section class="dossier-card" id="evidencia-3">
+  <span class="evidence-tag">Evidência 3</span>
+  <h2>Transformação</h2>
+  <p class="lead">Reescreva cada frase na voz oposta. Depois, clique em "Revelar" para comparar com o gabarito comentado.</p>
+
+  <div class="q">
+    <span class="q-num">Item 01 — de ativa para passiva</span>
+    <p class="q-text en">"The government collects taxes every year."</p>
+    <div class="fill-row">
+      <input type="text" placeholder="Sua resposta em voz passiva...">
+      <button class="reveal-btn">Revelar</button>
+    </div>
+    <div class="answer-card"><b>Resposta:</b> "Taxes are collected (by the government) every year."<br><b>Comentário:</b> o objeto "taxes" vira sujeito; "by the government" é opcional, já que o agente é previsível.</div>
+  </div>
+
+  <div class="q">
+    <span class="q-num">Item 02 — de passiva para ativa</span>
+    <p class="q-text en">"The new clothes are going to be designed today."</p>
+    <div class="fill-row">
+      <input type="text" placeholder="Sua resposta em voz ativa...">
+      <button class="reveal-btn">Revelar</button>
+    </div>
+    <div class="answer-card"><b>Resposta:</b> "Designers are going to design the new clothes today." (ou "They are going to design...")<br><b>Comentário:</b> como o agente não aparece na frase original, você precisa criar um sujeito genérico plausível ("they", "designers") para a voz ativa.</div>
+  </div>
+
+  <div class="q">
+    <span class="q-num">Item 03 — de ativa para passiva</span>
+    <p class="q-text en">"Local factories produced 100 billion pieces of clothing."</p>
+    <div class="fill-row">
+      <input type="text" placeholder="Sua resposta em voz passiva...">
+      <button class="reveal-btn">Revelar</button>
+    </div>
+    <div class="answer-card"><b>Resposta:</b> "100 billion pieces of clothing were produced by local factories."<br><b>Comentário:</b> passado simples → "were" + particípio; o agente "local factories" foi mantido porque ainda é relevante.</div>
+  </div>
+
+  <div class="q">
+    <span class="q-num">Item 04 — de passiva para ativa</span>
+    <p class="q-text en">"The rubbish is removed from the ocean every year."</p>
+    <div class="fill-row">
+      <input type="text" placeholder="Sua resposta em voz ativa...">
+      <button class="reveal-btn">Revelar</button>
+    </div>
+    <div class="answer-card"><b>Resposta:</b> "Volunteers remove the rubbish from the ocean every year." (ou "They remove...")<br><b>Comentário:</b> mais uma vez, sem agente na original — é preciso inventar um sujeito coerente com o contexto.</div>
+  </div>
+
+  <div class="q">
+    <span class="q-num">Item 05 — de ativa para passiva</span>
+    <p class="q-text en">"They will send the recycled bottles to factories."</p>
+    <div class="fill-row">
+      <input type="text" placeholder="Sua resposta em voz passiva...">
+      <button class="reveal-btn">Revelar</button>
+    </div>
+    <div class="answer-card"><b>Resposta:</b> "The recycled bottles will be sent to factories."<br><b>Comentário:</b> futuro com "will" → "will be" + particípio. "They" desaparece porque não era específico.</div>
+  </div>
+
+  <div class="q">
+    <span class="q-num">Item 06 — de passiva para ativa</span>
+    <p class="q-text en">"Free tickets are given to passengers who bring plastic bottles."</p>
+    <div class="fill-row">
+      <input type="text" placeholder="Sua resposta em voz ativa...">
+      <button class="reveal-btn">Revelar</button>
+    </div>
+    <div class="answer-card"><b>Resposta:</b> "The company/They give free tickets to passengers who bring plastic bottles."<br><b>Comentário:</b> sem agente na original, use um sujeito genérico coerente com o contexto ("they", "the company").</div>
+  </div>
+
+  <div class="q">
+    <span class="q-num">Item 07 — de ativa para passiva</span>
+    <p class="q-text en">"Workers built the new recycling centre in six months."</p>
+    <div class="fill-row">
+      <input type="text" placeholder="Sua resposta em voz passiva...">
+      <button class="reveal-btn">Revelar</button>
+    </div>
+    <div class="answer-card"><b>Resposta:</b> "The new recycling centre was built (by workers) in six months."<br><b>Comentário:</b> passado simples → "was" + particípio irregular "built".</div>
+  </div>
+
+  <div class="q">
+    <span class="q-num">Item 08 — de passiva para ativa</span>
+    <p class="q-text en">"Thousands of bottles are collected by these machines every month."</p>
+    <div class="fill-row">
+      <input type="text" placeholder="Sua resposta em voz ativa...">
+      <button class="reveal-btn">Revelar</button>
+    </div>
+    <div class="answer-card"><b>Resposta:</b> "These machines collect thousands of bottles every month."<br><b>Comentário:</b> aqui o agente já aparece com "by", então é só transformá-lo no sujeito da frase ativa.</div>
+  </div>
+
+  <div class="q">
+    <span class="q-num">Item 09 — de ativa para passiva</span>
+    <p class="q-text en">"The council will install 25 new machines next year."</p>
+    <div class="fill-row">
+      <input type="text" placeholder="Sua resposta em voz passiva...">
+      <button class="reveal-btn">Revelar</button>
+    </div>
+    <div class="answer-card"><b>Resposta:</b> "25 new machines will be installed (by the council) next year."<br><b>Comentário:</b> futuro com "will" → "will be" + particípio "installed".</div>
+  </div>
+
+  <div class="q">
+    <span class="q-num">Item 10 — de passiva para ativa</span>
+    <p class="q-text en">"Old clothes can be recycled into new products."</p>
+    <div class="fill-row">
+      <input type="text" placeholder="Sua resposta em voz ativa...">
+      <button class="reveal-btn">Revelar</button>
+    </div>
+    <div class="answer-card"><b>Resposta:</b> "Factories/People can recycle old clothes into new products."<br><b>Comentário:</b> com modais, a estrutura passiva é "modal + be + particípio"; na ativa, o modal fica antes do verbo principal.</div>
+  </div>
+
+  <div class="q">
+    <span class="q-num">Item 11 — de ativa para passiva</span>
+    <p class="q-text en">"Local fishermen removed one million kilos of rubbish from the ocean."</p>
+    <div class="fill-row">
+      <input type="text" placeholder="Sua resposta em voz passiva...">
+      <button class="reveal-btn">Revelar</button>
+    </div>
+    <div class="answer-card"><b>Resposta:</b> "One million kilos of rubbish were removed from the ocean (by local fishermen)."<br><b>Comentário:</b> sujeito no plural ("kilos") → "were" + particípio.</div>
+  </div>
+
+  <div class="q">
+    <span class="q-num">Item 12 — de passiva para ativa</span>
+    <p class="q-text en">"The credit is added directly to metro cards."</p>
+    <div class="fill-row">
+      <input type="text" placeholder="Sua resposta em voz ativa...">
+      <button class="reveal-btn">Revelar</button>
+    </div>
+    <div class="answer-card"><b>Resposta:</b> "The system adds the credit directly to metro cards."<br><b>Comentário:</b> sem agente explícito — crie um sujeito plausível como "the system" ou "they".</div>
+  </div>
+
+  <div class="q">
+    <span class="q-num">Item 13 — de ativa para passiva</span>
+    <p class="q-text en">"Non-profit organisations have developed new technologies to remove plastic."</p>
+    <div class="fill-row">
+      <input type="text" placeholder="Sua resposta em voz passiva...">
+      <button class="reveal-btn">Revelar</button>
+    </div>
+    <div class="answer-card"><b>Resposta:</b> "New technologies have been developed (by non-profit organisations) to remove plastic."<br><b>Comentário:</b> presente perfeito passivo: "have/has been" + particípio.</div>
+  </div>
+
+  <div class="q">
+    <span class="q-num">Item 14 — de passiva para ativa</span>
+    <p class="q-text en">"Plastic waste needs to be reduced significantly."</p>
+    <div class="fill-row">
+      <input type="text" placeholder="Sua resposta em voz ativa...">
+      <button class="reveal-btn">Revelar</button>
+    </div>
+    <div class="answer-card"><b>Resposta:</b> "We/Cities need to reduce plastic waste significantly."<br><b>Comentário:</b> o infinitivo passivo "to be reduced" vira infinitivo ativo "to reduce" com um sujeito genérico.</div>
+  </div>
+
+  <div class="q">
+    <span class="q-num">Item 15 — de ativa para passiva</span>
+    <p class="q-text en">"City officials are going to open ten new recycling points."</p>
+    <div class="fill-row">
+      <input type="text" placeholder="Sua resposta em voz passiva...">
+      <button class="reveal-btn">Revelar</button>
+    </div>
+    <div class="answer-card"><b>Resposta:</b> "Ten new recycling points are going to be opened (by city officials)."<br><b>Comentário:</b> futuro com "going to" passivo: "are going to be" + particípio.</div>
+  </div>
+</section>
+
+<!-- ================= BLOCO 4 ================= -->
+<section class="dossier-card" id="evidencia-4">
+  <span class="evidence-tag">Evidência 4</span>
+  <h2>Interpretação de texto</h2>
+  <p class="lead">Estilo vestibular: leia os textos com atenção antes de responder.</p>
+
+  <div class="reading">
+    <p>Every year, millions of tons of plastic are dumped into the ocean. Non-profit organisations have developed new technologies to remove this waste before it reaches the sea. In one project, floating barriers are used to collect plastic from rivers. The collected material is then sorted and sent to recycling centres, where it is transformed into new products, such as backpacks and shoes. Local communities are also being trained to maintain the barriers, so the project can continue for years without depending on foreign volunteers.</p>
+  </div>
+
+  <div class="q mcq">
+    <span class="q-num">Texto 1 — Questão 01</span>
+    <p class="q-text">De acordo com o texto: <span class="en">Why is the agent (the people who dump the plastic) not mentioned in "millions of tons of plastic are dumped into the ocean"?</span></p>
+    <div class="options">
+      <button class="option" data-correct="false">Because the author forgot to include this information.</button>
+      <button class="option" data-correct="true">Because the people responsible are too general and unspecific — the focus is the problem, not a specific person to blame.</button>
+      <button class="option" data-correct="false">Because the sentence is written in the present tense.</button>
+    </div>
+    <div class="feedback" hidden><b>Por quê:</b> textos sobre problemas ambientais amplos costumam omitir o agente porque "quem" faz isso é a sociedade em geral — nomear seria impreciso e desviaria o foco do problema real.</div>
+  </div>
+
+  <div class="q mcq">
+    <span class="q-num">Texto 1 — Questão 02</span>
+    <p class="q-text">De acordo com o texto: <span class="en">In "the collected material is then sorted and sent to recycling centres, where it is transformed", the passive voice is used mainly to...</span></p>
+    <div class="options">
+      <button class="option" data-correct="false">...hide important information from the reader.</button>
+      <button class="option" data-correct="true">...describe the stages of a process, keeping the material as the main focus.</button>
+      <button class="option" data-correct="false">...make the sentence sound more formal for no practical reason.</button>
+    </div>
+    <div class="feedback" hidden><b>Por quê:</b> descrições de processos (científicos, industriais, de reciclagem) quase sempre usam a passiva porque o interesse está nas etapas que o material passa, não em quem realiza cada etapa.</div>
+  </div>
+
+  <div class="q mcq">
+    <span class="q-num">Texto 1 — Questão 03</span>
+    <p class="q-text">De acordo com o texto: <span class="en">Why doesn't the text say who trains the local communities in "local communities are also being trained to maintain the barriers"?</span></p>
+    <div class="options">
+      <button class="option" data-correct="true">Because who provides the training matters less than the outcome: the communities becoming self-sufficient.</button>
+      <button class="option" data-correct="false">Because the training has not happened yet.</button>
+      <button class="option" data-correct="false">Because the local communities train themselves without any help.</button>
+    </div>
+    <div class="feedback" hidden><b>Por quê:</b> a informação já apareceu antes no texto (a própria organização do projeto) — repeti-la seria redundante. O foco é o resultado: comunidades autossuficientes.</div>
+  </div>
+
+  <div class="reading">
+    <p>In many cities, public transport is now being connected to recycling programmes. Passengers who bring plastic bottles to special machines are given free tickets or discounts. In Istanbul, for example, thousands of bottles are collected by these machines every month, and the credit is added directly to metro cards. City officials believe that if more machines are installed next year, pollution from plastic waste will be reduced significantly.</p>
+  </div>
+
+  <div class="q mcq">
+    <span class="q-num">Texto 2 — Questão 01</span>
+    <p class="q-text">De acordo com o texto: <span class="en">In "thousands of bottles are collected by these machines", why is the agent ("by these machines") included in the sentence?</span></p>
+    <div class="options">
+      <button class="option" data-correct="false">Because in English, the agent must always be mentioned in passive sentences.</button>
+      <button class="option" data-correct="true">Because it gives specific and relevant information about how the system works.</button>
+      <button class="option" data-correct="false">Because "these machines" is the grammatical subject of the sentence.</button>
+    </div>
+    <div class="feedback" hidden><b>Por quê:</b> diferente do Texto 1, aqui o "quem" (as máquinas) é justamente o ponto interessante da informação — por isso o "by" aparece.</div>
+  </div>
+
+  <div class="q mcq">
+    <span class="q-num">Texto 2 — Questão 02</span>
+    <p class="q-text">De acordo com o texto: <span class="en">What will happen if more machines are installed next year?</span></p>
+    <div class="options">
+      <button class="option" data-correct="false">Passengers will have to pay more for public transport.</button>
+      <button class="option" data-correct="true">Plastic waste pollution will be reduced significantly.</button>
+      <button class="option" data-correct="false">The recycling programme will be cancelled.</button>
+    </div>
+    <div class="feedback" hidden><b>Por quê:</b> o texto usa duas passivas em sequência no futuro condicional — "are installed" (condição) e "will be reduced" (consequência) — ambas sem agente, pois o foco é no resultado, não em quem instala ou quem reduz.</div>
+  </div>
+</section>
+
+</div>
+
+<div class="verdict">
+  <h2>Encerrar a investigação</h2>
+  <p>Sua contagem de pistas confirmadas nas seções de múltipla escolha (Evidências 1 e 3):</p>
+  <div id="finalScoreLine">0 / 9</div>
+  <p id="verdictMsg">Responda às questões de múltipla escolha acima para ver seu resultado aqui.</p>
+</div>
+
+<footer class="credits">Material de apoio — Voz Ativa e Passiva em Inglês</footer>
+
+<script>
+(function(){
+  let score = 0;
+  const total = document.querySelectorAll('.mcq').length + document.querySelectorAll('.select-q').length;
+  document.getElementById('scoreTotal').textContent = total;
+
+  function updateScore(){
+    document.getElementById('scoreNow').textContent = score;
+    document.getElementById('finalScoreLine').textContent = score + ' / ' + total;
+    const msg = document.getElementById('verdictMsg');
+    const ratio = score / total;
+    if(score === 0){
+      msg.textContent = 'Responda às questões de múltipla escolha acima para ver seu resultado aqui.';
+    } else if(ratio === 1){
+      msg.textContent = 'Caso solucionado! Você domina quando usar cada voz verbal.';
+    } else if(ratio >= 0.7){
+      msg.textContent = 'Boa investigação — só faltam alguns detalhes para fechar o caso.';
+    } else {
+      msg.textContent = 'Ainda há pistas escondidas. Releia o manual do detetive e tente de novo.';
+    }
+  }
+
+  document.querySelectorAll('.mcq').forEach(function(q){
+    const options = q.querySelectorAll('.option');
+    options.forEach(function(opt){
+      opt.addEventListener('click', function(){
+        if(q.dataset.answered) return;
+        q.dataset.answered = 'true';
+        options.forEach(function(o){ o.classList.add('disabled'); o.disabled = true; });
+        const isCorrect = opt.dataset.correct === 'true';
+        opt.classList.add(isCorrect ? 'correct' : 'wrong');
+        if(!isCorrect){
+          const correctOpt = q.querySelector('.option[data-correct="true"]');
+          if(correctOpt) correctOpt.classList.add('correct');
+        } else {
+          score++;
+          updateScore();
+        }
+        const fb = q.querySelector('.feedback');
+        if(fb) fb.hidden = false;
+      });
+    });
+  });
+
+  document.querySelectorAll('.select-q').forEach(function(q){
+    const sel = q.querySelector('.select-blank');
+    sel.addEventListener('change', function(){
+      if(q.dataset.answered) return;
+      q.dataset.answered = 'true';
+      const chosen = sel.options[sel.selectedIndex];
+      const isCorrect = chosen.dataset.correct === 'true';
+      sel.classList.add(isCorrect ? 'correct' : 'wrong');
+      sel.disabled = true;
+      if(isCorrect){
+        score++;
+        updateScore();
+      }
+      const fb = q.querySelector('.feedback');
+      if(fb) fb.hidden = false;
+    });
+  });
+
+  document.querySelectorAll('.reveal-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      const card = btn.closest('.q').querySelector('.answer-card');
+      card.classList.toggle('show');
+      btn.textContent = card.classList.contains('show') ? 'Ocultar' : 'Revelar';
+    });
+  });
+
+  updateScore();
+})();
+</script>
+
+</body>
+</html>

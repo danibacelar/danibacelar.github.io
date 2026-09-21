@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Reading Comprehension Practice Tests — A2+/B1</title>
+<style>
+  :root{
+    --ink:#1f2937;
+    --sub:#4b5563;
+    --line:#d1d5db;
+    --accent:#2563eb;
+    --accent-soft:#eff6ff;
+    --answer:#065f46;
+    --answer-bg:#ecfdf5;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:"Segoe UI", Arial, sans-serif;
+    color:var(--ink);
+    max-width:820px;
+    margin:0 auto;
+    padding:32px 24px 80px;
+    line-height:1.55;
+    font-size:15px;
+  }
+  h1{font-size:26px; margin-bottom:4px;}
+  .subtitle{color:var(--sub); margin-top:0; margin-bottom:24px; font-size:14px;}
+  .cover{
+    border:2px solid var(--accent);
+    border-radius:10px;
+    padding:20px 24px;
+    background:var(--accent-soft);
+    margin-bottom:36px;
+  }
+  .cover p{margin:6px 0;}
+  .name-line{display:flex; gap:24px; margin-top:14px; flex-wrap:wrap;}
+  .name-line span{flex:1; min-width:180px; border-bottom:1px solid var(--ink); padding-bottom:4px;}
+  nav.toc{
+    background:#f9fafb;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:16px 20px;
+    margin-bottom:40px;
+  }
+  nav.toc h2{margin-top:0; font-size:16px;}
+  nav.toc ol{margin:0; padding-left:20px;}
+  nav.toc li{margin-bottom:4px;}
+  .test{
+    border-top:3px solid var(--accent);
+    padding-top:28px;
+    margin-top:10px;
+    page-break-before:always;
+  }
+  .test:first-of-type{page-break-before:auto;}
+  .test-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    flex-wrap:wrap;
+    margin-bottom:6px;
+  }
+  .test-header h2{margin:0; font-size:20px; color:var(--accent);}
+  .topic-tag{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    color:var(--sub);
+    background:#f3f4f6;
+    padding:3px 10px;
+    border-radius:12px;
+  }
+  .reading-text{
+    background:#fafafa;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:18px 22px;
+    margin:16px 0 24px;
+  }
+  .reading-text p{margin:0 0 10px;}
+  .reading-text p:last-child{margin-bottom:0;}
+  .word-count{font-size:12px; color:var(--sub); text-align:right; margin-top:8px;}
+  .q-group{margin-bottom:18px;}
+  .q-group h3{
+    font-size:14px;
+    color:var(--sub);
+    text-transform:uppercase;
+    letter-spacing:.4px;
+    margin-bottom:8px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:4px;
+  }
+  .question{margin-bottom:14px;}
+  .question p{margin:0 0 6px; font-weight:600;}
+  .answer-line{
+    border-bottom:1px solid #9ca3af;
+    height:22px;
+    margin-bottom:4px;
+  }
+  .grammar-section{
+    page-break-before:always;
+    border-top:3px solid #7c3aed;
+    padding-top:28px;
+  }
+  .grammar-section h2{color:#7c3aed;}
+  .rule-box{
+    background:#f5f3ff;
+    border:1px solid #ddd6fe;
+    border-radius:8px;
+    padding:14px 20px;
+    margin:14px 0 22px;
+  }
+  .rule-box p{margin:6px 0;}
+  .rule-box .example{color:#5b21b6; font-style:italic;}
+  .exercise-block{margin-bottom:26px;}
+  .exercise-block h3{
+    font-size:14px;
+    text-transform:uppercase;
+    color:#6d28d9;
+    border-bottom:1px solid var(--line);
+    padding-bottom:4px;
+  }
+  .exercise-item{margin-bottom:10px;}
+  .answer-key{
+    page-break-before:always;
+    border-top:3px solid var(--answer);
+    padding-top:28px;
+  }
+  .answer-key h2{color:var(--answer);}
+  .answer-key h3{
+    margin-top:26px;
+    color:var(--ink);
+    font-size:18px;
+    border-bottom:2px solid var(--line);
+    padding-bottom:6px;
+  }
+  .ak-group{margin-bottom:14px;}
+  .ak-group h4{
+    font-size:13px;
+    text-transform:uppercase;
+    color:var(--sub);
+    margin-bottom:6px;
+  }
+  .ak-item{
+    background:var(--answer-bg);
+    border-left:3px solid var(--answer);
+    padding:8px 12px;
+    margin-bottom:8px;
+    border-radius:0 6px 6px 0;
+  }
+  .ak-item p{margin:0 0 4px;}
+  .ak-item .explain{color:var(--sub); font-size:13px; font-style:italic;}
+  .print-btn{
+    position:fixed;
+    top:16px;
+    right:16px;
+    background:var(--accent);
+    color:#fff;
+    border:none;
+    padding:10px 16px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:14px;
+  }
+  @media print{
+    .print-btn{display:none;}
+    body{padding:0 8mm;}
+    .test, .grammar-section, .answer-key{page-break-before:always;}
+  }
+</style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()">🖨️ Print / Save PDF</button>
+
+<h1>Reading Comprehension Practice Tests</h1>
+<p class="subtitle">Level A2+/B1 · 8th Grade · Six Informational Texts + Future Tenses Grammar Review</p>
+
+<div class="cover">
+  <p><strong>Instructions:</strong> Read each text carefully. Answer every question in a <strong>complete sentence</strong>. You may look back at the text as many times as you need.</p>
+  <div class="name-line">
+    <span>Name: ______________________</span>
+    <span>Date: ______________________</span>
+  </div>
+</div>
+
+<nav class="toc">
+  <h2>Contents</h2>
+  <ol>
+    <li>Test 1 — Science: The Amazing Human Heart</li>
+    <li>Test 2 — Nature: The Long Journey of Monarch Butterflies</li>
+    <li>Test 3 — Technology: Robots That Help in Hospitals</li>
+    <li>Test 4 — Unusual Events: The Town Where It Rains Fish</li>
+    <li>Test 5 — Jobs and Careers: A Day in the Life of a Marine Biologist</li>
+    <li>Test 6 — Environmental Issues: Plastic in Our Oceans</li>
+    <li>Grammar Section — Talking About the Future</li>
+    <li>Answer Key</li>
+  </ol>
+</nav>
+
+<!-- ========================= TEST 1: SCIENCE ========================= -->
+<section class="test" id="test1">
+  <div class="test-header">
+    <h2>Test 1: The Amazing Human Heart</h2>
+    <span class="topic-tag">Science</span>
+  </div>
+  <div class="reading-text">
+    <p>Your heart is one of the hardest-working parts of your body. It is a muscle, and its job is to pump blood to every part of you. The heart is about the size of your fist, but it is very powerful. It beats around 100,000 times every day. That means it beats more than 35 million times in one year!</p>
+    <p>The heart has four small rooms inside it. These rooms are called chambers. Two chambers are on the top, and two are on the bottom. Blood moves through these chambers in a special order. First, blood that needs oxygen goes into the heart. Then the heart sends this blood to the lungs. In the lungs, the blood picks up oxygen. After that, the heart pumps the oxygen-rich blood to the rest of the body. This is why we say the heart and lungs work as a team.</p>
+    <p>When you exercise, your heart beats faster. This happens because your muscles need more oxygen when you run or jump. The heart works harder to send more blood, and more oxygen, to your muscles. That is why your heart beats fast after you run up the stairs or play sports.</p>
+    <p>Doctors say that exercise is good for the heart. When people exercise often, their heart becomes stronger, just like other muscles in the body. A strong heart can pump blood more easily. On the other hand, if a person never exercises, their heart may become weak over time. Eating healthy food, sleeping enough, and staying active all help keep the heart healthy for many years.</p>
+    <p>Scientists continue to study the heart because it is so important for life. Without a heart, no other part of the body could get the oxygen it needs to work.</p>
+  </div>
+  <p class="word-count">~320 words</p>
+
+  <div class="q-group">
+    <h3>1. Literal Comprehension</h3>
+    <div class="question"><p>1. How many chambers does the heart have?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. What happens to the blood when it goes to the lungs?</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>2. Cause and Effect</h3>
+    <div class="question"><p>1. Why does your heart beat faster when you exercise?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. What can happen to a person's heart if they never exercise?</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>3. Inference</h3>
+    <div class="question"><p>1. Why do you think the text compares the heart to "other muscles in the body"?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. Why do scientists continue to study the heart, even though we already know a lot about it?</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>4. Vocabulary in Context</h3>
+    <div class="question"><p>1. In the text, the word "pump" is used to describe what the heart does. Using the context, explain what "pump" means.</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. The text says a strong heart "can pump blood more easily." What does "easily" mean in this sentence?</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>5. Summary</h3>
+    <div class="question"><p>Write a short summary of the text in 2 or 3 complete sentences.</p><div class="answer-line"></div><div class="answer-line"></div><div class="answer-line"></div></div>
+  </div>
+</section>
+
+<!-- ========================= TEST 2: NATURE ========================= -->
+<section class="test" id="test2">
+  <div class="test-header">
+    <h2>Test 2: The Long Journey of Monarch Butterflies</h2>
+    <span class="topic-tag">Nature</span>
+  </div>
+  <div class="reading-text">
+    <p>Every year, millions of monarch butterflies travel from Canada and the United States to Mexico. This trip is called a migration. It is one of the longest migrations of any insect in the world. Some monarchs fly more than 4,000 kilometers to reach their winter home.</p>
+    <p>Monarch butterflies migrate because of the weather. In the fall, the days get shorter and colder in the north. Monarchs cannot survive freezing temperatures, so they fly south to find a warmer place. In Mexico, they gather in forests with mild weather, where they rest until spring.</p>
+    <p>What makes this journey even more amazing is that no single butterfly completes the whole trip alone. A monarch's life is short, so the butterflies that fly south are not the same ones that fly back north later. Instead, several generations are born along the way. Scientists still do not fully understand how new generations know exactly where to go, since they have never traveled there before. Many scientists believe monarchs use the position of the sun and the Earth's magnetic field to find their direction.</p>
+    <p>Sadly, the number of monarch butterflies has been dropping in recent years. One reason is the loss of milkweed plants, which are the only food that baby monarchs (caterpillars) can eat. When farmers and cities remove milkweed to build roads or grow crops, the caterpillars lose their food source. Because of this, fewer caterpillars survive to become butterflies.</p>
+    <p>People can help monarchs by planting milkweed in gardens and parks. Protecting the forests in Mexico where monarchs spend the winter is also important. Many scientists and volunteers now work together to protect this incredible journey for future generations.</p>
+  </div>
+  <p class="word-count">~330 words</p>
+
+  <div class="q-group">
+    <h3>1. Literal Comprehension</h3>
+    <div class="question"><p>1. How far do some monarch butterflies fly during their migration?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. What is the only food that monarch caterpillars can eat?</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>2. Cause and Effect</h3>
+    <div class="question"><p>1. Why do monarch butterflies fly south in the fall?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. What happens to caterpillars when milkweed plants are removed?</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>3. Inference</h3>
+    <div class="question"><p>1. Why is it surprising that new generations of butterflies know where to go, even though they have never made the trip before?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. Why do you think scientists and volunteers are working together to protect monarchs?</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>4. Vocabulary in Context</h3>
+    <div class="question"><p>1. The text says monarchs "gather in forests with mild weather." Using the context, what does "mild" mean?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. The text uses the word "generations." Based on the context, explain what this word means.</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>5. Summary</h3>
+    <div class="question"><p>Write a short summary of the text in 2 or 3 complete sentences.</p><div class="answer-line"></div><div class="answer-line"></div><div class="answer-line"></div></div>
+  </div>
+</section>
+
+<!-- ========================= TEST 3: TECHNOLOGY ========================= -->
+<section class="test" id="test3">
+  <div class="test-header">
+    <h2>Test 3: Robots That Help in Hospitals</h2>
+    <span class="topic-tag">Technology</span>
+  </div>
+  <div class="reading-text">
+    <p>In many hospitals today, robots are working alongside doctors and nurses. These robots are not like the robots in movies. They do not talk or think like humans. Instead, they are designed to do specific jobs that help hospitals run more smoothly.</p>
+    <p>One type of hospital robot delivers medicine and supplies. Instead of a nurse walking to a storage room, a small robot can carry the items through the hallways. The robot uses sensors to avoid people and walls. Because the robot handles this simple task, nurses have more time to take care of patients.</p>
+    <p>Another type of robot helps during surgery. These surgical robots are controlled by a doctor, who sits at a special computer and moves the robot's tiny arms. The robot's hands are more precise than human hands, so it can make very small, exact movements. This helps doctors perform difficult operations with smaller cuts. As a result, patients often recover faster and feel less pain after surgery.</p>
+    <p>Some hospitals also use robots to clean rooms. These cleaning robots use ultraviolet light to kill germs and bacteria. Because germs can make patients sicker, keeping rooms clean is extremely important. A robot can clean a room quickly and does not get tired, so it can work all day without stopping.</p>
+    <p>Not everyone agrees that robots are always a good idea in hospitals. Some people worry that robots are expensive and that machines could make mistakes. However, most experts believe that when doctors and robots work together, patients receive better and safer care. As technology improves, hospital robots are likely to become even more common in the future.</p>
+  </div>
+  <p class="word-count">~340 words</p>
+
+  <div class="q-group">
+    <h3>1. Literal Comprehension</h3>
+    <div class="question"><p>1. What does the delivery robot carry through the hospital hallways?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. What do cleaning robots use to kill germs?</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>2. Cause and Effect</h3>
+    <div class="question"><p>1. Why do nurses have more time to take care of patients when delivery robots are used?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. Why do patients often recover faster after surgery with a surgical robot?</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>3. Inference</h3>
+    <div class="question"><p>1. Why do you think some people worry about using robots in hospitals?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. Why does the text say robots and doctors should "work together" instead of robots replacing doctors?</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>4. Vocabulary in Context</h3>
+    <div class="question"><p>1. The text says surgical robots are "more precise" than human hands. Using the context, what does "precise" mean?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. The text says hospital robots are "likely to become even more common." What does "common" mean in this sentence?</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>5. Summary</h3>
+    <div class="question"><p>Write a short summary of the text in 2 or 3 complete sentences.</p><div class="answer-line"></div><div class="answer-line"></div><div class="answer-line"></div></div>
+  </div>
+</section>
+
+<!-- ========================= TEST 4: UNUSUAL EVENTS ========================= -->
+<section class="test" id="test4">
+  <div class="test-header">
+    <h2>Test 4: The Town Where It Rains Fish</h2>
+    <span class="topic-tag">Unusual Events</span>
+  </div>
+  <div class="reading-text">
+    <p>In a small town called Yoro, in Honduras, something very strange happens almost every year. During a heavy storm, hundreds of small fish suddenly fall from the sky, along with the rain. This event is called "Lluvia de Peces," which means "Rain of Fish" in Spanish. It usually happens between May and July, during the rainy season.</p>
+    <p>The first time people reported this event was more than 100 years ago. After a strong storm, local people walked outside and found the ground covered with small, silver fish. Because this happened again and again over the years, the town of Yoro began to celebrate a festival every year to remember the strange event.</p>
+    <p>For a long time, people could not explain why fish were falling from the sky. Some people believed it was a miracle. Others thought strong winds from the ocean picked up the fish and carried them to Yoro. However, scientists later discovered a different explanation. They found that the fish do not actually come from the sky at all.</p>
+    <p>According to scientists, heavy rain floods small rivers and underground water channels near Yoro. Because of the flooding, fish that were living underground or in small streams are pushed up to the surface. The strong wind and rain then make it look like the fish are falling from the sky, when they are really being pushed out of the flooded ground. Even though there is a scientific explanation, many people in Yoro still enjoy thinking of it as a wonderful mystery.</p>
+    <p>Today, tourists travel to Yoro every year hoping to see the famous "fish rain" for themselves.</p>
+  </div>
+  <p class="word-count">~310 words</p>
+
+  <div class="q-group">
+    <h3>1. Literal Comprehension</h3>
+    <div class="question"><p>1. What is the name of the event in Spanish, and what does it mean?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. During which months does this event usually happen?</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>2. Cause and Effect</h3>
+    <div class="question"><p>1. According to scientists, why do the fish appear on the ground after a storm?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. Why did the town of Yoro start a yearly festival?</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>3. Inference</h3>
+    <div class="question"><p>1. Why do you think some people still prefer to believe the event is a "miracle" instead of a scientific explanation?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. Why do tourists probably want to visit Yoro during the rainy season and not during other times of the year?</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>4. Vocabulary in Context</h3>
+    <div class="question"><p>1. The text says heavy rain "floods small rivers." Using the context, what does "floods" mean?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. The text calls the event a "wonderful mystery." Based on the context, what does "mystery" mean?</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>5. Summary</h3>
+    <div class="question"><p>Write a short summary of the text in 2 or 3 complete sentences.</p><div class="answer-line"></div><div class="answer-line"></div><div class="answer-line"></div></div>
+  </div>
+</section>
+
+<!-- ========================= TEST 5: JOBS AND CAREERS ========================= -->
+<section class="test" id="test5">
+  <div class="test-header">
+    <h2>Test 5: A Day in the Life of a Marine Biologist</h2>
+    <span class="topic-tag">Jobs and Careers</span>
+  </div>
+  <div class="reading-text">
+    <p>A marine biologist is a scientist who studies life in the ocean. This job can include studying fish, sharks, coral reefs, whales, or even tiny creatures that are too small to see without a microscope. Marine biologists want to understand how ocean animals live, what they eat, and how they behave.</p>
+    <p>A typical day for a marine biologist can be very different depending on the project. Some days are spent outdoors, near or in the water. A marine biologist might put on a diving suit and explore a coral reef to check its health. They might also travel on a boat to observe whales or collect water samples from different parts of the ocean.</p>
+    <p>Other days are spent indoors, in a laboratory or an office. After collecting information in the ocean, marine biologists need to study it carefully. They look at the samples under microscopes, write reports, and use computers to organize their data. Because of this, marine biologists must be comfortable with both physical fieldwork and detailed scientific research.</p>
+    <p>To become a marine biologist, a person usually needs to study biology or a related subject at university. Many marine biologists also need to learn how to scuba dive safely, since much of their work happens underwater. It is not always an easy job. The ocean can be dangerous, and some research trips can be long and tiring.</p>
+    <p>However, most marine biologists say their job is worth the challenges. They get to explore places that few people ever see, and their research helps protect ocean life. Because of climate change and pollution, marine biologists play an important role in helping keep the oceans healthy for the future.</p>
+  </div>
+  <p class="word-count">~330 words</p>
+
+  <div class="q-group">
+    <h3>1. Literal Comprehension</h3>
+    <div class="question"><p>1. What does a marine biologist study?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. What skill do many marine biologists need to learn because much of their work happens underwater?</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>2. Cause and Effect</h3>
+    <div class="question"><p>1. Why must marine biologists be comfortable with both fieldwork and research in a laboratory?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. Why is the role of marine biologists becoming more important today?</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>3. Inference</h3>
+    <div class="question"><p>1. Why do you think the text says the job "is not always easy"?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. Why do most marine biologists say the job is "worth the challenges," even though it can be dangerous and tiring?</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>4. Vocabulary in Context</h3>
+    <div class="question"><p>1. The text says scientists "observe whales." Using the context, what does "observe" mean?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. The text says marine biologists "organize their data." Based on the context, what does "data" mean?</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>5. Summary</h3>
+    <div class="question"><p>Write a short summary of the text in 2 or 3 complete sentences.</p><div class="answer-line"></div><div class="answer-line"></div><div class="answer-line"></div></div>
+  </div>
+</section>
+
+<!-- ========================= TEST 6: ENVIRONMENTAL ISSUES ========================= -->
+<section class="test" id="test6">
+  <div class="test-header">
+    <h2>Test 6: Plastic in Our Oceans</h2>
+    <span class="topic-tag">Environmental Issues</span>
+  </div>
+  <div class="reading-text">
+    <p>Every year, millions of tons of plastic end up in the ocean. Some of this plastic comes from beaches, rivers, and cities, where wind and rain carry trash into the water. Other plastic falls from boats or ships. Once plastic enters the ocean, it does not disappear quickly. In fact, some types of plastic can take hundreds of years to break down completely.</p>
+    <p>This plastic causes serious problems for ocean animals. Sea turtles sometimes eat plastic bags because they look similar to jellyfish, one of the turtles' favorite foods. Birds and fish can also swallow small pieces of plastic by mistake. Because plastic cannot be digested, it can make animals feel full even when they have not eaten real food. As a result, many animals become sick or die from starvation, even though their stomachs are full of plastic.</p>
+    <p>Another big problem is something called microplastics. These are extremely small pieces of plastic, often smaller than a grain of rice. Microplastics form when larger plastic items break into tiny pieces over time. Because they are so small, microplastics are very difficult to remove from the water. Fish often eat microplastics without knowing it, and these tiny pieces can travel up the food chain, from small fish to bigger fish, and even to humans who eat seafood.</p>
+    <p>Fortunately, people around the world are working to reduce plastic pollution. Many countries have banned single-use plastic bags and straws. Volunteers organize beach clean-ups to remove trash before it reaches the ocean. Scientists are also developing new materials that break down faster than regular plastic. Small actions, like using reusable bottles and bags, can also help reduce the amount of plastic that enters the ocean each year.</p>
+  </div>
+  <p class="word-count">~340 words</p>
+
+  <div class="q-group">
+    <h3>1. Literal Comprehension</h3>
+    <div class="question"><p>1. Why do sea turtles sometimes eat plastic bags?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. What are microplastics?</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>2. Cause and Effect</h3>
+    <div class="question"><p>1. Why can eating plastic cause an animal to die of starvation, even with a full stomach?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. Why can microplastics eventually end up inside humans who eat seafood?</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>3. Inference</h3>
+    <div class="question"><p>1. Why do you think microplastics are described as "very difficult to remove from the water"?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. Why might small personal actions, like using a reusable bottle, actually make a difference for the ocean?</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>4. Vocabulary in Context</h3>
+    <div class="question"><p>1. The text says plastic can "break down" over time. Using the context, what does "break down" mean?</p><div class="answer-line"></div></div>
+    <div class="question"><p>2. The text mentions the "food chain." Based on the context, explain what this term means.</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="q-group">
+    <h3>5. Summary</h3>
+    <div class="question"><p>Write a short summary of the text in 2 or 3 complete sentences.</p><div class="answer-line"></div><div class="answer-line"></div><div class="answer-line"></div></div>
+  </div>
+</section>
+
+<!-- ========================= GRAMMAR SECTION ========================= -->
+<section class="grammar-section" id="grammar">
+  <h2>Grammar Section: Talking About the Future</h2>
+  <p>This section reviews four ways to talk about the future in English.</p>
+
+  <div class="rule-box">
+    <p><strong>1. Future Continuous</strong> — <em>will be + verb-ing</em></p>
+    <p>We use this to talk about an action that will be in progress at a specific time in the future.</p>
+    <p class="example">Example: At 8 p.m. tomorrow, I will be studying for the test.</p>
+  </div>
+
+  <div class="rule-box">
+    <p><strong>2. Future Perfect</strong> — <em>will have + past participle</em></p>
+    <p>We use this to talk about an action that will be finished before a specific time in the future.</p>
+    <p class="example">Example: By next Friday, she will have finished the project.</p>
+  </div>
+
+  <div class="rule-box">
+    <p><strong>3. Future Plans</strong> — <em>going to + verb</em></p>
+    <p>We use this to talk about plans or intentions that are already decided.</p>
+    <p class="example">Example: We are going to visit my grandmother this weekend.</p>
+  </div>
+
+  <div class="rule-box">
+    <p><strong>4. Future Predictions</strong> — <em>will / going to + verb</em></p>
+    <p>We use "will" for predictions based on opinion, and "going to" for predictions based on evidence we can see now.</p>
+    <p class="example">Example: I think it will rain later. / Look at those clouds — it is going to rain!</p>
+  </div>
+
+  <div class="exercise-block">
+    <h3>Exercise 1 — Fill in the Blank</h3>
+    <p>Complete the sentences with the correct future form (Future Continuous, Future Perfect, "going to," or "will").</p>
+    <div class="exercise-item"><p>1. By the time you arrive, I ______________ (finish) my homework.</p><div class="answer-line"></div></div>
+    <div class="exercise-item"><p>2. This time next week, we ______________ (travel) to the beach.</p><div class="answer-line"></div></div>
+    <div class="exercise-item"><p>3. Look at those dark clouds! It ______________ (rain) soon.</p><div class="answer-line"></div></div>
+    <div class="exercise-item"><p>4. She ______________ (study) English next year because she wants to travel abroad.</p><div class="answer-line"></div></div>
+    <div class="exercise-item"><p>5. By 2030, scientists ______________ (discover) many new things about space.</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="exercise-block">
+    <h3>Exercise 2 — Sentence Transformation</h3>
+    <p>Rewrite each sentence using the future form indicated in parentheses.</p>
+    <div class="exercise-item"><p>1. My parents plan to buy a new car. (Future Plans — "going to")</p><div class="answer-line"></div></div>
+    <div class="exercise-item"><p>2. I think the test will be difficult. (Future Prediction — "will")</p><div class="answer-line"></div></div>
+    <div class="exercise-item"><p>3. At 7 a.m. tomorrow, I will be on the bus. (Future Continuous)</p><div class="answer-line"></div></div>
+    <div class="exercise-item"><p>4. She will finish the book before next month. (Future Perfect)</p><div class="answer-line"></div></div>
+  </div>
+
+  <div class="exercise-block">
+    <h3>Exercise 3 — Short Answer</h3>
+    <p>Answer the following questions about your own future in complete sentences.</p>
+    <div class="exercise-item"><p>1. What will you be doing at this time tomorrow?</p><div class="answer-line"></div></div>
+    <div class="exercise-item"><p>2. What are you going to do this weekend?</p><div class="answer-line"></div></div>
+    <div class="exercise-item"><p>3. What do you think you will have achieved by the end of this year?</p><div class="answer-line"></div></div>
+  </div>
+</section>
+
+<!-- ========================= ANSWER KEY ========================= -->
+<section class="answer-key" id="answer-key">
+  <h2>Answer Key &amp; Explanations</h2>
+
+  <h3>Test 1 — The Amazing Human Heart</h3>
+  <div class="ak-group"><h4>Literal Comprehension</h4>
+    <div class="ak-item"><p>1. The heart has four chambers.</p><p class="explain">Found directly in paragraph 2.</p></div>
+    <div class="ak-item"><p>2. In the lungs, the blood picks up oxygen.</p><p class="explain">Found directly in paragraph 2.</p></div>
+  </div>
+  <div class="ak-group"><h4>Cause and Effect</h4>
+    <div class="ak-item"><p>1. The heart beats faster during exercise because the muscles need more oxygen.</p><p class="explain">Cause: muscles need oxygen → effect: faster heartbeat.</p></div>
+    <div class="ak-item"><p>2. If a person never exercises, their heart may become weak over time.</p><p class="explain">Stated in paragraph 4.</p></div>
+  </div>
+  <div class="ak-group"><h4>Inference</h4>
+    <div class="ak-item"><p>1. The text compares the heart to a muscle because, like other muscles, it becomes stronger with exercise and can become weaker without it.</p><p class="explain">Accept reasonable answers that connect exercise to muscle strength.</p></div>
+    <div class="ak-item"><p>2. Scientists keep studying the heart because it is essential for life and there is probably still more to learn about keeping it healthy.</p><p class="explain">Accept answers referring to the heart's importance for survival.</p></div>
+  </div>
+  <div class="ak-group"><h4>Vocabulary in Context</h4>
+    <div class="ak-item"><p>1. "Pump" means to push or move blood through the body.</p></div>
+    <div class="ak-item"><p>2. "Easily" means without much difficulty or effort.</p></div>
+  </div>
+  <div class="ak-group"><h4>Summary</h4>
+    <div class="ak-item"><p>Sample: The heart is a strong muscle that pumps blood through the body. It works with the lungs to send oxygen everywhere. Exercise helps keep the heart strong and healthy.</p></div>
+  </div>
+
+  <h3>Test 2 — The Long Journey of Monarch Butterflies</h3>
+  <div class="ak-group"><h4>Literal Comprehension</h4>
+    <div class="ak-item"><p>1. Some monarch butterflies fly more than 4,000 kilometers.</p></div>
+    <div class="ak-item"><p>2. The only food monarch caterpillars can eat is milkweed.</p></div>
+  </div>
+  <div class="ak-group"><h4>Cause and Effect</h4>
+    <div class="ak-item"><p>1. Monarchs fly south because the weather in the north becomes too cold for them to survive.</p></div>
+    <div class="ak-item"><p>2. When milkweed is removed, caterpillars lose their food source and fewer of them survive.</p></div>
+  </div>
+  <div class="ak-group"><h4>Inference</h4>
+    <div class="ak-item"><p>1. It is surprising because the new butterflies have never traveled the route before, yet they still find the way, which shows this ability may be instinctive.</p></div>
+    <div class="ak-item"><p>2. They are probably working together because monarch populations are decreasing and protecting the species requires effort from many people.</p></div>
+  </div>
+  <div class="ak-group"><h4>Vocabulary in Context</h4>
+    <div class="ak-item"><p>1. "Mild" means not too cold and not too hot; comfortable weather.</p></div>
+    <div class="ak-item"><p>2. "Generations" means different groups of butterflies born at different times, such as parents, children, and grandchildren.</p></div>
+  </div>
+  <div class="ak-group"><h4>Summary</h4>
+    <div class="ak-item"><p>Sample: Monarch butterflies migrate thousands of kilometers from the north to Mexico each year to escape the cold. No single butterfly makes the whole trip, since several generations are born along the way. Their numbers are decreasing because of the loss of milkweed plants.</p></div>
+  </div>
+
+  <h3>Test 3 — Robots That Help in Hospitals</h3>
+  <div class="ak-group"><h4>Literal Comprehension</h4>
+    <div class="ak-item"><p>1. The delivery robot carries medicine and supplies.</p></div>
+    <div class="ak-item"><p>2. Cleaning robots use ultraviolet light to kill germs.</p></div>
+  </div>
+  <div class="ak-group"><h4>Cause and Effect</h4>
+    <div class="ak-item"><p>1. Nurses have more time for patients because the robot handles the delivery task instead of the nurse.</p></div>
+    <div class="ak-item"><p>2. Patients recover faster because the surgical robot can make smaller, more precise cuts.</p></div>
+  </div>
+  <div class="ak-group"><h4>Inference</h4>
+    <div class="ak-item"><p>1. Some people probably worry because robots are new technology, cost a lot of money, and mistakes with machines could be dangerous.</p></div>
+    <div class="ak-item"><p>2. Robots and doctors should work together because robots are good at precise, repetitive tasks, but doctors still need to make decisions and control the robots.</p></div>
+  </div>
+  <div class="ak-group"><h4>Vocabulary in Context</h4>
+    <div class="ak-item"><p>1. "Precise" means very accurate and exact.</p></div>
+    <div class="ak-item"><p>2. "Common" means happening often or found in many places.</p></div>
+  </div>
+  <div class="ak-group"><h4>Summary</h4>
+    <div class="ak-item"><p>Sample: Hospitals use different types of robots to deliver supplies, assist in surgery, and clean rooms. These robots help doctors and nurses work more efficiently and safely. Many experts believe robots and humans working together provide better patient care.</p></div>
+  </div>
+
+  <h3>Test 4 — The Town Where It Rains Fish</h3>
+  <div class="ak-group"><h4>Literal Comprehension</h4>
+    <div class="ak-item"><p>1. The event is called "Lluvia de Peces," which means "Rain of Fish."</p></div>
+    <div class="ak-item"><p>2. It usually happens between May and July.</p></div>
+  </div>
+  <div class="ak-group"><h4>Cause and Effect</h4>
+    <div class="ak-item"><p>1. According to scientists, heavy rain floods rivers and underground channels, which pushes fish up to the surface, and it looks like the fish fall from the sky.</p></div>
+    <div class="ak-item"><p>2. The town started a festival because the fish rain kept happening year after year, so people began celebrating it.</p></div>
+  </div>
+  <div class="ak-group"><h4>Inference</h4>
+    <div class="ak-item"><p>1. Some people probably prefer the miracle explanation because it feels more exciting and mysterious than a scientific one.</p></div>
+    <div class="ak-item"><p>2. Tourists probably visit during the rainy season because that is when the fish rain event actually happens.</p></div>
+  </div>
+  <div class="ak-group"><h4>Vocabulary in Context</h4>
+    <div class="ak-item"><p>1. "Floods" means covers an area with a large amount of water.</p></div>
+    <div class="ak-item"><p>2. "Mystery" means something strange that is difficult to explain.</p></div>
+  </div>
+  <div class="ak-group"><h4>Summary</h4>
+    <div class="ak-item"><p>Sample: In Yoro, Honduras, fish fall from the sky during storms almost every year, an event called "Lluvia de Peces." Scientists believe flooding pushes fish out of the ground, not the sky. Even so, the town celebrates the strange event with a yearly festival.</p></div>
+  </div>
+
+  <h3>Test 5 — A Day in the Life of a Marine Biologist</h3>
+  <div class="ak-group"><h4>Literal Comprehension</h4>
+    <div class="ak-item"><p>1. A marine biologist studies life in the ocean, such as fish, sharks, coral reefs, and whales.</p></div>
+    <div class="ak-item"><p>2. Many marine biologists need to learn how to scuba dive.</p></div>
+  </div>
+  <div class="ak-group"><h4>Cause and Effect</h4>
+    <div class="ak-item"><p>1. They must be comfortable with both because their work includes collecting information outdoors and analyzing it indoors.</p></div>
+    <div class="ak-item"><p>2. Their role is becoming more important because climate change and pollution are affecting ocean life.</p></div>
+  </div>
+  <div class="ak-group"><h4>Inference</h4>
+    <div class="ak-item"><p>1. The job is not always easy because it can involve dangerous conditions and long, tiring research trips.</p></div>
+    <div class="ak-item"><p>2. They probably feel it is worth it because they get to explore unique places and their work helps protect the ocean.</p></div>
+  </div>
+  <div class="ak-group"><h4>Vocabulary in Context</h4>
+    <div class="ak-item"><p>1. "Observe" means to watch carefully.</p></div>
+    <div class="ak-item"><p>2. "Data" means information that is collected and studied.</p></div>
+  </div>
+  <div class="ak-group"><h4>Summary</h4>
+    <div class="ak-item"><p>Sample: A marine biologist studies ocean life both in the field and in the laboratory. The job can involve diving, boat trips, and detailed research. Although the work can be difficult, it plays an important role in protecting the ocean.</p></div>
+  </div>
+
+  <h3>Test 6 — Plastic in Our Oceans</h3>
+  <div class="ak-group"><h4>Literal Comprehension</h4>
+    <div class="ak-item"><p>1. Sea turtles eat plastic bags because the bags look like jellyfish.</p></div>
+    <div class="ak-item"><p>2. Microplastics are extremely small pieces of plastic, often smaller than a grain of rice.</p></div>
+  </div>
+  <div class="ak-group"><h4>Cause and Effect</h4>
+    <div class="ak-item"><p>1. Animals can starve because plastic cannot be digested, so it fills their stomachs without giving them real nutrition.</p></div>
+    <div class="ak-item"><p>2. Microplastics travel up the food chain from small fish to bigger fish, so they can eventually end up in the seafood that humans eat.</p></div>
+  </div>
+  <div class="ak-group"><h4>Inference</h4>
+    <div class="ak-item"><p>1. Microplastics are hard to remove because they are so tiny that normal cleaning methods probably cannot catch them all.</p></div>
+    <div class="ak-item"><p>2. Small actions can make a difference because if many people reduce their plastic use, the total amount of plastic pollution decreases significantly.</p></div>
+  </div>
+  <div class="ak-group"><h4>Vocabulary in Context</h4>
+    <div class="ak-item"><p>1. "Break down" means to slowly fall apart or decompose over time.</p></div>
+    <div class="ak-item"><p>2. "Food chain" means the order in which living things eat each other, from small animals to bigger ones.</p></div>
+  </div>
+  <div class="ak-group"><h4>Summary</h4>
+    <div class="ak-item"><p>Sample: Large amounts of plastic end up in the ocean every year and harm animals that eat it by mistake. Microplastics are especially dangerous because they are hard to remove and can enter the food chain. People are working to reduce plastic pollution through bans, clean-ups, and new materials.</p></div>
+  </div>
+
+  <h3>Grammar Section</h3>
+  <div class="ak-group"><h4>Exercise 1 — Fill in the Blank</h4>
+    <div class="ak-item"><p>1. will have finished</p></div>
+    <div class="ak-item"><p>2. will be traveling</p></div>
+    <div class="ak-item"><p>3. is going to rain</p></div>
+    <div class="ak-item"><p>4. is going to study</p></div>
+    <div class="ak-item"><p>5. will have discovered</p></div>
+  </div>
+  <div class="ak-group"><h4>Exercise 2 — Sentence Transformation (sample answers)</h4>
+    <div class="ak-item"><p>1. My parents are going to buy a new car.</p></div>
+    <div class="ak-item"><p>2. The test will be difficult.</p></div>
+    <div class="ak-item"><p>3. At 7 a.m. tomorrow, I will be riding the bus. (already Future Continuous — accept as correct)</p></div>
+    <div class="ak-item"><p>4. She will have finished the book before next month.</p></div>
+  </div>
+  <div class="ak-group"><h4>Exercise 3 — Short Answer</h4>
+    <div class="ak-item"><p>Answers will vary. Check that students use the correct future form for each question (Future Continuous, "going to," Future Perfect) and write complete sentences.</p></div>
+  </div>
+</section>
+
+</body>
+</html>
