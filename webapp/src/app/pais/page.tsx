@@ -75,9 +75,9 @@ export default function PaisPage() {
               <path d="M12 8v5M12 16h.01" />
             </svg>
             <span>
-              Teste — estes dados ficam salvos só neste navegador. Nenhum
-              pagamento real acontece aqui ainda; a compra por Pix será
-              conectada depois.
+              Teste — sua conta e seus filhos já ficam salvos de verdade no
+              banco de dados. Nenhum pagamento real acontece aqui ainda; a
+              compra por Pix será conectada depois.
             </span>
           </div>
 

@@ -47,9 +47,9 @@ export default function TodosOsJogosPage() {
             </svg>
             <span>
               Teste — com créditos suficientes, &quot;Comprar&quot; desconta
-              do saldo de mentira da família e libera o jogo por 30 dias para
-              o perfil escolhido. A busca e os filtros ainda não filtram de
-              verdade.
+              do saldo da família (já salvo de verdade) e libera o jogo por
+              30 dias para o perfil escolhido. A busca e os filtros ainda não
+              filtram de verdade.
             </span>
           </div>
 
