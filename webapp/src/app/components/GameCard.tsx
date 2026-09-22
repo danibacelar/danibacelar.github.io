@@ -11,7 +11,7 @@ import {
   getCompra,
   precoAvulsoReais,
   type Session,
-} from "../lib/fakeAuth";
+} from "../lib/auth";
 
 const ArrowIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -37,9 +37,9 @@ export default function GameCard({
   const creditosDisponiveis = session?.creditos ?? 0;
   const temCreditoSuficiente = creditosDisponiveis >= game.credits;
 
-  function handleComprarComCreditos() {
+  async function handleComprarComCreditos() {
     if (!childId) return;
-    const resultado = comprarJogo(game.slug, game.credits, childId);
+    const resultado = await comprarJogo(game.slug, game.credits, childId);
     if (resultado.ok) {
       onChange?.();
       router.push(`/jogos/${game.slug}`);
@@ -48,9 +48,9 @@ export default function GameCard({
     }
   }
 
-  function handleComprarAvulso() {
+  async function handleComprarAvulso() {
     if (!childId) return;
-    const resultado = comprarAvulso(game.slug, childId);
+    const resultado = await comprarAvulso(game.slug, childId);
     if (resultado.ok) {
       onChange?.();
       router.push(`/jogos/${game.slug}`);

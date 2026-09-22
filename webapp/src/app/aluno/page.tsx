@@ -3,7 +3,7 @@
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import { GAMES } from "../data/games";
-import { estaValido, getCompra } from "../lib/fakeAuth";
+import { estaValido, getCompra } from "../lib/auth";
 import { useSessaoComPerfil } from "../lib/useSessaoAtiva";
 
 export default function AlunoPage() {

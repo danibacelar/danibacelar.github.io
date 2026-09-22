@@ -15,7 +15,7 @@ import {
   getSession,
   precoAvulsoReais,
   type Session,
-} from "../../lib/fakeAuth";
+} from "../../lib/auth";
 
 export default function JogoDetalhePage() {
   const params = useParams<{ slug: string }>();
@@ -23,11 +23,11 @@ export default function JogoDetalhePage() {
   const [session, setSession] = useState<Session | null | undefined>(undefined);
 
   useEffect(() => {
-    setSession(getSession());
+    getSession().then(setSession);
   }, []);
 
   function refresh() {
-    setSession(getSession());
+    getSession().then(setSession);
   }
 
   const slug = params.slug;
@@ -58,16 +58,16 @@ export default function JogoDetalhePage() {
   const creditosDisponiveis = session?.creditos ?? 0;
   const temCreditoSuficiente = creditosDisponiveis >= game.credits;
 
-  function handleComprarComCreditos() {
+  async function handleComprarComCreditos() {
     if (!childId) return;
-    const resultado = comprarJogo(game!.slug, game!.credits, childId);
+    const resultado = await comprarJogo(game!.slug, game!.credits, childId);
     if (resultado.ok) refresh();
     else router.push(`/creditos?jogo=${game!.slug}`);
   }
 
-  function handleComprarAvulso() {
+  async function handleComprarAvulso() {
     if (!childId) return;
-    const resultado = comprarAvulso(game!.slug, childId);
+    const resultado = await comprarAvulso(game!.slug, childId);
     if (resultado.ok) refresh();
   }
 

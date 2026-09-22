@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
-import { adicionarCreditos, formatarReais } from "../lib/fakeAuth";
+import { adicionarCreditos, formatarReais } from "../lib/auth";
 import { useSessaoAtiva } from "../lib/useSessaoAtiva";
 
 // Cada jogo custa 10 créditos hoje (pode variar por jogo no futuro), então
@@ -23,11 +23,11 @@ export default function CreditosPage() {
 
   if (!session) return null;
 
-  function handleComprar(jogos: number, preco: number) {
+  async function handleComprar(jogos: number, preco: number) {
     const creditos = jogos * CREDITOS_POR_JOGO_HOJE;
-    const atualizada = adicionarCreditos(creditos);
-    if (atualizada) {
-      refresh();
+    const atualizada = await adicionarCreditos(creditos);
+    if (atualizada.ok) {
+      await refresh();
       setMensagem(
         `Pagamento de mentira aprovado: +${creditos} créditos adicionados (${formatarReais(preco)}).`
       );

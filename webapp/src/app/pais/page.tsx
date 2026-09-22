@@ -10,7 +10,7 @@ import {
   estaValido,
   selecionarPerfil,
   type Session,
-} from "../lib/fakeAuth";
+} from "../lib/auth";
 import { useSessaoAtiva } from "../lib/useSessaoAtiva";
 import { useRouter } from "next/navigation";
 
@@ -31,10 +31,10 @@ export default function PaisPage() {
 
   if (!session) return null;
 
-  function handleAdicionarFilho(event: React.FormEvent) {
+  async function handleAdicionarFilho(event: React.FormEvent) {
     event.preventDefault();
     if (!nomeFilho.trim()) return;
-    adicionarFilho(nomeFilho, serieFilho);
+    await adicionarFilho(nomeFilho, serieFilho);
     setNomeFilho("");
     setSerieFilho("");
     setMostrarForm(false);

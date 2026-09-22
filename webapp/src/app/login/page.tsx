@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
-import { cadastrar, login } from "../lib/fakeAuth";
+import { cadastrar, login } from "../lib/auth";
 
 function AvisoOutroAparelho() {
   const searchParams = useSearchParams();
@@ -79,10 +79,10 @@ export default function LoginPage() {
                 <path d="M12 8v5M12 16h.01" />
               </svg>
               <span>
-                Teste — este login ainda não é o de verdade. As contas criadas
-                aqui ficam salvas só neste navegador (não em um banco de dados
-                real ainda), e servem para você testar o fluxo inteiro: criar
-                conta, adicionar um filho, comprar créditos e liberar jogos.
+                Teste — a conta e a senha já são reais (salvas com segurança
+                no banco de dados). Só o pagamento dos créditos ainda é de
+                mentira, para você testar o fluxo inteiro: criar conta,
+                adicionar um filho, comprar créditos e liberar jogos.
               </span>
             </div>
           </div>

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getSession, logout, type Session } from "../lib/fakeAuth";
+import { getSession, logout, type Session } from "../lib/auth";
 
 type Variant = "publico" | "login" | "aluno-picker" | "pais" | "aluno";
 
@@ -29,11 +29,11 @@ export default function Nav({
   const [, setSession] = useState<Session | null | undefined>(undefined);
 
   useEffect(() => {
-    setSession(getSession());
+    getSession().then(setSession);
   }, []);
 
-  function handleLogout() {
-    logout();
+  async function handleLogout() {
+    await logout();
     setSession(null);
     router.push("/login");
   }

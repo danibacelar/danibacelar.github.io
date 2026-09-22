@@ -2,20 +2,20 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getSession, logout, sessaoAindaAtiva, type Session } from "./fakeAuth";
+import { getSession, logout, sessaoAindaAtiva, type Session } from "./auth";
 
 const INTERVALO_CHECAGEM_MS = 8000;
 
-// Usado em toda página que exige login. Além de checar se existe sessão
-// local, fica perguntando ao servidor de teste, de tempos em tempos, se
-// este ainda é o aparelho "dono" do login — se outro aparelho entrou com
-// o mesmo nome enquanto isso, esta aba é desconectada na hora.
+// Usado em toda página que exige login. Além de checar se existe sessão,
+// fica perguntando ao Supabase, de tempos em tempos, se este ainda é o
+// aparelho "dono" do login — se outro aparelho entrou com a mesma conta
+// enquanto isso, esta aba é desconectada na hora.
 export function useSessaoAtiva() {
   const router = useRouter();
   const [session, setSession] = useState<Session | null>(null);
 
-  const refresh = useCallback(() => {
-    const atual = getSession();
+  const refresh = useCallback(async () => {
+    const atual = await getSession();
     if (!atual) {
       router.replace("/login");
       return;
@@ -27,11 +27,9 @@ export function useSessaoAtiva() {
     refresh();
 
     const intervalo = setInterval(async () => {
-      const atual = getSession();
-      if (!atual) return;
-      const ativa = await sessaoAindaAtiva(atual);
+      const ativa = await sessaoAindaAtiva();
       if (!ativa) {
-        logout();
+        await logout();
         router.replace("/login?motivo=outro-aparelho");
       }
     }, INTERVALO_CHECAGEM_MS);

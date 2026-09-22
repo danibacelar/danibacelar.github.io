@@ -6,17 +6,17 @@ import Footer from "../components/Footer";
 import GameCard from "../components/GameCard";
 import SearchAndFilters from "../components/SearchAndFilters";
 import { GAMES } from "../data/games";
-import { getSession, type Session } from "../lib/fakeAuth";
+import { getSession, type Session } from "../lib/auth";
 
 export default function TodosOsJogosPage() {
   const [session, setSession] = useState<Session | null | undefined>(undefined);
 
   useEffect(() => {
-    setSession(getSession());
+    getSession().then(setSession);
   }, []);
 
   function refresh() {
-    setSession(getSession());
+    getSession().then(setSession);
   }
 
   return (

@@ -27,6 +27,11 @@ jobs:
       - run: npm ci
 
       - run: npx opennextjs-cloudflare build
+        env:
+          # Supabase project URL + "publishable" key: safe to expose client-side
+          # by design (this is what they're for), so no need for GitHub Secrets.
+          NEXT_PUBLIC_SUPABASE_URL: https://kovwnplaeqejvhdhqnrh.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: sb_publishable_1Uc5ruCEgoWpEf_w5UXRBA_YbwB58m1
 
       - run: npx wrangler deploy
         env:

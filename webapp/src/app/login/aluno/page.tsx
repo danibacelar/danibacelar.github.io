@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Nav from "../../components/Nav";
 import Footer from "../../components/Footer";
-import { getSession, selecionarPerfil, type Session } from "../../lib/fakeAuth";
+import { getSession, selecionarPerfil, type Session } from "../../lib/auth";
 
 export default function AlunoPickerPage() {
   const router = useRouter();
   const [session, setSession] = useState<Session | null | undefined>(undefined);
 
   useEffect(() => {
-    setSession(getSession());
+    getSession().then(setSession);
   }, []);
 
   function handleEscolher(childId: string) {
