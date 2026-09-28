@@ -1149,10 +1149,9 @@ const GAMES = [
     access: 'beta',
     status: 'available',
     gameUrl: 'english-checkup/index.html'
-  }
-     ,
+  },
   {
-    id: 'was_were_wasn't_weren't',
+    id: 'was-were',
     title: 'Was or Were?',
     gradeNum: 4,
     skill: ['Grammar', 'Reading', 'Vocabulary'],
@@ -1172,7 +1171,7 @@ const GAMES = [
     currency: 'BRL',
     access: 'beta',
     status: 'available',
-    gameUrl: 'was_were_wasn't_weren't/index.html'
+    gameUrl: 'was-were/index.html'
   }
 ];
 
