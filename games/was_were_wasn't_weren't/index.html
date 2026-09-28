@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Splash! Was or Were?</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#dff4fb;--card:#fff;--ink:#12324a;--muted:#54728a;--accent:#ff7a59;--sea:#1b8fc7;--ok:#17805a;--bad:#c93a30;--hl:#ffe08a;--line:#b9dcec;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d2a3d;--card:#16405a;--ink:#eaf7ff;--muted:#a6c9dd;--hl:#7a5f0c;--line:#2a5f7e;--ok:#5fe0ac;--bad:#ff8b80}}
+:root[data-theme="dark"]{--bg:#0d2a3d;--card:#16405a;--ink:#eaf7ff;--muted:#a6c9dd;--hl:#7a5f0c;--line:#2a5f7e;--ok:#5fe0ac;--bad:#ff8b80}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2','Trebuchet MS',system-ui,sans-serif;font-size:18px}
+#app{max-width:760px;margin:0 auto;padding:14px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+h1{flex:1;margin:0;font-size:clamp(28px,7vw,40px);line-height:1}
+h1 span{display:block;font-size:.5em;color:var(--sea)}
+.pill{background:var(--card);border:2px solid var(--line);border-radius:99px;padding:4px 14px;font-weight:800}
+.ic{width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:var(--card);color:var(--ink);font-size:20px;cursor:pointer}
+.lead{color:var(--muted);margin:0 0 14px}
+.map{display:grid;gap:12px}
+.st{display:flex;gap:14px;align-items:center;width:100%;text-align:left;font:inherit;color:inherit;background:var(--card);border:3px solid var(--line);border-radius:22px;padding:14px;cursor:pointer}
+.st:hover,.st:focus-visible{border-color:var(--sea)}
+.st .em{font-size:44px}.st b{display:block;font-size:1.15em}.st small{color:var(--muted)}
+.stars{margin-left:auto;font-size:22px;color:#e0a100;white-space:nowrap}
+.nxt{background:var(--accent);color:#fff;border-radius:99px;font-size:.7em;padding:1px 10px;margin-left:6px}
+.bar{flex:1;height:14px;background:var(--card);border:2px solid var(--line);border-radius:9px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--sea);transition:width .4s}
+.steps{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.steps span{background:var(--card);border:2px solid var(--line);border-radius:99px;padding:0 12px;font-size:.8em;color:var(--muted)}
+main{background:var(--card);border:3px solid var(--line);border-radius:26px;padding:20px}
+.lvl{color:var(--sea);font-weight:800}
+.sent,.story{font-size:clamp(22px,5vw,30px);line-height:1.8;margin:8px 0 18px}
+.gap{display:inline-block;min-width:80px;text-align:center;border-bottom:4px dashed var(--accent);color:var(--accent)}
+mark{background:var(--hl);color:inherit;border-radius:8px;padding:0 6px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.choices button,.go{font:inherit;font-weight:800;font-size:1.4em;border:0;border-radius:18px;padding:12px;cursor:pointer;background:var(--sea);color:#fff;box-shadow:0 5px 0 rgba(0,0,0,.25)}
+.go{width:100%;margin-top:14px;background:#d9541f}
+.go:disabled,.choices button:disabled{opacity:.4;cursor:default}
+.choices button:active,.go:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.25)}
+.fb{margin-top:14px;min-height:1.4em}.fb.ok{color:var(--ok)}.fb.no{color:var(--bad)}
+.slot,.pool{display:flex;flex-wrap:wrap;gap:10px;align-items:center;min-height:64px;padding:10px;border-radius:16px}
+.slot{border:3px dashed var(--line);margin:10px 0 14px;font-size:1.4em}
+.slot:empty::before{content:"Tap the words in order";font-size:.7em;color:var(--muted)}
+.t{font:inherit;font-weight:700;font-size:1.15em;background:#fff1c2;color:#5b3d00;border:2px solid #f0c95c;border-radius:14px;padding:6px 14px;cursor:pointer;box-shadow:0 3px 0 #e0b23a}
+.bl{display:inline-flex;gap:3px;margin:0 3px;padding:3px;vertical-align:middle;border:2px solid var(--line);border-radius:14px}
+.bl button{font:inherit;font-size:.65em;font-weight:700;border:0;border-radius:10px;padding:2px 10px;background:transparent;color:var(--ink);cursor:pointer}
+.bl button.on{background:var(--sea);color:#fff}
+.bl.ok{border-color:var(--ok)}.bl.bad{border-color:var(--bad);animation:sh .3s}
+.res{text-align:center}.big{font-size:60px}
+@keyframes sh{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+@keyframes pop{0%{transform:scale(.6)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+.pop{animation:pop .4s}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head>
+<body><div id="app"></div>
+<script>
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const P=['Correct!','Great!','Exactly!','You found the subject!'],pick=a=>a[Math.random()*a.length|0];
+const LV={A:'Pronouns',B:'One person, animal or thing',C:'More than one',D:'Mixed subjects'};
+const ex=(s,pl,a,th,c)=>c||`${th?'After THERE, the':'The'} subject is <b>${s.toUpperCase()}</b>. ${pl?'More than one':'Just one'} → <b>${a.toUpperCase()}</b>.`;
+// Stage 1: [sentence, answer, subject, plural, level, custom]
+const S1=[
+["I ___ at the beach.","was","I",0,"A"],["He ___ near the ocean.","was","He",0,"A"],["She ___ happy.","was","She",0,"A"],
+["We ___ at the park.","were","We",1,"A"],["They ___ in the ocean.","were","They",1,"A"],
+["You ___ at the beach.","were","You",1,"A","The subject is <b>YOU</b>. We always say <b>YOU WERE</b>."],
+["Sally ___ at the beach.","was","Sally",0,"B"],["The dolphin ___ in the ocean.","was","The dolphin",0,"B"],["The shell ___ on the beach.","was","The shell",0,"B"],
+["The turtles ___ in the ocean.","were","The turtles",1,"C"],["Tom and Anna ___ at the park.","were","Tom and Anna",1,"C"],["The shells ___ on the beach.","were","The shells",1,"C"],
+["The two turtles ___ near the rocks.","were","The two turtles",1,"D"],["The dolphin and the seal ___ in the ocean.","were","The dolphin and the seal",1,"D"],
+["The seahorse near the anchors ___ small.","was","The seahorse",0,"D"],["The people ___ happy at the pool.","were","The people",1,"D"]];
+// Stage 2: [tiles in correct order, subject, plural]
+const S2=[[["Was","Sally","at the beach"],"Sally",0],[["Were","the turtles","in the ocean"],"the turtles",1],
+[["Was","the dolphin","near","the shell"],"the dolphin",0],[["Were","Tom and Julia","at","the park"],"Tom and Julia",1],
+[["Were","the bees","in the forest"],"the bees",1],[["Was","there","a shark","in the ocean"],"a shark",0],
+[["Was","there","a cake","at the park"],"a cake",0],[["Were","there","any","turtles","on","the beach"],"any turtles",1]];
+// Stages 3-4: t = text, b = [answer, subject, plural, isThere]
+const S3=[
+{t:"Last Saturday, Greg ___ at the beach. There ___ two turtles near the water. The turtles ___ very small. There ___ a big shell next to them. Greg ___ happy.",b:[["was","Greg",0],["were","two turtles",1,1],["were","The turtles",1],["was","a big shell",0,1],["was","Greg",0]]},
+{t:"On Sunday, Sue and Judy ___ at the pool. The pool ___ very big. There ___ a cake on the table. The cake ___ for Judy. The two girls ___ happy.",b:[["were","Sue and Judy",1],["was","The pool",0],["was","a cake",0,1],["was","The cake",0],["were","The two girls",1]]},
+{t:"Yesterday, the ocean ___ calm. The two turtles near the rocks ___ slow. There ___ a seahorse next to an anchor. The seahorse and the octopus ___ small. There ___ many people on the beach.",b:[["was","The ocean",0],["were","The two turtles",1],["was","a seahorse",0,1],["were","The seahorse and the octopus",1],["were","many people",1,1]]}];
+const S4=[
+{t:"Yesterday, there ___ any people on the beach. The ocean ___ calm. There ___ any dolphins near the boat, and there ___ a shark. The children ___ sad.",b:[["weren't","any people",1,1],["wasn't","The ocean",0],["weren't","any dolphins",1,1],["wasn't","a shark",0,1],["weren't","The children",1]]},
+{t:"On Monday, Bob and Alice ___ at the pool. The pool ___ open. The bees ___ in the pool, and there ___ a cake on the table. Bob ___ hungry.",b:[["weren't","Bob and Alice",1],["wasn't","The pool",0],["weren't","The bees",1],["wasn't","a cake",0,1],["wasn't","Bob",0]]}];
+// Stage 5: b = [answer, subject, plural, isThere, context clue]
+const S5=[
+{l:1,t:"Sally ___ at the beach yesterday. She swam in the ocean. She loved the water, so she ___ happy. Bob ___ at the beach, because he was sick at home. There ___ two turtles in the water, and Sally saw them. The turtles ___ alone, because their friends were with them.",b:[["was","Sally",0,0,"she swam in the ocean, so she was at the beach"],["was","she",0,0,"she loved the water, so she was happy"],["wasn't","Bob",0,0,"he was sick at home, not at the beach"],["were","two turtles",1,1,"Sally saw them, so they were there"],["weren't","The turtles",1,0,"their friends were with them, so they were not alone"]]},
+{l:2,t:"Greg and Julia ___ at the park on Saturday. They played there all day. The pool ___ open, so they could not swim. There ___ a big cake on the table, and Julia cut it. The cake ___ for Greg, because it was Julia's birthday. The bees ___ near the cake, so nobody was afraid.",b:[["were","Greg and Julia",1,0,"they played there all day, so they were at the park"],["wasn't","The pool",0,0,"they could not swim, so the pool was not open"],["was","a big cake",0,1,"Julia cut it, so the cake was there"],["wasn't","The cake",0,0,"it was Julia's birthday, so the cake was not for Greg"],["weren't","The bees",1,0,"nobody was afraid, so the bees were not near the cake"]]},
+{l:3,t:"Alice ___ at the ocean on Friday. She swam there in the morning. The sea ___ calm, because the waves were very big. At first, Alice was afraid. Then she looked again. There ___ a shark, only a big dolphin. Two seals ___ next to the dolphin, and Alice could see them. The animals ___ scary, so she smiled. The octopus ___ under the anchor, but Alice did not see it.",b:[["was","Alice",0,0,"she swam there, so she was at the ocean"],["wasn't","The sea",0,0,"the waves were very big, so the sea was not calm"],["wasn't","a shark",0,1,"it was only a big dolphin, so there was not a shark"],["were","Two seals",1,0,"Alice could see them, so they were there"],["weren't","The animals",1,0,"she smiled, so the animals were not scary"],["was","The octopus",0,0,"the sentence says Alice did not see it, so it was there"]]}];
+const ex5=b=>`${b[3]?'After THERE, the':'The'} subject is <b>${b[1].toUpperCase()}</b>. ${b[2]?'More than one, so we need WERE or WEREN\'T':'Just one, so we need WAS or WASN\'T'}. Now read the context: ${b[4]}. The correct answer is <b>${b[0].toUpperCase()}</b>.`;
+const STAGES=[["🐬","Who was? Who were?","Pronouns, names, animals, things"],["🐙","Build the question","Put the words in order"],["🐢","Beach stories","Was or were in short texts"],["🦈","Wasn't or weren't?","Negative stories"],["🐳","Mixed challenge","Was, wasn't, were, weren't"]];
+let save={},mute=false,ac,run;
+try{save=JSON.parse(localStorage.getItem('wwSave')||'{}')}catch(e){}
+const persist=()=>{try{localStorage.setItem('wwSave',JSON.stringify(save))}catch(e){}};
+function beep(ok){if(mute)return;try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();const t=ac.currentTime;(ok?[523,659,784]:[220,196]).forEach((f,i)=>{const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;g.gain.setValueAtTime(.1,t+i*.1);g.gain.exponentialRampToValueAtTime(.001,t+i*.1+.18);o.connect(g);g.connect(ac.destination);o.start(t+i*.1);o.stop(t+i*.1+.2)})}catch(e){}}
+const draw=h=>{$('#st').innerHTML=h},sc=()=>$('#sc').textContent=run.pts;
+function fb(h,ok){const f=$('#fb');f.className='fb '+(ok?'ok':'no');f.innerHTML=h}
+function nextBtn(){$('#fb').insertAdjacentHTML('afterend',`<button class=go id=nx>${run.n+1>=run.len?'Finish':'Next'}</button>`);$('#nx').onclick=()=>{run.n++;q()};$('#nx').focus()}
+function home(){
+ const tot=Object.values(save).reduce((a,s)=>a+(s.best||0),0),nx=STAGES.findIndex((_,i)=>!(save[i]&&save[i].stars));
+ $('#app').innerHTML=`<header class=top><h1>Splash!<span>Was or Were?</span></h1><div class=pill>⭐ ${tot}</div><button class=ic id=mu aria-label="Sound">${mute?'🔇':'🔊'}</button></header>
+ <p class=lead>Every time: find the subject, ask “one or more?”, then choose.</p>
+ <div class=map>${STAGES.map((s,i)=>{const n=(save[i]||{}).stars||0;return`<button class=st data-i=${i}><span class=em>${s[0]}</span><span><b>${s[1]}${i==nx?'<span class=nxt>Next</span>':''}</b><small>${s[2]}</small></span><span class=stars>${'★'.repeat(n)+'☆'.repeat(3-n)}</span></button>`}).join('')}</div>`;
+ $$('.st').forEach(b=>b.onclick=()=>start(+b.dataset.i));$('#mu').onclick=()=>{mute=!mute;home()};
+}
+function start(i){
+ const c=[S1,S2,S3,S4,S5][i];
+ run={i,n:0,pts:0,c,len:c.length,max:i<2?c.length*10:c.reduce((a,t)=>a+t.b.length*6,0),o:i==3?["wasn't","weren't"]:i==4?["was","wasn't","were","weren't"]:["was","were"]};
+ $('#app').innerHTML=`<header class=top><button class=ic id=bk aria-label="Back to map">←</button><div class=bar><i id=pg></i></div><div class=pill>⭐ <b id=sc>0</b></div></header>
+ <div class=steps><span>1 Find the subject</span><span>2 One or more?</span><span>3 Choose</span></div><main id=st></main>`;
+ $('#bk').onclick=home;q();
+}
+function q(){if(run.n>=run.len)return fin();$('#pg').style.width=run.n/run.len*100+'%';[q1,q2,qt,qt,qt][run.i]()}
+function q1(){
+ const [t,a,s,pl,lv,c]=run.c[run.n];run.at=0;const hl=t.replace(s,`<mark>${s}</mark>`);
+ draw(`<div class=lvl>${LV[lv]}</div><p class=sent>${t.replace('___','<span class=gap>___</span>')}</p><div class=choices><button data-a=was>WAS</button><button data-a=were>WERE</button></div><div id=fb class=fb></div>`);
+ $$('.choices button').forEach(b=>b.onclick=()=>{
+  if(b.dataset.a==a){
+   run.pts+=run.at?5:10;sc();beep(1);
+   $('.sent').innerHTML=hl.replace('___',`<span class="gap pop">${a.toUpperCase()}</span>`);
+   $$('.choices button').forEach(x=>x.disabled=true);
+   fb(`${run.at?'Good fix!':pick(P)} ${ex(s,pl,a,0,c)}`,1);nextBtn();
+  }else{
+   run.at=1;beep(0);b.disabled=true;
+   $('.sent').innerHTML=hl.replace('___','<span class=gap>___</span>');
+   fb('Look at the highlighted subject. Who or what are we talking about? One or more than one?',0)}
+ });
+}
+function q2(){
+ const it=run.c[run.n];run.at=0;
+ let pool=it[0].map((w,i)=>({w,i}));
+ do{pool.sort(()=>Math.random()-.5)}while(pool.every((x,j)=>x.i==j));
+ run.pool=pool;run.sl=[];
+ draw(`<div class=lvl>Put the words in order</div><div id=slot class=slot></div><div id=pool class=pool></div><button class=go id=ck disabled>Check</button><div id=fb class=fb></div>`);
+ tiles();$('#ck').onclick=chk2;
+}
+function tiles(){
+ const mk=a=>a.map(x=>`<button class=t data-i=${x.i}>${x.w}</button>`).join('');
+ $('#slot').innerHTML=mk(run.sl)+(run.sl.length?'?':'');$('#pool').innerHTML=mk(run.pool);
+ const mv=(a,b)=>e=>{const x=a.findIndex(o=>o.i==e.currentTarget.dataset.i);b.push(a.splice(x,1)[0]);tiles()};
+ $$('#slot .t').forEach(b=>b.onclick=mv(run.sl,run.pool));$$('#pool .t').forEach(b=>b.onclick=mv(run.pool,run.sl));
+ $('#ck').disabled=run.pool.length>0;
+}
+function chk2(){
+ const [t,s,pl]=run.c[run.n],v=t[0].toLowerCase(),th=t[1]=='there';
+ if(run.sl.map(x=>x.w).join(' ')==t.join(' ')){
+  run.pts+=run.at?5:10;sc();beep(1);$$('.t').forEach(b=>b.disabled=true);$('#ck').remove();
+  fb(`${run.at?'Good fix!':pick(P)} <b>${t.join(' ')}?</b><br>${ex(s,pl,v,th)}`,1);nextBtn();
+ }else if(!run.at){run.at=1;beep(0);fb('Not yet. Find the subject first: who or what is the question about? Then start with WAS or WERE.',0)}
+ else{beep(0);run.sl=t.map((w,i)=>({w,i}));run.pool=[];tiles();$$('.t').forEach(b=>b.disabled=true);$('#ck').remove();
+  fb(`<b>${t.join(' ')}?</b><br>${ex(s,pl,v,th)}`,0);nextBtn()}
+}
+function qt(){
+ const T=run.c[run.n];run.at=0;run.sel=T.b.map(()=>null);run.dn=T.b.map(()=>0);
+ let h='';T.t.split('___').forEach((p,k)=>{h+=p;if(T.b[k])h+=`<span class=bl id=b${k}>${run.o.map(o=>`<button data-k=${k} data-v="${o}">${o}</button>`).join('')}</span>`});
+ draw(`<div class=lvl>Read the story. Fill every gap.</div><p class=story>${h}</p><button class=go id=ck disabled>Check</button><div id=fb class=fb></div>`);
+ $$('.bl button').forEach(b=>b.onclick=()=>{const k=b.dataset.k;run.sel[k]=b.dataset.v;$$(`#b${k} button`).forEach(x=>x.classList.toggle('on',x==b));$('#b'+k).className='bl';$('#ck').disabled=run.sel.includes(null)});
+ $('#ck').onclick=chkt;
+}
+function chkt(){
+ const T=run.c[run.n],bad=[];
+ T.b.forEach((b,k)=>{if(run.dn[k])return;const el=$('#b'+k);
+  if(run.sel[k]===b[0]){run.dn[k]=1;run.pts+=run.at?3:6;el.className='bl ok';$$('#b'+k+' button').forEach(x=>x.disabled=true)}
+  else{bad.push(k);el.className='bl bad'}});
+ sc();
+ if(!bad.length){beep(1);fb(pick(P)+' You found every subject!',1);$('#ck').remove();return nextBtn()}
+ beep(0);
+ if(!run.at){run.at=1;fb('Look at the red gaps. Find the subject first: who or what? One or more than one?',0);return}
+ bad.forEach(k=>{$$('#b'+k+' button').forEach(x=>{x.classList.toggle('on',x.dataset.v==T.b[k][0]);x.disabled=true});$('#b'+k).className='bl ok'});
+ fb(bad.map(k=>ex(T.b[k][1],T.b[k][2],T.b[k][0],T.b[k][3])).join('<br>'),0);$('#ck').remove();nextBtn();
+}
+function fin(){
+ const r=run.pts/run.max,st=r>=.85?3:r>=.55?2:1,o=save[run.i]||{};
+ save[run.i]={best:Math.max(o.best||0,run.pts),stars:Math.max(o.stars||0,st)};persist();beep(1);
+ $('#app').innerHTML=`<main class=res><div class="big pop">${'⭐'.repeat(st)}</div><h2>${['','Nice try!','Well done!','Superstar!'][st]}</h2><p>You scored <b>${run.pts}</b> of ${run.max} points.</p><p class=lead>${st<3?'Play again and find every subject on the first try.':'You found the subject every time!'}</p><button class=go id=ag>Play again</button><button class=go id=hm style="background:var(--sea)">Stage map</button></main>`;
+ $('#ag').onclick=()=>start(run.i);$('#hm').onclick=home;
+}
+home();
+</script></body></html>
