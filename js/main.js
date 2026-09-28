@@ -1150,6 +1150,30 @@ const GAMES = [
     status: 'available',
     gameUrl: 'english-checkup/index.html'
   }
+     ,
+  {
+    id: 'was_were_wasn't_weren't',
+    title: 'Was or Were?',
+    gradeNum: 4,
+    skill: ['Grammar', 'Reading', 'Vocabulary'],
+    topic: 'Tema do jogo',
+    grammar: '...',
+    difficulty: 'Beginner',
+    gameType: 'Tipo do jogo',
+    schoolAlignment: '3rd Grade English',
+    description: 'Descrição em inglês.',
+    descriptionPT: 'Descrição em português.',
+    why: 'Por que esse jogo ajuda (em inglês).',
+    whyPT: 'Por que esse jogo ajuda (em português).',
+    practices: ['tópico 1', 'tópico 2'],
+    objectives: ['Objetivo 1 em inglês.'],
+    objectivesPT: ['Objetivo 1 em português.'],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'was_were_wasn't_weren't/index.html'
+  }
 ];
 
 /* =========================================================
