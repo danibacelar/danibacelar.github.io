@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Grammar Adventure 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg1:#dff5f2;--bg2:#f6efc9;--card:#fffaea;--ink:#173b42;--deep:#0e4d57;--teal:#2a8f9a;--org:#f28a3c;--grn:#4fae5c;--red:#d9534f;--line:#b9dcd8;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#0d3a42;--bg2:#12333a;--card:#164a53;--ink:#f3f7ee;--line:#2c6b74}}
+:root[data-theme="dark"]{--bg1:#0d3a42;--bg2:#12333a;--card:#164a53;--ink:#f3f7ee;--line:#2c6b74}
+*{box-sizing:border-box}html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;font:800 clamp(16px,2.4vw,19px)/1.4 Nunito,system-ui,sans-serif;color:var(--ink);background:linear-gradient(160deg,var(--bg1),var(--bg2)) fixed}
+h1,h2,.btn,.chip,.card b{font-family:Fredoka,Nunito,system-ui,sans-serif;font-weight:600}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+button:focus-visible,input:focus-visible{outline:3px solid var(--org);outline-offset:2px}
+.wrap{max-width:980px;margin:auto;padding:14px}
+.intro{position:fixed;inset:0;overflow:hidden;background:#3a9aa6}
+.menu-bg{position:fixed;inset:0;z-index:-1;background-image:var(--menu-bg-img);background-size:cover;background-position:center;background-repeat:no-repeat}
+.intro img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 35%}
+.intro .go{position:absolute;left:0;right:0;bottom:max(4vh,env(safe-area-inset-bottom,0px));display:flex;justify-content:center}
+.btn{background:var(--org);color:#fff;border-radius:999px;padding:.7em 1.8em;font-size:1.25rem;box-shadow:0 5px 0 #b95f1b;transition:transform .12s}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #b95f1b}
+.btn.big{font-size:1.7rem;padding:.55em 2.6em;animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.05)}}
+.ghost{border:2px solid var(--line);border-radius:999px;padding:.4em 1em;background:var(--card)}
+.mh{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.mh h1{margin:.3em 0;font-size:clamp(1.5rem,5vw,2.2rem);color:#fff;font-weight:700;text-shadow:0 2px 0 rgba(14,77,87,.6),0 3px 10px rgba(0,0,0,.4),0 1px 2px rgba(0,0,0,.5)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:14px;margin-top:10px}
+.card{text-align:left;background:var(--card);border:2px solid var(--line);border-radius:22px;padding:16px;display:grid;gap:4px;box-shadow:0 6px 0 var(--line);transition:transform .15s}
+.grid .card{background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.65);box-shadow:0 6px 20px rgba(14,77,87,.3);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.card:hover{transform:translateY(-3px)}
+.card b{font-size:1.3rem}.card em{font-style:normal;opacity:.75}
+.num{width:2.2em;height:2.2em;border-radius:50%;display:grid;place-items:center;color:#fff;font-family:Fredoka,Nunito,system-ui,sans-serif;background:var(--teal)}
+.c2 .num{background:var(--org)}.c3 .num{background:var(--grn)}.c4 .num{background:#8a6fd1}.c5 .num{background:var(--red)}.c6 .num{background:#d9a21b}
+.st{color:#e2a51c;letter-spacing:.1em;font-size:1.2rem}
+.top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.chip{flex:1;text-align:center;background:var(--deep);color:#fff;border-radius:999px;padding:.35em 1em;min-width:0}
+.score{font-family:Fredoka,Nunito,system-ui,sans-serif;font-size:1.2rem;color:var(--org)}
+.bar{height:10px;border-radius:9px;background:var(--line);margin:10px 0;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--grn),var(--org));transition:width .4s}
+.stage{background:var(--card);border:2px solid var(--line);border-radius:26px;padding:clamp(12px,3vw,26px);display:grid;gap:14px;justify-items:center;text-align:center}
+.stage h2{margin:0;font-size:clamp(1.2rem,3.6vw,1.7rem)}
+.art{width:100%;display:flex;justify-content:center}
+.art img{max-width:100%;max-height:34vh;border-radius:16px;border:2px solid var(--line)}
+.art.big img{max-height:46vh}
+.ph{width:100%;max-width:520px;padding:22px;border:3px dashed var(--teal);border-radius:16px;opacity:.85;font-size:.95rem}
+.tag{background:#ffe3b8;color:#6b3a06;border-radius:999px;padding:.2em 1em}
+.prompt,.q{font-family:Fredoka,Nunito,system-ui,sans-serif;font-size:clamp(1.2rem,4vw,1.8rem)}
+.prompt{background:var(--bg1);border-radius:14px;padding:.5em 1em}
+.slots,.bank{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;width:100%;padding:12px;border-radius:18px}
+.slots{min-height:4.2em;background:var(--bg1);border:3px dashed var(--teal);align-items:center}
+.slots.bad{animation:shake .4s;border-color:var(--red)}.slots.good{border-color:var(--grn);border-style:solid;background:#d8f4d8;color:#173b42}
+.bank{min-height:3.6em}
+.tile{background:#fff;color:#173b42;border:2px solid var(--teal);border-radius:14px;padding:.45em .9em;font-size:clamp(1.05rem,3.6vw,1.4rem);box-shadow:0 4px 0 var(--teal);cursor:grab;transition:transform .12s}
+.tile:hover{transform:translateY(-2px)}
+.unused{opacity:.4;text-decoration:line-through;box-shadow:none}
+.hintx{opacity:.6}
+.fb{min-height:1.6em;font-size:1.15rem}.fb.ok{color:var(--grn)}.fb.no{color:var(--red)}
+.row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px;width:100%}
+.opt{background:#fff;color:#173b42;border:3px solid var(--teal);border-radius:16px;padding:.8em;font-size:1.2rem;font-family:Fredoka,Nunito,system-ui,sans-serif;transition:transform .12s}
+.opt:hover:not(:disabled){transform:scale(1.03)}
+.opt.right{background:#d8f4d8;border-color:var(--grn)}.opt:disabled:not(.right){opacity:.4}
+.mic{width:96px;height:96px;border-radius:50%;background:#8a6fd1;color:#fff;font-size:2.4rem;box-shadow:0 6px 0 #5f47a3}
+.mic.on{animation:pulse 1s infinite;background:var(--red)}
+input[type=text]{width:100%;max-width:560px;font:inherit;font-size:1.2rem;padding:.6em 1em;border-radius:14px;border:3px solid var(--teal);background:#fff;color:#173b42}
+.dsent{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;justify-content:center;font-family:Fredoka,Nunito,system-ui,sans-serif;font-size:clamp(1.1rem,3.6vw,1.6rem)}
+.gap{min-width:3.4em;padding:.3em .7em;border:3px dashed var(--teal);border-radius:12px;background:var(--bg1)}.gap.bad{animation:shake .4s;border-color:var(--red)}.gap.good{border-style:solid;border-color:var(--grn);background:#d8f4d8;color:#173b42}
+.cues{display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:nowrap}
+.cues img{display:block;object-fit:contain}
+.cue-emoji{height:clamp(60px,18vw,100px);width:auto}
+.cue-food{height:clamp(90px,28vw,150px);width:auto}
+.objs{display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap}
+.obj-img{display:block;object-fit:contain;height:clamp(90px,28vw,150px);width:auto}
+.bagwrap{position:relative;display:inline-block;line-height:0;max-width:100%}.bagwrap img{max-width:100%;max-height:44vh;border:0;border-radius:0;filter:drop-shadow(0 6px 8px #0003)}
+.arw{position:absolute;width:max(30px,9%);transform:translate(-50%,-100%);animation:bob 1s ease-in-out infinite;filter:drop-shadow(0 2px 2px #0005)}
+@keyframes bob{50%{margin-top:-9px}}
+.loose{display:grid;gap:8px;justify-items:center}.loose span{background:var(--bg1);border-radius:12px;padding:.3em .9em;font-family:Fredoka,Nunito,system-ui,sans-serif;font-size:clamp(1.05rem,3.4vw,1.5rem)}.dn{font-size:1.6rem;opacity:.6;line-height:1}
+button.tile,.opt,.btn,.ghost,.mic{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none}
+.tile{min-height:44px}img{max-width:100%}
+@media(max-width:480px){.chip{flex:1 1 100%;order:3}.stage{border-radius:20px}}
+@media(max-height:520px){.art img,.art.big img,.bagwrap img{max-height:26vh}.stage{gap:8px;padding:10px}.mic{width:68px;height:68px;font-size:1.8rem}.big-stars{font-size:2.4rem}}
+@media(min-width:1100px){.wrap{max-width:1080px}}
+.big-stars{font-size:3.4rem;color:#e2a51c;animation:pop .6s}
+@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+@keyframes pop{from{transform:scale(.3);opacity:0}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body><div id="app"></div>
+<script>
+/* ============ ASSETS: edit these paths when the other images are uploaded ============ */
+const ASSETS={
+  introduction:"assets/introduction.jpg",          // embedded so the opening screen works anywhere
+  foods:"assets/foods.jpeg",
+  objects:"assets/objects.png",
+  bedroom:"assets/bedroom.jpg",
+  schoolBag:"assets/school-bag.png",
+  backpackAudio:"assets/backpack-question.mp3",   // your recording of: What have you got in your backpack?
+  menuBg:"assets/after introduction.jpeg",
+  bonusLabAudio:"assets/bonuslab_audio.mp3"   // two spoken clips back to back, separated by a ~1s pause: [0-3.9s] monkey, [5.15s-end] camera
+};
+/* ============ FOOD IMAGES: one transparent-background PNG per food/mood in assets/foods/ ============ */
+const FOOD_IMG={"cake":"cake","apple":"apple","banana":"banana","egg":"egg","milkshake":"milkshake","strawberry":"strawberry","strawberry milkshake":"strawberry-milkshake","chicken":"chicken","rice":"rice","beans":"beans","tea":"tea","French fries":"french-fries","ice cream":"ice-cream","pizza":"pizza","sandwich":"sandwich","chocolate":"chocolate"};
+const MOOD_IMG={like:"mood-like",love:"mood-love",dont:"mood-dont"};
+/* ============ OBJECT IMAGES: one transparent-background PNG per object in assets/objects/ (cut from objects.png) ============ */
+const OBJ_IMG={"pen":"pen","pencil~case":"pencil-case","tablet":"tablet","mobile~phone":"phone","camera":"camera","book":"book"};
+/* ============ BEDROOM ANSWER KEY: edit to match the real bedroom picture (1 = visible, 0 = not) ============ */
+const BEDROOM=[["a bed",1],["an armchair",1],["books",1],["a window",1],["a teddy bear",1],["a rug",1],["trainers",1],["a stereo",0],
+["a TV",0],["a piano",0],["a bike",0],["a guitar",0],["a computer",0],["a blue wall",0],["a dog",0],["a sofa",0]];
+
+const $=s=>document.querySelector(s),app=$('#app');
+const sh=a=>{a=[...a];for(let i=a.length;i>1;i--){const j=Math.random()*i|0;[a[i-1],a[j]]=[a[j],a[i-1]]}return a};
+const T=s=>s.replace(/~/g,' '),pick=a=>a[Math.random()*a.length|0];
+let mem={};try{mem=JSON.parse(localStorage.getItem('ga1')||'{}')}catch(e){}
+const save=()=>{try{localStorage.setItem('ga1',JSON.stringify(mem))}catch(e){}};
+document.documentElement.style.setProperty('--intro',`url(${ASSETS.introduction})`);
+document.documentElement.style.setProperty('--menu-bg-img',`url("${ASSETS.menuBg}")`);
+const stars=n=>'★'.repeat(n)+'☆'.repeat(3-n);
+const img=(k,c='')=>`<div class="art ${c}"><img src="${ASSETS[k]}" alt="" onerror="miss(this,'${ASSETS[k]}')"></div>`;
+function miss(el,p){(el.closest('.art')||el.parentNode).innerHTML=`<div class="ph">Image not added yet.<br>Put it at <b>${p}</b></div>`}
+
+const rows=(a)=>a.map(r=>({w:r[0].split(' '),d:r[1]?[r[1]]:[],lab:r[2]}));
+const mcYN=()=>[...sh(BEDROOM.filter(x=>x[1])).slice(0,4),...sh(BEDROOM.filter(x=>!x[1])).slice(0,4)].map(([x,v])=>({q:`Have you got ${x}?`,o:["YES, I HAVE.","NO, I HAVEN'T."],c:v?0:1,ok:v?"Great! Yes, I have.":"Great! No, I haven't.",no:"Look carefully at the bedroom."}));
+const low=s=>/^I[ ']/.test(s)?s:s[0].toLowerCase()+s.slice(1);
+const AB=[["I've got a book.","I've got a pen.",0,"I've got a book and a pen."],["I've got stickers.","I haven't got trainers.",1,"I've got stickers, but I haven't got trainers."],
+["I like rice.","I don't like beans.",1,"I like rice, but I don't like beans."],["It's got long ears.","It hasn't got long legs.",1,"It's got long ears, but it hasn't got long legs."],
+["I like lions.","I don't like snakes.",1,"I like lions, but I don't like snakes."],["I love Science.","I like Arts.",0,"I love Science and I like Arts."],
+["We've got a cat.","We've got a dog.",0,"We've got a cat and a dog."],["We've got a TV.","We haven't got a computer.",1,"We've got a TV, but we haven't got a computer."],
+["It's got a big head.","It's got sharp teeth.",0,"It's got a big head and sharp teeth."],["I have got a bike.","I haven't got a tablet.",1,"I have got a bike, but I haven't got a tablet."]]
+.map(r=>({k:'dnd',a:r[0],b:r[1],c:r[2],ok:(r[2]?"BUT shows a difference. ":"AND adds information. ")+r[0].slice(0,-1)+(r[2]?", but ":" and ")+low(r[1]),no:r[2]?"Is there a difference? Look at have got / haven't got.":"Are we adding information? Both sentences say the same kind of thing."}));
+const QB=[["Yes, it has. The hippo has got a big head.","Has the hippo got a~big~head ?"],["No, it hasn't. The snake hasn't got a long tail.","Has the snake got a~long~tail ?"],
+["Yes, it has. The alligator has got sharp teeth.","Has the alligator got sharp~teeth ?"],["I've got a white T-shirt.","Have you got a~white~T-shirt ?"]]
+.map(r=>({k:'build',p:r[0],w:r[1].split(' '),d:[]}));
+const QT=[{k:'sayq',p:"No, it hasn't. The monkey hasn't got long legs.",a:"has the monkey got long legs",aud:[0,3.9]},{k:'sayq',p:"I've got a camera.",a:"have you got a camera",aud:[5.15,6.8]}];
+
+const GAMES=[
+{id:1,name:"Food Adventure",sub:"I like cakes.",kind:'build',inst:"Look at the emoji. Build the sentence. Some words are extra!",hint:"Try again. Check the emoji. Do we need a/an before this food?",ok:"Yes! The extra words stay outside: no a/an here.",shuf:1,
+ items:()=>FD.map(([f,n,m])=>{const v=m=='dont'?["don't","like"]:[m];return{w:["I",...v,n],d:[/^[aeiou]/i.test(f)?'an':'a',...["like","love","don't"].filter(x=>!v.includes(x))],food:f,name:f,mood:m}})},
+{id:2,name:"Object Builder",sub:"I have got a book.",kind:'build',img:'objects',inst:"Build the sentence with have got.",hint:"Check the order: I have got + a + object. Use a for each object.",ok:"Great! Here we DO use a: I have got a book.",shuf:1,
+ items:()=>rows([["I have got a pen"],["I have got a pencil~case"],["I haven't got a tablet"],["I have got a mobile~phone"],["I have got a camera and a mobile~phone"],["I have got a book, a pen and a pencil~case"],["I haven't got a tablet"]])
+  .map(it=>({...it, objs:it.w.map(t=>OBJ_IMG[t.replace(/[,.]/g,'')]).filter(Boolean)}))},
+{id:3,name:"Bedroom Detective",sub:"Have you got a bed?",kind:'mc',img:'bedroom',inst:"Look at the bedroom. Answer the question.",n:8,shuf:1,items:()=>mcYN()},
+{id:4,name:"My School Bag",sub:"Speak English!",kind:'speak',img:'schoolBag',shuf:1,items:()=>[{t:["pen"]},{t:["ruler"]},{t:["book","notebook"]},{t:["pencil case","eraser"]},{t:["water bottle"]},{t:["pencils","ruler","pen"]}]},
+{id:5,name:"AND or BUT?",sub:"Join two sentences.",kind:'dnd',pre:1,n:8,shuf:1,items:()=>AB},
+{id:6,name:"Bonus: Question Lab",sub:"Has the hippo got…?",kind:'mix',hint:"Remember: Has + animal + got…? / Have + you + got…?",ok:"Perfect question!",shuf:1,items:()=>[...QB,...QT]}];
+
+const FD=[["cake","cakes","like"],["apple","apples","love"],["banana","bananas","like"],["egg","eggs","dont"],["milkshake","milkshakes","love"],["strawberry","strawberries","like"],["strawberry milkshake","strawberry~milkshakes","love"],["chicken","chicken","like"],["rice","rice","like"],["beans","beans","dont"],["tea","tea","dont"],["French fries","French~fries","love"],["ice cream","ice~cream","love"],["pizza","pizza","like"],["sandwich","sandwiches","dont"],["chocolate","chocolate","love"]];
+const MOODTXT={like:"like",love:"love",dont:"don't like"};
+function cues(it){return `<div class="cues"><img class="cue-emoji" src="assets/foods/${MOOD_IMG[it.mood]}.png" alt="${MOODTXT[it.mood]}"><img class="cue-food" src="assets/foods/${FOOD_IMG[it.food]}.png" alt="${it.food}"></div>`}
+function objImgs(objs){return `<div class="objs">${objs.map(o=>`<img class="obj-img" src="assets/objects/${o}.png" alt="">`).join('')}</div>`}
+let G,B;
+function intro(){G=null;app.innerHTML=`<div class="intro"><img src="${ASSETS.introduction}" alt="Grammar Adventure 1"><div class="go"><button class="btn big" onclick="menu()">PLAY</button></div></div>`}
+function menu(){G=null;app.innerHTML=`<div class="menu-bg"></div><div class="wrap"><div class="mh"><h1>Choose your adventure</h1><button class="ghost" onclick="intro()">Home</button></div><div class="grid">${GAMES.map(g=>{const m=mem[g.id];return `<button class="card c${g.id}" onclick="start(${g.id})"><span class="num">${g.id==6?'★':g.id}</span><b>${g.name}</b><em>${g.sub}</em><span class="st">${stars(m?m.s:0)}</span>${m?`<em>Best: ${m.b}</em>`:''}</button>`}).join('')}</div></div>`}
+function start(id,skip){const g=GAMES.find(x=>x.id==id);if(g.pre&&!skip)return pre(g);let it=g.items();if(g.shuf)it=sh(it);if(g.n)it=it.slice(0,g.n);G={g,i:0,pts:0,items:it};step()}
+function pre(g){app.innerHTML=`<div class="wrap"><div class="top"><button class="ghost" onclick="menu()">← Menu</button><div class="chip">5 · ${g.name}</div></div><main class="stage"><h2>Two little words</h2><div class="opts"><div class="card c2"><b>AND</b><span>AND adds information.</span><em>I've got a book and a pen.</em></div><div class="card c5"><b>BUT</b><span>BUT shows a difference.</span><em>I like rice, but I don't like beans.</em></div></div><button class="btn" onclick="start(5,1)">Let's play</button></main></div>`}
+function frame(h){app.innerHTML=`<div class="wrap"><div class="top"><button class="ghost" onclick="menu()">← Menu</button><div class="chip">${G.g.id==6?'★':G.g.id} · ${G.g.name}</div><div class="score">★ ${G.pts}</div></div><div class="bar"><i style="width:${G.i/G.items.length*100}%"></i></div><main class="stage">${h}</main></div>`}
+function step(){if(G.i>=G.items.length)return done();G.t=0;const it=G.items[G.i];({dnd:sDnd,build:sBuild,mc:sMC,type:sType,speak:sSpeak,sayq:sSpeakQ}[it.k||G.g.kind])(it)}
+const nextBtn=()=>`<button class="btn" onclick="G.i++;step()">${G.i+1>=G.items.length?'Finish':'Next'}</button>`;
+const award=()=>{G.pts+=G.t?50:100};
+function done(){const max=G.items.length*100,p=G.pts/max,s=p>=.8?3:p>=.5?2:1,m=mem[G.g.id]||{b:0,s:0};mem[G.g.id]={b:Math.max(m.b,G.pts),s:Math.max(m.s,s)};save();const nx=G.g.id<6?G.g.id+1:0;
+frame(`<div class="big-stars">${stars(s)}</div><h2>Game completed!</h2><div class="q">Score: ${G.pts}</div><div class="row"><button class="ghost" onclick="start(${G.g.id})">Play again</button>${nx?`<button class="btn" onclick="start(${nx})">Next game</button>`:''}<button class="ghost" onclick="menu()">Menu</button></div>`);$('.bar i').style.width='100%'}
+
+/* ---- sentence builder (tap or drag) ---- */
+function sBuild(it){const w=it.w,tiles=sh([...w,...it.d]);if(tiles.join()==w.join()&&tiles.length>1)tiles.reverse();B={it,w,t:tiles.map((t,id)=>({id,t})),p:[],ok:0,fresh:1};rB()}
+function rB(msg='',cls='',mc=''){const it=B.it,tl=id=>`<button class="tile ${B.ok&&!B.p.includes(id)?'unused':''}" draggable="true" ondragstart="event.dataTransfer.setData('text',${id})" ondragover="event.preventDefault()" ondrop="dp(event,${id})" onclick="tap(${id})">${T(B.t[id].t)}</button>`;
+const sl=B.p.length?B.p.map(tl).join(''):'<span class="hintx">Tap or drag words here</span>',bk=B.t.filter(x=>!B.p.includes(x.id)).map(x=>tl(x.id)).join(''),rw=B.ok?nextBtn():`<button class="ghost" onclick="B.p=[];rB()">Reset</button><button class="btn" onclick="chk()">Check</button>`;
+if(B.fresh){B.fresh=0;
+frame(`<h2>${it.p?'Now make the question.':G.g.inst}</h2>${it.food?cues(it):it.objs?objImgs(it.objs):G.g.img?img(G.g.img,'small'):''}${it.p?`<div class="prompt">${it.p}</div>`:''}
+<div id="slots" class="slots" ondragover="event.preventDefault()" ondrop="dp(event,-1)"></div><div id="bank" class="bank" ondragover="event.preventDefault()" ondrop="dp(event,-2)"></div><div id="fb" class="fb" role="status"></div><div class="row" id="rw"></div>`)}
+const s=$('#slots');s.className='slots';void s.offsetWidth;s.className='slots '+cls;s.innerHTML=sl;$('#bank').innerHTML=bk;const f=$('#fb');f.className='fb '+mc;f.textContent=msg;$('#rw').innerHTML=rw;$('.score').textContent='★ '+G.pts}
+function tap(id){if(B.ok)return;const i=B.p.indexOf(id);i<0?B.p.push(id):B.p.splice(i,1);rB()}
+function dp(e,t){e.preventDefault();e.stopPropagation();if(B.ok)return;const id=+e.dataTransfer.getData('text'),i=B.p.indexOf(id);if(i>=0)B.p.splice(i,1);
+ const j=B.p.indexOf(t);if(t==-1)B.p.push(id);else if(j>=0)B.p.splice(j,0,id);rB()}
+function chk(){const got=B.p.map(i=>B.t[i].t);if(got.length==B.w.length&&got.every((x,i)=>x==B.w[i])){award();B.ok=1;rB(G.g.ok+' '+T(B.w.join(' '))+(B.it.p?'':'.'),'good','ok')}else{G.t++;rB(G.g.hint,'bad','no')}}
+
+/* ---- multiple choice ---- */
+function sMC(it){frame(`<h2>${G.g.inst}</h2>${G.g.img?img(G.g.img,'big'):''}<div class="q">${it.q}</div><div class="opts">${it.o.map((o,i)=>`<button class="opt" onclick="pickO(${i},this)">${o}</button>`).join('')}</div><div class="fb" id="fb" role="status"></div><div class="row" id="nx"></div>`)}
+function pickO(i,b){const it=G.items[G.i];if(i==it.c){award();document.querySelectorAll('.opt').forEach(o=>o.disabled=true);b.classList.add('right');$('#fb').className='fb ok';$('#fb').textContent=it.ok;$('#nx').innerHTML=nextBtn()}else{G.t++;b.disabled=true;$('#fb').className='fb no';$('#fb').textContent=it.no}}
+
+/* ---- AND / BUT drag and drop ---- */
+let D;
+function sDnd(it){D={ch:null,ok:0};rD()}
+function rD(msg='',cls='',mc=''){const it=G.items[G.i],w=["and","but"],a=it.a.slice(0,-1)+(D.ok&&it.c?',':'');
+frame(`<h2>Make one sentence. Drag AND or BUT.</h2><div class="loose"><span>${it.a}</span><span>${it.b}</span></div><div class="dn">↓</div><div class="dsent"><span>${a}</span><span class="gap ${cls}" ondragover="event.preventDefault()" ondrop="event.preventDefault();dch(+event.dataTransfer.getData('text'))">${D.ch===null?'?':w[D.ch]}</span><span>${low(it.b)}</span></div>
+<div class="bank">${w.map((x,i)=>`<button class="tile" ${D.ok?'disabled':''} draggable="true" ondragstart="event.dataTransfer.setData('text',${i})" onclick="dch(${i})">${x.toUpperCase()}</button>`).join('')}</div><div class="fb ${mc}" role="status">${msg}</div><div class="row">${D.ok?nextBtn():''}</div>`)}
+function dch(i){if(D.ok)return;const it=G.items[G.i];if(i==it.c){D.ch=i;D.ok=1;award();rD(it.ok,'good','ok')}else{G.t++;rD(it.no,'bad','no')}}
+
+/* ---- typed question ---- */
+const nz=s=>s.toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+function sType(it){frame(`<h2>Now type the question.</h2><div class="prompt">${it.p}</div><input type="text" id="ti" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Write your question…" onkeydown="if(event.key=='Enter')ckT()"><div class="fb" id="fb" role="status"></div><div class="row" id="nx"><button class="btn" onclick="ckT()">Check</button></div>`);$('#ti').focus()}
+function ckT(){const it=G.items[G.i];if(nz($('#ti').value)==it.a){award();$('#fb').className='fb ok';$('#fb').textContent=G.g.ok;$('#nx').innerHTML=nextBtn();$('#ti').disabled=true}else{G.t++;$('#fb').className='fb no';$('#fb').textContent=G.g.hint}}
+
+/* ---- speaking ---- */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+const OBJ=["pencil case","notebook","book","ruler","pen","pencil","eraser","rubber","water bottle","bottle"];   // vocabulary of the school bag image
+function playQ(){const q='What have you got in your backpack?';try{const a=new Audio(ASSETS.backpackAudio);a.onerror=()=>spk(q);a.play().catch(()=>spk(q))}catch(e){spk(q)}}
+const spk=t=>{try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-US';speechSynthesis.speak(u)}catch(e){}};
+const TGT={"pencil case":"pencil case","notebook":"notebook","book":"book","ruler":"ruler","pen":"pens?","pencils":"pencils?","eraser":"(eraser|rubber)s?","water bottle":"(water )?bottle"};
+const say=x=>x=='pencils'?x:(/^[aeiou]/.test(x)?'an ':'a ')+x;
+/* BAG: where each arrow points, in % from the left / top of the school bag image. Adjust after checking the real image. */
+const BAG={"pencil case": [50, 73], "notebook": [51, 37], "book": [41, 31], "ruler": [60, 22], "pen": [39, 58], "pencils": [45, 59], "eraser": [58, 58], "water bottle": [76, 34]};
+let BAG_OK=null;{const p=new Image();p.onload=()=>BAG_OK=1;p.onerror=()=>BAG_OK=0;p.src=ASSETS.schoolBag}
+const arrow=x=>`<span class="arw" style="left:${BAG[x][0]}%;top:${BAG[x][1]}%"><svg viewBox="0 0 40 52" width="100%"><path d="M20 50 4 26h10V4h12v22h10z" fill="#f28a3c" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></svg></span>`;
+const bag=it=>`<div class="art big"><div class="bagwrap"><img src="${ASSETS.schoolBag}" alt="" onerror="miss(this,'${ASSETS.schoolBag}')">${BAG_OK===0?'':it.t.map(arrow).join('')}</div></div>`;
+function judge(list,targets){let best={ok:0,start:0};for(const t of list){const n=' '+t.toLowerCase().replace(/i['’]ve/g,'i have').replace(/\bive\b/g,'i have').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim()+' ',st=n.includes(' i have got ');
+ const m=targets.every(x=>new RegExp('\\b'+TGT[x]+'\\b').test(x=='pencil case'?n:n.replace(/pencil case/g,' ')));
+ if(st&&m)return{ok:1};if(st)best.start=1}return best}
+function sSpeak(it){G.kbd=G.kbd||!SR;frame(`<h2>Say what the arrows point to.</h2>${bag(it)}<div class="q">What have you got in your backpack?</div><div class="row"><button class="ghost" onclick="playQ()">Listen</button></div>
+${G.kbd?`${SR?'':'<div class="fb">Speech practice needs a compatible browser like Chrome or Edge. You can type your answer instead.</div>'}<input type="text" id="ti" autocomplete="off" placeholder="Type your answer…" onkeydown="if(event.key==='Enter')typed()"><button class="btn" onclick="typed()">Check</button>`:`<button class="mic" id="mic" onclick="listen()" aria-label="Speak">🎤</button><div class="hintx">Tap the microphone and speak.</div><button class="ghost" onclick="G.kbd=1;sSpeak(G.items[G.i])">Type instead</button>`}
+<div class="fb" id="fb" role="status"></div><div class="row" id="nx"></div>`);playQ()}
+function listen(){const r=new SR();r.lang='en-US';r.maxAlternatives=3;const m=$('#mic');m.classList.add('on');$('#fb').className='fb';$('#fb').textContent='Listening…';
+ r.onresult=e=>attempt([...e.results[0]].map(x=>x.transcript));
+ r.onerror=e=>{$('#fb').textContent=/allowed/.test(e.error)?'The microphone is blocked. Tap "Type instead".':"I didn't hear you. Tap the microphone and try again."};r.onend=()=>m.classList.remove('on');try{r.start()}catch(e){}}
+const typed=()=>{const v=$('#ti').value.trim();if(v)attempt([v])};
+function attempt(list){if(G.t>=3||$('#nx').innerHTML)return;const it=G.items[G.i],j=judge(list,it.t),fb=$('#fb');fb.className='fb';
+ if(j.ok){const p=[100,60,30][G.t];G.pts+=p;fb.className='fb ok';fb.textContent=pick(["Very good!","Excellent!","Good job!"])+` (+${p})`;$('#nx').innerHTML=nextBtn();return}
+ G.t++;fb.className='fb no';const heard=`I heard: “${list[0]}”. `;
+ if(G.t==1)fb.textContent=heard+"Almost, try again.";
+ else if(G.t==2)fb.textContent=heard+(j.start?"Look at the arrows. Say all the things!":"Try starting with: I have got…");
+ else{G.pts+=10;const l=it.t.map(say);fb.textContent=`Here is an example: “I have got ${l.length>1?l.slice(0,-1).join(', ')+' and '+l[l.length-1]:l[0]}.” (+10)`;$('#nx').innerHTML=nextBtn()}}
+
+/* ---- Bonus: Question Lab - say the question (same speech logic/style as Game 4) ---- */
+const nzq=s=>nz(s.replace(/i['’]ve/gi,'i have').replace(/\bive\b/gi,'i have'));
+let bonusCtx=null,bonusBuf=null,bonusBufP=null;
+function playClip(start,end){if(!bonusCtx)bonusCtx=new(window.AudioContext||window.webkitAudioContext)();bonusCtx.resume();
+ if(!bonusBufP)bonusBufP=fetch(ASSETS.bonusLabAudio).then(r=>r.arrayBuffer()).then(b=>bonusCtx.decodeAudioData(b)).then(buf=>bonusBuf=buf);
+ bonusBufP.then(()=>{const src=bonusCtx.createBufferSource();src.buffer=bonusBuf;src.connect(bonusCtx.destination);src.start(0,start,end-start)}).catch(()=>{})}
+function sSpeakQ(it){G.kbd=G.kbd||!SR;frame(`<h2>Now say the question.</h2><div class="prompt">${it.p}</div>
+${it.aud?`<div class="row"><button class="ghost" onclick="playClip(${it.aud[0]},${it.aud[1]})">Listen</button></div>`:''}
+${G.kbd?`${SR?'':'<div class="fb">Speech practice needs a compatible browser like Chrome or Edge. You can type your answer instead.</div>'}<input type="text" id="ti" autocomplete="off" placeholder="Type your question…" onkeydown="if(event.key==='Enter')typedQ()"><button class="btn" onclick="typedQ()">Check</button>`:`<button class="mic" id="mic" onclick="listenQ()" aria-label="Speak">🎤</button><div class="hintx">Tap the microphone and say the question.</div><button class="ghost" onclick="G.kbd=1;sSpeakQ(G.items[G.i])">Type instead</button>`}
+<div class="fb" id="fb" role="status"></div><div class="row" id="nx"></div>`)}
+function listenQ(){const r=new SR();r.lang='en-US';r.maxAlternatives=3;const m=$('#mic');m.classList.add('on');$('#fb').className='fb';$('#fb').textContent='Listening…';
+ r.onresult=e=>attemptQ([...e.results[0]].map(x=>x.transcript));
+ r.onerror=e=>{$('#fb').textContent=/allowed/.test(e.error)?'The microphone is blocked. Tap "Type instead".':"I didn't hear you. Tap the microphone and try again."};r.onend=()=>m.classList.remove('on');try{r.start()}catch(e){}}
+const typedQ=()=>{const v=$('#ti').value.trim();if(v)attemptQ([v])};
+function attemptQ(list){if(G.t>=3||$('#nx').innerHTML)return;const it=G.items[G.i],fb=$('#fb');fb.className='fb';
+ if(list.some(t=>nzq(t)==it.a)){const p=[100,60,30][G.t];G.pts+=p;fb.className='fb ok';fb.textContent=pick(["Very good!","Excellent!","Good job!"])+` (+${p})`;$('#nx').innerHTML=nextBtn();return}
+ G.t++;fb.className='fb no';const heard=`I heard: “${list[0]}”. `;
+ if(G.t==1)fb.textContent=heard+"Almost, try again.";
+ else if(G.t==2)fb.textContent=heard+G.g.hint;
+ else{G.pts+=10;fb.textContent=`Here is the question: “${it.a.charAt(0).toUpperCase()+it.a.slice(1)}?”`+' (+10)';$('#nx').innerHTML=nextBtn()}}
+
+intro();
+</script></body></html>
