@@ -1182,6 +1182,40 @@ const GAMES = [
     access: 'beta',
     status: 'available',
     gameUrl: 'was-were/index.html'
+  },
+  {
+    id: 'grammar-adventure-1',
+    title: 'Grammar Adventure 1',
+    gradeNum: 3,
+    skill: ['Grammar', 'Vocabulary', 'Listening'],
+    topic: 'Have Got, A/An, And/But & Yes/No Questions',
+    grammar: "have got / has got (affirmative & negative), a/an, like/love/don't like, and vs but, yes/no questions with have got",
+    difficulty: 'Beginner',
+    gameType: '6-Stage Mixed Game (Sentence Builder, Picture Detective, Speaking & Bonus Question Lab)',
+    schoolAlignment: '3rd Grade English',
+    description: "Six mini-games to practice have got, a/an, like/love/don't like, and/but, and yes/no questions — building sentences, answering about a bedroom scene, and speaking the answers out loud.",
+    descriptionPT: "Seis minijogos para praticar have got, a/an, like/love/don't like, and/but e perguntas de sim/não — montando frases, respondendo sobre uma cena de quarto e falando as respostas em voz alta.",
+    why: "Combines sentence-building, picture reading and speech practice in one adventure, so a child sees the same have got structure in different contexts (food, objects, a bedroom, a school bag) before speaking it out loud.",
+    whyPT: "Combina montagem de frases, leitura de imagem e prática de fala em uma só aventura, para a criança ver a mesma estrutura have got em diferentes contextos (comida, objetos, um quarto, uma mochila) antes de falar em voz alta.",
+    practices: ['have got', 'a / an', "like / love / don't like", 'and vs but', 'yes/no questions', 'speaking practice'],
+    objectives: [
+      'Practice "I like / I love / I don\'t like" with the correct a/an article before the food.',
+      'Use "have got" and "has got" to talk about objects, belongings and characteristics (affirmative and negative).',
+      'Answer yes/no questions with "Have you got...?" by looking at a scene, and join sentences with "and" and "but".',
+      'Speak sentences and questions with "have got" out loud, including a bonus challenge to build and say questions with "has/have got".'
+    ],
+    objectivesPT: [
+      'Praticar "I like / I love / I don\'t like" com o artigo a/an correto antes do alimento.',
+      'Usar "have got" e "has got" para falar sobre objetos, pertences e características (afirmativa e negativa).',
+      'Responder perguntas de sim/não com "Have you got...?" observando uma cena, e unir frases com "and" e "but".',
+      'Falar em voz alta frases e perguntas com "have got", incluindo um desafio bônus de montar e dizer perguntas com "has/have got".'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'grammar-adventure-1/index.html',
+    thumbnail: 'games/grammar-adventure-1/assets/introduction.jpg'
   }
 ];
 
