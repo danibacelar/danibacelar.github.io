@@ -208,9 +208,13 @@ function judge(list,targets){let best={ok:0,start:0};for(const t of list){const 
 function sSpeak(it){G.kbd=G.kbd||!SR;frame(`<h2>Say what the arrows point to.</h2>${bag(it)}<div class="q">What have you got in your backpack?</div><div class="row"><button class="ghost" onclick="playQ()">Listen</button></div>
 ${G.kbd?`${SR?'':'<div class="fb">Speech practice needs a compatible browser like Chrome or Edge. You can type your answer instead.</div>'}<input type="text" id="ti" autocomplete="off" placeholder="Type your answer…" onkeydown="if(event.key==='Enter')typed()"><button class="btn" onclick="typed()">Check</button>`:`<button class="mic" id="mic" onclick="listen()" aria-label="Speak">🎤</button><div class="hintx">Tap the microphone and speak.</div><button class="ghost" onclick="G.kbd=1;sSpeak(G.items[G.i])">Type instead</button>`}
 <div class="fb" id="fb" role="status"></div><div class="row" id="nx"></div>`);playQ()}
-function listen(){const r=new SR();r.lang='en-US';r.maxAlternatives=3;const m=$('#mic');m.classList.add('on');$('#fb').className='fb';$('#fb').textContent='Listening…';
- r.onresult=e=>attempt([...e.results[0]].map(x=>x.transcript));
- r.onerror=e=>{$('#fb').textContent=/allowed/.test(e.error)?'The microphone is blocked. Tap "Type instead".':"I didn't hear you. Tap the microphone and try again."};r.onend=()=>m.classList.remove('on');try{r.start()}catch(e){}}
+let SRI=null;
+function listen(){if(!SRI){SRI=new SR();SRI.lang='en-US';SRI.maxAlternatives=3;
+ SRI.onresult=e=>attempt([...e.results[0]].map(x=>x.transcript));
+ SRI.onerror=e=>{$('#fb').textContent=/allowed/.test(e.error)?'The microphone is blocked. Tap "Type instead".':"I didn't hear you. Tap the microphone and try again."};
+ SRI.onend=()=>{const m=$('#mic');if(m)m.classList.remove('on')}}
+ const m=$('#mic');m.classList.add('on');$('#fb').className='fb';$('#fb').textContent='Listening…';
+ try{SRI.start()}catch(e){try{SRI.abort();SRI.start()}catch(e2){}}}
 const typed=()=>{const v=$('#ti').value.trim();if(v)attempt([v])};
 function attempt(list){if(G.t>=3||$('#nx').innerHTML)return;const it=G.items[G.i],j=judge(list,it.t),fb=$('#fb');fb.className='fb';
  if(j.ok){const p=[100,60,30][G.t];G.pts+=p;fb.className='fb ok';fb.textContent=pick(["Very good!","Excellent!","Good job!"])+` (+${p})`;$('#nx').innerHTML=nextBtn();return}
