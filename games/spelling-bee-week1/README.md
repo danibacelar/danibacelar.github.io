@@ -2,10 +2,10 @@
 
 Jogo de ortografia (spelling bee) em inglês: a criança ouve a palavra
 (áudio real gerado com ElevenLabs). Tem 3 modos, escolhidos na tela inicial:
-"Phase 1" e "Phase 2" (digitar a palavra ouvida) e "Challenge" (Letter
-Scramble — clicar nas letras embaralhadas, na ordem certa, sem digitar
-nada). A ordem dos itens é embaralhada a cada partida, dentro do modo
-escolhido.
+"Practice" (Letter Scramble — clicar nas letras embaralhadas, na ordem
+certa, sem digitar nada) em primeiro lugar, e "Phase 1"/"Phase 2" (digitar
+a palavra ouvida). A ordem dos itens é embaralhada a cada partida, dentro
+do modo escolhido.
 
 Vocabulário desta lista: famílias de palavras com o mesmo padrão de
 ortografia/som (isle/islands, ratio(s), crawl/brawl/foul e suas formas
@@ -77,30 +77,35 @@ primeiro Spelling Bee, que teve que deixar de fora as frases inteiras.
    para ouvir a palavra — a definição em inglês já aparece logo abaixo do
    botão, o tempo todo.
 3. Digita em inglês e clica em "Check" (ou aperta Enter).
-4. Se errar, a palavra errada da própria resposta aparece em vermelho.
+4. Se errar, somente a(s) letra(s) errada(s) dentro da própria resposta
+   aparecem em vermelho — o resto da palavra digitada fica normal, para a
+   criança ver exatamente qual letra errou.
 5. Acerto: toca um som de sucesso, uma explosão de abelhinhas 🐝 voa pela
    tela (efeito confete), +10 pontos (5 se acertou depois de errar antes) e
    avança para o próximo item. Erro: pode tentar de novo, sem limite de
    tentativas.
 6. "Skip" revela a resposta correta e marca para revisão no final.
 
-### Challenge (Letter Scramble)
+### Practice (Letter Scramble)
 
-1. Na tela inicial, a criança escolhe "Challenge".
+1. Na tela inicial, a criança escolhe "Practice".
 2. Ouve a palavra (com a definição em inglês já visível abaixo do botão
    "Listen") e vê suas letras embaralhadas como botões, com espaços vazios
    acima mostrando o tamanho da palavra — nada de digitar.
 3. Clica nas letras na ordem certa para preenchê-los; clicar em uma letra
    já colocada devolve ela para a fileira de baixo, caso erre.
 4. Ao preencher todos os espaços: se estiver certo, mesmo efeito de acerto
-   (som + confete de abelhas + pontos). Se estiver errado, as letras voltam
-   sozinhas para tentar de novo. "Skip" revela a palavra e marca para
-   revisão.
+   (som + confete de abelhas + pontos). Se estiver errado, somente as
+   letras erradas ficam marcadas em vermelho e voltam para a fileira de
+   baixo — as letras certas continuam no lugar, para a criança ver
+   exatamente onde errou e completar só o que falta. "Skip" revela a
+   palavra e marca para revisão.
 
 ### Final
 
 Ao final de qualquer modo, mostra pontuação, acertos e a lista de itens
-para revisar. "Play again" repete o mesmo modo, embaralhado de novo.
+para revisar. "Play again" repete o mesmo modo, embaralhado de novo, e
+"Menu" volta para a tela inicial para escolher outro modo.
 
 ## 🔊 Áudio
 
