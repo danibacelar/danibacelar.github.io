@@ -233,13 +233,18 @@ html, body {
   text-decoration-style: wavy;
   text-underline-offset: 3px;
 }
-.hint-reveal {
-  margin: 10px 0 0;
+.word-definition {
+  margin: 0 0 20px;
+  padding: 12px 16px;
+  background: var(--cream-dark);
+  border-radius: 12px;
   font-family: var(--font-body);
   font-weight: 600;
   font-style: italic;
-  font-size: 0.9rem;
-  color: var(--honey-dark);
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--hive-black);
+  min-height: 1.4em;
 }
 
 /* ===== RESULTS SCREEN ===== */

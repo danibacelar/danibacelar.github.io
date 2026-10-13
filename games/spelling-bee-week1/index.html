@@ -49,6 +49,8 @@
           🔊 <span>Listen</span>
         </button>
 
+        <p class="word-definition" id="word-definition"></p>
+
         <form id="spell-form" autocomplete="off">
           <input type="text" id="spell-input" class="spell-input" placeholder="Type what you hear..." aria-label="Type the word">
           <div class="game-actions">
@@ -58,7 +60,6 @@
         </form>
 
         <p class="feedback" id="feedback" aria-live="polite"></p>
-        <p class="hint-reveal hidden" id="hint-reveal" aria-live="polite"></p>
 
         <button id="btn-next" class="btn btn-primary btn-next hidden">Next word →</button>
       </div>
@@ -73,6 +74,8 @@
           🔊 <span>Listen</span>
         </button>
 
+        <p class="word-definition" id="challenge-definition"></p>
+
         <div class="scramble-slots" id="scramble-slots"></div>
         <div class="scramble-tiles" id="scramble-tiles"></div>
 
@@ -81,7 +84,6 @@
         </div>
 
         <p class="feedback" id="challenge-feedback" aria-live="polite"></p>
-        <p class="hint-reveal hidden" id="challenge-hint" aria-live="polite"></p>
 
         <button id="btn-challenge-next" class="btn btn-primary btn-next hidden">Next word →</button>
       </div>

@@ -120,8 +120,7 @@
 
     document.getElementById('feedback').textContent = '';
     document.getElementById('feedback').className = 'feedback';
-    document.getElementById('hint-reveal').textContent = '';
-    document.getElementById('hint-reveal').classList.add('hidden');
+    document.getElementById('word-definition').textContent = word.hintEN || '';
     document.getElementById('btn-next').classList.add('hidden');
     document.getElementById('btn-check').disabled = false;
     document.getElementById('btn-skip').disabled = false;
@@ -172,7 +171,6 @@
     if (!rawGuess) return;
 
     const feedback = document.getElementById('feedback');
-    const hintEl = document.getElementById('hint-reveal');
     const { allMatch, results } = compareWords(tokenize(rawGuess), tokenize(word.word), word.properWords || []);
 
     if (allMatch) {
@@ -193,10 +191,6 @@
         .map(r => `<span class="${r.ok ? 'word-ok' : 'word-bad'}">${escapeHtml(r.text)}</span>`)
         .join(' ');
       feedback.className = 'feedback incorrect';
-      if (word.hintEN) {
-        hintEl.textContent = `💡 ${word.hintEN}`;
-        hintEl.classList.remove('hidden');
-      }
       input.classList.remove('shake');
       requestAnimationFrame(() => input.classList.add('shake'));
       input.select();
@@ -324,7 +318,6 @@
     const assembled = s.slotAssignment.map(i => s.letters[i]).join('');
     const target = word.word.toUpperCase();
     const feedback = document.getElementById('challenge-feedback');
-    const hintEl = document.getElementById('challenge-hint');
 
     if (assembled === target) {
       s.locked = true;
@@ -343,10 +336,6 @@
       state.wrongOnCurrent = true;
       feedback.textContent = '❌ Not quite — try again!';
       feedback.className = 'feedback incorrect';
-      if (word.hintEN) {
-        hintEl.textContent = `💡 ${word.hintEN}`;
-        hintEl.classList.remove('hidden');
-      }
       const slotsEl = document.getElementById('scramble-slots');
       slotsEl.classList.remove('shake');
       requestAnimationFrame(() => slotsEl.classList.add('shake'));
@@ -394,8 +383,7 @@
     const feedback = document.getElementById('challenge-feedback');
     feedback.textContent = '';
     feedback.className = 'feedback';
-    document.getElementById('challenge-hint').textContent = '';
-    document.getElementById('challenge-hint').classList.add('hidden');
+    document.getElementById('challenge-definition').textContent = word.hintEN || '';
     document.getElementById('scramble-slots').classList.remove('correct');
     document.getElementById('btn-challenge-next').classList.add('hidden');
     document.getElementById('btn-challenge-skip').disabled = false;
