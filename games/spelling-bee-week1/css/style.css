@@ -310,7 +310,7 @@ html, body {
   color: #555;
   margin: 12px 0 20px;
 }
-.results-actions { display: flex; justify-content: center; }
+.results-actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
 
 @media (max-width: 480px) {
   .game-actions { flex-direction: column; }
@@ -383,6 +383,11 @@ html, body {
 .scramble-slots.correct .scramble-slot {
   border-color: var(--success);
   background: #fff;
+}
+.scramble-slot.wrong {
+  border-color: var(--error);
+  background: #fff;
+  color: var(--error);
 }
 
 .scramble-tiles {

@@ -159,9 +159,22 @@
       const isProper = c !== undefined && properWords.includes(cClean);
       const ok = c !== undefined && (isProper ? gClean === cClean : gClean.toLowerCase() === cClean.toLowerCase());
       if (!ok) allMatch = false;
-      results.push({ text: g, ok });
+      results.push({ text: g, ok, correct: cClean, caseSensitive: isProper });
     }
     return { allMatch, results };
+  }
+
+  function diffLetters(guess, correct, caseSensitive) {
+    const len = Math.max(guess.length, correct.length);
+    let html = '';
+    for (let i = 0; i < len; i++) {
+      const g = guess[i];
+      if (g === undefined) continue;
+      const c = correct[i];
+      const match = c !== undefined && (caseSensitive ? g === c : g.toLowerCase() === c.toLowerCase());
+      html += match ? escapeHtml(g) : `<span class="word-bad">${escapeHtml(g)}</span>`;
+    }
+    return html;
   }
 
   function checkAnswer() {
@@ -188,7 +201,11 @@
     } else {
       state.wrongOnCurrent = true;
       feedback.innerHTML = results
-        .map(r => `<span class="${r.ok ? 'word-ok' : 'word-bad'}">${escapeHtml(r.text)}</span>`)
+        .map(r => {
+          if (r.ok) return `<span class="word-ok">${escapeHtml(r.text)}</span>`;
+          if (r.correct === undefined) return `<span class="word-bad">${escapeHtml(r.text)}</span>`;
+          return diffLetters(r.text, r.correct, r.caseSensitive);
+        })
         .join(' ');
       feedback.className = 'feedback incorrect';
       input.classList.remove('shake');
@@ -334,14 +351,25 @@
       burstBeeConfetti();
     } else {
       state.wrongOnCurrent = true;
-      feedback.textContent = '❌ Not quite — try again!';
+      feedback.textContent = '❌ Not quite — check the red letters!';
       feedback.className = 'feedback incorrect';
       const slotsEl = document.getElementById('scramble-slots');
       slotsEl.classList.remove('shake');
       requestAnimationFrame(() => slotsEl.classList.add('shake'));
+      slotsEl.querySelectorAll('.scramble-slot').forEach((el, i) => {
+        const tileIndex = s.slotAssignment[i];
+        if (tileIndex !== null && s.letters[tileIndex] !== target[i]) {
+          el.classList.add('wrong');
+        }
+      });
       setTimeout(() => {
-        s.slotAssignment = s.slotAssignment.map(() => null);
-        s.tileUsed = s.tileUsed.map(() => false);
+        s.slotAssignment.forEach((tileIndex, i) => {
+          if (tileIndex === null) return;
+          if (s.letters[tileIndex] !== target[i]) {
+            s.tileUsed[tileIndex] = false;
+            s.slotAssignment[i] = null;
+          }
+        });
         slotsEl.classList.remove('shake');
         renderScrambleTiles();
         renderScrambleSlots();
@@ -394,7 +422,7 @@
 
   function startChallenge() {
     state.mode = 'scramble';
-    state.roundLabel = 'Challenge';
+    state.roundLabel = 'Practice';
     state.words = shuffle(CHALLENGE_WORDS);
     state.index = 0;
     state.score = 0;
@@ -411,6 +439,11 @@
     if (state.mode === 'scramble') startChallenge(); else startGame();
   });
   document.getElementById('btn-back-start').addEventListener('click', () => {
+    document.getElementById('word-audio').pause();
+    speechSynthesis.cancel();
+    showScreen('start');
+  });
+  document.getElementById('btn-results-menu').addEventListener('click', () => {
     document.getElementById('word-audio').pause();
     speechSynthesis.cancel();
     showScreen('start');
