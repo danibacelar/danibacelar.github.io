@@ -50,8 +50,12 @@ const SPELLING_PHASES = [
 - `audio`: nome do arquivo dentro de `assets/audio/`. Se o arquivo não
   existir/falhar ao carregar, o jogo cai automaticamente para a voz
   sintetizada do navegador (`speechSynthesis`) como reserva.
-- `hintEN`: dica em inglês (nunca revela a resposta), mostrada só depois da
-  criança errar a primeira tentativa daquele item.
+Diferente do primeiro Spelling Bee, aqui a definição em inglês (`hintEN`)
+fica **sempre visível**, logo abaixo do botão "Listen" — não é uma dica
+escondida que só aparece depois de errar.
+
+- `hintEN`: definição em inglês da palavra (nunca revela a resposta),
+  mostrada o tempo todo acima do campo de resposta/das letras.
 - `properWords`: lista de tokens que exigem maiúscula correta (nomes
   próprios). Está vazia em todos os itens desta lista, já que nenhuma
   palavra é um nome próprio — tudo é comparado sem diferenciar maiúsculas
@@ -70,10 +74,10 @@ primeiro Spelling Bee, que teve que deixar de fora as frases inteiras.
 
 1. Na tela inicial, a criança escolhe "Phase 1" ou "Phase 2".
 2. Clica em "Listen" (ou o áudio já é tocado automaticamente ao carregar)
-   para ouvir a palavra.
+   para ouvir a palavra — a definição em inglês já aparece logo abaixo do
+   botão, o tempo todo.
 3. Digita em inglês e clica em "Check" (ou aperta Enter).
-4. Se errar, a palavra errada da própria resposta aparece em vermelho, e
-   uma dica em inglês aparece embaixo — sem revelar a resposta.
+4. Se errar, a palavra errada da própria resposta aparece em vermelho.
 5. Acerto: toca um som de sucesso, uma explosão de abelhinhas 🐝 voa pela
    tela (efeito confete), +10 pontos (5 se acertou depois de errar antes) e
    avança para o próximo item. Erro: pode tentar de novo, sem limite de
@@ -83,14 +87,15 @@ primeiro Spelling Bee, que teve que deixar de fora as frases inteiras.
 ### Challenge (Letter Scramble)
 
 1. Na tela inicial, a criança escolhe "Challenge".
-2. Ouve a palavra e vê suas letras embaralhadas como botões, com espaços
-   vazios acima mostrando o tamanho da palavra — nada de digitar.
+2. Ouve a palavra (com a definição em inglês já visível abaixo do botão
+   "Listen") e vê suas letras embaralhadas como botões, com espaços vazios
+   acima mostrando o tamanho da palavra — nada de digitar.
 3. Clica nas letras na ordem certa para preenchê-los; clicar em uma letra
    já colocada devolve ela para a fileira de baixo, caso erre.
 4. Ao preencher todos os espaços: se estiver certo, mesmo efeito de acerto
-   (som + confete de abelhas + pontos). Se estiver errado, mostra uma dica
-   em inglês (na primeira vez) e as letras voltam sozinhas para tentar de
-   novo. "Skip" revela a palavra e marca para revisão.
+   (som + confete de abelhas + pontos). Se estiver errado, as letras voltam
+   sozinhas para tentar de novo. "Skip" revela a palavra e marca para
+   revisão.
 
 ### Final
 
