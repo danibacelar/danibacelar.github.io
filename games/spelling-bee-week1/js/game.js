@@ -165,16 +165,48 @@
   }
 
   function diffLetters(guess, correct, caseSensitive) {
-    const len = Math.max(guess.length, correct.length);
-    let html = '';
-    for (let i = 0; i < len; i++) {
-      const g = guess[i];
-      if (g === undefined) continue;
-      const c = correct[i];
-      const match = c !== undefined && (caseSensitive ? g === c : g.toLowerCase() === c.toLowerCase());
-      html += match ? escapeHtml(g) : `<span class="word-bad">${escapeHtml(g)}</span>`;
+    const eq = (a, b) => caseSensitive ? a === b : a.toLowerCase() === b.toLowerCase();
+    const n = guess.length;
+    const m = correct.length;
+
+    // Levenshtein distance table (substitution/insertion/deletion all cost 1).
+    const dp = Array.from({ length: n + 1 }, () => new Array(m + 1).fill(0));
+    for (let i = 0; i <= n; i++) dp[i][0] = i;
+    for (let j = 0; j <= m; j++) dp[0][j] = j;
+    for (let i = 1; i <= n; i++) {
+      for (let j = 1; j <= m; j++) {
+        dp[i][j] = eq(guess[i - 1], correct[j - 1])
+          ? dp[i - 1][j - 1]
+          : 1 + Math.min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]);
+      }
     }
-    return html;
+
+    // Backtrack to a letter-by-letter alignment: matches, substitutions,
+    // extra typed letters, and missing letters (shown as "_").
+    let i = n, j = m;
+    const ops = [];
+    while (i > 0 || j > 0) {
+      if (i > 0 && j > 0 && eq(guess[i - 1], correct[j - 1]) && dp[i][j] === dp[i - 1][j - 1]) {
+        ops.push({ type: 'match', ch: guess[i - 1] });
+        i--; j--;
+      } else if (i > 0 && j > 0 && dp[i][j] === dp[i - 1][j - 1] + 1) {
+        ops.push({ type: 'sub', ch: guess[i - 1] });
+        i--; j--;
+      } else if (i > 0 && dp[i][j] === dp[i - 1][j] + 1) {
+        ops.push({ type: 'extra', ch: guess[i - 1] });
+        i--;
+      } else {
+        ops.push({ type: 'missing' });
+        j--;
+      }
+    }
+    ops.reverse();
+
+    return ops.map(op => {
+      if (op.type === 'match') return escapeHtml(op.ch);
+      if (op.type === 'missing') return '<span class="word-bad">_</span>';
+      return `<span class="word-bad">${escapeHtml(op.ch)}</span>`;
+    }).join('');
   }
 
   function checkAnswer() {
