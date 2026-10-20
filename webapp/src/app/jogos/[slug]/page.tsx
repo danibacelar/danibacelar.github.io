@@ -52,6 +52,9 @@ export default function JogoDetalhePage() {
 
   const childId = session?.activeChildId ?? null;
   const compra = session ? getCompra(session, game.slug, childId) : undefined;
+  const jogoProtegido = game.gameUrl.startsWith("/game-content/");
+  const jogarHref =
+    jogoProtegido && childId ? `${game.gameUrl}?filho=${childId}` : game.gameUrl;
   const valido = estaValido(compra);
   const expirado = !!compra && !valido;
   const desbloqueado = game.free || valido;
@@ -146,9 +149,8 @@ export default function JogoDetalhePage() {
             <div className="callout" style={{ padding: 40, textAlign: "center" }}>
               <a
                 className="btn btn-primary"
-                href={game.gameUrl}
-                target="_blank"
-                rel="noopener"
+                href={jogarHref}
+                {...(jogoProtegido ? {} : { target: "_blank", rel: "noopener" })}
                 style={{ marginBottom: game.free || !compra ? 0 : 12 }}
               >
                 Jogar agora

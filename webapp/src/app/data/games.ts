@@ -21,7 +21,7 @@ export const GAMES: Game[] = [
     difficulty: "Iniciante",
     credits: 10,
     thumbnail: "/assets/games/town-explorer-screenshot.jpg",
-    gameUrl: "https://mrsdani.com.br/4ano-citymap/",
+    gameUrl: "/game-content/town-explorer",
   },
   {
     slug: "sports-playground",
@@ -32,7 +32,7 @@ export const GAMES: Game[] = [
     difficulty: "Iniciante",
     credits: 10,
     thumbnail: "/assets/games/sports-playground-screenshot.jpg",
-    gameUrl: "https://mrsdani.com.br/3ano-sports/",
+    gameUrl: "/game-content/sports-playground",
   },
   {
     slug: "top-town",
@@ -43,7 +43,7 @@ export const GAMES: Game[] = [
     difficulty: "Iniciante",
     credits: 10,
     thumbnail: "/assets/games/top-town-screenshot.jpg",
-    gameUrl: "https://mrsdani.com.br/3ano-prepositions_does_it_have/",
+    gameUrl: "/game-content/top-town",
   },
   {
     slug: "personal-narrative",
@@ -53,7 +53,7 @@ export const GAMES: Game[] = [
     skills: ["Escrita", "Vocabulário", "Bilíngue"],
     difficulty: "Intermediário",
     credits: 10,
-    gameUrl: "https://mrsdani.com.br/3ano-personal_writing/",
+    gameUrl: "/game-content/personal-narrative",
   },
   {
     slug: "growing-plants",
@@ -85,7 +85,7 @@ export const GAMES: Game[] = [
     skills: ["Gramática"],
     difficulty: "Iniciante",
     credits: 10,
-    gameUrl: "https://mrsdani.com.br/4ano-adverbs_of_frequency/",
+    gameUrl: "/game-content/adverbs-adventure",
   },
   {
     slug: "daily-tasks",
@@ -95,7 +95,7 @@ export const GAMES: Game[] = [
     skills: ["Vocabulário", "Escrita"],
     difficulty: "Iniciante",
     credits: 10,
-    gameUrl: "https://mrsdani.com.br/4ano-daily_tasks/",
+    gameUrl: "/game-content/daily-tasks",
   },
   {
     slug: "where-are-you-going",
@@ -105,7 +105,7 @@ export const GAMES: Game[] = [
     skills: ["Gramática"],
     difficulty: "Iniciante",
     credits: 10,
-    gameUrl: "https://mrsdani.com.br/4ano-goingto/",
+    gameUrl: "/game-content/where-are-you-going",
   },
   {
     slug: "sofias-busy-day",
@@ -115,7 +115,7 @@ export const GAMES: Game[] = [
     skills: ["Gramática", "Leitura"],
     difficulty: "Iniciante",
     credits: 10,
-    gameUrl: "https://mrsdani.com.br/4ano_going_to/",
+    gameUrl: "/game-content/sofias-busy-day",
   },
   {
     slug: "places-in-a-city",
@@ -125,7 +125,7 @@ export const GAMES: Game[] = [
     skills: ["Vocabulário", "Gramática"],
     difficulty: "Iniciante",
     credits: 10,
-    gameUrl: "https://mrsdani.com.br/4ano-preposition_of_place1/",
+    gameUrl: "/game-content/places-in-a-city",
   },
   {
     slug: "what-time-is-it",
@@ -135,7 +135,7 @@ export const GAMES: Game[] = [
     skills: ["Vocabulário", "Escuta"],
     difficulty: "Iniciante",
     credits: 10,
-    gameUrl: "https://mrsdani.com.br/4ano-what_time_is_it/",
+    gameUrl: "/game-content/what-time-is-it",
   },
   {
     slug: "connectors-past-tenses",
@@ -145,7 +145,7 @@ export const GAMES: Game[] = [
     skills: ["Gramática", "Leitura"],
     difficulty: "Intermediário",
     credits: 10,
-    gameUrl: "https://mrsdani.com.br/5ano-Connectors_Past_Tenses/",
+    gameUrl: "/game-content/connectors-past-tenses",
   },
   {
     slug: "emergency-helpers",
@@ -155,7 +155,7 @@ export const GAMES: Game[] = [
     skills: ["Gramática"],
     difficulty: "Iniciante",
     credits: 10,
-    gameUrl: "https://mrsdani.com.br/5ano-past_continuous/",
+    gameUrl: "/game-content/emergency-helpers",
   },
   {
     slug: "time-detective",
@@ -165,7 +165,7 @@ export const GAMES: Game[] = [
     skills: ["Gramática"],
     difficulty: "Intermediário",
     credits: 10,
-    gameUrl: "https://mrsdani.com.br/5ano-past_simple_and_progressive/",
+    gameUrl: "/game-content/time-detective",
   },
   {
     slug: "past-simple-vs-continuous-quiz",
@@ -175,7 +175,7 @@ export const GAMES: Game[] = [
     skills: ["Gramática"],
     difficulty: "Intermediário",
     credits: 10,
-    gameUrl: "https://mrsdani.com.br/5ano-pastsimple_pastcontinuous/",
+    gameUrl: "/game-content/past-simple-vs-continuous-quiz",
   },
   {
     slug: "prepositions-of-time",
@@ -185,7 +185,7 @@ export const GAMES: Game[] = [
     skills: ["Gramática"],
     difficulty: "Iniciante",
     credits: 10,
-    gameUrl: "https://mrsdani.com.br/5ano-preposition_in_on_at/",
+    gameUrl: "/game-content/prepositions-of-time",
   },
   {
     slug: "preposicoes-in-on-at",
@@ -195,7 +195,7 @@ export const GAMES: Game[] = [
     skills: ["Gramática"],
     difficulty: "Iniciante",
     credits: 10,
-    gameUrl: "https://mrsdani.com.br/5ano-preposition_in_on_at_1/",
+    gameUrl: "/game-content/preposicoes-in-on-at",
   },
   {
     slug: "all-aboard-review",
@@ -205,7 +205,7 @@ export const GAMES: Game[] = [
     skills: ["Gramática", "Leitura"],
     difficulty: "Intermediário",
     credits: 10,
-    gameUrl: "https://mrsdani.com.br/5ano-review_test/",
+    gameUrl: "/game-content/all-aboard-review",
   },
   {
     slug: "simple-past-adventure",
@@ -215,7 +215,7 @@ export const GAMES: Game[] = [
     skills: ["Gramática"],
     difficulty: "Iniciante",
     credits: 10,
-    gameUrl: "https://mrsdani.com.br/5ano-simple_past_1/",
+    gameUrl: "/game-content/simple-past-adventure",
   },
   {
     slug: "permission-obligation",
@@ -226,7 +226,7 @@ export const GAMES: Game[] = [
     difficulty: "Avançado",
     credits: 10,
     thumbnail: "/assets/games/permission-obligation-screenshot.jpg",
-    gameUrl: "https://mrsdani.com.br/8ano-be_allowed_to/",
+    gameUrl: "/game-content/permission-obligation",
   },
   {
     slug: "active-passive-environment",
@@ -236,7 +236,7 @@ export const GAMES: Game[] = [
     skills: ["Gramática", "Escrita"],
     difficulty: "Avançado",
     credits: 10,
-    gameUrl: "https://mrsdani.com.br/8ano-passiva-meio-ambiente/",
+    gameUrl: "/game-content/active-passive-environment",
   },
   {
     slug: "reading-comprehension-tests",
@@ -246,7 +246,7 @@ export const GAMES: Game[] = [
     skills: ["Leitura", "Gramática"],
     difficulty: "Avançado",
     credits: 10,
-    gameUrl: "https://mrsdani.com.br/8ano-reading_comprehension/",
+    gameUrl: "/game-content/reading-comprehension-tests",
   },
   {
     slug: "a-voz-passiva",
@@ -256,7 +256,7 @@ export const GAMES: Game[] = [
     skills: ["Gramática"],
     difficulty: "Avançado",
     credits: 10,
-    gameUrl: "https://mrsdani.com.br/8ano-the_passive/",
+    gameUrl: "/game-content/a-voz-passiva",
   },
   {
     slug: "o-caso-da-voz-oculta",
@@ -266,6 +266,6 @@ export const GAMES: Game[] = [
     skills: ["Gramática", "Leitura"],
     difficulty: "Avançado",
     credits: 10,
-    gameUrl: "https://mrsdani.com.br/8ano-voz_ativa_e_passiva/",
+    gameUrl: "/game-content/o-caso-da-voz-oculta",
   },
 ];

@@ -7,7 +7,18 @@
 	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
 	"assets": {
 		"directory": ".open-next/assets",
-		"binding": "ASSETS"
+		"binding": "ASSETS",
+		// /game-content/* nunca é servido direto pela Cloudflare — toda
+		// requisição ali passa pelo nosso Worker primeiro (rota em
+		// src/app/game-content/[slug]/route.ts), que confere login +
+		// compra válida antes de buscar o arquivo real no binding ASSETS.
+		"run_worker_first": ["/game-content/*", "/_jogo_arquivos/*"],
+		// Desliga a resolução automática de "/foo" -> "/foo/index.html":
+		// sem isso, a Cloudflare tratava /game-content/<slug> (nossa rota
+		// protegida) como se fosse o mesmo arquivo estático de
+		// /game-content/<slug>/index.html e servia ele direto, sem passar
+		// pela nossa checagem de login/compra.
+		"html_handling": "none"
 	},
 	"services": [
 		{

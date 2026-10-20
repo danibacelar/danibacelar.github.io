@@ -151,15 +151,18 @@ abaixo continua valendo antes de trocar de vez.
 
 **🔴 Bloqueia a troca de domínio:**
 1. ~~Catálogo completo de jogos~~ — **feito** (ver seção abaixo).
-2. **Banco de dados de verdade** (Supabase ou similar) — contas ainda só
-   valem no navegador onde foram criadas. **Em andamento** — Dani vai
-   criar o projeto Supabase.
-3. **Servir os jogos de forma protegida** (ver seção "Proteção de
-   acesso aos jogos" abaixo) — depende do item 2.
+2. ~~Banco de dados de verdade (Supabase)~~ — **feito e testado ao
+   vivo**: contas, créditos, filhos e compras são reais (Supabase Auth
+   + Postgres com RLS). Testado criando conta de verdade no site
+   publicado e confirmando persistência entre sessões.
+3. ~~Servir os jogos de forma protegida~~ — **feito para os 23 jogos
+   locais** (ver seção "Proteção de acesso aos jogos" abaixo).
+   Growing Plants e Spelling Bee ainda faltam (item 5 daquela seção).
 4. **Pagamento real via Pix** (Mercado Pago ou outro) — hoje só simula.
-5. Mover sessão "1 aparelho por login" para **Cloudflare KV** (hoje é
-   memória do processo, não aguenta produção real com múltiplas
-   instâncias).
+5. ~~Mover sessão "1 aparelho por login" para Cloudflare KV~~ —
+   **não precisa mais**: o controle já usa uma coluna no Supabase
+   (`device_token`), que é compartilhado entre todas as instâncias por
+   natureza (banco de verdade, não memória do processo).
 
 **🟡 Importante, não trava:**
 5. Painel admin (`/admin`) conectado a dados reais.
@@ -193,58 +196,90 @@ mandar screenshots dos jogos que faltam, é só adicionar o arquivo em
 `public/assets/games/` e preencher o campo `thumbnail` do jogo
 correspondente.
 
-## Proteção de acesso aos jogos — em andamento
+## Proteção de acesso aos jogos — feito para os 23 jogos locais
 
-A Dani levantou um problema real: hoje, o link de cada jogo
-(`mrsdani.com.br/algum-nome/`) é público — quem tiver o link acessa
-direto, sem pagar. O botão "Comprar" só decide **quando mostrar** o
-link, não impede repassar ele depois. Decidimos resolver isso servindo
-os jogos **de dentro do nosso próprio site**, com verificação a cada
-acesso (não só na hora da compra) — só funciona de verdade depois que
-tivermos sessão validada no servidor (por isso depende do Supabase).
+A Dani levantou um problema real: o link de cada jogo
+(`mrsdani.com.br/algum-nome/`) era público — quem tivesse o link
+acessava direto, sem pagar. Resolvido para os 23 jogos que moramos
+localmente (ver "descoberta" abaixo), servindo-os **de dentro do nosso
+próprio site**, com verificação de sessão + compra a cada acesso (não
+só na hora da compra).
 
-**Descoberta importante sobre onde os jogos vivem:** os 23 jogos que
-não são Growing Plants/Spelling Bee nunca estiveram neste repositório
-— cada um é um **repositório próprio no GitHub** da Dani (ela tem um
-repo por jogo, ela pede pro Claude construir e sobe manualmente pelo
-GitHub). Foram identificados com `list_repos` e todos são públicos.
+**Descoberta (sessão anterior):** os 23 jogos que não são Growing
+Plants/Spelling Bee nunca estiveram neste repositório — cada um é um
+**repositório próprio no GitHub** da Dani. Foram clonados e o
+`index.html` de cada um (HTML autocontido) copiado para cá.
 
-**Já feito nesta sessão:**
-- Os 23 repositórios foram clonados e o `index.html` de cada um (todos
-  são HTML autocontido, sem pasta de assets separada) foi copiado para
-  `webapp/game-content/<slug>/index.html`, usando o mesmo `slug` de
-  `data/games.ts`. **De propósito, essa pasta fica FORA de `public/`**
-  — qualquer coisa em `public/` é servida sem nenhuma verificação, o
-  que anularia a proteção. `game-content/` só devia ser lido por uma
-  rota do servidor que confere a sessão antes de entregar o arquivo.
-- `data/games.ts` **ainda aponta pro link externo antigo**
-  (`gameUrl: "https://mrsdani.com.br/..."`) — não mudei isso ainda de
-  propósito, pra não quebrar o "Jogar agora" antes de existir a rota
-  protegida que vai substituir esse link.
+**Como a proteção funciona de verdade (implementado nesta sessão):**
+- URL pública de cada jogo: `/game-content/<slug>` — rota real do
+  Next.js (`webapp/src/app/game-content/[...slug]/route.ts`), não um
+  arquivo estático. Em cada acesso ela: pega o `filho` da query string
+  (`?filho=<id>`, montado pela página `/jogos/[slug]` a partir do
+  perfil ativo), confere a sessão do responsável no Supabase, confere
+  que aquele filho é dele, confere que existe uma compra válida (não
+  expirada) para aquele jogo+filho — só então busca e devolve o HTML
+  de verdade. Jogos `free: true` pulam a checagem de compra (mas ainda
+  passam pela rota).
+- O HTML real de cada jogo mora fisicamente em
+  `webapp/public/_jogo_arquivos/<slug>/index.html` — **um nome de
+  pasta propositalmente sem nenhuma relação com a URL pública**. Isso
+  foi necessário por uma descoberta importante: a Cloudflare/Next.js
+  **sempre** entrega um arquivo estático que exista exatamente naquele
+  caminho, mesmo quando existe uma rota nossa ali também (prioridade
+  do arquivo é absoluta — não tem como vencer isso com código; só
+  conseguimos fechar o buraco escondendo o arquivo atrás de um nome de
+  pasta que ninguém de fora consegue adivinhar nem ver, já que esse
+  caminho nunca aparece em nenhum HTML/JS enviado ao navegador).
+- `wrangler.jsonc` (`assets.run_worker_first` + `assets.html_handling:
+  "none"`) garante que a Cloudflare nunca tenta "atalhar" essas pastas
+  — toda requisição passa pelo nosso código primeiro.
+- A rota é um **catch-all** (`[...slug]`, não `[slug]`) de propósito:
+  fecha também o caminho cru `/game-content/<slug>/index.html` (nega
+  com 404 em vez de deixar outro mecanismo interno do Next servir o
+  arquivo sem checar nada).
+- `data/games.ts`: os 23 jogos locais já apontam `gameUrl` para
+  `/game-content/<slug>` (não mais para `mrsdani.com.br`). A página
+  `/jogos/[slug]` monta o link final como
+  `/game-content/<slug>?filho=<id-do-perfil-ativo>` e **não abre mais
+  em outra aba** para esses jogos (pedido explícito da Dani) — só os 2
+  jogos ainda externos (ver abaixo) continuam abrindo em aba nova.
 
-**Falta fazer (próximos passos, nesta ordem):**
-1. Configurar o Supabase (a Dani vai criar o projeto e mandar a URL +
-   anon key).
-2. Trocar a sessão de família de `localStorage` puro para algo
-   verificável pelo servidor (ex: cookie de sessão + tabela no
-   Supabase), já que a proteção por request exige que o **servidor**
-   saiba quem está pedindo, não só o navegador.
-3. Criar uma rota protegida (ex: `webapp/src/app/api/jogar/[slug]/
-   route.ts`) que: confere se a sessão é válida e se aquele
-   filho comprou aquele jogo (ou é grátis) → só então lê e devolve o
-   HTML de `game-content/<slug>/index.html`; caso contrário, nega.
-4. Trocar `gameUrl` em `data/games.ts` para apontar pra essa rota nova
-   em vez do link externo antigo.
-5. (Opcional, depois) unificar Growing Plants e Spelling Bee (hoje em
-   `games/` na raiz do repo) para dentro de `webapp/game-content/`
-   também, pelo mesmo padrão.
+**Limitação residual, aceita conscientemente:** o caminho físico
+escondido (`/_jogo_arquivos/<slug>/index.html`) ainda responde sem
+checagem nenhuma **se alguém souber o caminho exato** — não tem como
+fechar esse buraco por código (é a Cloudflare quem decide, não o
+Next.js), só por ele nunca ser exposto. Na prática ninguém descobre
+esse caminho por fora (não está em nenhum link, HTML ou JS do site),
+então o cenário que a Dani queria evitar — alguém pegar o link
+"normal" do jogo e repassar pra quem não pagou — está resolvido. Se
+no futuro quisermos fechar esse último 1%, dá pra trocar o nome da
+pasta por um hash diferente a cada deploy, mas isso é só
+"nice-to-have", não bloqueia nada.
 
-Growing Plants e Spelling Bee (os 2 que já viviam neste repositório
-antes) **ainda não foram movidos** para `game-content/` — continuam
-em `games/growing-plants/` e `games/spelling-bee/` na raiz do repo,
-fora do webapp. Isso é seguro por enquanto porque Growing Plants é
-grátis mesmo, mas Spelling Bee custa crédito e tecnicamente tem o
-mesmo problema de link solto — considerar unificar no passo 5 acima.
+**Ainda não testado ponta a ponta com o Supabase de verdade** (a rede
+do sandbox onde isso foi construído bloqueia conexões pro Supabase) —
+testado localmente só até onde dá sem rede: confirma que erra para
+"sem login" (redireciona pro `/login`), "sem filho escolhido"
+(redireciona pro `/login/aluno`), "slug inexistente" (404). A Dani
+precisa testar ao vivo depois do deploy: comprar um jogo de verdade e
+confirmar que "Jogar agora" funciona, e que o link `/game-content/...`
+sem estar logada (ex: numa aba anônima) não abre o jogo.
+
+**Falta fazer (próximos passos):**
+1. ~~Configurar o Supabase~~ — **feito** (ver seção de auth acima).
+2. ~~Sessão verificável pelo servidor~~ — **feito** (cookies do
+   Supabase Auth via `@supabase/ssr` + middleware/`proxy.ts`).
+3. ~~Rota protegida~~ — **feito**, ver acima.
+4. ~~Trocar `gameUrl`~~ — **feito** para os 23 jogos locais.
+5. Unificar Growing Plants e Spelling Bee (hoje em `games/` na raiz do
+   repo, fora do webapp) para dentro do mesmo esquema — **ainda não
+   feito**. Growing Plants é grátis (risco baixo), mas Spelling Bee
+   custa crédito e continua com o link antigo solto
+   (`mrsdani.com.br/games/spelling-bee/...`), com o mesmo problema que
+   motivou tudo isso. Esses dois jogos têm pasta própria de CSS/JS
+   (não são um único HTML autocontido como os 23), então portar exige
+   um pouco mais de trabalho (servir a pasta inteira, não só um
+   arquivo).
 
 ## Próximos passos possíveis (itens que não bloqueiam o catálogo)
 
