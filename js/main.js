@@ -630,6 +630,42 @@ const GAMES = [
     thumbnail: 'games/spelling-bee-week2/assets/img/bee-mascot.png'
   },
   {
+    id: 'spelling-bee-week3',
+    title: 'Spelling Bee - Week 3',
+    collection: 'spelling-bee',
+    skill: ['Vocabulary', 'Writing', 'Listening'],
+    topic: 'Spelling',
+    grammar: 'Vocabulary & Spelling',
+    difficulty: 'Intermediate',
+    gameType: 'Listen & Spell Challenge',
+    schoolAlignment: 'Vocabulary Review',
+    description: 'Listen to each word, then spell it — type it in Phase 1/2, or tap the scrambled letters into order in Practice. This week\'s words share tricky spelling patterns: double consonants before -le (paddle, straddle, huddle, waddle) and the -s/-ed/-ing verb forms.',
+    descriptionPT: 'Ouça cada palavra e escreva — digitando nas Fases 1/2, ou clicando nas letras embaralhadas na ordem certa no Practice. As palavras desta semana compartilham padrões de ortografia traiçoeiros: consoantes dobradas antes de -le (paddle, straddle, huddle, waddle) e as formas -s/-ed/-ing dos verbos.',
+    why: 'Groups words by their -s/-ed/-ing verb forms (paddle, straddle, huddle, waddle, chart, start, merge/emerge/submerge) plus the artist/artistic/artistry/artistically word family, so the same tricky pattern gets practiced across several related words.',
+    whyPT: 'Agrupa palavras por suas formas -s/-ed/-ing (paddle, straddle, huddle, waddle, chart, start, merge/emerge/submerge) e pela família artist/artistic/artistry/artistically, para praticar o mesmo padrão difícil em várias palavras relacionadas.',
+    practices: ['listening', 'spelling', 'word families', 'verb forms'],
+    objectivesPT: [
+      'Reconhecer palavras em inglês pelo som, usando áudio real.',
+      'Praticar a grafia correta de palavras com consoantes dobradas e padrões traiçoeiros.',
+      'Reconhecer as formas -s, -ed e -ing de um mesmo verbo.',
+      'Reconstruir a ortografia de uma palavra clicando suas letras na ordem certa.',
+      'Revisar e repetir itens errados até fixar a ortografia correta.'
+    ],
+    objectives: [
+      'Recognize English words by sound, using real audio.',
+      'Practice correct spelling of words with double consonants and tricky patterns.',
+      'Recognize the -s, -ed, and -ing forms of the same verb.',
+      'Rebuild a word\'s spelling by tapping its letters in the right order.',
+      'Review and repeat missed items to reinforce correct spelling.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'spelling-bee-week3/index.html',
+    thumbnail: 'games/spelling-bee-week3/assets/img/bee-mascot.png'
+  },
+  {
     id: 'adverbs-adventure',
     title: 'Adverbs Adventure!',
     gradeNum: 4,
