@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Language — Mrs. Dani</title>
+<meta name="description" content="Progressive English lessons that prepare students for their new school book: Unit 1 – Vocabulary, Grammar and Reading.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFF8EE; --surface:#fff; --surface-2:#FFEFDC; --ink:#2A2447; --ink-soft:#726A8F;
+  --accent:#5B5FEF; --accent-strong:#4245C4; --accent-soft:#E9E9FF;
+  --accent2:#FF7A55; --accent2-soft:#FFE7DC; --gold:#FFB100; --gold-soft:#FFF1CE;
+  --good:#22B573; --good-soft:#E1F8EC; --bad:#FF5C5C; --bad-soft:#FFE9E9; --border:#F0E3CE;
+  --shadow:0 2px 0 rgba(42,36,71,.05),0 10px 24px -14px rgba(42,36,71,.28);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#181433; --surface:#221C47; --surface-2:#2B2557; --ink:#F2EFFF; --ink-soft:#B7AEDD;
+    --accent:#9296FF; --accent-strong:#B7BAFF; --accent-soft:#332D68;
+    --accent2:#FF9C7F; --accent2-soft:#472C25; --gold:#FFCC4D; --gold-soft:#3C2E10;
+    --good:#4FE39B; --good-soft:#163826; --bad:#FF8686; --bad-soft:#3E2020; --border:#3B3469;
+    --shadow:0 2px 0 rgba(0,0,0,.2),0 10px 24px -14px rgba(0,0,0,.55);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Nunito',system-ui,sans-serif;font-size:17px;line-height:1.55;min-height:100vh}
+h1,h2,h3{font-family:'Baloo 2','Nunito',sans-serif;line-height:1.15;margin:0 0 .4em}
+h1{font-size:clamp(2.4rem,7vw,4rem);font-weight:800}
+h2{font-size:clamp(1.5rem,4vw,2rem);font-weight:800}
+h3{font-size:1.2rem;font-weight:700}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 80px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0;flex-wrap:wrap}
+.crumbs{font-weight:800;color:var(--ink-soft);font-size:.95rem}
+.crumbs button{all:unset;cursor:pointer;color:var(--accent-strong);text-decoration:underline}
+.btn{font:inherit;font-weight:800;border:0;border-radius:14px;padding:12px 20px;cursor:pointer;background:var(--accent);color:#fff;box-shadow:0 4px 0 var(--accent-strong);transition:transform .08s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--accent-strong)}
+.btn.ghost{background:var(--surface);color:var(--accent-strong);box-shadow:0 3px 0 var(--border);border:2px solid var(--border)}
+.btn.small{padding:6px 12px;font-size:.9rem;border-radius:10px}
+.btn:focus-visible,.chip:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.hero{text-align:center;padding:24px 0 8px}
+.hero p{color:var(--ink-soft);max-width:520px;margin:0 auto 8px}
+.units{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px;margin:28px 0}
+.unit{font:inherit;border:2px solid var(--border);background:var(--surface);border-radius:20px;padding:20px 10px;cursor:pointer;box-shadow:var(--shadow);text-align:center;color:var(--ink)}
+.unit b{display:block;font-family:'Baloo 2';font-size:1.5rem;font-weight:800}
+.unit small{color:var(--ink-soft);font-weight:700}
+.unit.open{background:var(--accent);border-color:var(--accent-strong);color:#fff}
+.unit.open small{color:#E9E9FF}
+.unit:disabled{opacity:.55;cursor:not-allowed;box-shadow:none}
+.unit:not(:disabled):hover{transform:translateY(-3px)}
+.big3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:22px 0}
+.big3 .unit{padding:28px 14px}
+.big3 .unit .ic{font-size:2.6rem;display:block}
+.card{background:var(--surface);border:2px solid var(--border);border-radius:20px;padding:20px;margin:18px 0;box-shadow:var(--shadow)}
+.card>h3:first-child{margin-top:0}
+.tag{display:inline-block;background:var(--accent-soft);color:var(--accent-strong);font-weight:800;font-size:.8rem;border-radius:99px;padding:2px 12px;margin-bottom:8px;letter-spacing:.03em;text-transform:uppercase}
+.tag.t2{background:var(--accent2-soft);color:var(--accent2)}
+.tag.t3{background:var(--gold-soft);color:#9A6A00}
+@media (prefers-color-scheme: dark){.tag.t3{color:var(--gold)}}
+.teacher{background:var(--gold-soft);border-radius:14px;padding:10px 14px;margin:12px 0;font-size:.95rem}
+.teacher summary{cursor:pointer;font-weight:800}
+.timeline{display:flex;gap:4px;margin:10px 0 4px;border-radius:12px;overflow:hidden}
+.timeline div{padding:8px 4px;text-align:center;font-size:.78rem;font-weight:800;color:#fff}
+.words{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:14px 0}
+.word{background:var(--surface-2);border-radius:16px;padding:14px 8px;text-align:center;border:2px solid transparent;cursor:pointer;font:inherit;color:var(--ink)}
+.word:hover{border-color:var(--accent)}
+.word .e{font-size:2.6rem;display:block}
+.word b{font-size:1.1rem}
+.word small{display:block;color:var(--ink-soft)}
+.say{margin-left:6px}
+.q{margin:16px 0;padding-bottom:14px;border-bottom:1px dashed var(--border)}
+.q:last-child{border-bottom:0}
+.q p{margin:0 0 8px;font-weight:700}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;font-weight:700;border:2px solid var(--border);background:var(--surface);color:var(--ink);border-radius:12px;padding:8px 14px;cursor:pointer}
+.chip:hover{border-color:var(--accent)}
+.chip.ok{background:var(--good-soft);border-color:var(--good)}
+.chip.no{background:var(--bad-soft);border-color:var(--bad)}
+input[type=text]{font:inherit;border:2px solid var(--border);background:var(--surface);color:var(--ink);border-radius:12px;padding:8px 12px;width:min(100%,360px)}
+input.ok{border-color:var(--good);background:var(--good-soft)}
+input.no{border-color:var(--bad);background:var(--bad-soft)}
+.fb{display:block;font-weight:800;margin-top:6px;min-height:1.2em}
+.fb.ok{color:var(--good)} .fb.no{color:var(--bad)}
+.bank{display:flex;flex-wrap:wrap;gap:8px;background:var(--accent-soft);padding:10px;border-radius:14px;margin:10px 0;font-weight:800;color:var(--accent-strong)}
+.bank span{background:var(--surface);padding:2px 12px;border-radius:99px}
+table.t{border-collapse:collapse;width:100%;margin:10px 0}
+table.t th,table.t td{border:2px solid var(--border);padding:8px 12px;text-align:left}
+table.t th{background:var(--accent-soft);color:var(--accent-strong)}
+.be{color:var(--accent2);font-weight:800}
+.poem{background:var(--surface-2);border-left:6px solid var(--accent2);border-radius:14px;padding:12px 18px;margin:14px 0;font-size:1.1rem}
+.poem .st{margin:0}
+.poem em{background:var(--gold-soft);font-style:normal;padding:0 3px;border-radius:4px;font-weight:800}
+.poem .line{display:block}
+.gloss{font-size:.92rem;color:var(--ink-soft);margin-top:8px}
+.speak{background:var(--accent2-soft);border-radius:14px;padding:12px 16px;margin:12px 0}
+.speak ul{margin:6px 0 0;padding-left:22px}
+.score{position:sticky;bottom:10px;margin-top:24px;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:99px;font-weight:800;text-align:center;box-shadow:var(--shadow)}
+.web{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.web .c{grid-column:1/-1;text-align:center;background:var(--accent);color:#fff;border-radius:99px;padding:6px;font-weight:800;font-family:'Baloo 2';font-size:1.2rem}
+.web .n{background:var(--accent-soft);border-radius:16px;padding:10px}
+.web .n input{width:100%;margin-top:4px}
+@media (max-width:520px){.web{grid-template-columns:1fr}}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}
+.confetti i{position:absolute;top:-20px;font-style:normal;font-size:1.6rem;animation:fall 2.2s ease-in forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.7}}
+@media (prefers-reduced-motion:reduce){.confetti{display:none}.btn,.unit{transition:none}html{scroll-behavior:auto}}
+.hide{display:none}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div class="confetti" id="confetti" aria-hidden="true"></div>
+
+<script>
+/* ---------- helpers ---------- */
+const $=(s,r=document)=>r.querySelector(s);
+const app=$('#app');
+const norm=s=>s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.!?]+$/,'').replace(/\s+/g,' ').trim();
+let total=0,done=0;
+
+function speak(text){
+  try{
+    if(!('speechSynthesis' in window))return;
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang='en-US';u.rate=.85;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+function say(t){return `<button class="btn small ghost say" data-say="${t.replace(/"/g,'&quot;')}" aria-label="Listen: ${t.replace(/"/g,'&quot;')}">🔊</button>`;}
+function party(){
+  const c=$('#confetti');c.innerHTML='';
+  for(let i=0;i<28;i++){const e=document.createElement('i');e.textContent=['⭐','🎉','✨','🌟'][i%4];
+    e.style.left=Math.random()*100+'%';e.style.animationDelay=Math.random()*.6+'s';c.appendChild(e);}
+  setTimeout(()=>c.innerHTML='',3200);
+}
+function bump(ok){ if(ok){done++;updateScore();if(done===total&&total>0)party();} }
+function updateScore(){const s=$('#score');if(s)s.textContent=`⭐ ${done} / ${total} correct`;}
+
+/* ---------- exercise builders ---------- */
+// choice: {q, opts, a}
+function choiceQ(it){
+  total++;
+  return `<div class="q" data-type="choice" data-a="${it.a}"><p>${it.q}</p><div class="opts">${
+    it.opts.map(o=>`<button class="chip" data-v="${o.replace(/"/g,'&quot;')}">${o}</button>`).join('')}</div><span class="fb"></span></div>`;
+}
+// fill: {q (HTML, use ___ for the blank), a:[accepted], hint}
+function fillQ(it){
+  total++;
+  const inp=`<input type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="your answer" placeholder="${it.hint||'type here'}">`;
+  const q=it.q.includes('___')?it.q.replace('___',inp):`${it.q}<br>${inp}`;
+  return `<div class="q" data-type="fill" data-a='${JSON.stringify(it.a).replace(/'/g,"&#39;")}'><p>${q} <button class="btn small" data-check>Check</button></p><span class="fb"></span></div>`;
+}
+function bindEx(root){
+  root.querySelectorAll('[data-say]').forEach(b=>b.onclick=()=>speak(b.dataset.say));
+  root.querySelectorAll('.q[data-type=choice]').forEach(q=>{
+    q.querySelectorAll('.chip').forEach(ch=>ch.onclick=()=>{
+      if(q.dataset.solved)return;
+      const ok=ch.dataset.v===q.dataset.a, fb=$('.fb',q);
+      if(ok){ch.classList.add('ok');fb.textContent='✅ Great!';fb.className='fb ok';q.dataset.solved=1;bump(true);}
+      else{ch.classList.add('no');fb.textContent='Try again 💪';fb.className='fb no';}
+    });
+  });
+  root.querySelectorAll('.q[data-type=fill]').forEach(q=>{
+    const inp=$('input',q),fb=$('.fb',q),ans=JSON.parse(q.dataset.a).map(norm);
+    const check=()=>{
+      if(q.dataset.solved)return;
+      const ok=ans.includes(norm(inp.value));
+      inp.classList.remove('ok','no');
+      if(ok){inp.classList.add('ok');fb.textContent='✅ Great!';fb.className='fb ok';q.dataset.solved=1;bump(true);}
+      else{inp.classList.add('no');fb.textContent='Almost! Check it and try again 💪';fb.className='fb no';}
+    };
+    $('[data-check]',q).onclick=check;
+    inp.onkeydown=e=>{if(e.key==='Enter')check();};
+  });
+}
+
+/* ---------- views ---------- */
+function crumbs(parts){
+  return `<div class="top"><div class="crumbs">${parts.join(' › ')}</div></div>`;
+}
+const link=(t,h)=>`<button data-go="${h}">${t}</button>`;
+
+function home(){
+  const units=[1,2,3,4,5,6].map(n=>n===1
+    ?`<button class="unit open" data-go="unit1"><b>Unit 1</b><small>Communities</small></button>`
+    :`<button class="unit" disabled aria-label="Unit ${n}, coming soon"><b>Unit ${n}</b><small>🔒 coming soon</small></button>`).join('');
+  return `<header class="hero" style="padding-top:48px"><div style="font-size:3rem">📚</div><h1>Language</h1>
+  <p>Let's get ready for your new school book! Pick a unit to start.</p></header>
+  <div class="units">${units}</div>`;
+}
+
+function unit1(){
+  return crumbs([link('Language','home'),'Unit 1']) + `
+  <h2>Unit 1 · Communities</h2>
+  <p>What are some ways that communities are alike and different?</p>
+  <div class="big3">
+    <button class="unit" data-go="vocab"><span class="ic">🗣️</span><b>Vocabulary</b><small>Jobs · places · key words</small></button>
+    <button class="unit" data-go="grammar"><span class="ic">✏️</span><b>Grammar</b><small>Simple present: <i>be</i></small></button>
+    <button class="unit" data-go="reading"><span class="ic">📖</span><b>Reading</b><small>Lin's Shopping Day</small></button>
+  </div>
+  <details class="teacher" open><summary>👩‍🏫 Plano da aula — 45 min (para a professora)</summary>
+    <div class="timeline" role="img" aria-label="Lesson timeline">
+      <div style="flex:5;background:#FF7A55">5'</div><div style="flex:12;background:#5B5FEF">12'</div><div style="flex:11;background:#22B573">11'</div><div style="flex:14;background:#E85F38">14'</div><div style="flex:3;background:#9A6A00">3'</div>
+    </div>
+    <ol style="margin:8px 0 0;padding-left:20px">
+      <li><b>5 min – Warm-up (Home / Unit 1):</b> conversar sobre a nova escola e a pergunta "What is a community?". Sem pressão — é só conhecer o aluno e ouvir o nível dele.</li>
+      <li><b>12 min – Vocabulary:</b> Words to Know (jobs) → Places → Key Words. Ouvir 🔊, repetir, depois exercícios.</li>
+      <li><b>11 min – Grammar:</b> verbo <i>be</i> no presente. Tabela, exercício de escolha, depois afirmativa/negativa/perguntas.</li>
+      <li><b>14 min – Reading:</b> poema "Lin's Shopping Day": ler/ouvir por estrofes, perguntas Recall → Comprehend → Analyze.</li>
+      <li><b>3 min – Wrap-up:</b> aluno diz 3 coisas que aprendeu + "What about you?" oral.</li>
+    </ol>
+    <p style="margin:8px 0 0"><b>Progressão semanal:</b> hoje = reconhecer e repetir (nível fácil). Próximas semanas: mais escrita, respostas completas e parágrafo (Writing: Describe a Person).</p>
+  </details>`;
+}
+
+function vocab(){
+  total=done=0;
+  const jobs=[['🚌','bus driver','drives a bus'],['👮','police officer','protects us'],['📬','mail carrier','brings us mail'],['👩‍🏫','teacher','teaches us']];
+  const places=[['🚏','bus stop'],['🚓','police station'],['🏫','school'],['📮','post office']];
+  const keys=[['🛣️','street','Many people walk on the street.'],['🌼','flower','I give my grandmother flowers.'],['🍀','luck','What luck! The ball is in my glove!'],['✉️','letter','The mail carrier is holding letters.'],['👋','greet','They greet each other.']];
+  const html=`${crumbs([link('Language','home'),link('Unit 1','unit1'),'Vocabulary'])}
+  <h2>🗣️ Vocabulary</h2>
+
+  <div class="card"><span class="tag">Step 1 · Easy</span><h3>Words to Know — people in my community</h3>
+    <p>Click a card to listen. Listen and repeat!</p>
+    <div class="words">${jobs.map(j=>`<button class="word" data-say="${j[1]}"><span class="e">${j[0]}</span><b>${j[1]}</b></button>`).join('')}</div>
+    <h3>Match the job to what they do</h3>
+    ${jobs.map(j=>choiceQ({q:`A <b>${j[1]}</b> …`,opts:['teaches us','protects us','brings us mail','drives a bus'],a:j[2]})).join('')}
+    <div class="speak"><b>🎤 Speak:</b> Ask and answer with the teacher.<br>A: What does a <u>police officer</u> do?<br>B: A <u>police officer protects us</u>.</div>
+  </div>
+
+  <div class="card"><span class="tag">Step 2 · Easy</span><h3>Make Connections — places in my community</h3>
+    <div class="words">${places.map(j=>`<button class="word" data-say="${j[1]}"><span class="e">${j[0]}</span><b>${j[1]}</b></button>`).join('')}</div>
+    <p>Complete the sentences.</p>
+    <div class="bank"><span>bus stop</span><span>police station</span><span>school</span><span>post office</span></div>
+    ${fillQ({q:'1. Some police officers work at the ___, and others work outside.',a:['police station']})}
+    ${fillQ({q:'2. We go to ___ every day, and so do our teachers, the principal, and the rest of the staff.',a:['school']})}
+    ${fillQ({q:'3. We can give our mail to a mail carrier, or we can take it to the ___.',a:['post office']})}
+    ${fillQ({q:'4. You can catch a bus at a bus station or at a ___.',a:['bus stop']})}
+    <div class="speak"><b>🎤 What about you?</b> Talk about what each job does and where they work:
+      <div class="opts" style="margin-top:6px"><span class="chip">🩺 doctor</span><span class="chip">🚒 firefighter</span><span class="chip">🍳 cook</span></div></div>
+  </div>
+
+  <div class="card"><span class="tag t2">Step 3 · Medium</span><h3>Key Words — Reading 1</h3>
+    <div class="words">${keys.map(k=>`<button class="word" data-say="${k[2]}"><span class="e">${k[0]}</span><b>${k[1]}</b><small>${k[2]}</small></button>`).join('')}</div>
+    <h3>Which key word?</h3>
+    ${choiceQ({q:'The mail carrier is holding ___.',opts:['letters','flowers','luck'],a:'letters'})}
+    ${choiceQ({q:'There are a lot of people on the ___.',opts:['street','luck','greet'],a:'street'})}
+    ${choiceQ({q:'I give my grandmother ___.',opts:['letters','flowers','street'],a:'flowers'})}
+    ${choiceQ({q:'What ___! The ball is in my glove!',opts:['luck','greet','street'],a:'luck'})}
+    ${choiceQ({q:'They ___ each other. (They say hello.)',opts:['greet','flower','letter'],a:'greet'})}
+    <div class="teacher"><b>👩‍🏫 Dica:</b> peça para o aluno criar o <i>vocabulary notebook</i> (3 colunas: palavra · definição · desenho), como no livro.</div>
+  </div>
+
+  <div class="card"><span class="tag t3">Step 4 · Challenge</span><h3>Academic Words</h3>
+    <p><b>item</b> = a single piece or thing &nbsp;·&nbsp; <b>purchase</b> = buy ${say('item')}${say('purchase')}</p>
+    ${fillQ({q:'1. We go to the post office to ___ stamps for our letters.',a:['purchase']})}
+    ${fillQ({q:'2. I have a list of things to do today. The first ___ on my list is to play soccer with my friends.',a:['item']})}
+    <div class="speak"><b>🎤 Apply (speak):</b><ul><li>What is one <b>item</b> your family usually buys at the store?</li><li>Do you usually get books from the library, or do you <b>purchase</b> them?</li></ul></div>
+  </div>
+  <div class="score" id="score"></div>`;
+  return html;
+}
+
+function grammar(){
+  total=done=0;
+  return `${crumbs([link('Language','home'),link('Unit 1','unit1'),'Grammar'])}
+  <h2>✏️ Grammar · Simple Present: <i>Be</i> Verbs</h2>
+
+  <div class="card"><span class="tag">Step 1 · Learn</span><h3>Different forms of <i>be</i></h3>
+    <table class="t"><tr><th>Subject</th><th><i>be</i></th><th>Short form</th></tr>
+      <tr><td>I</td><td class="be">am</td><td>I'm</td></tr>
+      <tr><td>You</td><td class="be">are</td><td>You're</td></tr>
+      <tr><td>He / She / It</td><td class="be">is</td><td>He's / She's / It's</td></tr>
+      <tr><td>We / You / They</td><td class="be">are</td><td>We're / You're / They're</td></tr></table>
+    <p>✅ Affirmative: Lin <span class="be">is</span> there. &nbsp; ❌ Negative: Lin <span class="be">is not</span> there. (Lin isn't there.)<br>
+    ❓ Yes/No: <span class="be">Is</span> Lin there? → Yes, she <span class="be">is</span>. / No, she <span class="be">is not</span>.</p>
+    <p>${say('I am, you are, he is, she is, it is, we are, they are')} Listen to the forms.</p>
+  </div>
+
+  <div class="card"><span class="tag">Step 2 · Easy</span><h3>Choose am, is or are</h3>
+    ${choiceQ({q:'I ___ a student.',opts:['am','is','are'],a:'am'})}
+    ${choiceQ({q:'She ___ nice.',opts:['am','is','are'],a:'is'})}
+    ${choiceQ({q:'They ___ helpful.',opts:['am','is','are'],a:'are'})}
+    ${choiceQ({q:'The bus ___ big.',opts:['am','is','are'],a:'is'})}
+    ${choiceQ({q:'We ___ in the classroom.',opts:['am','is','are'],a:'are'})}
+    ${choiceQ({q:'You ___ my friend.',opts:['am','is','are'],a:'are'})}
+  </div>
+
+  <div class="card"><span class="tag t2">Step 3 · Medium</span><h3>Practice A — Make it negative (use contractions)</h3>
+    <p>Example: The picture is pretty. → The picture <b>isn't</b> pretty.</p>
+    ${fillQ({q:'1. The picture is pretty.<br>→',a:["The picture isn't pretty","The picture is not pretty"],hint:'The picture …'})}
+    ${fillQ({q:'2. He is a good baseball player.<br>→',a:["He isn't a good baseball player","He is not a good baseball player"],hint:'He …'})}
+    ${fillQ({q:'3. We are helpful.<br>→',a:["We aren't helpful","We are not helpful","We're not helpful"],hint:'We …'})}
+    ${fillQ({q:'4. He is a nice boy.<br>→',a:["He isn't a nice boy","He is not a nice boy","He's not a nice boy"],hint:'He …'})}
+    <div class="teacher">Aceito "isn't / aren't" e também "is not / are not". Peça as contrações, como no <i>Grammar Check</i> do livro: <b>isn't, aren't, I'm, he's, she's, we're…</b></div>
+  </div>
+
+  <div class="card"><span class="tag t2">Step 4 · Medium</span><h3>Practice B — Answer yes or no</h3>
+    <p>Example: Are Lin and Dad happy? (yes) → <b>Yes, they are.</b></p>
+    ${fillQ({q:'1. Is Mr. Brown nice? (yes)<br>→',a:['Yes, he is'],hint:'Yes, …'})}
+    ${fillQ({q:'2. Is Lin sad? (no)<br>→',a:["No, she isn't","No, she is not","No, she's not"],hint:'No, …'})}
+    ${fillQ({q:'3. Are the letters on the ground? (yes)<br>→',a:['Yes, they are'],hint:'Yes, …'})}
+    ${fillQ({q:'4. Are you calm? (no)<br>→',a:["No, I'm not","No, I am not"],hint:'No, …'})}
+  </div>
+
+  <div class="card"><span class="tag t3">Step 5 · Challenge</span><h3>Wh- questions</h3>
+    <p><b>Who</b> is Lin? → She is a girl. &nbsp;·&nbsp; <b>What</b> is that? → That is bok choy.<br>
+    <b>Where</b> is Lin? → She is at the fish stand. &nbsp;·&nbsp; <b>When</b> is the game? → The game is on Saturday.<br>
+    <b>Why</b> is Lin happy? → She is happy to shop.</p>
+    ${choiceQ({q:'___ is the game? — It is on Saturday.',opts:['Who','When','Where'],a:'When'})}
+    ${choiceQ({q:'___ is Lin? — She is at the fish stand.',opts:['Where','What','Why'],a:'Where'})}
+    ${fillQ({q:'Complete: ___ is your name? — My name is Sam.',a:['What'],hint:'Wh- word'})}
+    <div class="speak"><b>🎤 Apply:</b> Ask and answer with the teacher. Use <i>be</i> in your answers.
+      <ul><li>What is your name?</li><li>Where is your desk?</li><li>Is your notebook new?</li><li>Who is our teacher?</li><li>Why do you like school?</li><li>Are you from Mexico? <small>(or Brazil! 🇧🇷)</small></li></ul></div>
+  </div>
+  <div class="score" id="score"></div>`;
+}
+
+const poem=[
+ ['Lin jumps from the bus onto the <em>street</em>.','With so many people, she must move her feet.','Dad quickly takes hold of Lin\'s little hand.','The first stop on their list is a smelly fish stand.'],
+ ['Lin takes a sniff and pinches her nose.','She can see lobsters if she stands on her toes.','Next on their list is a store that sells <em>flowers</em>.','Lin tells Dad she could smell them for hours.'],
+ ['Next they stop to buy bok choy.','It\'s a type of cabbage that brings Mom joy.','Inside the market they see Mr. Brown.','Lin says it\'s <em>luck</em> to see her teacher in town.'],
+ ['They wave hello and stop to talk,','then say good-bye at the end of the block.','Lin turns the corner without looking around.','CRASH! The mail carrier\'s <em>letters</em> are all over the ground.'],
+ ['Lin says she\'s sorry and helps him repack.','Then Dad says it\'s time to go buy a snack.','They go to the candy store for a sweet treat.','Lin sees a police officer she stops to <em>greet</em>.'],
+ ['Finally, it\'s time to get home to Mom.','If they\'re late, Mom won\'t be calm.','So Dad and Lin stop and wait for the bus.','"Look," says Lin, "the driver remembers us!"']
+];
+const strip=h=>h.replace(/<[^>]+>/g,'');
+
+function reading(){
+  total=done=0;
+  return `${crumbs([link('Language','home'),link('Unit 1','unit1'),'Reading'])}
+  <h2>📖 Reading · Lin's Shopping Day</h2>
+
+  <div class="card"><span class="tag">Step 1 · Before reading</span><h3>Predict</h3>
+    <p><i>Lin's Shopping Day</i> is a poem about a girl going around her neighborhood. 🛍️</p>
+    <ul><li>Look at the title. Who do you think Lin is with?</li><li>What places do you think she visits?</li></ul>
+    <p>Reading strategy: <b>Understand character</b> — think about what the main character does and what kind of person she is. Look for clues!</p>
+  </div>
+
+  <div class="card"><span class="tag">Step 2 · Read &amp; listen</span><h3>The poem</h3>
+    <p>Click 🔊 to listen to each part. Then read it aloud. The <em style="background:var(--gold-soft);font-style:normal;padding:0 3px;border-radius:4px;font-weight:800">highlighted</em> words are key words from Vocabulary.</p>
+    <div class="poem">${poem.map((st,i)=>`<p class="st">${st.map(l=>`<span class="line">${l}</span>`).join('')}${say(st.map(strip).join(' '))}</p>${i<poem.length-1?'<hr style="border:0;border-top:1px dashed var(--border);margin:10px 0">':''}`).join('')}</div>
+    <p class="gloss"><b>take a sniff</b> = smell something &nbsp;·&nbsp; <b>calm</b> = relaxed, not mad</p>
+  </div>
+
+  <div class="card"><span class="tag">Step 3 · Easy</span><h3>True or False?</h3>
+    ${choiceQ({q:'Lin goes shopping with her dad.',opts:['True','False'],a:'True'})}
+    ${choiceQ({q:'The first stop is a flower store.',opts:['True','False'],a:'False'})}
+    ${choiceQ({q:'They see Lin\'s teacher, Mr. Brown, in the market.',opts:['True','False'],a:'True'})}
+    ${choiceQ({q:'Lin and Dad go home by taxi.',opts:['True','False'],a:'False'})}
+  </div>
+
+  <div class="card"><span class="tag t2">Step 4 · Medium</span><h3>Think It Over</h3>
+    ${choiceQ({q:'<b>Recall</b> — What items do Lin and Dad purchase?',opts:['fish and lobsters','flowers and bok choy','books and letters'],a:'flowers and bok choy'})}
+    ${choiceQ({q:'<b>Recall</b> — Who does Lin bump into on the corner? (CRASH!)',opts:['a mail carrier','a bus driver','a cook'],a:'a mail carrier'})}
+    ${choiceQ({q:'<b>Comprehend</b> — How does Lin help people in her community?',opts:['She helps the mail carrier repack his letters.','She drives the bus.','She sells flowers.'],a:'She helps the mail carrier repack his letters.'})}
+    ${choiceQ({q:'<b>Comprehend</b> — How does Lin feel about her teacher in town?',opts:['She thinks it is luck to see her.','She is angry.','She does not see her.'],a:'She thinks it is luck to see her.'})}
+  </div>
+
+  <div class="card"><span class="tag t2">Step 5 · Medium</span><h3>Understand Character — What is Lin like?</h3>
+    <div class="bank"><span>helpful</span><span>busy</span><span>nice</span><span>friendly</span></div>
+    ${choiceQ({q:'Lin greets a police officer. Lin is…',opts:['helpful','busy','nice','friendly'],a:'friendly'})}
+    ${choiceQ({q:'Lin goes to the fish market, the flower shop and the vegetable stand. Lin is…',opts:['helpful','busy','nice','friendly'],a:'busy'})}
+    ${choiceQ({q:'Lin repacks the mail. Lin is…',opts:['helpful','busy','nice','friendly'],a:'helpful'})}
+    ${fillQ({q:'Lin buys bok choy for Mom. Lin is ___. (helpful, busy, nice or friendly?)',a:['nice'],hint:'one word'})}
+  </div>
+
+  <div class="card"><span class="tag t3">Step 6 · Challenge</span><h3>Character Web — Lin</h3>
+    <p>What does Lin do? What is she like? Example: <i>Lin waves and stops to talk to her teacher. → Lin is friendly.</i></p>
+    <div class="web"><div class="c">Lin</div>
+      ${[1,2,3,4].map(i=>`<div class="n">Lin … <input type="text" aria-label="Lin does ${i}" placeholder="e.g. helps the mail carrier"><br>Lin is … <input type="text" aria-label="Lin is ${i}" placeholder="e.g. helpful"></div>`).join('')}
+    </div>
+    <h3>Talk about it</h3>
+    <div class="speak"><ul><li>Which actions tell you that Lin is helpful?</li><li>How do you know that Lin likes to be busy?</li><li>How do you know that Lin is happy?</li><li>How does Lin feel about the city? How do you know?</li></ul></div>
+    <div class="speak"><b>🎤 Apply:</b> Retell the poem to the teacher. Use the pictures (or the poem) as you speak.<br><b>⭐ Extension:</b> Who is your favorite community helper? Give the person's name and say why he or she is your favorite.</div>
+  </div>
+  <div class="score" id="score"></div>`;
+}
+
+/* ---------- router ---------- */
+const views={home,unit1,vocab,grammar,reading};
+function go(name){
+  if(!views[name])name='home';
+  try{speechSynthesis.cancel();}catch(e){}
+  app.innerHTML=views[name]();
+  bindEx(app);
+  app.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{location.hash=b.dataset.go;});
+  updateScore();
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',()=>go(location.hash.slice(1)));
+go(location.hash.slice(1));
+</script>
+</body>
+</html>
