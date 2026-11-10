@@ -702,6 +702,42 @@ const GAMES = [
     thumbnail: 'games/spelling-bee-week4/assets/img/bee-mascot.png'
   },
   {
+    id: 'spelling-bee-week5',
+    title: 'Spelling Bee - Week 5',
+    collection: 'spelling-bee',
+    skill: ['Vocabulary', 'Writing', 'Listening'],
+    topic: 'Spelling',
+    grammar: 'Vocabulary & Spelling',
+    difficulty: 'Intermediate',
+    gameType: 'Listen & Spell Challenge',
+    schoolAlignment: 'Vocabulary Review',
+    description: 'Listen to each word, then spell it — type it in Phase 1/2, or tap the scrambled letters into order in Practice. This week\'s words share tricky -y endings (easy, daisy, cheesy, queasy, greasy, drowsy, busy) plus the famous profits/prophet homophone pair.',
+    descriptionPT: 'Ouça cada palavra e escreva — digitando nas Fases 1/2, ou clicando nas letras embaralhadas na ordem certa no Practice. As palavras desta semana compartilham a terminação traiçoeira em "-y" (easy, daisy, cheesy, queasy, greasy, drowsy, busy) e o famoso par de homófonos profits/prophet.',
+    why: 'Groups words by the tricky -y ending and its comparative/superlative forms (easy/easier/easiest, drowsy/drowsier/drowsiest), plus a classic homophone pair (profits/prophet) that sounds identical but is spelled completely differently.',
+    whyPT: 'Agrupa palavras pela terminação traiçoeira em "-y" e suas formas comparativas/superlativas (easy/easier/easiest, drowsy/drowsier/drowsiest), além de um par clássico de homófonos (profits/prophet) que soa igual mas é escrito de forma totalmente diferente.',
+    practices: ['listening', 'spelling', 'word families', 'homophones'],
+    objectivesPT: [
+      'Reconhecer palavras em inglês pelo som, usando áudio real.',
+      'Praticar a grafia correta de palavras terminadas em "-y".',
+      'Diferenciar palavras parecidas no som, mas com grafias diferentes (profits/prophet).',
+      'Reconstruir a ortografia de uma palavra clicando suas letras na ordem certa.',
+      'Revisar e repetir itens errados até fixar a ortografia correta.'
+    ],
+    objectives: [
+      'Recognize English words by sound, using real audio.',
+      'Practice correct spelling of words ending in "-y".',
+      'Tell apart words that sound alike but are spelled differently (profits/prophet).',
+      'Rebuild a word\'s spelling by tapping its letters in the right order.',
+      'Review and repeat missed items to reinforce correct spelling.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'spelling-bee-week5/index.html',
+    thumbnail: 'games/spelling-bee-week5/assets/img/bee-mascot.png'
+  },
+  {
     id: 'adverbs-adventure',
     title: 'Adverbs Adventure!',
     gradeNum: 4,
