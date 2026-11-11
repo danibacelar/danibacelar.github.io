@@ -520,6 +520,40 @@ const GAMES = [
     thumbnail: 'games/growing-plants/assets/plant-parts.jpg'
   },
   {
+    id: 'senses-staying-healthy',
+    title: 'Senses & Staying Healthy',
+    gradeNum: 3,
+    skill: ['Vocabulary', 'Listening', 'Bilingual'],
+    topic: 'Science - Senses and Staying Healthy',
+    grammar: 'Science vocabulary',
+    difficulty: 'Beginner',
+    gameType: 'Science Review Arcade (34 mini-games)',
+    schoolAlignment: '3rd Grade Science (Bilingual)',
+    description: 'Review Unit 5 "Senses" and Unit 6 "Staying Healthy" with 34 mini-games: match, drag and drop, listen and pick, memory, spelling and yes/no, with pictures and audio.',
+    descriptionPT: 'Revise as Unidades 5 "Senses" e 6 "Staying Healthy" com 34 minijogos: ligar, arrastar e soltar, ouvir e escolher, memória, soletrar e yes/no, com imagens e áudios.',
+    why: 'Lots of varied practice on the same vocabulary (senses, taste, touch, food groups, nutrients, healthy habits) to help memorization.',
+    whyPT: 'Muita prática variada com o mesmo vocabulário (sentidos, sabores, texturas, grupos alimentares, nutrientes e hábitos saudáveis) para ajudar na memorização.',
+    practices: ['senses and organs', 'taste and touch words', 'food groups', 'nutrients', 'healthy habits'],
+    objectivesPT: [
+      'Relacionar os cinco sentidos aos órgãos e às ações em inglês.',
+      'Classificar palavras de sabor (sweet, sour, salty, bitter) e de tato (rough, smooth, soft, sticky, cold).',
+      'Identificar grupos alimentares e seus nutrientes.',
+      'Reconhecer hábitos saudáveis e a função de cada nutriente.'
+    ],
+    objectives: [
+      'Match the five senses with their organs and actions in English.',
+      'Sort taste words (sweet, sour, salty, bitter) and touch words (rough, smooth, soft, sticky, cold).',
+      'Identify the food groups and their nutrients.',
+      'Recognize healthy habits and what each nutrient does for the body.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/games/senses-staying-healthy/',
+    thumbnail: 'games/senses-staying-healthy/images/icon_senses.webp'
+  },
+  {
     id: 'spelling-bee',
     title: 'Spelling Bee - list 3',
     collection: 'spelling-bee',
