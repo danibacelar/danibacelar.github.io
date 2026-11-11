@@ -550,8 +550,8 @@ const GAMES = [
     currency: 'BRL',
     access: 'beta',
     status: 'available',
-    gameUrl: 'https://mrsdani.com.br/games/senses-staying-healthy/',
-    thumbnail: 'games/senses-staying-healthy/images/icon_senses.webp'
+    gameUrl: 'https://mrsdani.com.br/bilingue/senses-staying-healthy/',
+    thumbnail: 'bilingue/senses-staying-healthy/images/icon_senses.webp'
   },
   {
     id: 'spelling-bee',
