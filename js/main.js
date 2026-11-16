@@ -554,6 +554,42 @@ const GAMES = [
     thumbnail: 'bilingue/senses-staying-healthy/images/icon_senses.webp'
   },
   {
+    id: 'mission-starlight',
+    title: 'Mission Starlight: Cadet Training',
+    gradeNum: 3,
+    skill: ['Grammar', 'Reading', 'Listening', 'Bilingual'],
+    topic: 'Space & Nature Vocabulary · Future with be going to / will · and / but',
+    grammar: 'Future: be going to, will · Compound sentences: and / but',
+    difficulty: 'Intermediate',
+    gameType: 'Space Mission Review (85 exercises)',
+    schoolAlignment: '3rd Grade English (Bilingual)',
+    description: 'Train as a Space Cadet with 5 missions and a Boss Battle: key words about space and nature, academic words, be going to vs will, and / but sentences, reading checks and listening. Earn XP, stars and a Commander certificate.',
+    descriptionPT: 'Treine como Space Cadet em 5 missões e uma Boss Battle: palavras-chave sobre espaço e natureza, academic words, be going to vs will, frases com and / but, interpretação de texto e listening. Ganhe XP, estrelas e um certificado de Commander.',
+    why: 'Lots of varied practice for tests: unscramble the sentence, choose the correct form, short and full answers, rewrite, plus reading checks that show the evidence in the text.',
+    whyPT: 'Muita prática variada para provas: desembaralhar frases, escolher a forma correta, respostas curtas e completas, reescrever, além de interpretação de texto que mostra a evidência no texto.',
+    practices: ['space and nature words', 'be going to', 'going to vs will', 'and / but', 'reading comprehension', 'listening'],
+    objectivesPT: [
+      'Aprender palavras-chave e academic words (sphere, craters, rotates, canoe, phenomenon, traditional...).',
+      'Usar be going to para planos e previsões, e diferenciar de will.',
+      'Formar frases afirmativas, negativas, perguntas e respostas curtas e completas.',
+      'Unir frases com and e but.',
+      'Treinar interpretação de texto encontrando a evidência no texto.'
+    ],
+    objectives: [
+      'Learn key words and academic words (sphere, craters, rotates, canoe, phenomenon, traditional...).',
+      'Use be going to for plans and predictions, and tell it apart from will.',
+      'Build affirmative and negative sentences, questions, and short and full answers.',
+      'Join sentences with and / but.',
+      'Practice reading comprehension by finding the evidence in the text.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'https://mrsdani.com.br/bilingue/mission-starlight/',
+    thumbnail: 'bilingue/mission-starlight/images/icon_starlight.webp'
+  },
+  {
     id: 'spelling-bee',
     title: 'Spelling Bee - list 3',
     collection: 'spelling-bee',
