@@ -808,6 +808,42 @@ const GAMES = [
     thumbnail: 'games/spelling-bee-week5/assets/img/bee-mascot.png'
   },
   {
+    id: 'spelling-bee-week6',
+    title: 'Spelling Bee - Week 6',
+    collection: 'spelling-bee',
+    skill: ['Vocabulary', 'Writing', 'Listening'],
+    topic: 'Spelling',
+    grammar: 'Vocabulary & Spelling',
+    difficulty: 'Intermediate',
+    gameType: 'Listen & Spell Challenge',
+    schoolAlignment: 'Vocabulary Review',
+    description: 'Listen to each word, then spell it — type it in Phase 1/2, tap the scrambled letters into order in Practice, or spell full sentences built from this week\'s words in the new Sentence Buzz mode. This week\'s words share tricky -ty/-ity/-ety endings (beauty, safety, society, validity, humidity).',
+    descriptionPT: 'Ouça cada palavra e escreva — digitando nas Fases 1/2, clicando nas letras embaralhadas na ordem certa no Practice, ou escrevendo frases completas com as palavras da semana no novo modo Sentence Buzz. As palavras desta semana compartilham as terminações traiçoeiras "-ty"/"-ity"/"-ety" (beauty, safety, society, validity, humidity).',
+    why: 'Groups words by the -ty/-ity/-ety spelling pattern (beauty, safety, society, validity, humidity, among others) and adds a sentence-level round so children practice spelling the same words in full, natural context instead of only in isolation.',
+    whyPT: 'Agrupa palavras pelo padrão de ortografia "-ty"/"-ity"/"-ety" (beauty, safety, society, validity, humidity, entre outras) e acrescenta uma rodada com frases completas, para a criança praticar a grafia das mesmas palavras em contexto, não só isoladas.',
+    practices: ['listening', 'spelling', 'word families', 'sentence writing'],
+    objectivesPT: [
+      'Reconhecer palavras e frases em inglês pelo som, usando áudio real.',
+      'Praticar a grafia correta de palavras terminadas em "-ty"/"-ity"/"-ety".',
+      'Escrever frases completas corretamente, prestando atenção em cada palavra.',
+      'Reconstruir a ortografia de uma palavra clicando suas letras na ordem certa.',
+      'Revisar e repetir itens errados até fixar a ortografia correta.'
+    ],
+    objectives: [
+      'Recognize English words and sentences by sound, using real audio.',
+      'Practice correct spelling of words ending in "-ty"/"-ity"/"-ety".',
+      'Write full sentences correctly, paying attention to each word.',
+      'Rebuild a word\'s spelling by tapping its letters in the right order.',
+      'Review and repeat missed items to reinforce correct spelling.'
+    ],
+    price: null,
+    currency: 'BRL',
+    access: 'beta',
+    status: 'available',
+    gameUrl: 'spelling-bee-week6/index.html',
+    thumbnail: 'games/spelling-bee-week6/assets/img/bee-mascot.png'
+  },
+  {
     id: 'adverbs-adventure',
     title: 'Adverbs Adventure!',
     gradeNum: 4,
