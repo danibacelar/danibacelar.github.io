@@ -38,24 +38,6 @@ Mesmo formato das semanas anteriores: `js/game-data.js` tem
 (Sentence Buzz). Veja o README da Week 6 para a explicação completa dos
 campos `word`/`audio`/`hintEN`/`properWords`.
 
-### "responsibilities" ainda não tem áudio próprio
-
-No arquivo único de palavras que a professora enviou, a palavra
-"responsibilities" não foi gravada (confirmamos pela duração dos outros
-39 trechos — todos se encaixam perfeitamente nas 39 palavras restantes
-na ordem certa, sem nenhum trecho "longo demais" sobrando que indicasse
-duas palavras coladas). Por isso, em `js/game-data.js`, o item
-`responsibilities` tem `audio: null` — o jogo já cai automaticamente para
-a voz sintetizada do navegador (`speechSynthesis`) **só nesse item**,
-igual ao comportamento de reserva que todo o jogo já tinha para qualquer
-áudio que falhar ao carregar.
-
-Quando a professora enviar um áudio só dessa palavra, basta: cortar/gerar
-o arquivo `assets/audio/words/responsibilities.mp3` e mudar a linha no
-`js/game-data.js` (duas ocorrências: em `SPELLING_PHASES` e em
-`CHALLENGE_WORDS`) de `audio: null` para
-`audio: "words/responsibilities.mp3"`.
-
 ## 🎮 Como funciona
 
 Igual à Week 6 (Phase 1/Phase 2/Sentence Buzz digitando, Practice com
@@ -86,3 +68,10 @@ professora pediu para separar as frases exatamente nas pausas marcadas
 com "..." no texto que ela enviou — foi exatamente isso que a detecção de
 silêncio encontrou no áudio (10 trechos, cada um com duração proporcional
 ao número de palavras da frase).
+
+A única exceção é `assets/audio/words/responsibilities.mp3`: essa palavra
+não saiu no áudio único original (confirmado pela duração das outras 39
+palavras, que se encaixaram perfeitamente sem nenhum trecho "longo
+demais" sobrando) — a professora gravou e enviou essa palavra separada
+depois, e o arquivo foi cortado da mesma forma (detecção de silêncio +
+padding) a partir desse áudio extra.
