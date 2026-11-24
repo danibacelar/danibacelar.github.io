@@ -338,24 +338,35 @@ trocar pras credenciais de produção, mudar isso pra `"false"` (ou
 remover a chave `vars` inteira) — senão nenhum cliente real vai
 conseguir pagar de verdade.**
 
+**Testado ao vivo com sucesso nesta sessão** (compra de pacote de
+créditos em `/creditos`): a Dani clicou "Simular aprovação" na aba
+"Pagamentos de teste" do painel do Mercado Pago (não precisou nem do
+truque "APRO" pra esse teste manual), o webhook chegou (`201 OK`,
+`action: "order.processed"`, `status: "processed"`, `status_detail:
+"accredited"`), os créditos foram liberados de verdade no Supabase, e
+a tela atualizou sozinha pra "Pagamento confirmado" sem precisar
+recarregar a página. Prova que o fluxo inteiro funciona de ponta a
+ponta: criar cobrança → QR code → webhook → assinatura validada →
+RPC → crédito liberado → UI atualiza.
+
+No caminho até aqui, 2 problemas foram encontrados e corrigidos:
+1. A tabela `pagamentos_pix` ainda não tinha sido criada no Supabase
+   (a Dani não tinha rodado o `supabase_pix.sql` ainda) — causava
+   "Não foi possível iniciar o pagamento." Resolvido rodando o SQL.
+2. Faltava o truque `payer.first_name: "APRO"` pra conseguir testar
+   sem precisar clicar manualmente em "Simular aprovação" toda vez —
+   ver `MERCADOPAGO_MODO_TESTE` acima (ainda não foi testado esse
+   caminho automático especificamente, só o manual via "Simular
+   aprovação").
+
 **Falta fazer:**
-1. A Dani testar ao vivo: comprar um pacote de créditos e um jogo
-   avulso no site publicado — com `MERCADOPAGO_MODO_TESTE=true`, o Pix
-   gerado se aprova sozinho depois de alguns segundos, sem precisar
-   escanear nada de verdade.
-2. Confirmar que o webhook chega (aba "Webhooks" no painel do Mercado
-   Pago mostra as notificações recebidas).
-3. Quando tudo estiver validado, trocar as credenciais de **teste**
+1. Testar a compra avulsa de um jogo (não só pacote de créditos) pelo
+   mesmo caminho.
+2. Quando tudo estiver validado, trocar as credenciais de **teste**
    pelas de **produção** (gerar "Credenciais de produção" no painel,
    repetir os mesmos passos: novo secret no GitHub, nova configuração
    de webhook na aba "Produção", nova assinatura secreta) **e** mudar
    `MERCADOPAGO_MODO_TESTE` pra `"false"` em `wrangler.jsonc`.
-4. A lógica foi escrita a partir da documentação oficial que a Dani
-   foi copiando (a rede onde isso foi construído bloqueia
-   `api.mercadopago.com`), e testada ao vivo nesta mesma sessão depois
-   de descobrir e corrigir dois problemas: a tabela `pagamentos_pix`
-   não tinha sido criada ainda no Supabase, e faltava o `payer.first_name:
-   "APRO"` pra aprovar o Pix de teste sozinho.
 
 ## Próximos passos possíveis (itens que não bloqueiam o catálogo)
 
