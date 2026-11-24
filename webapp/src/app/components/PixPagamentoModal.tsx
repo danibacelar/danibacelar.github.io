@@ -53,7 +53,12 @@ export default function PixPagamentoModal({
           if (statusDados.ok && statusDados.status === "pago") {
             setEstado("pago");
             clearInterval(intervalo);
-            onPago();
+            // Espera um instante antes de fechar/navegar, pra dar tempo da
+            // pessoa ver a mensagem de confirmação em vez de ela sumir
+            // na hora (a troca de tela ficava parecendo um "piscar").
+            setTimeout(() => {
+              if (!cancelado) onPago();
+            }, 1500);
           }
         }, INTERVALO_CHECAGEM_MS);
       } catch {
