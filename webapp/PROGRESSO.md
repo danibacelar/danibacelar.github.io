@@ -158,7 +158,10 @@ abaixo continua valendo antes de trocar de vez.
 3. ~~Servir os jogos de forma protegida~~ — **feito para os 23 jogos
    locais** (ver seção "Proteção de acesso aos jogos" abaixo).
    Growing Plants e Spelling Bee ainda faltam (item 5 daquela seção).
-4. **Pagamento real via Pix** (Mercado Pago ou outro) — hoje só simula.
+4. ~~Pagamento real via Pix~~ — **feito, em teste**: integração com
+   Mercado Pago (API de Orders). Falta a Dani testar ao vivo e depois
+   trocar as credenciais de teste pelas de produção (ver seção
+   "Pagamento Pix (Mercado Pago)" abaixo).
 5. ~~Mover sessão "1 aparelho por login" para Cloudflare KV~~ —
    **não precisa mais**: o controle já usa uma coluna no Supabase
    (`device_token`), que é compartilhado entre todas as instâncias por
@@ -281,22 +284,74 @@ sem estar logada (ex: numa aba anônima) não abre o jogo.
    um pouco mais de trabalho (servir a pasta inteira, não só um
    arquivo).
 
+## Pagamento Pix (Mercado Pago) — feito, falta testar ao vivo
+
+A Dani decidiu por Mercado Pago, só Pix (sem cartão de crédito), porque
+tem CNPJ de MEI (conta criada como "Conta negócio"). Integração via
+**API de Orders** (a "API de Payments" mais antiga está sendo
+descontinuada, então não usamos ela).
+
+**Como funciona:**
+- `webapp/src/app/lib/mercadopago.ts`: `criarCobrancaPix()` (POST
+  `/v1/orders` com `payment_method.id: "pix"`) e `buscarOrder()` (GET
+  `/v1/orders/{id}`), além de `validarAssinaturaWebhook()` (HMAC-SHA256
+  conforme a documentação deles).
+- `POST /api/pix/criar`: cria uma linha pendente em `pagamentos_pix`
+  (tabela nova no Supabase) e pede a cobrança ao Mercado Pago, usando o
+  id dessa linha como `external_reference`. Os preços (pacotes de
+  créditos e preço avulso por jogo) são calculados no servidor, nunca
+  confiando em valor vindo do navegador.
+- `components/PixPagamentoModal.tsx`: mostra o QR code (`qr_code_base64`)
+  e o código copia-e-cola (`qr_code`), e fica perguntando a cada poucos
+  segundos pra `GET /api/pix/status/[id]` se já foi pago.
+- `POST /api/webhooks/mercadopago`: é o Mercado Pago quem chama essa
+  rota sozinho assim que o Pix é pago. Confere a assinatura (`x-signature`)
+  pra garantir que é mesmo o Mercado Pago, confirma o status direto na
+  API deles (não confia só no corpo da notificação), e só então libera
+  créditos ou o jogo.
+- A liberação em si acontece dentro de uma função do Postgres
+  (`confirmar_pagamento_pix`, no arquivo SQL que a Dani rodou), porque o
+  webhook chega sem ninguém logado — essa função roda com privilégio
+  elevado (`security definer`), mas só funciona se receber um segredo
+  extra (`PIX_RPC_SECRET`, gerado nesta sessão, guardado como secret no
+  GitHub) junto com o pedido. Isso evita precisar usar a chave
+  `service_role` do Supabase (que a Dani nunca deve compartilhar) e, ao
+  mesmo tempo, impede que alguém chame essa função sozinho pra se
+  autoliberar créditos de graça.
+- `comprarAvulso` e `adicionarCreditos` (que simulavam pagamento
+  instantâneo) foram removidos de `lib/auth.ts` — agora **só** a função
+  SQL libera crédito/jogo, e só depois de confirmação real do Mercado
+  Pago. `comprarJogo` (gastar créditos que a família já tem) continua
+  instantâneo, porque esses créditos já foram pagos de verdade antes.
+
+**Credenciais configuradas (de teste, por enquanto):** `MERCADOPAGO_ACCESS_TOKEN`,
+`MERCADOPAGO_WEBHOOK_SECRET` e `PIX_RPC_SECRET` — todos como *secrets* no
+GitHub, enviados ao Worker a cada deploy (`wrangler secret put`), nunca
+expostos no código nem no navegador.
+
+**Falta fazer:**
+1. A Dani testar ao vivo: comprar um pacote de créditos e um jogo
+   avulso no site publicado, pagando de verdade com Pix de teste
+   (o Mercado Pago libera um "pagador de teste" pra isso — ver a aba
+   "Pagamentos de teste" no painel deles).
+2. Confirmar que o webhook chega (aba "Webhooks" no painel do Mercado
+   Pago mostra as notificações recebidas).
+3. Quando tudo estiver validado, trocar as credenciais de **teste**
+   pelas de **produção** (gerar "Credenciais de produção" no painel,
+   repetir os mesmos passos: novo secret no GitHub, nova configuração
+   de webhook na aba "Produção", nova assinatura secreta).
+4. Não testado nesta sessão porque a rede onde isso foi construído
+   bloqueia `api.mercadopago.com` — toda a lógica foi escrita a partir
+   da documentação oficial (a Dani copiou os trechos), não foi
+   validada contra a API de verdade ainda.
+
 ## Próximos passos possíveis (itens que não bloqueiam o catálogo)
 
-1. **Banco de dados de verdade** (ex: Supabase) para que as contas dos
-   responsáveis valham em qualquer navegador/aparelho, não só onde foram
-   criadas.
-2. **Mercado Pago (ou outro gateway com Pix)** conectado de verdade — a
-   compra hoje só simula "pagamento aprovado" na hora.
-3. Mover o "qual aparelho está logado em qual conta" (hoje em memória, em
-   `lib/sessionStore.ts`) para **Cloudflare KV** — funciona para teste,
-   mas não sobrevive em produção real na borda da Cloudflare (múltiplas
-   instâncias sem memória compartilhada).
-4. Painel admin (`/admin`) ainda mostra números de mentira, não
-   conectado a dados reais (contas/filhos/compras já existem em
-   `lib/fakeAuth.ts`, dava para ligar números reais ali como próximo
-   passo pequeno).
-5. Decidir e executar a troca de DNS de `mrsdani.com.br` para a
+1. Painel admin (`/admin`) ainda mostra números de mentira, não
+   conectado a dados reais (contas/filhos/compras já existem no
+   Supabase, dava para ligar números reais ali como próximo passo
+   pequeno).
+2. Decidir e executar a troca de DNS de `mrsdani.com.br` para a
    Cloudflare, quando tudo estiver validado.
 
 ## Como testar localmente (se precisar)

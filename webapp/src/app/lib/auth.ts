@@ -243,27 +243,6 @@ export async function adicionarFilho(
   return { ok: true };
 }
 
-export async function adicionarCreditos(quantidade: number): Promise<{ ok: boolean }> {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return { ok: false };
-
-  const { data: atual } = await supabase
-    .from("responsaveis")
-    .select("creditos")
-    .eq("id", user.id)
-    .single();
-
-  const { error } = await supabase
-    .from("responsaveis")
-    .update({ creditos: (atual?.creditos ?? 0) + quantidade })
-    .eq("id", user.id);
-
-  return { ok: !error };
-}
-
 export function getCompra(
   session: Session,
   slug: string,
@@ -324,35 +303,5 @@ export async function comprarJogo(
     .update({ creditos: (responsavel?.creditos ?? 0) - custo })
     .eq("id", user.id);
 
-  return { ok: true };
-}
-
-// Compra avulsa: paga o valor exato daquele jogo (via Pix, na versão real)
-// e libera na hora, sem mexer no saldo de créditos — é um pagamento à
-// parte, não um jeito de "gastar" crédito.
-export async function comprarAvulso(
-  slug: string,
-  childId: string
-): Promise<{ ok: boolean; erro?: string }> {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return { ok: false, erro: "Você precisa entrar primeiro." };
-
-  const expiraEm = new Date();
-  expiraEm.setDate(expiraEm.getDate() + VALIDADE_DIAS);
-
-  const { error } = await supabase.from("compras").upsert(
-    {
-      responsavel_id: user.id,
-      filho_id: childId,
-      jogo_slug: slug,
-      expira_em: expiraEm.toISOString(),
-    },
-    { onConflict: "filho_id,jogo_slug" }
-  );
-
-  if (error) return { ok: false, erro: "Não foi possível concluir a compra." };
   return { ok: true };
 }

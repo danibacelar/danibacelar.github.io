@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
-import { adicionarCreditos, formatarReais } from "../lib/auth";
+import PixPagamentoModal from "../components/PixPagamentoModal";
+import { formatarReais } from "../lib/auth";
 import { useSessaoAtiva } from "../lib/useSessaoAtiva";
 
 // Cada jogo custa 10 créditos hoje (pode variar por jogo no futuro), então
@@ -11,7 +12,7 @@ import { useSessaoAtiva } from "../lib/useSessaoAtiva";
 // para os pais — por baixo, é a mesma coisa: soma créditos ao saldo.
 const CREDITOS_POR_JOGO_HOJE = 10;
 
-const pacotesFalsos = [
+const pacotes = [
   { jogos: 1, preco: 30, selo: "/assets/badges/bronze-10.png" },
   { jogos: 3, preco: 90, selo: "/assets/badges/prata-30.png" },
   { jogos: 5, preco: 140, selo: "/assets/badges/ouro-50.png" },
@@ -20,18 +21,15 @@ const pacotesFalsos = [
 export default function CreditosPage() {
   const { session, refresh } = useSessaoAtiva();
   const [mensagem, setMensagem] = useState<string | null>(null);
+  const [pacoteEmPagamento, setPacoteEmPagamento] = useState<number | null>(null);
 
   if (!session) return null;
 
-  async function handleComprar(jogos: number, preco: number) {
+  function handlePago(jogos: number, preco: number) {
     const creditos = jogos * CREDITOS_POR_JOGO_HOJE;
-    const atualizada = await adicionarCreditos(creditos);
-    if (atualizada.ok) {
-      await refresh();
-      setMensagem(
-        `Pagamento de mentira aprovado: +${creditos} créditos adicionados (${formatarReais(preco)}).`
-      );
-    }
+    setPacoteEmPagamento(null);
+    refresh();
+    setMensagem(`Pagamento confirmado: +${creditos} créditos adicionados (${formatarReais(preco)}).`);
   }
 
   return (
@@ -58,11 +56,9 @@ export default function CreditosPage() {
               <path d="M12 8v5M12 16h.01" />
             </svg>
             <span>
-              Teste — clicar em &quot;Comprar&quot; aqui não cobra nada de
-              verdade, é um pagamento de mentira que só soma créditos no seu
-              saldo de teste. Na versão real, o pagamento é só por Pix (sem
-              cartão de crédito). Quanto mais jogos no pacote, menor o preço
-              de cada um — e cada jogo comprado fica liberado por 30 dias.
+              Pagamento só por Pix (sem cartão de crédito). Quanto mais
+              jogos no pacote, menor o preço de cada um — e cada jogo
+              comprado fica liberado por 30 dias.
             </span>
           </div>
 
@@ -73,7 +69,7 @@ export default function CreditosPage() {
           )}
 
           <div className="stat-row">
-            {pacotesFalsos.map((pacote) => (
+            {pacotes.map((pacote) => (
               <div className="stat-card" key={pacote.jogos} style={{ textAlign: "center" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -91,15 +87,26 @@ export default function CreditosPage() {
                   className="btn btn-primary"
                   type="button"
                   style={{ marginTop: 12 }}
-                  onClick={() => handleComprar(pacote.jogos, pacote.preco)}
+                  onClick={() => setPacoteEmPagamento(pacote.jogos)}
                 >
-                  Comprar
+                  Comprar com Pix
                 </button>
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      {pacoteEmPagamento !== null && (
+        <PixPagamentoModal
+          corpo={{ tipo: "creditos", pacoteJogos: pacoteEmPagamento }}
+          onPago={() => {
+            const pacote = pacotes.find((p) => p.jogos === pacoteEmPagamento)!;
+            handlePago(pacote.jogos, pacote.preco);
+          }}
+          onFechar={() => setPacoteEmPagamento(null)}
+        />
+      )}
 
       <Footer />
     </>

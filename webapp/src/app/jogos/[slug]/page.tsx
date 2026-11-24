@@ -5,8 +5,8 @@ import { useParams, useRouter } from "next/navigation";
 import Nav from "../../components/Nav";
 import Footer from "../../components/Footer";
 import { GAMES } from "../../data/games";
+import PixPagamentoModal from "../../components/PixPagamentoModal";
 import {
-  comprarAvulso,
   comprarJogo,
   diasRestantes,
   estaValido,
@@ -21,6 +21,7 @@ export default function JogoDetalhePage() {
   const params = useParams<{ slug: string }>();
   const router = useRouter();
   const [session, setSession] = useState<Session | null | undefined>(undefined);
+  const [pagandoAvulso, setPagandoAvulso] = useState(false);
 
   useEffect(() => {
     getSession().then(setSession);
@@ -68,10 +69,9 @@ export default function JogoDetalhePage() {
     else router.push(`/creditos?jogo=${game!.slug}`);
   }
 
-  async function handleComprarAvulso() {
-    if (!childId) return;
-    const resultado = await comprarAvulso(game!.slug, childId);
-    if (resultado.ok) refresh();
+  function handlePagoAvulso() {
+    setPagandoAvulso(false);
+    refresh();
   }
 
   let acao: React.ReactNode = null;
@@ -105,7 +105,7 @@ export default function JogoDetalhePage() {
       );
     } else {
       acao = (
-        <button type="button" className="btn btn-primary" onClick={handleComprarAvulso}>
+        <button type="button" className="btn btn-primary" onClick={() => setPagandoAvulso(true)}>
           Comprar só este — {formatarReais(precoAvulsoReais(game.credits))}
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M5 12h14M13 6l6 6-6 6" />
@@ -186,6 +186,14 @@ export default function JogoDetalhePage() {
           )}
         </div>
       </section>
+
+      {pagandoAvulso && childId && (
+        <PixPagamentoModal
+          corpo={{ tipo: "avulso", jogoSlug: game.slug, filhoId: childId }}
+          onPago={handlePagoAvulso}
+          onFechar={() => setPagandoAvulso(false)}
+        />
+      )}
 
       <Footer />
     </>

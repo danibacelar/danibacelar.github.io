@@ -1,9 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Game } from "../data/games";
 import {
-  comprarAvulso,
   comprarJogo,
   diasRestantes,
   estaValido,
@@ -12,6 +12,7 @@ import {
   precoAvulsoReais,
   type Session,
 } from "../lib/auth";
+import PixPagamentoModal from "./PixPagamentoModal";
 
 const ArrowIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -29,6 +30,7 @@ export default function GameCard({
   onChange?: () => void;
 }) {
   const router = useRouter();
+  const [pagandoAvulso, setPagandoAvulso] = useState(false);
   const childId = session?.activeChildId ?? null;
   const compra = session ? getCompra(session, game.slug, childId) : undefined;
   const valido = estaValido(compra);
@@ -48,13 +50,10 @@ export default function GameCard({
     }
   }
 
-  async function handleComprarAvulso() {
-    if (!childId) return;
-    const resultado = await comprarAvulso(game.slug, childId);
-    if (resultado.ok) {
-      onChange?.();
-      router.push(`/jogos/${game.slug}`);
-    }
+  function handlePagoAvulso() {
+    setPagandoAvulso(false);
+    onChange?.();
+    router.push(`/jogos/${game.slug}`);
   }
 
   let precoLabel = `${game.credits} créditos`;
@@ -107,7 +106,7 @@ export default function GameCard({
         type="button"
         className="link-inline"
         style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
-        onClick={handleComprarAvulso}
+        onClick={() => setPagandoAvulso(true)}
       >
         Comprar só este — {formatarReais(precoAvulsoReais(game.credits))}
         <ArrowIcon />
@@ -154,6 +153,14 @@ export default function GameCard({
           <span className={`access-pill ${desbloqueado ? "included" : "purchase"}`}>{pillLabel}</span>
         </div>
       </div>
+
+      {pagandoAvulso && childId && (
+        <PixPagamentoModal
+          corpo={{ tipo: "avulso", jogoSlug: game.slug, filhoId: childId }}
+          onPago={handlePagoAvulso}
+          onFechar={() => setPagandoAvulso(false)}
+        />
+      )}
     </article>
   );
 }

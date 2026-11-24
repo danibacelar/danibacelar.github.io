@@ -36,3 +36,11 @@ jobs:
       - run: npx wrangler deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Atualizar secrets do Mercado Pago no Worker
+        run: |
+          echo "${{ secrets.MERCADOPAGO_ACCESS_TOKEN_TEST }}" | npx wrangler secret put MERCADOPAGO_ACCESS_TOKEN
+          echo "${{ secrets.MERCADOPAGO_WEBHOOK_SECRET_TEST }}" | npx wrangler secret put MERCADOPAGO_WEBHOOK_SECRET
+          echo "${{ secrets.PIX_RPC_SECRET }}" | npx wrangler secret put PIX_RPC_SECRET
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
