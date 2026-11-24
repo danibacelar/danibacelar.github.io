@@ -121,6 +121,9 @@
     document.getElementById('feedback').textContent = '';
     document.getElementById('feedback').className = 'feedback';
     document.getElementById('word-definition').textContent = word.hintEN || '';
+    // TEMPORARY audio-check aid — remove once the teacher finishes verifying
+    // that every word/sentence audio clip matches its text. See README.
+    document.getElementById('debug-answer').textContent = 'ANSWER: ' + word.word;
     document.getElementById('btn-next').classList.add('hidden');
     document.getElementById('btn-check').disabled = false;
     document.getElementById('btn-skip').disabled = false;
