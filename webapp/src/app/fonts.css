@@ -1,0 +1,7 @@
+/* Define as mesmas variáveis que o site já usa (--font-fraunces,
+   --font-inter), agora apontando pras fontes do @fontsource em vez do
+   next/font/google — ver o comentário em layout.tsx sobre o porquê. */
+:root {
+  --font-fraunces: "Fraunces", serif;
+  --font-inter: "Inter", sans-serif;
+}

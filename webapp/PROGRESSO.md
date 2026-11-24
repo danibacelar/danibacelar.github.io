@@ -128,10 +128,18 @@ criada num navegador não aparece em outro. Isso é o próximo passo grande
   build de produção real via `wrangler dev`.
 - Home (`/`) é cópia fiel da home real, com "Fazer login" no lugar de
   "Explorar jogos" no canto superior direito.
-- Fontes (Fraunces + Inter) carregadas via `next/font/google`
-  (self-hosted) — havia um bug real em que o build de produção do
-  Next.js descartava o `@import` do Google Fonts; já corrigido, não
-  reintroduzir o `@import` em CSS solto.
+- Fontes (Fraunces + Inter): **não usar `next/font/google`** — ele
+  busca os arquivos da fonte direto do Google durante o build, e isso
+  já derrubou o deploy várias vezes por instabilidade de rede do
+  runner do GitHub Actions (às vezes falhava 3 de 3 tentativas
+  seguidas). Trocado nesta sessão por `@fontsource/fraunces` e
+  `@fontsource/inter` (pacotes npm que já vêm com os `.woff2` dentro —
+  zero rede extra na build, só o `npm ci` normal). As variáveis CSS
+  `--font-fraunces`/`--font-inter` que o resto do site usa agora são
+  definidas em `src/app/fonts.css`, não mais geradas pelo
+  `next/font/google`. Antes disso havia outro bug (o build de produção
+  descartava o `@import` do Google Fonts), mas isso ficou obsoleto
+  junto com a troca — não precisa mais se preocupar com ele.
 - Página `/creditos`: os 3 pacotes usam as imagens reais dos selos
   (bronze/prata/ouro) que a Dani enviou — `public/assets/badges/
   bronze-10.png`, `prata-30.png`, `ouro-50.png`. Cada card mostra só

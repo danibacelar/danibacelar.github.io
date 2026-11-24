@@ -1,21 +1,18 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+// Fontes self-hospedadas via pacote npm (@fontsource), não via
+// next/font/google: o build buscar essas fontes direto do Google na hora
+// de compilar já falhou mais de uma vez por instabilidade de rede do
+// runner do GitHub Actions — com @fontsource, os arquivos .woff2 já vêm
+// dentro do pacote baixado pelo "npm ci", sem nenhuma rede extra na build.
+import "@fontsource/fraunces/400.css";
+import "@fontsource/fraunces/500.css";
+import "@fontsource/fraunces/600.css";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
+import "./fonts.css";
 import "./site-style.css";
 import "./site-components.css";
-
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-fraunces",
-  display: "swap",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Mrs. Dani — Jogos (novo site)",
@@ -28,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`${fraunces.variable} ${inter.variable}`}>
+    <html lang="pt-BR">
       <body>{children}</body>
     </html>
   );
