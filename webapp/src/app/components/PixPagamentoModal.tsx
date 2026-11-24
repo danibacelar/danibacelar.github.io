@@ -23,6 +23,17 @@ export default function PixPagamentoModal({
   const [qrCodeBase64, setQrCodeBase64] = useState<string | null>(null);
   const [copiado, setCopiado] = useState(false);
 
+  // Trava a rolagem do fundo da página enquanto o modal está aberto —
+  // sem isso, a barra de rolagem some/aparece e o conteúdo atrás do
+  // modal "pula" de lugar, o que parecia um piscar estranho.
+  useEffect(() => {
+    const overflowOriginal = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = overflowOriginal;
+    };
+  }, []);
+
   useEffect(() => {
     let cancelado = false;
     let intervalo: ReturnType<typeof setInterval> | undefined;

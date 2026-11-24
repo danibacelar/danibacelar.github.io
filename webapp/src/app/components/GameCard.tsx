@@ -52,7 +52,9 @@ export default function GameCard({
 
   function handlePagoAvulso() {
     setPagandoAvulso(false);
-    onChange?.();
+    // Sem onChange() aqui de propósito: já estamos saindo desta página,
+    // e a página de destino busca a sessão atualizada sozinha — atualizar
+    // a grade bem na hora de navegar só causava um flash visível a mais.
     router.push(`/jogos/${game.slug}`);
   }
 
