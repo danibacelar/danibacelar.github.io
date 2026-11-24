@@ -357,24 +357,34 @@ recarregar a página. Prova que o fluxo inteiro funciona de ponta a
 ponta: criar cobrança → QR code → webhook → assinatura validada →
 RPC → crédito liberado → UI atualiza.
 
-No caminho até aqui, 2 problemas foram encontrados e corrigidos:
+**Também testado e confirmado nesta sessão:**
+- Compra avulsa de um jogo (não só pacote de créditos) — mesmo caminho,
+  funcionando.
+- **Reembolso revoga o acesso de verdade**: a Dani reembolsou um
+  pagamento pelo painel do Mercado Pago e o jogo apareceu como
+  "Expirado" na hora — a função `estornar_pagamento_pix` (ver
+  `supabase_pix_estorno.sql`) tira os créditos somados ou expira a
+  compra avulsa quando o webhook avisa `order.refunded`.
+- O modal do Pix não "pula" mais de tamanho entre a tela do QR code e
+  a de confirmação (tinha uma altura mínima fixa faltando).
+
+No caminho até aqui, problemas encontrados e corrigidos:
 1. A tabela `pagamentos_pix` ainda não tinha sido criada no Supabase
    (a Dani não tinha rodado o `supabase_pix.sql` ainda) — causava
    "Não foi possível iniciar o pagamento." Resolvido rodando o SQL.
 2. Faltava o truque `payer.first_name: "APRO"` pra conseguir testar
    sem precisar clicar manualmente em "Simular aprovação" toda vez —
-   ver `MERCADOPAGO_MODO_TESTE` acima (ainda não foi testado esse
-   caminho automático especificamente, só o manual via "Simular
-   aprovação").
+   ver `MERCADOPAGO_MODO_TESTE` acima.
+3. Reembolso não revogava crédito/jogo (webhook só sabia conceder,
+   nunca tirar de volta) — corrigido com `estornar_pagamento_pix`.
 
 **Falta fazer:**
-1. Testar a compra avulsa de um jogo (não só pacote de créditos) pelo
-   mesmo caminho.
-2. Quando tudo estiver validado, trocar as credenciais de **teste**
-   pelas de **produção** (gerar "Credenciais de produção" no painel,
-   repetir os mesmos passos: novo secret no GitHub, nova configuração
-   de webhook na aba "Produção", nova assinatura secreta) **e** mudar
-   `MERCADOPAGO_MODO_TESTE` pra `"false"` em `wrangler.jsonc`.
+1. Quando tudo estiver validado o suficiente pra ir ao ar de verdade,
+   trocar as credenciais de **teste** pelas de **produção** (gerar
+   "Credenciais de produção" no painel, repetir os mesmos passos: novo
+   secret no GitHub, nova configuração de webhook na aba "Produção",
+   nova assinatura secreta) **e** mudar `MERCADOPAGO_MODO_TESTE` pra
+   `"false"` em `wrangler.jsonc`.
 
 ## Próximos passos possíveis (itens que não bloqueiam o catálogo)
 
