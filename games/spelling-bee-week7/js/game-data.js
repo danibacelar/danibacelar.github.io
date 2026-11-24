@@ -10,14 +10,6 @@
      hintEN:      English definition, always shown below "Listen"
      properWords: exact tokens from `word` whose capitalization
                   must match (none here — no proper nouns)
-
-   NOTE: "responsibilities" was never recorded in the single-file
-   word audio the teacher sent (confirmed: the other 39 words' clip
-   durations line up cleanly with their syllable counts once this
-   one is treated as missing rather than merged with a neighbor).
-   Its `audio` field is left null, so the game automatically falls
-   back to the browser's speechSynthesis voice for just this one
-   word until a proper clip is provided — see the README.
    ========================================================= */
 const SPELLING_PHASES = [
   {
@@ -59,7 +51,7 @@ const SPELLING_PHASES = [
       { word: "possibility", audio: "words/possibility.mp3", hintEN: "A chance that something might happen.", properWords: [] },
       { word: "impossibility", audio: "words/impossibility.mp3", hintEN: "Something that cannot happen or be done.", properWords: [] },
       { word: "plausibility", audio: "words/plausibility.mp3", hintEN: "The quality of seeming likely to be true or reasonable.", properWords: [] },
-      { word: "responsibilities", audio: null, hintEN: "More than one duty or task a person is expected to take care of.", properWords: [] },
+      { word: "responsibilities", audio: "words/responsibilities.mp3", hintEN: "More than one duty or task a person is expected to take care of.", properWords: [] },
       { word: "extremity", audio: "words/extremity.mp3", hintEN: "The furthest point or edge of something, or an extreme level of something.", properWords: [] },
       { word: "extremities", audio: "words/extremities.mp3", hintEN: "The furthest points of something, like hands and feet on a body.", properWords: [] },
       { word: "facility", audio: "words/facility.mp3", hintEN: "A building or place built for a particular purpose, or ease in doing something.", properWords: [] },
@@ -77,8 +69,7 @@ const SPELLING_PHASES = [
    -----------------------------------------------------------
    Every word in this list is a single word with no spaces or
    apostrophes, so all 40 are usable in the tap-the-letters
-   Practice round (including "responsibilities", via the
-   speechSynthesis fallback).
+   Practice round.
    ========================================================= */
 const CHALLENGE_WORDS = [
   { word: "formality", audio: "words/formality.mp3", hintEN: "A rule or custom followed in a polite, official, or traditional way." },
@@ -112,7 +103,7 @@ const CHALLENGE_WORDS = [
   { word: "possibility", audio: "words/possibility.mp3", hintEN: "A chance that something might happen." },
   { word: "impossibility", audio: "words/impossibility.mp3", hintEN: "Something that cannot happen or be done." },
   { word: "plausibility", audio: "words/plausibility.mp3", hintEN: "The quality of seeming likely to be true or reasonable." },
-  { word: "responsibilities", audio: null, hintEN: "More than one duty or task a person is expected to take care of." },
+  { word: "responsibilities", audio: "words/responsibilities.mp3", hintEN: "More than one duty or task a person is expected to take care of." },
   { word: "extremity", audio: "words/extremity.mp3", hintEN: "The furthest point or edge of something, or an extreme level of something." },
   { word: "extremities", audio: "words/extremities.mp3", hintEN: "The furthest points of something, like hands and feet on a body." },
   { word: "facility", audio: "words/facility.mp3", hintEN: "A building or place built for a particular purpose, or ease in doing something." },
