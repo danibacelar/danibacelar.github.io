@@ -101,7 +101,16 @@ export default function PixPagamentoModal({
     >
       <div
         className="callout"
-        style={{ maxWidth: 420, width: "100%", background: "var(--paper, #fff)", textAlign: "center" }}
+        style={{
+          maxWidth: 420,
+          width: "100%",
+          minHeight: 360,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          background: "var(--paper, #fff)",
+          textAlign: "center",
+        }}
         onClick={(event) => event.stopPropagation()}
       >
         <h3 style={{ marginBottom: 16 }}>Pagar com Pix</h3>

@@ -17,15 +17,24 @@ export async function POST(request: NextRequest) {
 
   try {
     const order = await buscarOrder(dataId);
+    const supabase = await createClient();
 
     if (order.status === "processed" && order.statusDetail === "accredited") {
-      const supabase = await createClient();
       const { error } = await supabase.rpc("confirmar_pagamento_pix", {
         p_mp_order_id: order.orderId,
         p_segredo: process.env.PIX_RPC_SECRET,
       });
       if (error) {
         console.error("Erro ao confirmar pagamento Pix:", error.message);
+        return new NextResponse("Erro ao processar.", { status: 500 });
+      }
+    } else if (order.status === "refunded" || order.statusDetail === "refunded") {
+      const { error } = await supabase.rpc("estornar_pagamento_pix", {
+        p_mp_order_id: order.orderId,
+        p_segredo: process.env.PIX_RPC_SECRET,
+      });
+      if (error) {
+        console.error("Erro ao estornar pagamento Pix:", error.message);
         return new NextResponse("Erro ao processar.", { status: 500 });
       }
     }
