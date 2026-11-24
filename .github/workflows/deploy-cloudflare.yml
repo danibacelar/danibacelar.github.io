@@ -26,7 +26,20 @@ jobs:
 
       - run: npm ci
 
-      - run: npx opennextjs-cloudflare build
+      # O build do Next.js busca as fontes do Google (Fraunces/Inter) pela
+      # rede na hora de compilar — às vezes o runner do GitHub Actions
+      # falha nessa busca (instabilidade de rede, não é bug do código).
+      # Tenta até 3 vezes antes de desistir de verdade.
+      - name: Build (com retry por instabilidade do Google Fonts)
+        run: |
+          for tentativa in 1 2 3; do
+            if npx opennextjs-cloudflare build; then
+              exit 0
+            fi
+            echo "Build falhou (tentativa $tentativa/3) — tentando de novo em 10s..."
+            sleep 10
+          done
+          exit 1
         env:
           # Supabase project URL + "publishable" key: safe to expose client-side
           # by design (this is what they're for), so no need for GitHub Secrets.
