@@ -217,6 +217,18 @@ html, body {
 }
 .game-actions .btn { flex: 1; }
 
+.debug-answer {
+  margin: 14px 0 0;
+  padding: 8px 12px;
+  background: #fff3f3;
+  border: 2px dashed var(--error);
+  border-radius: 10px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--error);
+}
+
 .feedback {
   min-height: 28px;
   font-family: var(--font-display);
