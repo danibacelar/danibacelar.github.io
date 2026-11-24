@@ -48,7 +48,15 @@ export async function criarCobrancaPix(
           },
         ],
       },
-      payer: { email },
+      // "APRO" em payer.first_name é um valor mágico que o Mercado Pago
+      // reconhece SÓ no ambiente de teste, pra aprovar o Pix sozinho sem
+      // precisar de um banco de verdade. MERCADOPAGO_MODO_TESTE precisa
+      // ser removido (ou virar "false") quando trocarmos pra credenciais
+      // de produção — do contrário, nenhum cliente real conseguiria pagar.
+      payer:
+        process.env.MERCADOPAGO_MODO_TESTE === "true"
+          ? { email, first_name: "APRO" }
+          : { email },
     }),
   });
 

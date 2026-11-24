@@ -329,21 +329,33 @@ descontinuada, então não usamos ela).
 GitHub, enviados ao Worker a cada deploy (`wrangler secret put`), nunca
 expostos no código nem no navegador.
 
+**IMPORTANTE — `MERCADOPAGO_MODO_TESTE` em `wrangler.jsonc`:** está
+`"true"`. Isso faz `lib/mercadopago.ts` mandar `payer.first_name: "APRO"`
+pro Mercado Pago, que é um valor mágico que **só funciona no ambiente de
+teste** e faz o Pix se auto-aprovar sozinho (sem precisar de banco de
+verdade) — necessário pra conseguir testar o fluxo inteiro. **Quando
+trocar pras credenciais de produção, mudar isso pra `"false"` (ou
+remover a chave `vars` inteira) — senão nenhum cliente real vai
+conseguir pagar de verdade.**
+
 **Falta fazer:**
 1. A Dani testar ao vivo: comprar um pacote de créditos e um jogo
-   avulso no site publicado, pagando de verdade com Pix de teste
-   (o Mercado Pago libera um "pagador de teste" pra isso — ver a aba
-   "Pagamentos de teste" no painel deles).
+   avulso no site publicado — com `MERCADOPAGO_MODO_TESTE=true`, o Pix
+   gerado se aprova sozinho depois de alguns segundos, sem precisar
+   escanear nada de verdade.
 2. Confirmar que o webhook chega (aba "Webhooks" no painel do Mercado
    Pago mostra as notificações recebidas).
 3. Quando tudo estiver validado, trocar as credenciais de **teste**
    pelas de **produção** (gerar "Credenciais de produção" no painel,
    repetir os mesmos passos: novo secret no GitHub, nova configuração
-   de webhook na aba "Produção", nova assinatura secreta).
-4. Não testado nesta sessão porque a rede onde isso foi construído
-   bloqueia `api.mercadopago.com` — toda a lógica foi escrita a partir
-   da documentação oficial (a Dani copiou os trechos), não foi
-   validada contra a API de verdade ainda.
+   de webhook na aba "Produção", nova assinatura secreta) **e** mudar
+   `MERCADOPAGO_MODO_TESTE` pra `"false"` em `wrangler.jsonc`.
+4. A lógica foi escrita a partir da documentação oficial que a Dani
+   foi copiando (a rede onde isso foi construído bloqueia
+   `api.mercadopago.com`), e testada ao vivo nesta mesma sessão depois
+   de descobrir e corrigir dois problemas: a tabela `pagamentos_pix`
+   não tinha sido criada ainda no Supabase, e faltava o `payer.first_name:
+   "APRO"` pra aprovar o Pix de teste sozinho.
 
 ## Próximos passos possíveis (itens que não bloqueiam o catálogo)
 
