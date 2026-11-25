@@ -32,6 +32,7 @@ export default function LoginPage() {
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState<string | null>(null);
   const [carregando, setCarregando] = useState(false);
+  const [aceitouTermos, setAceitouTermos] = useState(false);
 
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("modo") === "criar") {
@@ -41,6 +42,10 @@ export default function LoginPage() {
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
+    if (modo === "criar" && !aceitouTermos) {
+      setErro("Você precisa concordar com os Termos de Uso para criar sua conta.");
+      return;
+    }
     setCarregando(true);
     const resultado =
       modo === "entrar" ? await login(email, senha) : await cadastrar(nomeResponsavel, email, senha);
@@ -155,12 +160,35 @@ export default function LoginPage() {
                     onChange={(event) => setSenha(event.target.value)}
                   />
                 </div>
+                {modo === "criar" && (
+                  <div style={{ marginBottom: 18 }}>
+                    <label
+                      htmlFor="aceitouTermos"
+                      style={{ display: "flex", alignItems: "flex-start", gap: 8, fontWeight: 400 }}
+                    >
+                      <input
+                        id="aceitouTermos"
+                        type="checkbox"
+                        checked={aceitouTermos}
+                        onChange={(event) => setAceitouTermos(event.target.checked)}
+                        style={{ width: "auto", padding: 0, marginTop: 3, flexShrink: 0 }}
+                      />
+                      <span>
+                        Li e concordo com os{" "}
+                        <a href="/termos" target="_blank" rel="noopener" className="link-inline" style={{ display: "inline" }}>
+                          Termos de Uso
+                        </a>
+                        .
+                      </span>
+                    </label>
+                  </div>
+                )}
                 {erro && <p style={{ color: "var(--amber-dark)", marginBottom: 14 }}>{erro}</p>}
                 <button
                   type="submit"
                   className="btn btn-primary"
                   style={{ width: "100%", justifyContent: "center" }}
-                  disabled={carregando}
+                  disabled={carregando || (modo === "criar" && !aceitouTermos)}
                 >
                   {carregando ? "Enviando..." : modo === "entrar" ? "Entrar" : "Criar conta"}
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
