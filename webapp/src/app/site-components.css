@@ -297,6 +297,9 @@ tbody tr:hover{ background: rgba(31,111,107,0.04); }
   font-family: var(--font-body); font-weight:700; font-size:0.78rem; color: var(--ink-soft);
 }
 .lang-toggle button.active{ background: var(--teal); color:#fff; }
+@media (max-width: 480px){
+  .lang-toggle{ display:none; }
+}
 
 /* ---- mascot ---- */
 .mascot{

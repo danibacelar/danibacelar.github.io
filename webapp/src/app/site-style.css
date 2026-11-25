@@ -103,9 +103,9 @@ hr.rule{ border: none; border-top: 1px solid var(--line); margin: 0; }
 
 .btn-custom{ display: inline-flex; line-height: 0; transition: transform 0.15s ease; }
 .btn-custom:hover{ transform: translateY(-2px); }
-.btn-custom img{ height: 68px; width: auto; display: block; }
+.btn-custom img{ height: 96px; width: auto; display: block; }
 @media (max-width: 600px){
-  .btn-custom img{ height: 58px; }
+  .btn-custom img{ height: 76px; }
 }
 
 .link-inline{
@@ -170,8 +170,6 @@ hr.rule{ border: none; border-top: 1px solid var(--line); margin: 0; }
 }
 .nav-toggle svg{ width:24px; height:24px; }
 
-.nav-links-mobile-only{ display:none; }
-
 @media (max-width: 880px){
   .nav-links{
     position: absolute; top:74px; left:0; right:0;
@@ -186,9 +184,10 @@ hr.rule{ border: none; border-top: 1px solid var(--line); margin: 0; }
   .nav-links a{ width:100%; padding: 10px 0; }
   .nav-toggle{ display:flex; }
   .nav-cta{ gap:8px; }
-  .nav-cta .btn-ghost, .nav-cta .btn-primary, .nav-cta .btn-custom{ display:none; }
   .lang-toggle button{ padding:4px 8px; }
-  .nav-links-mobile-only{ display:block; width:100%; margin-top:8px; }
+}
+@media (max-width: 480px){
+  .nav-cta .btn{ padding: 10px 14px; font-size: 0.85rem; }
 }
 @media (max-width: 400px){
   .brand{ font-size:1.1rem; }

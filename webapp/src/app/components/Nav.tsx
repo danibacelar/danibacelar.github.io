@@ -75,15 +75,6 @@ export default function Nav({
                 Créditos
               </a>
             </li>
-            <li className="nav-links-mobile-only">
-              <button
-                type="button"
-                onClick={handleLogout}
-                style={{ background: "none", border: "none", padding: "10px 0", cursor: "pointer" }}
-              >
-                Sair
-              </button>
-            </li>
           </ul>
           <div className="nav-cta">
             <button className="btn btn-ghost" type="button" onClick={handleLogout}>
@@ -140,26 +131,6 @@ export default function Nav({
               </a>
             </li>
           ))}
-          <li className="nav-links-mobile-only">
-            {session ? (
-              <a href="/pais">Meus jogos</a>
-            ) : (
-              <a href="/login">Entrar</a>
-            )}
-          </li>
-          <li className="nav-links-mobile-only">
-            {session ? (
-              <button
-                type="button"
-                onClick={handleLogout}
-                style={{ background: "none", border: "none", padding: "10px 0", cursor: "pointer" }}
-              >
-                Sair
-              </button>
-            ) : (
-              <a href="/login?modo=criar">Criar conta</a>
-            )}
-          </li>
         </ul>
         <div className="nav-cta">
           <div className="lang-toggle">
@@ -177,13 +148,11 @@ export default function Nav({
             </>
           ) : (
             <>
-              <a href="/login" className="btn-custom">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/assets/mascot/button-tests/nav-entrar-pt.png" alt="Entrar" />
+              <a href="/login" className="btn btn-ghost">
+                Entrar
               </a>
-              <a href="/login?modo=criar" className="btn-custom">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/assets/mascot/button-tests/nav-criar-conta-pt.png" alt="Criar conta" />
+              <a href="/login?modo=criar" className="btn btn-primary">
+                Criar conta
               </a>
             </>
           )}
