@@ -4,6 +4,7 @@ import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
+import VoltarInicio from "../components/VoltarInicio";
 import { cadastrar, login } from "../lib/auth";
 
 function AvisoOutroAparelho() {
@@ -61,6 +62,7 @@ export default function LoginPage() {
   return (
     <>
       <Nav variant="login" />
+      <VoltarInicio />
 
       <section style={{ paddingTop: "clamp(20px, 3vw, 32px)", paddingBottom: "clamp(28px, 4vw, 48px)" }}>
         <div className="wrap">

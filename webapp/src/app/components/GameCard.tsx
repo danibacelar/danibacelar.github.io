@@ -109,6 +109,11 @@ export default function GameCard({
 
   return (
     <article className="game-card">
+      <a
+        className="game-card-stretched-link"
+        href={`/jogos/${game.slug}`}
+        aria-label={`Ver ${game.title}`}
+      />
       <div className="game-card-media">
         {game.thumbnail ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -134,7 +139,7 @@ export default function GameCard({
           {acao}
         </div>
         {!desbloqueado && session && !temCreditoSuficiente && (
-          <p style={{ fontSize: "0.82rem", color: "var(--ink-soft)", margin: 0 }}>
+          <p className="game-card-note" style={{ fontSize: "0.82rem", color: "var(--ink-soft)", margin: 0 }}>
             Ou{" "}
             <a className="link-inline" href={`/creditos?jogo=${game.slug}`} style={{ display: "inline" }}>
               compre um pacote de créditos

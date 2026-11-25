@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
+import VoltarInicio from "../components/VoltarInicio";
 import GameCard from "../components/GameCard";
 import SearchAndFilters from "../components/SearchAndFilters";
 import { GAMES } from "../data/games";
@@ -22,6 +23,7 @@ export default function TodosOsJogosPage() {
   return (
     <>
       <Nav active="/jogos" />
+      <VoltarInicio />
 
       <header className="section" style={{ paddingBottom: 0, paddingTop: 36 }}>
         <div className="wrap">

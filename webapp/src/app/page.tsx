@@ -1,8 +1,25 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { GAMES } from "./data/games";
 import Nav from "./components/Nav";
+import GameCard from "./components/GameCard";
+import { getSession, type Session } from "./lib/auth";
 
 export default function HomePage() {
-  const destaques = GAMES.slice(0, 3);
+  const [session, setSession] = useState<Session | null | undefined>(undefined);
+
+  useEffect(() => {
+    getSession().then(setSession);
+  }, []);
+
+  function refresh() {
+    getSession().then(setSession);
+  }
+
+  const gratuitos = GAMES.filter((g) => g.free);
+  const outros = GAMES.filter((g) => !g.free);
+  const destaques = [...gratuitos, ...outros].slice(0, 3);
 
   return (
     <>
@@ -149,46 +166,14 @@ export default function HomePage() {
       <section className="section">
         <div className="wrap">
           <div className="section-head">
-            <p className="eyebrow">Jogos em destaque</p>
             <h2 style={{ fontSize: "clamp(1.5rem,2.6vw,2.1rem)" }}>Conheça os jogos.</h2>
           </div>
           <div className="game-grid">
-            {destaques.map((game) => (
-              <article className="game-card" key={game.slug}>
-                <div className="game-card-media">
-                  {game.thumbnail ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={game.thumbnail} alt={game.title} />
-                  ) : (
-                    <span>Prévia do jogo em breve</span>
-                  )}
-                </div>
-                <div className="game-card-body">
-                  <div className="game-card-tags">
-                    {game.grade && <span className="tag tag-grade">{game.grade}</span>}
-                    {game.skills.map((skill) => (
-                      <span className="tag tag-skill" key={skill}>
-                        {skill}
-                      </span>
-                    ))}
-                    <span className="tag tag-diff">{game.difficulty}</span>
-                  </div>
-                  <h3>{game.title}</h3>
-                  <p className="game-card-desc">{game.description}</p>
-                  <div className="price-block">
-                    <span className="price">
-                      {game.free ? "Grátis" : `${game.credits} créditos`}
-                    </span>
-                    <a className="link-inline" href={`/jogos/${game.slug}`}>
-                      Ver atividade
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M5 12h14M13 6l6 6-6 6" />
-                      </svg>
-                    </a>
-                  </div>
-                </div>
-              </article>
-            ))}
+            {session === undefined
+              ? null
+              : destaques.map((game) => (
+                  <GameCard game={game} session={session} onChange={refresh} key={game.slug} />
+                ))}
           </div>
           <p style={{ marginTop: 28 }}>
             <a className="link-inline" href="/jogos">

@@ -2,6 +2,7 @@
 
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
+import VoltarInicio from "../components/VoltarInicio";
 import { GAMES } from "../data/games";
 import { diasRestantes, estaValido } from "../lib/auth";
 import { useSessaoAtiva } from "../lib/useSessaoAtiva";
@@ -29,6 +30,7 @@ export default function MeusJogosPage() {
   return (
     <>
       <Nav variant="logado" active="/pais" />
+      <VoltarInicio />
 
       <section className="section">
         <div className="wrap">

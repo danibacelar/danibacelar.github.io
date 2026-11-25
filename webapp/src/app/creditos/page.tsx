@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
+import VoltarInicio from "../components/VoltarInicio";
 import PixPagamentoModal from "../components/PixPagamentoModal";
 import { formatarReais } from "../lib/auth";
 import { useSessaoAtiva } from "../lib/useSessaoAtiva";
@@ -35,6 +36,7 @@ export default function CreditosPage() {
   return (
     <>
       <Nav variant="logado" active="/creditos" />
+      <VoltarInicio />
 
       <header className="section" style={{ paddingBottom: 0, paddingTop: 36 }}>
         <div className="wrap">

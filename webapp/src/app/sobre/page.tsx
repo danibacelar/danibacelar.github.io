@@ -1,10 +1,12 @@
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
+import VoltarInicio from "../components/VoltarInicio";
 
 export default function SobrePage() {
   return (
     <>
       <Nav active="/sobre" />
+      <VoltarInicio />
 
       <header className="hero wrap" style={{ alignItems: "start" }}>
         <div>

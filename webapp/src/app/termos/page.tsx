@@ -1,10 +1,12 @@
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
+import VoltarInicio from "../components/VoltarInicio";
 
 export default function TermosPage() {
   return (
     <>
       <Nav active="/termos" />
+      <VoltarInicio />
 
       <section className="section">
         <div className="wrap" style={{ maxWidth: 760 }}>

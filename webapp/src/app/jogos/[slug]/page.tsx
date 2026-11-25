@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Nav from "../../components/Nav";
 import Footer from "../../components/Footer";
+import VoltarInicio from "../../components/VoltarInicio";
 import { GAMES } from "../../data/games";
 import PixPagamentoModal from "../../components/PixPagamentoModal";
 import {
@@ -38,6 +39,7 @@ export default function JogoDetalhePage() {
     return (
       <>
         <Nav active="/jogos" />
+        <VoltarInicio />
         <section className="section">
           <div className="wrap" style={{ maxWidth: 760 }}>
             <p>Jogo não encontrado.</p>
@@ -104,6 +106,7 @@ export default function JogoDetalhePage() {
   return (
     <>
       <Nav active="/jogos" />
+      <VoltarInicio />
 
       <section className="section">
         <div className="wrap" style={{ maxWidth: 760 }}>

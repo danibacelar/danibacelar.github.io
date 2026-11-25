@@ -1,10 +1,12 @@
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
+import VoltarInicio from "../components/VoltarInicio";
 
 export default function SchoolSupportPage() {
   return (
     <>
       <Nav active="/school-support" />
+      <VoltarInicio />
 
       <header className="hero wrap">
         <div>
