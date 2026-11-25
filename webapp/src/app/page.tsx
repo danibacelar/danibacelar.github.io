@@ -24,11 +24,11 @@ export default function HomePage() {
           <div className="hero-actions hero-anim d3">
             <a href="#como-funciona" className="btn-custom">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/assets/mascot/button-tests/home-how-it-works-pt.png" alt="Como funciona" />
+              <img src="/assets/mascot/button-tests/home-how-it-works-pt-v2.png" alt="Como funciona" />
             </a>
             <a href="/jogos" className="btn-custom">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/assets/mascot/button-tests/home-explore-pt.png" alt="Explorar os jogos" />
+              <img src="/assets/mascot/button-tests/home-explore-pt-v2.png" alt="Explorar os jogos" />
             </a>
           </div>
         </div>

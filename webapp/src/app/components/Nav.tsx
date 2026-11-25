@@ -177,11 +177,13 @@ export default function Nav({
             </>
           ) : (
             <>
-              <a href="/login" className="btn btn-ghost">
-                Entrar
+              <a href="/login" className="btn-custom">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/assets/mascot/button-tests/nav-entrar-pt.png" alt="Entrar" />
               </a>
-              <a href="/login?modo=criar" className="btn btn-primary">
-                Criar conta
+              <a href="/login?modo=criar" className="btn-custom">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/assets/mascot/button-tests/nav-criar-conta-pt.png" alt="Criar conta" />
               </a>
             </>
           )}

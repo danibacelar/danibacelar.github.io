@@ -186,7 +186,7 @@ hr.rule{ border: none; border-top: 1px solid var(--line); margin: 0; }
   .nav-links a{ width:100%; padding: 10px 0; }
   .nav-toggle{ display:flex; }
   .nav-cta{ gap:8px; }
-  .nav-cta .btn-ghost, .nav-cta .btn-primary{ display:none; }
+  .nav-cta .btn-ghost, .nav-cta .btn-primary, .nav-cta .btn-custom{ display:none; }
   .lang-toggle button{ padding:4px 8px; }
   .nav-links-mobile-only{ display:block; width:100%; margin-top:8px; }
 }
