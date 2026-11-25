@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 type CorpoPix =
   | { tipo: "creditos"; pacoteJogos: number }
@@ -96,7 +97,13 @@ export default function PixPagamentoModal({
     setTimeout(() => setCopiado(false), 2000);
   }
 
-  return (
+  // Desenhado direto em document.body (portal) em vez de ficar no lugar
+  // onde o componente foi chamado: um modal "position: fixed" dentro de
+  // um elemento com "transform" (ex: a animação de hover do game-card)
+  // fica preso dentro daquele elemento em vez de cobrir a tela toda —
+  // foi exatamente isso que causava o "piscar"/pulo de tamanho que a
+  // Dani via ao comprar um jogo avulso direto da listagem.
+  return createPortal(
     <div
       style={{
         position: "fixed",
@@ -160,6 +167,7 @@ export default function PixPagamentoModal({
 
         {estado === "pago" && <p>Pagamento confirmado! 🎉</p>}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
