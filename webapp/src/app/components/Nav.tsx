@@ -26,7 +26,7 @@ export default function Nav({
   active?: string;
 }) {
   const router = useRouter();
-  const [, setSession] = useState<Session | null | undefined>(undefined);
+  const [session, setSession] = useState<Session | null | undefined>(undefined);
 
   useEffect(() => {
     getSession().then(setSession);
@@ -129,12 +129,25 @@ export default function Nav({
             <button className="active">PT</button>
             <button>EN</button>
           </div>
-          <a href="/login" className="btn btn-ghost">
-            Entrar
-          </a>
-          <a href="/login?modo=criar" className="btn btn-primary">
-            Criar conta
-          </a>
+          {session ? (
+            <>
+              <a href="/pais" className="btn btn-ghost">
+                Meus jogos
+              </a>
+              <button className="btn btn-primary" type="button" onClick={handleLogout}>
+                Sair
+              </button>
+            </>
+          ) : (
+            <>
+              <a href="/login" className="btn btn-ghost">
+                Entrar
+              </a>
+              <a href="/login?modo=criar" className="btn btn-primary">
+                Criar conta
+              </a>
+            </>
+          )}
           <button className="nav-toggle" aria-label="Open menu" aria-expanded="false">
             <MenuIcon />
           </button>
