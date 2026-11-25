@@ -1,45 +1,12 @@
 import { GAMES } from "./data/games";
+import Nav from "./components/Nav";
 
 export default function HomePage() {
   const destaques = GAMES.slice(0, 3);
 
   return (
     <>
-      <nav className="nav">
-        <div className="wrap">
-          <a href="/" className="brand">
-            Mrs. <span>Dani</span>
-          </a>
-          <ul className="nav-links">
-            <li>
-              <a href="/jogos">Jogos</a>
-            </li>
-            <li>
-              <a href="#como-funciona">Como funciona</a>
-            </li>
-            <li>
-              <a href="/sobre">Sobre</a>
-            </li>
-          </ul>
-          <div className="nav-cta">
-            <div className="lang-toggle">
-              <button className="active">PT</button>
-              <button>EN</button>
-            </div>
-            <a href="/login" className="btn btn-ghost">
-              Entrar
-            </a>
-            <a href="/login?modo=criar" className="btn btn-primary">
-              Criar conta
-            </a>
-            <button className="nav-toggle" aria-label="Open menu" aria-expanded="false">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M3 6h18M3 12h18M3 18h18" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </nav>
+      <Nav />
 
       <header
         className="hero wrap"
