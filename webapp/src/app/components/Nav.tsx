@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSession, logout, type Session } from "../lib/auth";
 
-type Variant = "publico" | "login" | "aluno-picker" | "pais" | "aluno";
+type Variant = "publico" | "login" | "logado";
 
 const MenuIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -38,34 +38,7 @@ export default function Nav({
     router.push("/login");
   }
 
-  if (variant === "aluno") {
-    return (
-      <nav className="nav">
-        <div className="wrap">
-          <a href="/" className="brand">
-            Mrs. <span>Dani</span>
-          </a>
-          <ul className="nav-links">
-            <li>
-              <a href="/aluno" className={active === "/aluno" ? "active" : ""}>
-                Minhas Atividades
-              </a>
-            </li>
-          </ul>
-          <div className="nav-cta">
-            <a href="/login/aluno" className="btn btn-ghost">
-              Trocar perfil
-            </a>
-            <button className="nav-toggle" aria-label="Open menu" aria-expanded="false">
-              <MenuIcon />
-            </button>
-          </div>
-        </div>
-      </nav>
-    );
-  }
-
-  if (variant === "pais") {
+  if (variant === "logado") {
     return (
       <nav className="nav">
         <div className="wrap">
@@ -80,7 +53,7 @@ export default function Nav({
             </li>
             <li>
               <a href="/pais" className={active === "/pais" ? "active" : ""}>
-                Área dos Pais
+                Meus jogos
               </a>
             </li>
             <li>
@@ -123,28 +96,6 @@ export default function Nav({
               <a href="/login" className="active">
                 Entrar
               </a>
-            </li>
-          </ul>
-          <div className="nav-cta">
-            <button className="nav-toggle" aria-label="Open menu" aria-expanded="false">
-              <MenuIcon />
-            </button>
-          </div>
-        </div>
-      </nav>
-    );
-  }
-
-  if (variant === "aluno-picker") {
-    return (
-      <nav className="nav">
-        <div className="wrap">
-          <a href="/" className="brand">
-            Mrs. <span>Dani</span>
-          </a>
-          <ul className="nav-links">
-            <li>
-              <a href="/login">Voltar ao login</a>
             </li>
           </ul>
           <div className="nav-cta">

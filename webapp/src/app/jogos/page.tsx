@@ -47,9 +47,8 @@ export default function TodosOsJogosPage() {
             </svg>
             <span>
               Teste — com créditos suficientes, &quot;Comprar&quot; desconta
-              do saldo da família (já salvo de verdade) e libera o jogo por
-              30 dias para o perfil escolhido. A busca e os filtros ainda não
-              filtram de verdade.
+              do saldo da conta (já salvo de verdade) e libera o jogo por 30
+              dias. A busca e os filtros ainda não filtram de verdade.
             </span>
           </div>
 
@@ -63,7 +62,7 @@ export default function TodosOsJogosPage() {
         </div>
       </section>
 
-      <Footer extraLink={{ href: "/login/aluno", label: "Acesso do aluno →" }} />
+      <Footer />
     </>
   );
 }

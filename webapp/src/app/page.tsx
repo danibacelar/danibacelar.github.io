@@ -259,13 +259,13 @@ export default function HomePage() {
             <div className="footer-col">
               <h4>Ajuda</h4>
               <a href="#como-funciona">Como funciona</a>
-              <a href="/login/aluno">Acesso do aluno</a>
               <a href="/school-support">School Support</a>
+              <a href="/termos">Termos de Uso</a>
             </div>
             <div className="footer-col">
               <h4>Conta</h4>
               <a href="/login">Entrar</a>
-              <a href="/pais">Área dos pais</a>
+              <a href="/pais">Meus jogos</a>
             </div>
             <div className="footer-col">
               <h4>Contato</h4>

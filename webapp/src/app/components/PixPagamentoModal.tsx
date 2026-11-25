@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 
 type CorpoPix =
   | { tipo: "creditos"; pacoteJogos: number }
-  | { tipo: "avulso"; jogoSlug: string; filhoId: string };
+  | { tipo: "avulso"; jogoSlug: string };
 
 const INTERVALO_CHECAGEM_MS = 4000;
 

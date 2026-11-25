@@ -34,7 +34,7 @@ export default function CreditosPage() {
 
   return (
     <>
-      <Nav variant="pais" active="/creditos" />
+      <Nav variant="logado" active="/creditos" />
 
       <header className="section" style={{ paddingBottom: 0, paddingTop: 36 }}>
         <div className="wrap">

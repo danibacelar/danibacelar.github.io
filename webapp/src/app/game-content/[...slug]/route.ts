@@ -36,11 +36,6 @@ export async function GET(
   }
 
   if (!game.free) {
-    const childId = request.nextUrl.searchParams.get("filho");
-    if (!childId) {
-      return NextResponse.redirect(new URL("/login/aluno", request.url));
-    }
-
     const supabase = await createClient();
     const {
       data: { user },
@@ -49,20 +44,10 @@ export async function GET(
       return NextResponse.redirect(new URL("/login", request.url));
     }
 
-    const { data: filho } = await supabase
-      .from("filhos")
-      .select("id")
-      .eq("id", childId)
-      .eq("responsavel_id", user.id)
-      .maybeSingle();
-    if (!filho) {
-      return NextResponse.redirect(new URL(`/jogos/${slug}`, request.url));
-    }
-
     const { data: compra } = await supabase
       .from("compras")
       .select("expira_em")
-      .eq("filho_id", childId)
+      .eq("responsavel_id", user.id)
       .eq("jogo_slug", slug)
       .maybeSingle();
     const valido = !!compra && new Date(compra.expira_em).getTime() > Date.now();

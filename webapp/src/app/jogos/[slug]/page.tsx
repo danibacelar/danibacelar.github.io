@@ -51,11 +51,7 @@ export default function JogoDetalhePage() {
     );
   }
 
-  const childId = session?.activeChildId ?? null;
-  const compra = session ? getCompra(session, game.slug, childId) : undefined;
-  const jogoProtegido = game.gameUrl.startsWith("/game-content/");
-  const jogarHref =
-    jogoProtegido && childId ? `${game.gameUrl}?filho=${childId}` : game.gameUrl;
+  const compra = session ? getCompra(session, game.slug) : undefined;
   const valido = estaValido(compra);
   const expirado = !!compra && !valido;
   const desbloqueado = game.free || valido;
@@ -63,8 +59,7 @@ export default function JogoDetalhePage() {
   const temCreditoSuficiente = creditosDisponiveis >= game.credits;
 
   async function handleComprarComCreditos() {
-    if (!childId) return;
-    const resultado = await comprarJogo(game!.slug, game!.credits, childId);
+    const resultado = await comprarJogo(game!.slug, game!.credits);
     if (resultado.ok) refresh();
     else router.push(`/creditos?jogo=${game!.slug}`);
   }
@@ -80,15 +75,6 @@ export default function JogoDetalhePage() {
       acao = (
         <a className="btn btn-primary" href="/login">
           Entrar para jogar
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M5 12h14M13 6l6 6-6 6" />
-          </svg>
-        </a>
-      );
-    } else if (!childId) {
-      acao = (
-        <a className="btn btn-primary" href="/login/aluno">
-          Escolha um perfil
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M5 12h14M13 6l6 6-6 6" />
           </svg>
@@ -149,8 +135,8 @@ export default function JogoDetalhePage() {
             <div className="callout" style={{ padding: 40, textAlign: "center" }}>
               <a
                 className="btn btn-primary"
-                href={jogarHref}
-                {...(jogoProtegido ? {} : { target: "_blank", rel: "noopener" })}
+                href={game.gameUrl}
+                {...(game.gameUrl.startsWith("/game-content/") ? {} : { target: "_blank", rel: "noopener" })}
                 style={{ marginBottom: game.free || !compra ? 0 : 12 }}
               >
                 Jogar agora
@@ -175,7 +161,7 @@ export default function JogoDetalhePage() {
             </div>
           )}
 
-          {!game.free && session && childId && !desbloqueado && !temCreditoSuficiente && (
+          {!game.free && session && !desbloqueado && !temCreditoSuficiente && (
             <p style={{ fontSize: "0.9rem", color: "var(--ink-soft)", textAlign: "center" }}>
               Ou{" "}
               <a className="link-inline" href={`/creditos?jogo=${game.slug}`} style={{ display: "inline" }}>
@@ -187,9 +173,9 @@ export default function JogoDetalhePage() {
         </div>
       </section>
 
-      {pagandoAvulso && childId && (
+      {pagandoAvulso && (
         <PixPagamentoModal
-          corpo={{ tipo: "avulso", jogoSlug: game.slug, filhoId: childId }}
+          corpo={{ tipo: "avulso", jogoSlug: game.slug }}
           onPago={handlePagoAvulso}
           onFechar={() => setPagandoAvulso(false)}
         />

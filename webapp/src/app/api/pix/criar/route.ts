@@ -15,7 +15,7 @@ const PACOTES_CREDITOS: Record<number, { creditos: number; preco: number }> = {
 
 type CorpoRequisicao =
   | { tipo: "creditos"; pacoteJogos: number }
-  | { tipo: "avulso"; jogoSlug: string; filhoId: string };
+  | { tipo: "avulso"; jogoSlug: string };
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient();
@@ -31,7 +31,6 @@ export async function POST(request: NextRequest) {
   let valorReais: number;
   let creditos: number | null = null;
   let jogoSlug: string | null = null;
-  let filhoId: string | null = null;
 
   if (corpo.tipo === "creditos") {
     const pacote = PACOTES_CREDITOS[corpo.pacoteJogos];
@@ -45,18 +44,8 @@ export async function POST(request: NextRequest) {
     if (!game) {
       return NextResponse.json({ ok: false, erro: "Jogo inválido." }, { status: 400 });
     }
-    const { data: filho } = await supabase
-      .from("filhos")
-      .select("id")
-      .eq("id", corpo.filhoId)
-      .eq("responsavel_id", user.id)
-      .maybeSingle();
-    if (!filho) {
-      return NextResponse.json({ ok: false, erro: "Perfil inválido." }, { status: 400 });
-    }
     valorReais = precoAvulsoReais(game.credits);
     jogoSlug = game.slug;
-    filhoId = corpo.filhoId;
   } else {
     return NextResponse.json({ ok: false, erro: "Tipo inválido." }, { status: 400 });
   }
@@ -68,7 +57,6 @@ export async function POST(request: NextRequest) {
       tipo: corpo.tipo,
       creditos,
       jogo_slug: jogoSlug,
-      filho_id: filhoId,
       valor_reais: valorReais,
     })
     .select("id")

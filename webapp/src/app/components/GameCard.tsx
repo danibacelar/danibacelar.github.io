@@ -31,8 +31,7 @@ export default function GameCard({
 }) {
   const router = useRouter();
   const [pagandoAvulso, setPagandoAvulso] = useState(false);
-  const childId = session?.activeChildId ?? null;
-  const compra = session ? getCompra(session, game.slug, childId) : undefined;
+  const compra = session ? getCompra(session, game.slug) : undefined;
   const valido = estaValido(compra);
   const expirado = !!compra && !valido;
   const desbloqueado = game.free || valido;
@@ -40,8 +39,7 @@ export default function GameCard({
   const temCreditoSuficiente = creditosDisponiveis >= game.credits;
 
   async function handleComprarComCreditos() {
-    if (!childId) return;
-    const resultado = await comprarJogo(game.slug, game.credits, childId);
+    const resultado = await comprarJogo(game.slug, game.credits);
     if (resultado.ok) {
       onChange?.();
       router.push(`/jogos/${game.slug}`);
@@ -80,13 +78,6 @@ export default function GameCard({
     acao = (
       <a className="link-inline" href="/login">
         Entrar para jogar
-        <ArrowIcon />
-      </a>
-    );
-  } else if (!childId) {
-    acao = (
-      <a className="link-inline" href="/login/aluno">
-        Escolha um perfil
         <ArrowIcon />
       </a>
     );
@@ -142,7 +133,7 @@ export default function GameCard({
           <span className="price">{precoLabel}</span>
           {acao}
         </div>
-        {!desbloqueado && session && childId && !temCreditoSuficiente && (
+        {!desbloqueado && session && !temCreditoSuficiente && (
           <p style={{ fontSize: "0.82rem", color: "var(--ink-soft)", margin: 0 }}>
             Ou{" "}
             <a className="link-inline" href={`/creditos?jogo=${game.slug}`} style={{ display: "inline" }}>
@@ -156,9 +147,9 @@ export default function GameCard({
         </div>
       </div>
 
-      {pagandoAvulso && childId && (
+      {pagandoAvulso && (
         <PixPagamentoModal
-          corpo={{ tipo: "avulso", jogoSlug: game.slug, filhoId: childId }}
+          corpo={{ tipo: "avulso", jogoSlug: game.slug }}
           onPago={handlePagoAvulso}
           onFechar={() => setPagandoAvulso(false)}
         />

@@ -53,33 +53,33 @@ O CSS (`css/style.css` + `css/components.css`) já está 100% espelhado em
 usada no protótipo (`.game-card`, `.stat-row`, `.profile-picker`,
 `.dash-header`, `.child-row`, etc.) já existe e já funciona no `webapp/`.
 
-## Modelo de conta: responsável + filhos (como no protótipo)
+## Modelo de conta: só o responsável, sem perfil de filho
 
-Isto mudou de verdade nesta sessão — o modelo antigo (nome da criança +
-senha fixa `student123`) foi substituído por um modelo de duas camadas,
-igual ao que o protótipo já desenhava:
+Isto mudou de novo nesta sessão, por decisão explícita da Dani: ela não
+quer coletar **nenhum dado pessoal de criança** (nem nome, nem série),
+pra ficar fora da parte mais delicada da LGPD. O modelo antigo (filhos
+com nome/série próprios, seletor de perfil estilo Netflix em
+`/login/aluno`) foi removido por completo.
 
-- **Conta do responsável** (pai/mãe): e-mail + senha de verdade (validada
-  contra o que foi cadastrado — ver limitação abaixo), cadastro
-  funcional em `/login` (alternando entre "Entrar" e "Criar conta"). É
-  essa conta que guarda o **saldo de créditos** e a lista de filhos.
-- **Perfis dos filhos**: cada filho é só um nome (+ série opcional),
-  sem senha própria — em `/login/aluno` a criança toca no próprio nome
-  para entrar, estilo "seletor de perfil" (Netflix). São adicionados
-  pelo responsável em `/pais` ("Adicionar filho(a)").
-- **Compras são por (jogo, filho)**: o mesmo jogo pode ser comprado
-  separadamente para dois filhos diferentes; os créditos saem do saldo
-  da família, mas a validade de 30 dias é por perfil.
-- **"1 aparelho por login" agora vale por conta de responsável**, não
-  mais por nome de criança: logar com o e-mail/senha em um novo aparelho
-  derruba a sessão anterior (pai e todos os filhos daquela família usam o
-  mesmo aparelho autenticado, sem senha extra para cada um).
-
-Tudo isso vive em `webapp/src/app/lib/fakeAuth.ts`. **Limitação atual e
-esperada:** as contas ficam salvas só no `localStorage` do navegador onde
-foram criadas — não existe banco de dados real ainda, então uma conta
-criada num navegador não aparece em outro. Isso é o próximo passo grande
-(Supabase), não um bug.
+- **Uma conta = um login** (e-mail + senha do responsável). Não existe
+  mais `/login/aluno`, `/aluno`, nem conceito de "filho" em lugar
+  nenhum do código ou do banco.
+- **Compras pertencem à conta inteira**, não a uma criança específica:
+  um jogo comprado fica liberado por 30 dias pra quem usar aquele
+  login, seja o pai/mãe ou o filho (compartilhando a mesma conta).
+- Depois de logar, a pessoa já cai direto em `/pais` ("Meus jogos"),
+  vendo a lista de atividades compradas — sem nenhuma etapa de "escolher
+  perfil" no meio.
+- **"1 aparelho por login" continua igual**: entrar em um aparelho novo
+  derruba a sessão do anterior. A sessão em si fica válida
+  indefinidamente no aparelho (o Supabase renova o token sozinho a cada
+  acesso) até alguém clicar em "Sair" ou logar em outro lugar — isso já
+  é o comportamento padrão do Supabase Auth, não precisou de código
+  extra.
+- A tabela `filhos` continua existindo no Supabase (de uma versão
+  anterior), mas **não é mais lida nem escrita por nenhum código** —
+  ver `supabase_remover_filhos.sql`, que também tirou a coluna
+  `filho_id` de `compras` (agora é só `responsavel_id` + `jogo_slug`).
 
 ## Decisões de negócio já fechadas com a Dani
 
@@ -98,7 +98,7 @@ criada num navegador não aparece em outro. Isso é o próximo passo grande
   - Pacotes de créditos: 1 jogo = R$30, 3 jogos = R$90, 5 jogos = R$140
     (desconto por volume só a partir do pacote de 5)
   - A compra avulsa **não mexe no saldo de créditos** — é um pagamento
-    separado que libera só aquele jogo, para o filho selecionado.
+    separado que libera só aquele jogo, para a conta inteira.
 - **Jogos gratuitos** existem (campo `free: true` em `data/games.ts`) —
   ficam sempre liberados, sem gastar crédito nem precisar comprar.
 
@@ -109,10 +109,8 @@ criada num navegador não aparece em outro. Isso é o próximo passo grande
 | `index.html`                | `/`                    | Cópia fiel + botão "Fazer login" |
 | `games/index.html`          | `/jogos`               | Catálogo público, não exige login |
 | `games/detail.html`         | `/jogos/[slug]`        | Produto do jogo + compra/jogar |
-| `login/index.html`          | `/login`               | "Sou aluno" / "Sou responsável", cadastro real |
-| `login/aluno.html`          | `/login/aluno`         | Seletor de perfil dos filhos |
-| `student/index.html`        | `/aluno`               | Painel do aluno (em inglês, como no protótipo) |
-| `parent/index.html`         | `/pais`                | Área dos pais: créditos, filhos, compras |
+| `login/index.html`          | `/login`               | Só "Entrar"/"Criar conta", e-mail + senha (sem dado de criança) |
+| `parent/index.html`         | `/pais`                | "Meus jogos": créditos + atividades compradas pela conta |
 | `about/index.html`          | `/sobre`               | Portada direto |
 | `school-support/index.html` | `/school-support`      | Portada direto |
 | `admin/index.html`          | `/admin`               | Ainda com números de mentira |

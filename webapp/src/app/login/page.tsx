@@ -84,48 +84,24 @@ export default function LoginPage() {
                 <path d="M12 8v5M12 16h.01" />
               </svg>
               <span>
-                Teste — a conta e a senha já são reais (salvas com segurança
-                no banco de dados). Só o pagamento dos créditos ainda é de
-                mentira, para você testar o fluxo inteiro: criar conta,
-                adicionar um filho, comprar créditos e liberar jogos.
+                A conta, a senha e o pagamento por Pix já são reais. Não
+                pedimos nome nem nenhum dado de criança — só o e-mail e a
+                senha do responsável.
               </span>
             </div>
           </div>
 
           <div
-            className={modo === "entrar" ? "grid-2" : undefined}
             style={{
               marginTop: 24,
-              maxWidth: modo === "entrar" ? 860 : 480,
+              maxWidth: 480,
               marginLeft: "auto",
               marginRight: "auto",
             }}
           >
-            {modo === "entrar" && (
-              <div
-                className="callout"
-                style={{ textAlign: "center", display: "flex", flexDirection: "column", justifyContent: "center" }}
-              >
-                <h3 style={{ marginBottom: 6 }}>Sou aluno</h3>
-                <p style={{ marginBottom: 16 }}>
-                  Acesse suas atividades de forma simples e rápida.
-                </p>
-                <a
-                  href="/login/aluno"
-                  className="btn btn-amber"
-                  style={{ width: "100%", justifyContent: "center" }}
-                >
-                  Acessar como aluno
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M5 12h14M13 6l6 6-6 6" />
-                  </svg>
-                </a>
-              </div>
-            )}
-
             <div className="callout">
               <h3 style={{ marginBottom: 16 }}>
-                {modo === "entrar" ? "Sou responsável" : "Criar minha conta"}
+                {modo === "entrar" ? "Entrar" : "Criar minha conta"}
               </h3>
               <form onSubmit={handleSubmit}>
                 {modo === "criar" && (
