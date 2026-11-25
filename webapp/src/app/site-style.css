@@ -163,6 +163,8 @@ hr.rule{ border: none; border-top: 1px solid var(--line); margin: 0; }
 }
 .nav-toggle svg{ width:24px; height:24px; }
 
+.nav-links-mobile-only{ display:none; }
+
 @media (max-width: 880px){
   .nav-links{
     position: absolute; top:74px; left:0; right:0;
@@ -179,6 +181,7 @@ hr.rule{ border: none; border-top: 1px solid var(--line); margin: 0; }
   .nav-cta{ gap:8px; }
   .nav-cta .btn-ghost, .nav-cta .btn-primary{ display:none; }
   .lang-toggle button{ padding:4px 8px; }
+  .nav-links-mobile-only{ display:block; width:100%; margin-top:8px; }
 }
 @media (max-width: 400px){
   .brand{ font-size:1.1rem; }

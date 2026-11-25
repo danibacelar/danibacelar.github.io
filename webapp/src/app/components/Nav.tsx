@@ -27,6 +27,7 @@ export default function Nav({
 }) {
   const router = useRouter();
   const [session, setSession] = useState<Session | null | undefined>(undefined);
+  const [menuAberto, setMenuAberto] = useState(false);
 
   useEffect(() => {
     getSession().then(setSession);
@@ -38,6 +39,19 @@ export default function Nav({
     router.push("/login");
   }
 
+  const classeLinks = menuAberto ? "nav-links open" : "nav-links";
+  const toggle = (
+    <button
+      className="nav-toggle"
+      type="button"
+      aria-label={menuAberto ? "Fechar menu" : "Abrir menu"}
+      aria-expanded={menuAberto}
+      onClick={() => setMenuAberto((aberto) => !aberto)}
+    >
+      <MenuIcon />
+    </button>
+  );
+
   if (variant === "logado") {
     return (
       <nav className="nav">
@@ -45,7 +59,7 @@ export default function Nav({
           <a href="/" className="brand">
             Mrs. <span>Dani</span>
           </a>
-          <ul className="nav-links">
+          <ul className={classeLinks}>
             <li>
               <a href="/jogos" className={active === "/jogos" ? "active" : ""}>
                 Jogos
@@ -61,14 +75,21 @@ export default function Nav({
                 Créditos
               </a>
             </li>
+            <li className="nav-links-mobile-only">
+              <button
+                type="button"
+                onClick={handleLogout}
+                style={{ background: "none", border: "none", padding: "10px 0", cursor: "pointer" }}
+              >
+                Sair
+              </button>
+            </li>
           </ul>
           <div className="nav-cta">
             <button className="btn btn-ghost" type="button" onClick={handleLogout}>
               Sair
             </button>
-            <button className="nav-toggle" aria-label="Open menu" aria-expanded="false">
-              <MenuIcon />
-            </button>
+            {toggle}
           </div>
         </div>
       </nav>
@@ -82,7 +103,7 @@ export default function Nav({
           <a href="/" className="brand">
             Mrs. <span>Dani</span>
           </a>
-          <ul className="nav-links">
+          <ul className={classeLinks}>
             <li>
               <a href="/jogos">Jogos</a>
             </li>
@@ -98,11 +119,7 @@ export default function Nav({
               </a>
             </li>
           </ul>
-          <div className="nav-cta">
-            <button className="nav-toggle" aria-label="Open menu" aria-expanded="false">
-              <MenuIcon />
-            </button>
-          </div>
+          <div className="nav-cta">{toggle}</div>
         </div>
       </nav>
     );
@@ -115,7 +132,7 @@ export default function Nav({
         <a href="/" className="brand">
           Mrs. <span>Dani</span>
         </a>
-        <ul className="nav-links">
+        <ul className={classeLinks}>
           {LINKS_PUBLICO.map((link) => (
             <li key={link.href}>
               <a href={link.href} className={active === link.href ? "active" : ""}>
@@ -123,6 +140,26 @@ export default function Nav({
               </a>
             </li>
           ))}
+          <li className="nav-links-mobile-only">
+            {session ? (
+              <a href="/pais">Meus jogos</a>
+            ) : (
+              <a href="/login">Entrar</a>
+            )}
+          </li>
+          <li className="nav-links-mobile-only">
+            {session ? (
+              <button
+                type="button"
+                onClick={handleLogout}
+                style={{ background: "none", border: "none", padding: "10px 0", cursor: "pointer" }}
+              >
+                Sair
+              </button>
+            ) : (
+              <a href="/login?modo=criar">Criar conta</a>
+            )}
+          </li>
         </ul>
         <div className="nav-cta">
           <div className="lang-toggle">
@@ -148,9 +185,7 @@ export default function Nav({
               </a>
             </>
           )}
-          <button className="nav-toggle" aria-label="Open menu" aria-expanded="false">
-            <MenuIcon />
-          </button>
+          {toggle}
         </div>
       </div>
     </nav>
