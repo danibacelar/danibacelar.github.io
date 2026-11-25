@@ -87,6 +87,8 @@ export default function Nav({
           </ul>
           <div className="nav-cta">
             <button className="btn btn-ghost" type="button" onClick={handleLogout}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img className="btn-mascot" src="/assets/mascot/poses/character-back.png" alt="" />
               Sair
             </button>
             {toggle}
@@ -169,18 +171,26 @@ export default function Nav({
           {session ? (
             <>
               <a href="/pais" className="btn btn-ghost">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img className="btn-mascot" src="/assets/mascot/poses/activity-standing.png" alt="" />
                 Meus jogos
               </a>
               <button className="btn btn-primary" type="button" onClick={handleLogout}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img className="btn-mascot" src="/assets/mascot/poses/character-back.png" alt="" />
                 Sair
               </button>
             </>
           ) : (
             <>
               <a href="/login" className="btn btn-ghost">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img className="btn-mascot" src="/assets/mascot/poses/interaction-welcoming-student-2.png" alt="" />
                 Entrar
               </a>
               <a href="/login?modo=criar" className="btn btn-primary">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img className="btn-mascot" src="/assets/mascot/poses/interaction-welcoming-student-1.png" alt="" />
                 Criar conta
               </a>
             </>

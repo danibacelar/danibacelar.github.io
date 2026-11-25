@@ -92,6 +92,13 @@ hr.rule{ border: none; border-top: 1px solid var(--line); margin: 0; }
 .btn svg{ width:16px; height:16px; transition: transform 0.15s ease; }
 .btn:hover svg{ transform: translateX(3px); }
 
+.btn-mascot{
+  height: 28px; width: auto; max-width: 34px;
+  object-fit: contain; flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+.btn:hover .btn-mascot{ transform: scale(1.08); }
+
 .btn-primary{ background: var(--amber); color: #fff; }
 .btn-primary:hover{ background: var(--amber-dark); }
 

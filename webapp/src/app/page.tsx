@@ -23,6 +23,8 @@ export default function HomePage() {
           </p>
           <div className="hero-actions hero-anim d3">
             <a href="#como-funciona" className="btn btn-ghost">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img className="btn-mascot" src="/assets/mascot/poses/mood-thinking.png" alt="" />
               Como funciona
             </a>
             <a
@@ -34,6 +36,8 @@ export default function HomePage() {
                 boxShadow: "0 10px 28px rgba(230, 123, 50, 0.4)",
               }}
             >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img className="btn-mascot" src="/assets/mascot/poses/expressions-pointing.png" alt="" />
               Explorar os jogos
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M5 12h14M13 6l6 6-6 6" />
