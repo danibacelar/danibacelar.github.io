@@ -52,16 +52,10 @@ export default function HomePage() {
         <div className="hero-visual" style={{ maxWidth: 420, margin: "0 auto" }}>
           <div className="hero-media-wrap">
             <div className="hero-media">
-              {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-              <video autoPlay muted loop playsInline poster="/assets/games/town-explorer-poster.jpg">
-                <source src="/assets/games/town-explorer-preview.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <div className="mascot mascot-badge">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/assets/mascot/happy.png"
-                alt="Raposa mascote da Mrs. Dani, feliz e acenando"
+                src="/assets/mascot/hero-fox-celebration.jpg"
+                alt="Raposa mascote da Mrs. Dani, animada e comemorando"
               />
             </div>
           </div>

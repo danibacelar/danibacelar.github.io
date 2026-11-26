@@ -125,6 +125,11 @@ export const GAMES: Game[] = [
     credits: 10,
     thumbnail: "/assets/games/preposicoes-in-on-at-screenshot.jpg",
     gameUrl: "/game-content/preposicoes-in-on-at",
+    aprenderA: [
+      "Classificar expressões de tempo nas categorias corretas de AT, ON e IN.",
+      "Reforçar o uso de preposições de tempo com exemplos do dia a dia.",
+    ],
+    porQue: "Uma segunda forma de praticar IN/ON/AT, por categorização — ótimo reforço depois de aprender as regras básicas.",
   },
   {
     slug: "simple-past-adventure",
