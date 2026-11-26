@@ -35,6 +35,7 @@ export const GAMES: Game[] = [
     skills: ["Vocabulário", "Escuta"],
     difficulty: "Iniciante",
     credits: 10,
+    thumbnail: "/assets/games/what-time-is-it-screenshot.jpg",
     gameUrl: "/game-content/what-time-is-it",
   },
   {
@@ -45,6 +46,7 @@ export const GAMES: Game[] = [
     skills: ["Gramática", "Leitura"],
     difficulty: "Intermediário",
     credits: 10,
+    thumbnail: "/assets/games/connectors-past-tenses-screenshot.jpg",
     gameUrl: "/game-content/connectors-past-tenses",
   },
   {
@@ -55,6 +57,7 @@ export const GAMES: Game[] = [
     skills: ["Gramática"],
     difficulty: "Iniciante",
     credits: 10,
+    thumbnail: "/assets/games/emergency-helpers-screenshot.jpg",
     gameUrl: "/game-content/emergency-helpers",
   },
   {
@@ -65,6 +68,7 @@ export const GAMES: Game[] = [
     skills: ["Gramática"],
     difficulty: "Intermediário",
     credits: 10,
+    thumbnail: "/assets/games/past-simple-vs-continuous-quiz-screenshot.jpg",
     gameUrl: "/game-content/past-simple-vs-continuous-quiz",
   },
   {
@@ -75,6 +79,7 @@ export const GAMES: Game[] = [
     skills: ["Gramática"],
     difficulty: "Iniciante",
     credits: 10,
+    thumbnail: "/assets/games/prepositions-of-time-screenshot.jpg",
     gameUrl: "/game-content/prepositions-of-time",
   },
   {
@@ -85,6 +90,7 @@ export const GAMES: Game[] = [
     skills: ["Gramática"],
     difficulty: "Iniciante",
     credits: 10,
+    thumbnail: "/assets/games/preposicoes-in-on-at-screenshot.jpg",
     gameUrl: "/game-content/preposicoes-in-on-at",
   },
   {
@@ -95,6 +101,7 @@ export const GAMES: Game[] = [
     skills: ["Gramática"],
     difficulty: "Iniciante",
     credits: 10,
+    thumbnail: "/assets/games/simple-past-adventure-screenshot.jpg",
     gameUrl: "/game-content/simple-past-adventure",
   },
   {
@@ -105,6 +112,7 @@ export const GAMES: Game[] = [
     skills: ["Gramática"],
     difficulty: "Avançado",
     credits: 10,
+    thumbnail: "/assets/games/a-voz-passiva-screenshot.jpg",
     gameUrl: "/game-content/a-voz-passiva",
   },
   {
@@ -115,6 +123,7 @@ export const GAMES: Game[] = [
     skills: ["Gramática", "Leitura"],
     difficulty: "Avançado",
     credits: 10,
+    thumbnail: "/assets/games/o-caso-da-voz-oculta-screenshot.jpg",
     gameUrl: "/game-content/o-caso-da-voz-oculta",
   },
   {
