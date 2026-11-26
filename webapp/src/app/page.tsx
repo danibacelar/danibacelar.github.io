@@ -52,11 +52,15 @@ export default function HomePage() {
         <div className="hero-visual" style={{ maxWidth: 520, margin: "0 auto" }}>
           <div className="hero-media-wrap">
             <div className="hero-media">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/assets/mascot/hero-fox-celebration.jpg"
-                alt="Raposa mascote da Mrs. Dani, animada e comemorando"
-              />
+              {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+              <video
+                controls
+                playsInline
+                preload="metadata"
+                poster="/assets/mascot/intro-site-poster.jpg"
+              >
+                <source src="/assets/mascot/intro-site.mp4" type="video/mp4" />
+              </video>
             </div>
           </div>
         </div>
