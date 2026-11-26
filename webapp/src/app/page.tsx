@@ -49,7 +49,7 @@ export default function HomePage() {
             </a>
           </div>
         </div>
-        <div className="hero-visual" style={{ maxWidth: 420, margin: "0 auto" }}>
+        <div className="hero-visual" style={{ maxWidth: 520, margin: "0 auto" }}>
           <div className="hero-media-wrap">
             <div className="hero-media">
               {/* eslint-disable-next-line @next/next/no-img-element */}

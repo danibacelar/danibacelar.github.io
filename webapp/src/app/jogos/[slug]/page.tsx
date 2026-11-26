@@ -157,28 +157,51 @@ export default function JogoDetalhePage() {
           <h1 style={{ marginBottom: 20 }}>{game.title}</h1>
 
           <div
-            className="game-card-media"
-            style={{ borderRadius: "var(--radius)", aspectRatio: "16/9", maxHeight: 360, marginBottom: 24 }}
+            className="callout"
+            style={{ display: "flex", gap: 20, alignItems: "center", flexWrap: "wrap", marginBottom: 24 }}
           >
-            {game.thumbnail ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={game.thumbnail} alt={game.title} />
-            ) : (
-              <span>Prévia do jogo em breve</span>
-            )}
+            <div
+              className="game-card-media"
+              style={{ borderRadius: "var(--radius)", width: 220, flexShrink: 0, aspectRatio: "4/3" }}
+            >
+              {game.thumbnail ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={game.thumbnail} alt={game.title} />
+              ) : (
+                <span>Prévia do jogo em breve</span>
+              )}
+            </div>
+            <div style={{ flex: 1, minWidth: 200 }}>
+              <div className="price" style={{ marginBottom: 12 }}>
+                {precoLabel}
+              </div>
+              {acao}
+              {expirado && (
+                <p style={{ marginTop: 12, marginBottom: 0, fontSize: "0.9rem", color: "var(--ink-soft)" }}>
+                  Os 30 dias deste jogo expiraram. Compre de novo para continuar jogando.
+                </p>
+              )}
+              {!game.free && session && !desbloqueado && !temCreditoSuficiente && (
+                <p style={{ fontSize: "0.85rem", color: "var(--ink-soft)", marginTop: 10, marginBottom: 0 }}>
+                  Ou{" "}
+                  <a className="link-inline" href={`/creditos?jogo=${game.slug}`} style={{ display: "inline" }}>
+                    compre um pacote de créditos
+                  </a>{" "}
+                  e use em vários jogos.
+                </p>
+              )}
+            </div>
           </div>
 
-          <div className="callout" style={{ display: "flex", gap: 14, alignItems: "flex-start", marginBottom: 24 }}>
+          <div className="callout" style={{ textAlign: "center", marginBottom: 24 }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/assets/mascot/poses/mood-happy.png"
               alt=""
-              style={{ width: 36, height: 36, objectFit: "contain", flexShrink: 0 }}
+              style={{ width: 72, height: 72, objectFit: "contain", margin: "0 auto 10px" }}
             />
-            <div>
-              <h3 style={{ fontSize: "1rem", marginBottom: 6 }}>Vamos praticar juntos!</h3>
-              <p style={{ margin: 0 }}>{game.description}</p>
-            </div>
+            <h3 style={{ fontSize: "1rem", marginBottom: 6 }}>Vamos praticar juntos!</h3>
+            <p style={{ margin: "0 auto", maxWidth: 480 }}>{game.description}</p>
           </div>
 
           {game.aprenderA && (
@@ -199,28 +222,6 @@ export default function JogoDetalhePage() {
               <h3 style={{ marginBottom: 8 }}>Por que esta atividade?</h3>
               <p style={{ margin: 0 }}>{game.porQue}</p>
             </div>
-          )}
-
-          <div className="callout">
-            <div className="price-block" style={{ marginTop: 0, paddingTop: 0, borderTop: "none" }}>
-              <span className="price">{precoLabel}</span>
-              {acao}
-            </div>
-            {expirado && (
-              <p style={{ marginTop: 12, marginBottom: 0, fontSize: "0.9rem", color: "var(--ink-soft)" }}>
-                Os 30 dias deste jogo expiraram. Compre de novo para continuar jogando.
-              </p>
-            )}
-          </div>
-
-          {!game.free && session && !desbloqueado && !temCreditoSuficiente && (
-            <p style={{ fontSize: "0.9rem", color: "var(--ink-soft)", marginTop: 16 }}>
-              Ou{" "}
-              <a className="link-inline" href={`/creditos?jogo=${game.slug}`} style={{ display: "inline" }}>
-                compre um pacote de créditos
-              </a>{" "}
-              e use em vários jogos.
-            </p>
           )}
         </div>
       </section>

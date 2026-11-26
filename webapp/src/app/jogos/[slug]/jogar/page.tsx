@@ -27,19 +27,19 @@ export default function JogarExternoPage() {
         href={`/jogos/${game.slug}`}
         style={{
           position: "fixed",
-          bottom: 16,
+          top: 16,
           left: 16,
           zIndex: 2147483647,
           display: "inline-flex",
           alignItems: "center",
-          gap: 6,
-          background: "rgba(34,56,58,0.85)",
+          gap: 8,
+          background: "rgba(34,56,58,0.9)",
           color: "#fff",
-          font: "600 13px/1.2 -apple-system, BlinkMacSystemFont, sans-serif",
-          padding: "10px 14px",
+          font: "700 16px/1.2 -apple-system, BlinkMacSystemFont, sans-serif",
+          padding: "14px 20px",
           borderRadius: 999,
           textDecoration: "none",
-          boxShadow: "0 2px 10px rgba(0,0,0,0.3)",
+          boxShadow: "0 2px 12px rgba(0,0,0,0.35)",
         }}
       >
         ← Voltar ao site

@@ -65,7 +65,7 @@ export async function GET(
   const assetResponse = await env.ASSETS.fetch(new Request(assetUrl));
 
   let html = await assetResponse.text();
-  const botaoVoltar = `<a href="/jogos/${slug}" style="position:fixed;bottom:16px;left:16px;z-index:2147483647;display:inline-flex;align-items:center;gap:6px;background:rgba(34,56,58,0.85);color:#fff;font:600 13px/1.2 -apple-system,BlinkMacSystemFont,sans-serif;padding:10px 14px;border-radius:999px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.3);">&larr; Voltar ao site</a>`;
+  const botaoVoltar = `<a href="/jogos/${slug}" style="position:fixed;top:16px;left:16px;z-index:2147483647;display:inline-flex;align-items:center;gap:8px;background:rgba(34,56,58,0.9);color:#fff;font:700 16px/1.2 -apple-system,BlinkMacSystemFont,sans-serif;padding:14px 20px;border-radius:999px;text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.35);">&larr; Voltar ao site</a>`;
   html = /<\/body>/i.test(html) ? html.replace(/<\/body>/i, `${botaoVoltar}</body>`) : html + botaoVoltar;
 
   return new NextResponse(html, {
