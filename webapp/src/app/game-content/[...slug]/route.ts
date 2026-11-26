@@ -64,7 +64,11 @@ export async function GET(
   const assetUrl = new URL(`/_jogo_arquivos/${slug}/index.html`, request.url);
   const assetResponse = await env.ASSETS.fetch(new Request(assetUrl));
 
-  return new NextResponse(assetResponse.body, {
+  let html = await assetResponse.text();
+  const botaoVoltar = `<a href="/jogos/${slug}" style="position:fixed;bottom:16px;left:16px;z-index:2147483647;display:inline-flex;align-items:center;gap:6px;background:rgba(34,56,58,0.85);color:#fff;font:600 13px/1.2 -apple-system,BlinkMacSystemFont,sans-serif;padding:10px 14px;border-radius:999px;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,0.3);">&larr; Voltar ao site</a>`;
+  html = /<\/body>/i.test(html) ? html.replace(/<\/body>/i, `${botaoVoltar}</body>`) : html + botaoVoltar;
+
+  return new NextResponse(html, {
     status: assetResponse.status,
     headers: {
       "Content-Type": "text/html; charset=utf-8",

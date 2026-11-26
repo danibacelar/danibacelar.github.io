@@ -35,6 +35,15 @@ export default function JogoDetalhePage() {
   const slug = params.slug;
   const game = GAMES.find((g) => g.slug === slug);
 
+  if (session === undefined) {
+    return (
+      <>
+        <Nav active="/jogos" />
+        <VoltarInicio />
+      </>
+    );
+  }
+
   if (!game) {
     return (
       <>
