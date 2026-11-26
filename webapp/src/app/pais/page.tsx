@@ -3,29 +3,23 @@
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import VoltarInicio from "../components/VoltarInicio";
-import { GAMES } from "../data/games";
-import { diasRestantes, estaValido } from "../lib/auth";
+import GameCard from "../components/GameCard";
+import { GAMES, type Game } from "../data/games";
 import { useSessaoAtiva } from "../lib/useSessaoAtiva";
 
 export default function MeusJogosPage() {
-  const { session } = useSessaoAtiva();
+  const { session, refresh } = useSessaoAtiva();
 
   if (!session) return null;
 
-  const linhasCompras = session.jogosComprados
+  // Compras de jogos que saíram do catálogo (ex.: tirados do ar pra
+  // arrumar) ficam órfãs — sem o Game correspondente não dá pra montar
+  // o cartão, então elas somem desta lista até o jogo voltar.
+  const jogosComprados = session.jogosComprados
     .slice()
     .sort((a, b) => (a.expiraEm < b.expiraEm ? 1 : -1))
-    .map((compra) => {
-      const game = GAMES.find((g) => g.slug === compra.slug);
-      const status = estaValido(compra)
-        ? `Liberado · ${diasRestantes(compra)}d restantes`
-        : "Expirado";
-      return {
-        key: compra.slug,
-        atividade: game ? game.title : compra.slug,
-        status,
-      };
-    });
+    .map((compra) => GAMES.find((g) => g.slug === compra.slug))
+    .filter((game): game is Game => !!game);
 
   return (
     <>
@@ -63,34 +57,20 @@ export default function MeusJogosPage() {
             <p className="eyebrow">Compras</p>
             <h2 style={{ fontSize: "1.6rem" }}>Atividades adquiridas</h2>
           </div>
-          <div className="table-wrap" style={{ marginBottom: 36 }}>
-            <table>
-              <thead>
-                <tr>
-                  <th>Atividade</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {linhasCompras.length > 0 ? (
-                  linhasCompras.map((linha) => (
-                    <tr key={linha.key}>
-                      <td>{linha.atividade}</td>
-                      <td>{linha.status}</td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={2}>Nenhuma atividade comprada ainda.</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+
+          {jogosComprados.length > 0 ? (
+            <div className="game-grid" style={{ marginBottom: 36 }}>
+              {jogosComprados.map((game) => (
+                <GameCard game={game} session={session} onChange={refresh} key={game.slug} />
+              ))}
+            </div>
+          ) : (
+            <p style={{ marginBottom: 36 }}>Nenhuma atividade comprada ainda.</p>
+          )}
 
           <p>
-            <a className="link-inline" href="/jogos">
-              Ver mais atividades na biblioteca
+            <a className="btn btn-primary" href="/jogos">
+              Explorar os jogos
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M5 12h14M13 6l6 6-6 6" />
               </svg>
