@@ -80,37 +80,53 @@ export default function JogoDetalhePage() {
     refresh();
   }
 
-  let acao: React.ReactNode = null;
-  if (!desbloqueado) {
-    if (!session) {
-      acao = (
-        <a className="btn btn-primary" href="/login">
-          Comprar
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M5 12h14M13 6l6 6-6 6" />
-          </svg>
-        </a>
-      );
-    } else if (temCreditoSuficiente) {
-      acao = (
-        <button type="button" className="btn btn-primary" onClick={handleComprarComCreditos}>
-          {expirado ? "Comprar de novo" : "Comprar"}
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M5 12h14M13 6l6 6-6 6" />
-          </svg>
-        </button>
-      );
-    } else {
-      acao = (
-        <button type="button" className="btn btn-primary" onClick={() => setPagandoAvulso(true)}>
-          Comprar só este — {formatarReais(precoAvulsoReais(game.credits))}
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M5 12h14M13 6l6 6-6 6" />
-          </svg>
-        </button>
-      );
-    }
+  let acao: React.ReactNode;
+  if (desbloqueado) {
+    acao = (
+      <a
+        className="btn btn-primary"
+        href={game.gameUrl}
+        {...(game.gameUrl.startsWith("/game-content/") ? {} : { target: "_blank", rel: "noopener" })}
+      >
+        Jogar agora
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M5 12h14M13 6l6 6-6 6" />
+        </svg>
+      </a>
+    );
+  } else if (!session) {
+    acao = (
+      <a className="btn btn-primary" href="/login">
+        Comprar
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M5 12h14M13 6l6 6-6 6" />
+        </svg>
+      </a>
+    );
+  } else if (temCreditoSuficiente) {
+    acao = (
+      <button type="button" className="btn btn-primary" onClick={handleComprarComCreditos}>
+        {expirado ? "Comprar de novo" : "Comprar"}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M5 12h14M13 6l6 6-6 6" />
+        </svg>
+      </button>
+    );
+  } else {
+    acao = (
+      <button type="button" className="btn btn-primary" onClick={() => setPagandoAvulso(true)}>
+        Comprar só este — {formatarReais(precoAvulsoReais(game.credits))}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M5 12h14M13 6l6 6-6 6" />
+        </svg>
+      </button>
+    );
   }
+
+  let precoLabel = `${game.credits} créditos`;
+  if (game.free) precoLabel = "Grátis";
+  else if (valido) precoLabel = `${diasRestantes(compra!)} dias restantes`;
+  else if (expirado) precoLabel = "Expirado";
 
   return (
     <>
@@ -138,43 +154,67 @@ export default function JogoDetalhePage() {
             <span className="tag tag-diff">{game.difficulty}</span>
           </div>
 
-          <h1 style={{ marginBottom: 12 }}>{game.title}</h1>
-          <p className="lede" style={{ marginBottom: 24 }}>
-            {game.description}
-          </p>
+          <h1 style={{ marginBottom: 20 }}>{game.title}</h1>
 
-          {desbloqueado ? (
-            <div className="callout" style={{ padding: 40, textAlign: "center" }}>
-              <a
-                className="btn btn-primary"
-                href={game.gameUrl}
-                {...(game.gameUrl.startsWith("/game-content/") ? {} : { target: "_blank", rel: "noopener" })}
-                style={{ marginBottom: game.free || !compra ? 0 : 12 }}
-              >
-                Jogar agora
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M5 12h14M13 6l6 6-6 6" />
-                </svg>
-              </a>
-              {!game.free && compra && (
-                <p style={{ marginTop: 12, marginBottom: 0 }}>
-                  Válido por mais {diasRestantes(compra)} dia(s).
-                </p>
-              )}
+          <div
+            className="game-card-media"
+            style={{ borderRadius: "var(--radius)", aspectRatio: "16/9", maxHeight: 360, marginBottom: 24 }}
+          >
+            {game.thumbnail ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={game.thumbnail} alt={game.title} />
+            ) : (
+              <span>Prévia do jogo em breve</span>
+            )}
+          </div>
+
+          <div className="callout" style={{ display: "flex", gap: 14, alignItems: "flex-start", marginBottom: 24 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/assets/mascot/poses/mood-happy.png"
+              alt=""
+              style={{ width: 36, height: 36, objectFit: "contain", flexShrink: 0 }}
+            />
+            <div>
+              <h3 style={{ fontSize: "1rem", marginBottom: 6 }}>Vamos praticar juntos!</h3>
+              <p style={{ margin: 0 }}>{game.description}</p>
             </div>
-          ) : (
-            <div className="callout" style={{ padding: 40, textAlign: "center" }}>
-              <p style={{ marginBottom: 16 }}>
-                {expirado
-                  ? "Os 30 dias deste jogo expiraram. Compre de novo para continuar jogando."
-                  : "Você ainda não desbloqueou este jogo."}
-              </p>
-              {acao}
+          </div>
+
+          {game.aprenderA && (
+            <div style={{ marginBottom: 24 }}>
+              <h3 style={{ marginBottom: 10 }}>Neste jogo, você irá aprender a:</h3>
+              <ul style={{ color: "var(--ink-soft)", paddingLeft: 20, margin: 0 }}>
+                {game.aprenderA.map((item) => (
+                  <li key={item} style={{ marginBottom: 8 }}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
 
+          {game.porQue && (
+            <div style={{ marginBottom: 24 }}>
+              <h3 style={{ marginBottom: 8 }}>Por que esta atividade?</h3>
+              <p style={{ margin: 0 }}>{game.porQue}</p>
+            </div>
+          )}
+
+          <div className="callout">
+            <div className="price-block" style={{ marginTop: 0, paddingTop: 0, borderTop: "none" }}>
+              <span className="price">{precoLabel}</span>
+              {acao}
+            </div>
+            {expirado && (
+              <p style={{ marginTop: 12, marginBottom: 0, fontSize: "0.9rem", color: "var(--ink-soft)" }}>
+                Os 30 dias deste jogo expiraram. Compre de novo para continuar jogando.
+              </p>
+            )}
+          </div>
+
           {!game.free && session && !desbloqueado && !temCreditoSuficiente && (
-            <p style={{ fontSize: "0.9rem", color: "var(--ink-soft)", textAlign: "center" }}>
+            <p style={{ fontSize: "0.9rem", color: "var(--ink-soft)", marginTop: 16 }}>
               Ou{" "}
               <a className="link-inline" href={`/creditos?jogo=${game.slug}`} style={{ display: "inline" }}>
                 compre um pacote de créditos

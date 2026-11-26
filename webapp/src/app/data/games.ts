@@ -26,6 +26,14 @@ export const GAMES: Game[] = [
     credits: 10,
     thumbnail: "/assets/games/spelling-bee-mascot.png",
     gameUrl: "https://mrsdani.com.br/games/spelling-bee/index.html",
+    aprenderA: [
+      "Reconhecer palavras e frases em inglês pelo som, usando áudio real.",
+      "Praticar a grafia e a pontuação corretas em inglês digitando o que ouviu.",
+      "Identificar exatamente qual palavra de uma frase precisa ser corrigida.",
+      "Reconstruir a ortografia de uma palavra embaralhada clicando suas letras na ordem certa.",
+      "Revisar e repetir itens errados até fixar a ortografia correta.",
+    ],
+    porQue: "Combina duas formas de praticar ortografia pelo ouvido: digitar o que ouve e remontar uma palavra embaralhada letra por letra.",
   },
   {
     slug: "what-time-is-it",
@@ -37,6 +45,11 @@ export const GAMES: Game[] = [
     credits: 10,
     thumbnail: "/assets/games/what-time-is-it-screenshot.jpg",
     gameUrl: "/game-content/what-time-is-it",
+    aprenderA: [
+      "Ler as horas em um relógio analógico em inglês.",
+      "Responder corretamente \"What time is it?\" para diferentes horários.",
+    ],
+    porQue: "A repetição direta da leitura do relógio traz confiança para dizer as horas rapidamente.",
   },
   {
     slug: "connectors-past-tenses",
@@ -48,6 +61,11 @@ export const GAMES: Game[] = [
     credits: 10,
     thumbnail: "/assets/games/connectors-past-tenses-screenshot.jpg",
     gameUrl: "/game-content/connectors-past-tenses",
+    aprenderA: [
+      "Revisar as regras de uso dos conectores e dos tempos verbais no passado.",
+      "Praticar com exercícios, frases desembaralhadas e interpretação de texto.",
+    ],
+    porQue: "Reúne todos os formatos que uma revisão precisa — regras, exercícios e leitura — em uma só página organizada por abas.",
   },
   {
     slug: "emergency-helpers",
@@ -59,6 +77,11 @@ export const GAMES: Game[] = [
     credits: 10,
     thumbnail: "/assets/games/emergency-helpers-screenshot.jpg",
     gameUrl: "/game-content/emergency-helpers",
+    aprenderA: [
+      "Escolher corretamente was ou were para pronomes, nomes e sujeitos difíceis.",
+      "Reorganizar frases embaralhadas no passado contínuo.",
+    ],
+    porQue: "Isola o erro mais comum do passado contínuo (was vs. were) e treina em vários ângulos diferentes.",
   },
   {
     slug: "past-simple-vs-continuous-quiz",
@@ -70,6 +93,11 @@ export const GAMES: Game[] = [
     credits: 10,
     thumbnail: "/assets/games/past-simple-vs-continuous-quiz-screenshot.jpg",
     gameUrl: "/game-content/past-simple-vs-continuous-quiz",
+    aprenderA: [
+      "Reconhecer quando usar WHEN e WHILE com o passado simples e contínuo.",
+      "Revisar o uso de WAS e WERE no passado contínuo.",
+    ],
+    porQue: "Foca nos conectores que indicam qual tempo verbal usar, e não só nas formas verbais em si.",
   },
   {
     slug: "prepositions-of-time",
@@ -81,6 +109,11 @@ export const GAMES: Game[] = [
     credits: 10,
     thumbnail: "/assets/games/prepositions-of-time-screenshot.jpg",
     gameUrl: "/game-content/prepositions-of-time",
+    aprenderA: [
+      "Compreender quando usar AT, ON e IN para expressar tempo em inglês.",
+      "Aplicar as regras em frases práticas do dia a dia.",
+    ],
+    porQue: "Apresenta as regras primeiro — horários exatos, dias, períodos mais longos — antes de testá-las na prática.",
   },
   {
     slug: "preposicoes-in-on-at",
@@ -103,6 +136,11 @@ export const GAMES: Game[] = [
     credits: 10,
     thumbnail: "/assets/games/simple-past-adventure-screenshot.jpg",
     gameUrl: "/game-content/simple-past-adventure",
+    aprenderA: [
+      "Conjugar verbos regulares no passado simples em inglês.",
+      "Usar verbos no passado simples em frases completas.",
+    ],
+    porQue: "Um primeiro passo focado no passado simples, limitado aos verbos regulares em -ed, para construir uma base sólida.",
   },
   {
     slug: "a-voz-passiva",
@@ -114,6 +152,11 @@ export const GAMES: Game[] = [
     credits: 10,
     thumbnail: "/assets/games/a-voz-passiva-screenshot.jpg",
     gameUrl: "/game-content/a-voz-passiva",
+    aprenderA: [
+      "Compreender como a voz passiva é formada em inglês.",
+      "Praticar frases na voz passiva até memorizar a estrutura.",
+    ],
+    porQue: "Uma ficha de referência clara para alunos que precisam da voz passiva explicada passo a passo antes de praticar.",
   },
   {
     slug: "o-caso-da-voz-oculta",
@@ -125,6 +168,32 @@ export const GAMES: Game[] = [
     credits: 10,
     thumbnail: "/assets/games/o-caso-da-voz-oculta-screenshot.jpg",
     gameUrl: "/game-content/o-caso-da-voz-oculta",
+    aprenderA: [
+      "Diferenciar a voz ativa da voz passiva em inglês.",
+      "Identificar quando o agente aparece ou se esconde na frase.",
+      "Interpretar textos usando pistas gramaticais.",
+    ],
+    porQue: "Transforma a parte mais difícil da voz passiva — perceber quando o agente se esconde — em um mistério de detetive.",
+  },
+  {
+    slug: "growing-plants",
+    title: "Growing Plants",
+    description: "Explore um jardim em 8 minijogos sobre as partes de uma planta, água, luz, temperatura, plantas saudáveis e plantas com e sem flor.",
+    grade: "3º ano",
+    skills: ["Vocabulário", "Leitura", "Bilíngue"],
+    difficulty: "Iniciante",
+    credits: 0,
+    thumbnail: "/assets/games/growing-plants-thumb.jpg",
+    gameUrl: "https://mrsdani.com.br/games/growing-plants/index.html",
+    free: true,
+    aprenderA: [
+      "Identificar as partes de uma planta (root, stem, leaves, flower) em inglês.",
+      "Reconhecer o que uma planta precisa para crescer saudável: água, luz e temperatura adequada.",
+      "Diferenciar plantas saudáveis de plantas que precisam de cuidado.",
+      "Compreender o caminho da água dentro da planta, do solo até as folhas.",
+      "Classificar plantas em flowering (com flor) e non-flowering (sem flor).",
+    ],
+    porQue: "Revisa toda a unidade de ciências \"Growing Plants\" com estágios práticos de arrastar e soltar, classificação e verdadeiro/falso, em inglês.",
   },
   {
     slug: "senses-staying-healthy",
