@@ -77,7 +77,7 @@ export default function GameCard({
   } else if (!session) {
     acao = (
       <a className="link-inline" href="/login">
-        Entrar para jogar
+        Comprar
         <ArrowIcon />
       </a>
     );
